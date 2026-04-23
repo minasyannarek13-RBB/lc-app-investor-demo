@@ -265,6 +265,7 @@
 
     .intro.hidden {
       opacity: 0;
+      visibility: hidden;
       pointer-events: none;
       transform: translateY(12px);
     }
@@ -2018,6 +2019,114 @@
       line-height: 1.4;
     }
 
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .proof-card {
+      min-width: 0;
+      border: 1px solid rgba(255, 255, 255, .11);
+      border-radius: var(--r);
+      padding: 10px;
+      background: rgba(255, 255, 255, .055);
+    }
+
+    .proof-card strong {
+      display: block;
+      overflow: hidden;
+      color: var(--gold2);
+      font-size: 14px;
+      font-weight: 950;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .proof-card span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 9px;
+      line-height: 1.3;
+      text-transform: uppercase;
+      font-weight: 850;
+    }
+
+    .revenue-stack {
+      display: grid;
+      gap: 7px;
+      margin-top: 12px;
+    }
+
+    .deal-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      min-height: 43px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: var(--r);
+      padding: 9px 10px;
+      background: rgba(255, 255, 255, .05);
+    }
+
+    .deal-row b {
+      overflow: hidden;
+      color: var(--text);
+      font-size: 12px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .deal-row span {
+      color: var(--teal);
+      font-size: 11px;
+      font-weight: 950;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .pilot-timeline {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .pilot-step {
+      min-width: 0;
+      min-height: 52px;
+      border: 1px solid rgba(255, 227, 154, .14);
+      border-radius: var(--r);
+      padding: 8px 7px;
+      background: rgba(255, 227, 154, .055);
+    }
+
+    .pilot-step strong {
+      display: block;
+      color: var(--gold2);
+      font-size: 10px;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+
+    .pilot-step span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 9px;
+      line-height: 1.25;
+    }
+
+    .proof-note {
+      margin-top: 12px;
+      color: var(--soft);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
     .side {
       display: grid;
       gap: 12px;
@@ -2286,9 +2395,9 @@
             <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 7h18s-3 0-3-7"></path><path d="M13.7 21a2 2 0 0 1-3.4 0"></path></svg>
             <span>Alerts</span>
           </button>
-          <button class="nav" type="button" data-sheet="profile" aria-label="Profile">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>
-            <span>Me</span>
+          <button class="nav" type="button" data-sheet="insights" aria-label="Investor proof">
+            <svg viewBox="0 0 24 24"><path d="M4 19V5"></path><path d="M4 19h16"></path><path d="M8 16v-5"></path><path d="M12 16V8"></path><path d="M16 16v-7"></path></svg>
+            <span>Proof</span>
           </button>
         </nav>
 
@@ -2296,7 +2405,7 @@
           <div class="sheet-panel" id="sheetPanel"></div>
         </div>
 
-        <div class="intro" id="intro">
+        <div class="intro hidden" id="intro" aria-hidden="true">
           <div class="intro-card">
             <span class="intro-kicker">Investor demo</span>
             <h2>Live casino starts before the table</h2>
@@ -2332,8 +2441,17 @@
           <button class="side-btn" type="button" data-sheet="gameplay">Try gameplay flow <span>In-table</span></button>
           <button class="side-btn" type="button" data-sheet="profile">Open dealer profile <span>Follow</span></button>
           <button class="side-btn" type="button" data-sheet="handoff">Operator handoff <span>Play</span></button>
-          <button class="side-btn" type="button" data-sheet="insights">Pilot proof <span>B2B</span></button>
+          <button class="side-btn" type="button" data-sheet="insights">Investor proof <span>B2B</span></button>
           <button class="side-btn" type="button" id="nextCard">Next live card <span>Scroll</span></button>
+        </div>
+      </div>
+      <div class="side-box">
+        <h3>Why operators care</h3>
+        <p>LC App gives operators a measurable pre-table acquisition and retention surface without taking over wallet, KYC or settlement.</p>
+        <div class="kpi-row">
+          <div class="kpi"><strong>60d</strong><span>pilot</span></div>
+          <div class="kpi"><strong>3x</strong><span>surfaces</span></div>
+          <div class="kpi"><strong>Rev</strong><span>share</span></div>
         </div>
       </div>
     </aside>
@@ -2685,6 +2803,7 @@
     function hideIntro(message = true) {
       if (!intro || intro.classList.contains("hidden")) return;
       intro.classList.add("hidden");
+      intro.setAttribute("aria-hidden", "true");
       if (message) showToast("Demo mode. No real-money transactions.");
     }
 
@@ -3190,8 +3309,25 @@
       if (type === "insights") {
         return `
           <div class="sheet-head">
-            <div class="sheet-title"><span class="pill teal">Pilot</span><h3>Operator proof</h3></div>
+            <div class="sheet-title"><span class="pill teal">Investor proof</span><h3>Why this scales</h3></div>
             ${closeButton()}
+          </div>
+          <div class="proof-grid">
+            <div class="proof-card"><strong>${card.join}</strong><span>current join-rate signal</span></div>
+            <div class="proof-card"><strong>${card.trend}</strong><span>table-intent lift</span></div>
+            <div class="proof-card"><strong>${card.watching}</strong><span>live audience on card</span></div>
+            <div class="proof-card"><strong>$${card.arpu.replace("$", "")}K</strong><span>modeled monthly value / 1k players</span></div>
+          </div>
+          <div class="revenue-stack">
+            <div class="deal-row"><b>Operator setup / integration</b><span>$25K-$75K</span></div>
+            <div class="deal-row"><b>Monthly module fee</b><span>$10K-$35K</span></div>
+            <div class="deal-row"><b>Performance upside</b><span>rev-share</span></div>
+            <div class="deal-row"><b>Data room proof</b><span>weekly KPI report</span></div>
+          </div>
+          <div class="pilot-timeline">
+            <div class="pilot-step"><strong>Week 1-2</strong><span>Embed feed, map dealer/table content and tracking.</span></div>
+            <div class="pilot-step"><strong>Week 3-6</strong><span>Measure watch, follow, handoff and return alerts.</span></div>
+            <div class="pilot-step"><strong>Week 7-8</strong><span>Paid continuation decision with KPI report.</span></div>
           </div>
           <div class="row-grid">
             <div class="metric"><strong>${card.watching}</strong><span>watchers</span></div>
@@ -3203,6 +3339,11 @@
             <div class="list-row"><b>Best signal</b><span>Dealer follow</span></div>
             <div class="list-row"><b>Revenue path</b><span>Module + rev-share</span></div>
             <div class="list-row"><b>Compliance</b><span>Licensed operator</span></div>
+          </div>
+          <p class="proof-note">Investor readout: LC App can be sold first as an operator-side growth module, then expanded into a broader live casino discovery network after pilot data validates retention and GGR lift.</p>
+          <div class="sheet-actions">
+            <button class="btn" type="button" data-sheet="handoff">Operator flow</button>
+            <button class="btn secondary" type="button" data-sheet="watch">Back to demo</button>
           </div>
         `;
       }
@@ -3243,7 +3384,7 @@
         gameplay: "Gameplay flow opened",
         profile: "Dealer profile opened",
         handoff: "Operator handoff opened",
-        insights: "Pilot proof opened",
+        insights: "Investor proof opened",
         search: "Explore opened",
         alerts: "Alerts opened"
       };
@@ -3355,6 +3496,7 @@
       if (event.key === "ArrowUp") goTo(active - 1);
       if (event.key === "Escape") closeSheet();
     });
+
 
     if ("serviceWorker" in navigator && location.protocol !== "file:") {
       window.addEventListener("load", () => {
