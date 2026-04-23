@@ -4,14 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>LC App Investor Demo</title>
-  <meta name="theme-color" content="#08080b" />
-  <meta name="description" content="LC App investor demo: feed-first social live casino interface with watch mode, gameplay and licensed-operator handoff." />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="LC App" />
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="icon" href="app-icon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="static_preview/LC_App_V2_Preview_Contact_Sheet.png" />
   <style>
     :root {
       --bg: #050609;
@@ -380,7 +372,7 @@
       right: 17px;
       top: 228px;
       z-index: 6;
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: space-between;
       gap: 8px;
@@ -641,6 +633,7 @@
       right: 18px;
       top: 178px;
       height: 58px;
+      display: none;
       border-top: 1px solid rgba(255, 227, 154, .48);
       border-bottom: 1px solid rgba(255, 255, 255, .06);
       border-radius: var(--r);
@@ -661,7 +654,7 @@
       background:
         linear-gradient(0deg, rgba(95, 17, 24, .42), transparent 76%),
         linear-gradient(90deg, rgba(241, 199, 96, .12), transparent 22%, transparent 78%, rgba(241, 199, 96, .1));
-      opacity: .66;
+      opacity: .3;
     }
 
     .casino-ambience span {
@@ -673,6 +666,7 @@
       border-radius: 999px;
       background: linear-gradient(90deg, transparent, rgba(255, 227, 154, .9), transparent);
       box-shadow: 0 0 20px rgba(255, 227, 154, .36);
+      display: none;
       opacity: .7;
     }
 
@@ -792,7 +786,7 @@
     }
 
     .market-line {
-      display: grid;
+      display: none;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 6px;
       margin-top: 13px;
@@ -859,14 +853,14 @@
     .actions {
       position: absolute;
       right: 14px;
-      bottom: 154px;
+      bottom: 137px;
       z-index: 5;
       display: grid;
-      gap: 13px;
+      gap: 11px;
     }
 
     .action {
-      width: 48px;
+      width: 45px;
       border: 0;
       padding: 0;
       color: rgba(255, 255, 255, .9);
@@ -904,7 +898,7 @@
     }
 
     .action small {
-      display: block;
+      display: none;
       color: rgba(255, 255, 255, .66);
       font-size: 9px;
       font-weight: 850;
@@ -1117,6 +1111,48 @@
       color: var(--muted);
       font-size: 11px;
       text-align: right;
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .module-card {
+      min-width: 0;
+      min-height: 72px;
+      border: 1px solid rgba(255, 255, 255, .11);
+      border-radius: var(--r);
+      padding: 10px;
+      color: var(--text);
+      background: rgba(255, 255, 255, .055);
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .module-card strong {
+      display: block;
+      overflow: hidden;
+      color: var(--gold2);
+      font-size: 12px;
+      font-weight: 950;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .module-card span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.32;
+    }
+
+    .module-card.primary {
+      border-color: rgba(255, 227, 154, .22);
+      background: rgba(255, 227, 154, .085);
     }
 
     .sheet-actions {
@@ -2026,6 +2062,84 @@
       margin-top: 12px;
     }
 
+    .proof-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 86px;
+      border: 1px solid rgba(46, 230, 206, .16);
+      border-radius: var(--r);
+      padding: 12px;
+      background:
+        linear-gradient(135deg, rgba(46, 230, 206, .1), transparent 52%),
+        rgba(255, 255, 255, .055);
+    }
+
+    .proof-hero strong {
+      display: block;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 950;
+    }
+
+    .proof-hero span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    .proof-hero b {
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 10px;
+      border-radius: 999px;
+      color: var(--ink);
+      background: var(--teal);
+      font-size: 10px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .proof-ladder {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .proof-ladder div {
+      min-width: 0;
+      min-height: 58px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: var(--r);
+      padding: 8px 6px;
+      background: rgba(255, 255, 255, .048);
+      text-align: center;
+    }
+
+    .proof-ladder strong {
+      display: block;
+      overflow: hidden;
+      color: var(--gold2);
+      font-size: 9px;
+      font-weight: 950;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .proof-ladder span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 8px;
+      line-height: 1.2;
+    }
+
     .proof-card {
       min-width: 0;
       border: 1px solid rgba(255, 255, 255, .11);
@@ -2487,7 +2601,7 @@
         seat: "3 seats",
         state: "8 red / 2 green",
         trend: "+18%",
-        caption: "Hot roulette table, fast decisions, strong follow-back pattern.",
+        caption: "Mia is live. Roulette table is heating up.",
         read: "Discovery-first roulette card with dealer identity, live table state and operator-backed entry.",
         gameplayTimer: "12s to spin",
         rouletteTrack: ["32", "15", "0", "19", "4"],
@@ -2509,7 +2623,7 @@
         seat: "2 seats",
         state: "VIP open",
         trend: "+11%",
-        caption: "Premium blackjack discovery with high-value player intent.",
+        caption: "Sofia is live with a calmer VIP blackjack room.",
         read: "High-value blackjack card with calmer presentation and clear VIP player routing.",
         gameplayTimer: "Action on you",
         dealerHand: ["A", "5"],
@@ -2531,7 +2645,7 @@
         seat: "5 seats",
         state: "Banker run",
         trend: "+9%",
-        caption: "Rhythm-led baccarat card with table-state decision support.",
+        caption: "Marcus is live. Banker run is building attention.",
         read: "Baccarat feed moment for players who react to pace, seats and table streaks.",
         gameplayTimer: "9s to deal",
         baccaratRoad: ["banker", "player", "banker", "banker", "tie", "player", "banker", "banker", "player", "player", "banker", "tie"]
@@ -2552,7 +2666,7 @@
         seat: "9 seats",
         state: "Low min",
         trend: "+24%",
-        caption: "Mass-market roulette with the strongest entertainment pull.",
+        caption: "Lilit is live with a low-minimum roulette room.",
         read: "Mass-market roulette card for broad discovery, retention and return notifications.",
         gameplayTimer: "15s to spin",
         rouletteTrack: ["11", "24", "3", "29", "0"],
@@ -3312,11 +3426,21 @@
             <div class="sheet-title"><span class="pill teal">Investor proof</span><h3>Why this scales</h3></div>
             ${closeButton()}
           </div>
+          <div class="proof-hero">
+            <div><strong>Clean feed, monetized handoff</strong><span>The app keeps player discovery simple, then opens deeper gameplay, operator entry and KPI proof as focused popups.</span></div>
+            <b>60d pilot</b>
+          </div>
           <div class="proof-grid">
             <div class="proof-card"><strong>${card.join}</strong><span>current join-rate signal</span></div>
             <div class="proof-card"><strong>${card.trend}</strong><span>table-intent lift</span></div>
             <div class="proof-card"><strong>${card.watching}</strong><span>live audience on card</span></div>
             <div class="proof-card"><strong>$${card.arpu.replace("$", "")}K</strong><span>modeled monthly value / 1k players</span></div>
+          </div>
+          <div class="proof-ladder">
+            <div><strong>Discover</strong><span>Swipe live dealer feed</span></div>
+            <div><strong>Engage</strong><span>Watch, follow, alert</span></div>
+            <div><strong>Convert</strong><span>Operator-controlled table</span></div>
+            <div><strong>Report</strong><span>Join, retention, GGR lift</span></div>
           </div>
           <div class="revenue-stack">
             <div class="deal-row"><b>Operator setup / integration</b><span>$25K-$75K</span></div>
@@ -3364,10 +3488,14 @@
           <div class="list-row"><b>Dealer</b><span>${card.dealer}</span></div>
           <div class="list-row"><b>Operator</b><span>${card.operator}</span></div>
         </div>
-        ${gameplayMarkup(card)}
+        <div class="module-grid" aria-label="Table actions">
+          <button class="module-card primary" type="button" data-sheet="gameplay"><strong>Gameplay</strong><span>Open the ${card.game} round flow with bets, result and settlement states.</span></button>
+          <button class="module-card" type="button" data-sheet="profile"><strong>Dealer</strong><span>Follow ${card.dealer} and see the retention loop.</span></button>
+          <button class="module-card" type="button" data-sheet="handoff"><strong>Operator</strong><span>Continue via licensed operator login, KYC and wallet.</span></button>
+          <button class="module-card" type="button" data-sheet="insights"><strong>Proof</strong><span>Open the investor KPI and pilot logic.</span></button>
+        </div>
         <div class="sheet-actions">
           <button class="btn" type="button" data-sheet="handoff">Play via operator</button>
-          <button class="btn secondary" type="button" data-sheet="profile">Dealer</button>
           <button class="btn secondary" type="button" data-sheet="gameplay">Gameplay</button>
         </div>
       `;
@@ -3379,16 +3507,6 @@
       sheet.classList.add("open");
       sheet.setAttribute("aria-hidden", "false");
       if (["watch", "gameplay"].includes(type)) startLiveRoundTimer();
-      const labels = {
-        watch: "Watch mode opened",
-        gameplay: "Gameplay flow opened",
-        profile: "Dealer profile opened",
-        handoff: "Operator handoff opened",
-        insights: "Investor proof opened",
-        search: "Explore opened",
-        alerts: "Alerts opened"
-      };
-      showToast(labels[type]);
     }
 
     function closeSheet() {
@@ -3496,13 +3614,6 @@
       if (event.key === "ArrowUp") goTo(active - 1);
       if (event.key === "Escape") closeSheet();
     });
-
-
-    if ("serviceWorker" in navigator && location.protocol !== "file:") {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./sw.js").catch(() => {});
-      });
-    }
   </script>
 </body>
 </html>
