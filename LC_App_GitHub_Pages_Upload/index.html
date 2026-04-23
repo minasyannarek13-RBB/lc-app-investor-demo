@@ -1,0 +1,3366 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>LC App Investor Demo</title>
+  <meta name="theme-color" content="#08080b" />
+  <meta name="description" content="LC App investor demo: feed-first social live casino interface with watch mode, gameplay and licensed-operator handoff." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="LC App" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="app-icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="static_preview/LC_App_V2_Preview_Contact_Sheet.png" />
+  <style>
+    :root {
+      --bg: #050609;
+      --surface: #0a0d12;
+      --surface2: rgba(12, 15, 20, .88);
+      --line: rgba(255, 255, 255, .12);
+      --line2: rgba(255, 255, 255, .2);
+      --text: #ffffff;
+      --soft: rgba(255, 255, 255, .76);
+      --muted: rgba(255, 255, 255, .56);
+      --dim: rgba(255, 255, 255, .36);
+      --gold: #f1c760;
+      --gold2: #ffe39a;
+      --teal: #2ee6ce;
+      --coral: #ff6f61;
+      --velvet: #5f1118;
+      --felt: #0f3b2d;
+      --red: #ef4444;
+      --green: #40d37a;
+      --ink: #040506;
+      --r: 8px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+      letter-spacing: 0;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      color: var(--text);
+      background:
+        linear-gradient(115deg, rgba(95, 17, 24, .34), transparent 42%),
+        linear-gradient(245deg, rgba(241, 199, 96, .16), transparent 38%),
+        linear-gradient(180deg, #120609 0%, #050609 46%, #0d0906 100%);
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .stage {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(280px, 420px) minmax(340px, 424px) minmax(260px, 390px);
+      align-items: center;
+      justify-content: center;
+      gap: clamp(18px, 3.2vw, 42px);
+      padding: clamp(18px, 4vw, 54px);
+    }
+
+    .brand,
+    .side {
+      max-width: 420px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 18px;
+      color: var(--teal);
+      font-size: 11px;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 18px rgba(46, 230, 206, .55);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 5.7vw, 76px);
+      line-height: .92;
+      font-weight: 950;
+    }
+
+    h1 span {
+      display: block;
+      color: var(--gold2);
+    }
+
+    .brand p,
+    .side p {
+      margin: 22px 0 0;
+      color: var(--soft);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .06);
+      color: var(--soft);
+      font-size: 11px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .primary-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 26px;
+    }
+
+    .launch-btn {
+      min-height: 44px;
+      border: 0;
+      border-radius: 999px;
+      padding: 0 16px;
+      color: var(--ink);
+      background: linear-gradient(135deg, var(--gold2), #ffb85c);
+      box-shadow: 0 16px 38px rgba(0, 0, 0, .36);
+      font-size: 13px;
+      font-weight: 950;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .launch-btn.secondary {
+      color: var(--text);
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .16);
+      box-shadow: none;
+    }
+
+    .demo-note {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .phone-shell {
+      width: min(424px, 94vw);
+      aspect-ratio: 424 / 872;
+      padding: 12px;
+      border-radius: 48px;
+      background:
+        linear-gradient(145deg, #3b3030, #121014 32%, #010203 100%);
+      box-shadow:
+        0 45px 110px rgba(0, 0, 0, .62),
+        inset 0 0 0 1px rgba(255, 255, 255, .1);
+      position: relative;
+    }
+
+    .phone-shell::before {
+      content: "";
+      position: absolute;
+      top: 11px;
+      left: 50%;
+      width: 120px;
+      height: 24px;
+      transform: translateX(-50%);
+      border-radius: 0 0 18px 18px;
+      background: #030406;
+      z-index: 80;
+    }
+
+    .screen {
+      position: relative;
+      height: 100%;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 36px;
+      background:
+        linear-gradient(180deg, rgba(95, 17, 24, .35), transparent 24%),
+        linear-gradient(90deg, rgba(241, 199, 96, .06), transparent 28%, rgba(15, 59, 45, .16)),
+        #07080b;
+      isolation: isolate;
+    }
+
+    .toast {
+      position: absolute;
+      left: 50%;
+      bottom: 82px;
+      z-index: 95;
+      max-width: calc(100% - 42px);
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 13px;
+      border: 1px solid rgba(255, 227, 154, .32);
+      border-radius: 999px;
+      color: var(--gold2);
+      background: rgba(4, 5, 6, .78);
+      box-shadow: 0 16px 38px rgba(0, 0, 0, .42);
+      backdrop-filter: blur(16px);
+      font-size: 11px;
+      font-weight: 950;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 12px);
+      transition: opacity .2s ease, transform .2s ease;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .intro {
+      position: absolute;
+      inset: 0;
+      z-index: 120;
+      display: grid;
+      align-items: end;
+      padding: 24px 18px 30px;
+      background:
+        linear-gradient(180deg, rgba(5, 6, 9, .3), rgba(5, 6, 9, .9) 62%, rgba(5, 6, 9, .98)),
+        radial-gradient(circle at 50% 16%, rgba(255, 227, 154, .18), transparent 38%);
+      opacity: 1;
+      transition: opacity .28s ease, transform .28s ease;
+    }
+
+    .intro.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px);
+    }
+
+    .intro-card {
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(14, 10, 14, .82);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, .42);
+      backdrop-filter: blur(20px);
+    }
+
+    .intro-kicker {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0 9px;
+      border: 1px solid rgba(46, 230, 206, .28);
+      border-radius: 999px;
+      color: var(--teal);
+      background: rgba(46, 230, 206, .08);
+      font-size: 10px;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+
+    .intro h2 {
+      margin: 11px 0 7px;
+      font-size: 28px;
+      line-height: .98;
+      font-weight: 950;
+    }
+
+    .intro p {
+      margin: 0;
+      color: var(--soft);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .intro-steps {
+      display: grid;
+      gap: 7px;
+      margin-top: 13px;
+    }
+
+    .intro-step {
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      gap: 9px;
+      align-items: center;
+      min-height: 43px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: var(--r);
+      padding: 7px 9px;
+      background: rgba(255, 255, 255, .055);
+    }
+
+    .intro-step b {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--ink);
+      background: var(--gold2);
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .intro-step strong {
+      display: block;
+      overflow: hidden;
+      color: var(--text);
+      font-size: 12px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .intro-step span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.25;
+    }
+
+    .intro-actions {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .intro-btn {
+      min-height: 40px;
+      border: 0;
+      border-radius: 999px;
+      padding: 0 14px;
+      color: var(--ink);
+      background: var(--gold2);
+      font-size: 12px;
+      font-weight: 950;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .signal-strip {
+      position: absolute;
+      left: 17px;
+      right: 17px;
+      top: 228px;
+      z-index: 6;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      min-height: 30px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 999px;
+      padding: 0 10px;
+      color: rgba(255, 255, 255, .84);
+      background: rgba(4, 5, 6, .45);
+      backdrop-filter: blur(14px);
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .signal-strip b {
+      flex: 0 0 auto;
+      color: var(--teal);
+      font-size: 9px;
+      text-transform: uppercase;
+    }
+
+    .signal-strip span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .intro-btn.secondary {
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, .14);
+      background: rgba(255, 255, 255, .08);
+    }
+
+    .status {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 70;
+      height: 38px;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 22px 0;
+      color: rgba(255, 255, 255, .82);
+      font-size: 11px;
+      font-weight: 850;
+      pointer-events: none;
+    }
+
+    .app-top {
+      position: absolute;
+      top: 38px;
+      left: 14px;
+      right: 14px;
+      z-index: 70;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .wordmark {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+      font-size: 23px;
+      font-weight: 950;
+      text-shadow: 0 6px 22px rgba(0, 0, 0, .72);
+    }
+
+    .wordmark b {
+      display: grid;
+      place-items: center;
+      width: 31px;
+      height: 31px;
+      border-radius: 10px;
+      color: var(--ink);
+      background: linear-gradient(135deg, var(--gold2), #d49a3b);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .38);
+    }
+
+    .top-icons {
+      display: flex;
+      gap: 8px;
+      pointer-events: auto;
+    }
+
+    .icon-btn {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, .15);
+      border-radius: 50%;
+      color: var(--text);
+      background: rgba(4, 5, 6, .44);
+      backdrop-filter: blur(12px);
+      cursor: pointer;
+    }
+
+    .icon-btn svg {
+      width: 17px;
+      height: 17px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .stories {
+      position: absolute;
+      top: 82px;
+      left: 12px;
+      right: 12px;
+      z-index: 70;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      pointer-events: auto;
+    }
+
+    .story {
+      min-width: 0;
+      border: 0;
+      padding: 0;
+      color: rgba(255, 255, 255, .74);
+      background: transparent;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .avatar-ring {
+      position: relative;
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 5px;
+      border-radius: 50%;
+      padding: 2px;
+      background: conic-gradient(from 210deg, var(--gold2), var(--velvet), var(--teal), var(--gold2));
+      box-shadow: 0 9px 20px rgba(0, 0, 0, .28);
+    }
+
+    .story.active .avatar-ring {
+      box-shadow: 0 0 0 3px rgba(46, 230, 206, .17), 0 0 26px rgba(46, 230, 206, .32);
+    }
+
+    .avatar-ring img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #07080b;
+    }
+
+    .story span {
+      display: block;
+      overflow: hidden;
+      color: currentColor;
+      font-size: 9px;
+      font-weight: 800;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .tabs {
+      position: absolute;
+      top: 150px;
+      left: 16px;
+      right: 16px;
+      z-index: 65;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      padding: 5px;
+      border: 1px solid rgba(255, 255, 255, .11);
+      border-radius: 999px;
+      background: rgba(43, 8, 13, .42);
+      backdrop-filter: blur(16px);
+      pointer-events: auto;
+    }
+
+    .tab {
+      min-width: 0;
+      height: 27px;
+      border: 0;
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .68);
+      background: transparent;
+      font-size: 10px;
+      font-weight: 900;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .tab.active {
+      color: var(--ink);
+      background: var(--gold2);
+    }
+
+    .feed {
+      height: 100%;
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
+      overscroll-behavior: contain;
+      scrollbar-width: none;
+    }
+
+    .feed::-webkit-scrollbar {
+      display: none;
+    }
+
+    .live-card {
+      position: relative;
+      height: 100%;
+      overflow: hidden;
+      scroll-snap-align: start;
+      background:
+        linear-gradient(180deg, rgba(95, 17, 24, .3), transparent 34%),
+        #07080b;
+    }
+
+    .live-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.08);
+      filter: contrast(1.04) saturate(1.04);
+    }
+
+    .live-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, .62) 0%, rgba(0, 0, 0, .08) 30%, rgba(46, 7, 13, .34) 58%, rgba(0, 0, 0, .96) 100%),
+        linear-gradient(90deg, rgba(40, 5, 9, .34), transparent 42%, rgba(0, 0, 0, .46));
+    }
+
+    .casino-ambience {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .casino-ambience::before {
+      content: "";
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      top: 178px;
+      height: 58px;
+      border-top: 1px solid rgba(255, 227, 154, .48);
+      border-bottom: 1px solid rgba(255, 255, 255, .06);
+      border-radius: var(--r);
+      background:
+        linear-gradient(90deg, transparent, rgba(255, 227, 154, .18), transparent),
+        linear-gradient(180deg, rgba(95, 17, 24, .5), rgba(15, 59, 45, .08));
+      box-shadow: 0 20px 46px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255, 255, 255, .09);
+      opacity: .78;
+    }
+
+    .casino-ambience::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 68px;
+      height: 210px;
+      background:
+        linear-gradient(0deg, rgba(95, 17, 24, .42), transparent 76%),
+        linear-gradient(90deg, rgba(241, 199, 96, .12), transparent 22%, transparent 78%, rgba(241, 199, 96, .1));
+      opacity: .66;
+    }
+
+    .casino-ambience span {
+      position: absolute;
+      left: 21px;
+      right: 78px;
+      bottom: 178px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(255, 227, 154, .9), transparent);
+      box-shadow: 0 0 20px rgba(255, 227, 154, .36);
+      opacity: .7;
+    }
+
+    .live-badge {
+      position: absolute;
+      top: 190px;
+      left: 17px;
+      z-index: 4;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      height: 29px;
+      padding: 0 10px;
+      border-radius: 999px;
+      color: #fee2e2;
+      background: rgba(95, 17, 24, .84);
+      border: 1px solid rgba(254, 202, 202, .2);
+      backdrop-filter: blur(12px);
+      font-size: 10px;
+      font-weight: 950;
+    }
+
+    .live-badge i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #fca5a5;
+      box-shadow: 0 0 17px var(--red);
+      animation: pulse 1.28s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(.82);
+        opacity: .62;
+      }
+      50% {
+        transform: scale(1.18);
+        opacity: 1;
+      }
+    }
+
+    .table-state {
+      position: absolute;
+      top: 190px;
+      right: 17px;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      height: 29px;
+      padding: 0 10px;
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .82);
+      background: rgba(43, 8, 13, .56);
+      backdrop-filter: blur(12px);
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .copy {
+      position: absolute;
+      left: 18px;
+      right: 75px;
+      bottom: 92px;
+      z-index: 5;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 10px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 27px;
+      padding: 0 9px;
+      border: 1px solid rgba(255, 255, 255, .15);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .86);
+      background: rgba(4, 5, 6, .45);
+      backdrop-filter: blur(12px);
+      font-size: 10px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .pill.gold {
+      color: var(--gold2);
+      border-color: rgba(255, 227, 154, .28);
+    }
+
+    .pill.teal {
+      color: var(--teal);
+      border-color: rgba(46, 230, 206, .26);
+    }
+
+    .copy h2 {
+      margin: 0 0 6px;
+      color: var(--text);
+      font-size: 31px;
+      line-height: 1;
+      font-weight: 950;
+      text-shadow: 0 6px 26px rgba(0, 0, 0, .82);
+    }
+
+    .copy p {
+      margin: 0;
+      max-width: 280px;
+      color: rgba(255, 255, 255, .78);
+      font-size: 13px;
+      line-height: 1.36;
+    }
+
+    .market-line {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 13px;
+      max-width: 292px;
+    }
+
+    .mini-stat {
+      min-width: 0;
+      padding: 8px 7px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: var(--r);
+      background: rgba(43, 8, 13, .58);
+      backdrop-filter: blur(12px);
+    }
+
+    .mini-stat strong {
+      display: block;
+      overflow: hidden;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 950;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .mini-stat span {
+      display: block;
+      margin-top: 2px;
+      color: var(--dim);
+      font-size: 8px;
+      font-weight: 850;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 13px;
+    }
+
+    .btn {
+      min-height: 40px;
+      border: 0;
+      border-radius: 999px;
+      padding: 0 14px;
+      color: var(--ink);
+      background: linear-gradient(135deg, var(--gold2), #ffb85c);
+      box-shadow: 0 16px 34px rgba(0, 0, 0, .38);
+      font-size: 12px;
+      font-weight: 950;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn.secondary {
+      color: var(--text);
+      background: rgba(255, 255, 255, .1);
+      border: 1px solid rgba(255, 255, 255, .14);
+      backdrop-filter: blur(12px);
+      box-shadow: none;
+    }
+
+    .actions {
+      position: absolute;
+      right: 14px;
+      bottom: 154px;
+      z-index: 5;
+      display: grid;
+      gap: 13px;
+    }
+
+    .action {
+      width: 48px;
+      border: 0;
+      padding: 0;
+      color: rgba(255, 255, 255, .9);
+      background: transparent;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .action span {
+      display: grid;
+      place-items: center;
+      width: 43px;
+      height: 43px;
+      margin: 0 auto 4px;
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 50%;
+      background: rgba(4, 5, 6, .48);
+      backdrop-filter: blur(12px);
+    }
+
+    .action svg {
+      width: 19px;
+      height: 19px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .action.active span {
+      color: var(--teal);
+      border-color: rgba(46, 230, 206, .42);
+      background: rgba(46, 230, 206, .16);
+    }
+
+    .action small {
+      display: block;
+      color: rgba(255, 255, 255, .66);
+      font-size: 9px;
+      font-weight: 850;
+    }
+
+    .progress {
+      position: absolute;
+      right: 7px;
+      top: 42%;
+      z-index: 5;
+      display: grid;
+      gap: 6px;
+      pointer-events: none;
+    }
+
+    .progress i {
+      width: 4px;
+      height: 20px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .22);
+    }
+
+    .progress i.active {
+      background: var(--gold2);
+      box-shadow: 0 0 18px rgba(255, 227, 154, .54);
+    }
+
+    .bottom-nav {
+      position: absolute;
+      left: 13px;
+      right: 13px;
+      bottom: 16px;
+      z-index: 70;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      align-items: center;
+      height: 52px;
+      border: 1px solid rgba(255, 255, 255, .11);
+      border-radius: 999px;
+      background: rgba(24, 7, 10, .78);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      min-width: 0;
+      height: 100%;
+      border: 0;
+      background: transparent;
+      color: rgba(255, 255, 255, .45);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      gap: 2px;
+      font-size: 8px;
+      font-weight: 850;
+    }
+
+    .nav svg {
+      width: 19px;
+      height: 19px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .nav.active {
+      color: var(--gold2);
+    }
+
+    .sheet {
+      position: absolute;
+      inset: 0;
+      z-index: 90;
+      display: grid;
+      align-items: end;
+      background: rgba(0, 0, 0, .42);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s ease;
+    }
+
+    .sheet.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .sheet-panel {
+      min-height: 61%;
+      max-height: 86%;
+      overflow: auto;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 24px 24px 0 0;
+      background: linear-gradient(180deg, rgba(45, 11, 16, .98), #07080b 72%);
+      padding: 17px 16px 18px;
+      box-shadow: 0 -34px 70px rgba(0, 0, 0, .42);
+      transform: translateY(24px);
+      transition: transform .22s ease;
+    }
+
+    .sheet.open .sheet-panel {
+      transform: translateY(0);
+    }
+
+    .sheet-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .sheet-title {
+      min-width: 0;
+    }
+
+    .sheet-title h3 {
+      margin: 4px 0 0;
+      font-size: 25px;
+      line-height: 1.04;
+    }
+
+    .close {
+      flex: 0 0 36px;
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: 50%;
+      color: var(--text);
+      background: rgba(255, 255, 255, .09);
+      cursor: pointer;
+    }
+
+    .hero-preview {
+      position: relative;
+      overflow: hidden;
+      height: 178px;
+      border: 1px solid rgba(255, 255, 255, .11);
+      border-radius: var(--r);
+      background-position: center;
+      background-size: cover;
+    }
+
+    .hero-preview::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, .82));
+    }
+
+    .row-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .metric {
+      min-width: 0;
+      padding: 12px 8px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: var(--r);
+      background: rgba(70, 13, 20, .26);
+      text-align: center;
+    }
+
+    .metric strong {
+      display: block;
+      overflow: hidden;
+      color: var(--teal);
+      font-size: 17px;
+      font-weight: 950;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 3px;
+      color: var(--dim);
+      font-size: 9px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .list {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .list-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 45px;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: var(--r);
+      background: rgba(255, 255, 255, .055);
+    }
+
+    .list-row b {
+      font-size: 12px;
+    }
+
+    .list-row span {
+      color: var(--muted);
+      font-size: 11px;
+      text-align: right;
+    }
+
+    .sheet-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .game-shell {
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, .11);
+      border-radius: var(--r);
+      background: rgba(22, 8, 12, .46);
+      animation: gameRise .28s ease;
+      transform-origin: center bottom;
+    }
+
+    @keyframes gameRise {
+      from {
+        opacity: 0;
+        transform: translateY(8px) scale(.988);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .state-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 45px;
+      margin-top: 10px;
+      padding: 10px 11px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: var(--r);
+      background: rgba(255, 255, 255, .06);
+      animation: statePulse 1.8s ease-in-out infinite;
+    }
+
+    .state-banner strong {
+      display: block;
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .state-banner span {
+      display: block;
+      margin-top: 2px;
+      color: var(--soft);
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    .state-banner b {
+      flex: 0 0 auto;
+      min-height: 28px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .state-banner.live {
+      border-color: rgba(255, 227, 154, .18);
+      background: rgba(255, 227, 154, .08);
+    }
+
+    .state-banner.live b {
+      color: var(--ink);
+      background: var(--gold2);
+    }
+
+    .state-banner.win {
+      border-color: rgba(64, 211, 122, .24);
+      background: rgba(64, 211, 122, .1);
+    }
+
+    .state-banner.win b {
+      color: #dcfce7;
+      background: rgba(22, 101, 52, .66);
+    }
+
+    .state-banner.loss {
+      border-color: rgba(248, 113, 113, .24);
+      background: rgba(127, 29, 29, .16);
+    }
+
+    .state-banner.loss b {
+      color: #fee2e2;
+      background: rgba(127, 29, 29, .72);
+    }
+
+    @keyframes statePulse {
+      0%, 100% {
+        box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+      }
+      50% {
+        box-shadow: 0 0 18px rgba(255, 227, 154, .08);
+      }
+    }
+
+    .history-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .history-pill {
+      min-height: 24px;
+      padding: 0 9px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .84);
+      background: rgba(255, 255, 255, .06);
+      font-size: 9px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .history-pill.win {
+      color: #dcfce7;
+      background: rgba(22, 101, 52, .56);
+      border-color: rgba(64, 211, 122, .18);
+    }
+
+    .history-pill.loss {
+      color: #fee2e2;
+      background: rgba(127, 29, 29, .62);
+      border-color: rgba(248, 113, 113, .18);
+    }
+
+    .history-pill.live {
+      color: var(--gold2);
+      background: rgba(255, 227, 154, .08);
+      border-color: rgba(255, 227, 154, .18);
+    }
+
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .summary-box {
+      min-width: 0;
+      padding: 8px 7px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: var(--r);
+      background: rgba(255, 255, 255, .05);
+      text-align: center;
+    }
+
+    .summary-box strong {
+      display: block;
+      overflow: hidden;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 950;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .summary-box span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 8px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .summary-box.win strong {
+      color: #dcfce7;
+    }
+
+    .summary-box.loss strong {
+      color: #fee2e2;
+    }
+
+    .game-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .game-head strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 950;
+    }
+
+    .game-head span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .game-timer {
+      flex: 0 0 auto;
+      min-height: 26px;
+      padding: 0 9px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(255, 227, 154, .22);
+      border-radius: 999px;
+      color: var(--gold2);
+      background: rgba(255, 227, 154, .08);
+      font-size: 10px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .live-control-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .live-control {
+      min-width: 0;
+      min-height: 32px;
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 999px;
+      padding: 0 10px;
+      color: rgba(255, 255, 255, .84);
+      background: rgba(255, 255, 255, .06);
+      font-size: 10px;
+      font-weight: 950;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .live-control.primary {
+      color: var(--ink);
+      background: var(--gold2);
+      border-color: transparent;
+    }
+
+    .live-control.active {
+      color: #dcfce7;
+      border-color: rgba(64, 211, 122, .24);
+      background: rgba(22, 101, 52, .5);
+    }
+
+    .round-timeline {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .round-step {
+      min-width: 0;
+      min-height: 38px;
+      display: grid;
+      align-content: center;
+      gap: 2px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: var(--r);
+      padding: 6px 7px;
+      color: rgba(255, 255, 255, .66);
+      background: rgba(255, 255, 255, .045);
+    }
+
+    .round-step strong {
+      overflow: hidden;
+      color: currentColor;
+      font-size: 9px;
+      font-weight: 950;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    .round-step span {
+      overflow: hidden;
+      color: rgba(255, 255, 255, .5);
+      font-size: 8px;
+      font-weight: 850;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .round-step.active {
+      color: var(--gold2);
+      border-color: rgba(255, 227, 154, .3);
+      background: rgba(255, 227, 154, .08);
+      box-shadow: 0 0 18px rgba(255, 227, 154, .12);
+    }
+
+    .live-round .game-canvas {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .live-round .game-canvas::after {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: linear-gradient(115deg, transparent 35%, rgba(255, 227, 154, .13), transparent 62%);
+      transform: translateX(-46%) rotate(8deg);
+      animation: tableSweep 2.8s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes tableSweep {
+      to {
+        transform: translateX(46%) rotate(8deg);
+      }
+    }
+
+    .roulette-live-strip {
+      display: grid;
+      grid-template-columns: 74px minmax(0, 1fr);
+      gap: 9px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .wheel-mini {
+      position: relative;
+      width: 74px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background:
+        conic-gradient(from 0deg, #7f1d1d, #0f1115 12%, #166534 16%, #7f1d1d 27%, #0f1115 42%, #7f1d1d 60%, #0f1115 78%, #166534 84%, #7f1d1d),
+        #0f1115;
+      box-shadow: inset 0 0 0 7px rgba(255, 227, 154, .1), 0 16px 28px rgba(0, 0, 0, .26);
+      animation: wheelTurn 2.2s cubic-bezier(.2, .8, .2, 1) infinite;
+    }
+
+    .wheel-mini span {
+      position: relative;
+      z-index: 2;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--ink);
+      background: var(--gold2);
+      font-size: 13px;
+      font-weight: 950;
+    }
+
+    .wheel-mini.win,
+    .wheel-mini.loss {
+      animation-duration: 3.2s;
+    }
+
+    @keyframes wheelTurn {
+      0% {
+        transform: rotate(0deg);
+      }
+      62% {
+        transform: rotate(312deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .dealer-call {
+      min-width: 0;
+      padding: 9px 10px;
+      border: 1px solid rgba(255, 255, 255, .11);
+      border-radius: var(--r);
+      background: rgba(255, 255, 255, .055);
+    }
+
+    .dealer-call strong {
+      display: block;
+      overflow: hidden;
+      color: var(--gold2);
+      font-size: 12px;
+      font-weight: 950;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .dealer-call span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.3;
+    }
+
+    .game-canvas {
+      margin-top: 10px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 12px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, .04), rgba(255, 255, 255, .01)),
+        linear-gradient(135deg, rgba(15, 59, 45, .88), rgba(45, 11, 16, .88));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+    }
+
+    .game-caption {
+      margin-top: 10px;
+      color: var(--soft);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .game-flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .flow-step {
+      min-width: 0;
+      padding: 8px 6px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: var(--r);
+      background: rgba(255, 255, 255, .05);
+      text-align: center;
+    }
+
+    .flow-step strong {
+      display: block;
+      overflow: hidden;
+      color: var(--gold2);
+      font-size: 9px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    .flow-step span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 9px;
+      line-height: 1.2;
+    }
+
+    .game-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .game-chip {
+      min-height: 28px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .84);
+      background: rgba(255, 255, 255, .06);
+      font-size: 10px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .game-chip.active {
+      color: var(--ink);
+      background: var(--gold2);
+      border-color: transparent;
+      animation: chipGlow 1.6s ease-in-out infinite;
+    }
+
+    .live-round .game-chip.active,
+    .live-round .roulette-cell.chipped::after,
+    .live-round .outside-cell.chipped::after {
+      animation: chipGlow 1.15s ease-in-out infinite;
+    }
+
+    @keyframes chipGlow {
+      0%, 100% {
+        box-shadow: 0 0 0 rgba(255, 227, 154, 0);
+      }
+      50% {
+        box-shadow: 0 0 18px rgba(255, 227, 154, .24);
+      }
+    }
+
+    .demo-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .demo-tab {
+      min-height: 28px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .82);
+      background: rgba(255, 255, 255, .06);
+      font-size: 10px;
+      font-weight: 900;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .demo-tab.active {
+      color: var(--ink);
+      background: var(--gold2);
+      border-color: transparent;
+    }
+
+    .roulette-track {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 8px;
+    }
+
+    .roulette-pill {
+      min-height: 22px;
+      min-width: 28px;
+      padding: 0 7px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 950;
+      color: var(--text);
+      background: rgba(255, 255, 255, .08);
+    }
+
+    .roulette-pill.red,
+    .roulette-cell.red {
+      background: rgba(127, 29, 29, .82);
+    }
+
+    .roulette-pill.black,
+    .roulette-cell.black {
+      background: rgba(15, 17, 21, .86);
+    }
+
+    .roulette-pill.green,
+    .roulette-cell.green {
+      background: rgba(22, 101, 52, .9);
+    }
+
+    .roulette-pill.result,
+    .roulette-cell.hit,
+    .outside-cell.hit {
+      box-shadow: 0 0 0 2px rgba(255, 227, 154, .34), 0 0 22px rgba(255, 227, 154, .28);
+    }
+
+    .roulette-board {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      gap: 5px;
+      align-items: stretch;
+    }
+
+    .roulette-zero {
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: var(--r);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 950;
+      background: rgba(22, 101, 52, .88);
+    }
+
+    .roulette-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 5px;
+    }
+
+    .roulette-cell,
+    .outside-cell {
+      position: relative;
+      min-width: 0;
+      min-height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: var(--r);
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 900;
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .roulette-cell.chipped::after,
+    .outside-cell.chipped::after {
+      content: "";
+      position: absolute;
+      right: 5px;
+      bottom: 5px;
+      width: 10px;
+      height: 10px;
+      border: 2px solid rgba(255, 255, 255, .85);
+      border-radius: 50%;
+      background: var(--gold2);
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, .2);
+    }
+
+    .outside-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 5px;
+      margin-top: 6px;
+    }
+
+    .outside-cell {
+      min-height: 30px;
+      color: rgba(255, 255, 255, .82);
+      font-size: 10px;
+    }
+
+    .blackjack-zone {
+      display: grid;
+      gap: 10px;
+    }
+
+    .hand-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: rgba(255, 255, 255, .84);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .hand-meta span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .playing-hand {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .playing-card {
+      width: 44px;
+      height: 62px;
+      padding: 6px 5px;
+      display: grid;
+      align-content: space-between;
+      border-radius: 8px;
+      color: #0f1115;
+      background: linear-gradient(180deg, #fff7ea, #efe5d1);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, .24);
+      font-size: 13px;
+      font-weight: 950;
+      animation: cardLift .34s ease both;
+    }
+
+    .playing-hand .playing-card:nth-child(2) {
+      animation-delay: .04s;
+    }
+
+    .playing-hand .playing-card:nth-child(3) {
+      animation-delay: .08s;
+    }
+
+    @keyframes cardLift {
+      from {
+        opacity: 0;
+        transform: translateY(10px) rotate(-2deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotate(0);
+      }
+    }
+
+    .playing-card small {
+      display: block;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .playing-card.back {
+      color: rgba(255, 255, 255, .84);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, .12) 25%, transparent 25%) -8px 0/16px 16px,
+        linear-gradient(225deg, rgba(255, 255, 255, .12) 25%, transparent 25%) -8px 0/16px 16px,
+        linear-gradient(315deg, rgba(255, 255, 255, .12) 25%, transparent 25%) 0 0/16px 16px,
+        linear-gradient(45deg, rgba(255, 255, 255, .12) 25%, transparent 25%) 0 0/16px 16px,
+        linear-gradient(180deg, rgba(127, 29, 29, .95), rgba(45, 11, 16, .95));
+      place-items: center;
+      align-content: center;
+    }
+
+    .table-separator {
+      min-height: 24px;
+      display: grid;
+      place-items: center;
+      border-top: 1px solid rgba(255, 255, 255, .14);
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+      color: var(--gold2);
+      font-size: 9px;
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: .02em;
+    }
+
+    .decision-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .decision-pill {
+      min-width: 0;
+      min-height: 31px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .86);
+      background: rgba(255, 255, 255, .06);
+      font-size: 10px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .decision-pill.active {
+      color: var(--ink);
+      background: var(--gold2);
+      border-color: transparent;
+    }
+
+    .decision-pill.locked {
+      box-shadow: 0 0 0 2px rgba(255, 227, 154, .16);
+    }
+
+    .baccarat-scores {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .baccarat-score {
+      min-width: 0;
+      padding: 10px 6px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: var(--r);
+      background: rgba(255, 255, 255, .06);
+      text-align: center;
+    }
+
+    .baccarat-score strong {
+      display: block;
+      overflow: hidden;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 950;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .baccarat-score span,
+    .baccarat-score small {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 850;
+    }
+
+    .baccarat-score.player strong {
+      color: #7dd3fc;
+    }
+
+    .baccarat-score.tie strong {
+      color: #d8b4fe;
+    }
+
+    .baccarat-score.banker strong {
+      color: #fca5a5;
+    }
+
+    .baccarat-score.active {
+      box-shadow: 0 0 0 2px rgba(255, 227, 154, .2), 0 0 22px rgba(255, 227, 154, .1);
+    }
+
+    .road-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .road-dot {
+      width: 100%;
+      aspect-ratio: 1;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .road-dot.player {
+      background: rgba(59, 130, 246, .82);
+    }
+
+    .road-dot.banker {
+      background: rgba(239, 68, 68, .82);
+    }
+
+    .road-dot.tie {
+      background: rgba(168, 85, 247, .82);
+    }
+
+    .road-dot.recent {
+      box-shadow: 0 0 0 2px rgba(255, 227, 154, .28), 0 0 18px rgba(255, 227, 154, .18);
+    }
+
+    .operator-stack {
+      display: grid;
+      gap: 9px;
+      margin-top: 12px;
+    }
+
+    .operator-card {
+      min-width: 0;
+      border: 1px solid rgba(255, 255, 255, .11);
+      border-radius: var(--r);
+      padding: 11px;
+      background:
+        linear-gradient(135deg, rgba(46, 230, 206, .09), transparent 48%),
+        rgba(255, 255, 255, .055);
+    }
+
+    .operator-card strong {
+      display: block;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .operator-card span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    .operator-status {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .operator-status div {
+      min-width: 0;
+      border: 1px solid rgba(46, 230, 206, .18);
+      border-radius: var(--r);
+      padding: 8px 6px;
+      color: var(--teal);
+      background: rgba(46, 230, 206, .07);
+      text-align: center;
+      font-size: 9px;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+
+    .demo-disclaimer {
+      margin-top: 10px;
+      border: 1px solid rgba(255, 227, 154, .18);
+      border-radius: var(--r);
+      padding: 10px;
+      color: rgba(255, 255, 255, .78);
+      background: rgba(255, 227, 154, .075);
+      font-size: 10px;
+      line-height: 1.4;
+    }
+
+    .side {
+      display: grid;
+      gap: 12px;
+    }
+
+    .side-box {
+      padding: 15px;
+      border: 1px solid rgba(255, 255, 255, .11);
+      border-radius: var(--r);
+      background: rgba(255, 255, 255, .055);
+      box-shadow: 0 26px 70px rgba(0, 0, 0, .22);
+    }
+
+    .side-box h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .side-box p {
+      margin: 0;
+      color: var(--soft);
+      font-size: 13px;
+      line-height: 1.48;
+    }
+
+    .side-actions {
+      display: grid;
+      gap: 8px;
+    }
+
+    .side-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 43px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: var(--r);
+      padding: 0 12px;
+      color: var(--text);
+      background: rgba(255, 255, 255, .07);
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .side-btn.primary {
+      color: var(--ink);
+      background: var(--gold2);
+      border-color: transparent;
+    }
+
+    .side-btn span {
+      color: inherit;
+      opacity: .72;
+    }
+
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .kpi {
+      min-width: 0;
+      padding: 12px 8px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: var(--r);
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .kpi strong {
+      display: block;
+      overflow: hidden;
+      color: var(--gold2);
+      font-size: 17px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .kpi span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 1120px) {
+      body {
+        overflow: auto;
+      }
+
+      .stage {
+        grid-template-columns: 1fr;
+        justify-items: center;
+      }
+
+      .brand,
+      .side {
+        width: min(680px, 100%);
+      }
+
+      .brand {
+        text-align: center;
+      }
+
+      .brand .tags {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 560px) {
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .stage {
+        height: 100vh;
+        min-height: 100vh;
+        overflow: hidden;
+        padding: 0;
+      }
+
+      .brand,
+      .side {
+        display: none;
+      }
+
+      .phone-shell {
+        width: 100%;
+        max-width: none;
+        height: 100vh;
+        min-height: 100vh;
+        aspect-ratio: auto;
+        padding: 0;
+        border-radius: 0;
+        background: #07080b;
+        box-shadow: none;
+      }
+
+      .phone-shell::before {
+        display: none;
+      }
+
+      .screen {
+        height: 100%;
+        min-height: 100vh;
+        border-radius: 0;
+        border: 0;
+      }
+
+      .bottom-nav {
+        bottom: calc(12px + env(safe-area-inset-bottom));
+      }
+
+      .toast {
+        bottom: calc(78px + env(safe-area-inset-bottom));
+      }
+
+      .tabs {
+        top: 145px;
+      }
+
+      .stories {
+        top: 78px;
+      }
+
+      .live-badge,
+      .table-state {
+        top: 183px;
+      }
+
+      .signal-strip {
+        top: 218px;
+      }
+
+      .intro {
+        padding: 22px 14px calc(24px + env(safe-area-inset-bottom));
+      }
+    }
+
+    @supports (height: 100svh) {
+      @media (max-width: 560px) {
+        .stage,
+        .phone-shell {
+          height: 100svh;
+          min-height: 100svh;
+        }
+
+        .screen {
+          min-height: 100svh;
+        }
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="stage">
+    <section class="brand">
+      <p class="eyebrow">Investor demo app</p>
+      <h1>LC App <span>live casino feed</span></h1>
+      <p>Open the feed, watch a table, test roulette/blackjack/baccarat gameplay and move into a licensed-operator handoff.</p>
+      <div class="tags" aria-label="Design pillars">
+        <span class="tag">Reels-style feed</span>
+        <span class="tag">Dealer identity</span>
+        <span class="tag">Operator-safe flow</span>
+        <span class="tag">KPI-led pilot</span>
+      </div>
+      <div class="primary-actions">
+        <button class="launch-btn" type="button" data-sheet="watch">Start demo</button>
+        <button class="launch-btn secondary" type="button" data-sheet="gameplay">Gameplay</button>
+      </div>
+      <div class="demo-note">Offline-ready: HTML, local assets, static preview and PDF fallback are included in the iPhone package.</div>
+    </section>
+
+    <section class="phone-shell" aria-label="LC App ideal mobile prototype">
+      <div class="screen" id="screen">
+        <div class="status"><span>9:41</span><span>DEMO MODE</span></div>
+
+        <header class="app-top">
+          <div class="wordmark"><b>LC</b><span>Live</span></div>
+          <div class="top-icons">
+            <button class="icon-btn" type="button" data-sheet="search" aria-label="Search">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.4-3.4"></path></svg>
+            </button>
+            <button class="icon-btn" type="button" data-sheet="alerts" aria-label="Alerts">
+              <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 7h18s-3 0-3-7"></path><path d="M13.7 21a2 2 0 0 1-3.4 0"></path></svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="stories" id="stories"></div>
+
+        <div class="tabs" aria-label="Feed tabs">
+          <button class="tab active" type="button">For You</button>
+          <button class="tab" type="button">Following</button>
+          <button class="tab" type="button">VIP</button>
+          <button class="tab" type="button">New</button>
+        </div>
+
+        <div class="feed" id="feed"></div>
+        <div class="progress" id="progress"></div>
+        <div class="signal-strip" id="signalStrip"><b>Live signal</b><span>Seat opened at Roulette Mania</span></div>
+        <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+        <nav class="bottom-nav" aria-label="App navigation">
+          <button class="nav active" type="button" data-nav="home" aria-label="Home">
+            <svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"></path><path d="M5 10v10h14V10"></path></svg>
+            <span>Home</span>
+          </button>
+          <button class="nav" type="button" data-sheet="search" aria-label="Explore">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.4-3.4"></path></svg>
+            <span>Explore</span>
+          </button>
+          <button class="nav" type="button" data-sheet="watch" aria-label="Watch">
+            <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"></path><path d="m10 9 5 3-5 3z"></path></svg>
+            <span>Watch</span>
+          </button>
+          <button class="nav" type="button" data-sheet="alerts" aria-label="Alerts">
+            <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 7h18s-3 0-3-7"></path><path d="M13.7 21a2 2 0 0 1-3.4 0"></path></svg>
+            <span>Alerts</span>
+          </button>
+          <button class="nav" type="button" data-sheet="profile" aria-label="Profile">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>
+            <span>Me</span>
+          </button>
+        </nav>
+
+        <div class="sheet" id="sheet" aria-hidden="true">
+          <div class="sheet-panel" id="sheetPanel"></div>
+        </div>
+
+        <div class="intro" id="intro">
+          <div class="intro-card">
+            <span class="intro-kicker">Investor demo</span>
+            <h2>Live casino starts before the table</h2>
+            <p>Open the feed, watch the moment, follow the dealer and continue through a licensed operator.</p>
+            <div class="intro-steps">
+              <div class="intro-step"><b>1</b><div><strong>Watch live tables</strong><span>Swipe through dealer-led game moments.</span></div></div>
+              <div class="intro-step"><b>2</b><div><strong>Follow dealers</strong><span>Build retention before a player enters.</span></div></div>
+              <div class="intro-step"><b>3</b><div><strong>Play via operator</strong><span>KYC, wallet and settlement stay operator-controlled.</span></div></div>
+            </div>
+            <div class="intro-actions">
+              <button class="intro-btn" type="button" data-intro-start data-sheet="watch">Start demo</button>
+              <button class="intro-btn secondary" type="button" data-intro-close>Skip</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="side">
+      <div class="side-box">
+        <h3 id="activeTitle">Mia Roulette Live</h3>
+        <p id="activeRead">Discovery-first roulette card with dealer identity, live table state and operator-backed entry.</p>
+        <div class="kpi-row">
+          <div class="kpi"><strong id="kpiWatch">2.8K</strong><span>watching</span></div>
+          <div class="kpi"><strong id="kpiJoin">8.4%</strong><span>join rate</span></div>
+          <div class="kpi"><strong id="kpiArpu">$14</strong><span>rev / user</span></div>
+        </div>
+      </div>
+      <div class="side-box">
+        <h3>Investor journey</h3>
+        <div class="side-actions">
+          <button class="side-btn primary" type="button" data-sheet="watch">Start with watch mode <span>Preview</span></button>
+          <button class="side-btn" type="button" data-sheet="gameplay">Try gameplay flow <span>In-table</span></button>
+          <button class="side-btn" type="button" data-sheet="profile">Open dealer profile <span>Follow</span></button>
+          <button class="side-btn" type="button" data-sheet="handoff">Operator handoff <span>Play</span></button>
+          <button class="side-btn" type="button" data-sheet="insights">Pilot proof <span>B2B</span></button>
+          <button class="side-btn" type="button" id="nextCard">Next live card <span>Scroll</span></button>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    const iconHeart = '<svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path></svg>';
+    const iconUser = '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>';
+    const iconSave = '<svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>';
+    const iconShare = '<svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.5 6.8-4"></path><path d="m8.6 13.5 6.8 4"></path></svg>';
+
+    const assets = {
+      mia: "app_prototype_assets/dealers/dealer_mia_avatar_v1.jpg",
+      sofia: "app_prototype_assets/dealers/dealer_sofia_avatar_v1.jpg",
+      marcus: "app_prototype_assets/dealers/dealer_marcus_avatar_v1.jpg",
+      lilit: "app_prototype_assets/dealers/dealer_lilit_avatar_v1.jpg"
+    };
+
+    const cards = [
+      {
+        id: "mia",
+        dealer: "Mia",
+        title: "Mia Roulette Live",
+        game: "Roulette",
+        table: "Roulette Mania",
+        operator: "Licensed Operator A",
+        image: assets.mia,
+        watching: "2.8K",
+        join: "8.4%",
+        arpu: "$14",
+        follows: "2.3K",
+        stakes: "$10-$500",
+        seat: "3 seats",
+        state: "8 red / 2 green",
+        trend: "+18%",
+        caption: "Hot roulette table, fast decisions, strong follow-back pattern.",
+        read: "Discovery-first roulette card with dealer identity, live table state and operator-backed entry.",
+        gameplayTimer: "12s to spin",
+        rouletteTrack: ["32", "15", "0", "19", "4"],
+        rouletteColors: ["red", "black", "green", "red", "black"]
+      },
+      {
+        id: "sofia",
+        dealer: "Sofia",
+        title: "Blackjack VIP",
+        game: "Blackjack",
+        table: "Blackjack Royal",
+        operator: "Licensed Operator B",
+        image: assets.sofia,
+        watching: "1.9K",
+        join: "6.7%",
+        arpu: "$22",
+        follows: "1.7K",
+        stakes: "$25-$1K",
+        seat: "2 seats",
+        state: "VIP open",
+        trend: "+11%",
+        caption: "Premium blackjack discovery with high-value player intent.",
+        read: "High-value blackjack card with calmer presentation and clear VIP player routing.",
+        gameplayTimer: "Action on you",
+        dealerHand: ["A", "5"],
+        playerHand: ["8", "7"]
+      },
+      {
+        id: "marcus",
+        dealer: "Marcus",
+        title: "Baccarat Night",
+        game: "Baccarat",
+        table: "Golden Baccarat",
+        operator: "Licensed Operator C",
+        image: assets.marcus,
+        watching: "1.2K",
+        join: "5.9%",
+        arpu: "$18",
+        follows: "980",
+        stakes: "$20-$750",
+        seat: "5 seats",
+        state: "Banker run",
+        trend: "+9%",
+        caption: "Rhythm-led baccarat card with table-state decision support.",
+        read: "Baccarat feed moment for players who react to pace, seats and table streaks.",
+        gameplayTimer: "9s to deal",
+        baccaratRoad: ["banker", "player", "banker", "banker", "tie", "player", "banker", "banker", "player", "player", "banker", "tie"]
+      },
+      {
+        id: "lilit",
+        dealer: "Lilit",
+        title: "Roulette After Dark",
+        game: "Roulette",
+        table: "Midnight Roulette",
+        operator: "Licensed Operator D",
+        image: assets.lilit,
+        watching: "3.4K",
+        join: "9.1%",
+        arpu: "$11",
+        follows: "3.1K",
+        stakes: "$5-$250",
+        seat: "9 seats",
+        state: "Low min",
+        trend: "+24%",
+        caption: "Mass-market roulette with the strongest entertainment pull.",
+        read: "Mass-market roulette card for broad discovery, retention and return notifications.",
+        gameplayTimer: "15s to spin",
+        rouletteTrack: ["11", "24", "3", "29", "0"],
+        rouletteColors: ["black", "black", "red", "black", "green"]
+      }
+    ];
+
+    const feed = document.getElementById("feed");
+    const stories = document.getElementById("stories");
+    const progress = document.getElementById("progress");
+    const sheet = document.getElementById("sheet");
+    const sheetPanel = document.getElementById("sheetPanel");
+    const toast = document.getElementById("toast");
+    const intro = document.getElementById("intro");
+    const signalStrip = document.getElementById("signalStrip");
+    const gameDemoStates = {
+      Roulette: [
+        {
+          name: "Betting",
+          tone: "live",
+          title: "Bet accepted",
+          text: "$20 placed on 12, Red and 1st 12.",
+          badge: "Bets open",
+          stats: [
+            { label: "Stake", value: "$20" },
+            { label: "Potential", value: "+$90" },
+            { label: "Wallet", value: "$1,240" }
+          ],
+          history: [
+            { text: "$20 total", tone: "live" },
+            { text: "12 selected", tone: "live" },
+            { text: "Timer running", tone: "live" }
+          ],
+          selectedNumbers: [12],
+          selectedOutside: ["red", "dozen1"],
+          resultNumber: null,
+          resultOutside: [],
+          trackTail: ["3", "7", "11", "6", "12"],
+          trackColors: ["red", "red", "black", "black", "red"]
+        },
+        {
+          name: "Win",
+          tone: "win",
+          title: "12 Red hits",
+          text: "Payout confirmed. Win +$90 to operator wallet.",
+          badge: "Win +$90",
+          stats: [
+            { label: "Stake", value: "$20" },
+            { label: "Payout", value: "+$90", tone: "win" },
+            { label: "Wallet", value: "$1,330" }
+          ],
+          history: [
+            { text: "Bet confirmed", tone: "live" },
+            { text: "Spin complete", tone: "live" },
+            { text: "12 Red", tone: "win" },
+            { text: "Paid +$90", tone: "win" }
+          ],
+          selectedNumbers: [12],
+          selectedOutside: ["red", "dozen1"],
+          resultNumber: 12,
+          resultOutside: ["red", "dozen1"],
+          trackTail: ["7", "11", "6", "3", "12"],
+          trackColors: ["red", "black", "black", "red", "red"]
+        },
+        {
+          name: "Loss",
+          tone: "loss",
+          title: "8 Black lands",
+          text: "Round settled. Loss -$20, next spin opens in 9s.",
+          badge: "Loss -$20",
+          stats: [
+            { label: "Stake", value: "$20" },
+            { label: "Outcome", value: "-$20", tone: "loss" },
+            { label: "Wallet", value: "$1,220" }
+          ],
+          history: [
+            { text: "Bet confirmed", tone: "live" },
+            { text: "Spin complete", tone: "live" },
+            { text: "8 Black", tone: "loss" },
+            { text: "Replay available", tone: "live" }
+          ],
+          selectedNumbers: [12],
+          selectedOutside: ["red", "dozen1"],
+          resultNumber: 8,
+          resultOutside: [],
+          trackTail: ["11", "6", "12", "3", "8"],
+          trackColors: ["black", "black", "red", "red", "black"]
+        }
+      ],
+      Blackjack: [
+        {
+          name: "Betting",
+          tone: "live",
+          title: "Bet accepted",
+          text: "$75 main bet confirmed. Decision window is open.",
+          badge: "Action on you",
+          stats: [
+            { label: "Stake", value: "$75" },
+            { label: "Potential", value: "+$75" },
+            { label: "Wallet", value: "$1,540" }
+          ],
+          history: [
+            { text: "Seat locked", tone: "live" },
+            { text: "$75 main bet", tone: "live" },
+            { text: "15 total", tone: "live" }
+          ],
+          dealerHand: [{ rank: "A", suit: "♠" }, { back: true }],
+          playerHand: [{ rank: "8", suit: "♦" }, { rank: "7", suit: "♣" }],
+          dealerNote: "Soft 16 showing",
+          playerNote: "You: 15",
+          action: "Stand"
+        },
+        {
+          name: "Win",
+          tone: "win",
+          title: "Dealer busts 26",
+          text: "Stand holds. Win +$75 settled.",
+          badge: "Win +$75",
+          stats: [
+            { label: "Stake", value: "$75" },
+            { label: "Payout", value: "+$75", tone: "win" },
+            { label: "Wallet", value: "$1,615" }
+          ],
+          history: [
+            { text: "Stand locked", tone: "live" },
+            { text: "Dealer reveals 5", tone: "live" },
+            { text: "Bust 26", tone: "win" },
+            { text: "Paid +$75", tone: "win" }
+          ],
+          dealerHand: [{ rank: "A", suit: "♠" }, { rank: "5", suit: "♥" }, { rank: "K", suit: "♣" }],
+          playerHand: [{ rank: "8", suit: "♦" }, { rank: "7", suit: "♣" }],
+          dealerNote: "Dealer draws to 26",
+          playerNote: "You: 15",
+          action: "Stand"
+        },
+        {
+          name: "Loss",
+          tone: "loss",
+          title: "Dealer 20 wins",
+          text: "Hand settled. Loss -$75, next seat remains open.",
+          badge: "Loss -$75",
+          stats: [
+            { label: "Stake", value: "$75" },
+            { label: "Outcome", value: "-$75", tone: "loss" },
+            { label: "Wallet", value: "$1,465" }
+          ],
+          history: [
+            { text: "Stand locked", tone: "live" },
+            { text: "Dealer flips 10", tone: "live" },
+            { text: "Dealer 20", tone: "loss" },
+            { text: "Rebet available", tone: "live" }
+          ],
+          dealerHand: [{ rank: "10", suit: "♠" }, { rank: "Q", suit: "♥" }],
+          playerHand: [{ rank: "8", suit: "♦" }, { rank: "7", suit: "♣" }],
+          dealerNote: "Dealer stands on 20",
+          playerNote: "You: 15",
+          action: "Stand"
+        }
+      ],
+      Baccarat: [
+        {
+          name: "Betting",
+          tone: "live",
+          title: "Player bet confirmed",
+          text: "$100 on Player accepted. Deal starts in 9s.",
+          badge: "Deal in 9s",
+          stats: [
+            { label: "Stake", value: "$100" },
+            { label: "Potential", value: "+$100" },
+            { label: "Wallet", value: "$2,080" }
+          ],
+          history: [
+            { text: "$100 Player", tone: "live" },
+            { text: "Roadmap open", tone: "live" },
+            { text: "Shoe live", tone: "live" }
+          ],
+          selectedBet: "player",
+          recentRoad: null,
+          scores: { player: "-", tie: "-", banker: "-" }
+        },
+        {
+          name: "Win",
+          tone: "win",
+          title: "Player 9 beats Banker 8",
+          text: "Round settled. Win +$100.",
+          badge: "Win +$100",
+          stats: [
+            { label: "Stake", value: "$100" },
+            { label: "Payout", value: "+$100", tone: "win" },
+            { label: "Wallet", value: "$2,180" }
+          ],
+          history: [
+            { text: "Player 9", tone: "win" },
+            { text: "Banker 8", tone: "live" },
+            { text: "Paid +$100", tone: "win" }
+          ],
+          selectedBet: "player",
+          recentRoad: "player",
+          scores: { player: "9", tie: "-", banker: "8" }
+        },
+        {
+          name: "Loss",
+          tone: "loss",
+          title: "Banker 7 beats Player 5",
+          text: "Banker streak continues. Loss -$100.",
+          badge: "Loss -$100",
+          stats: [
+            { label: "Stake", value: "$100" },
+            { label: "Outcome", value: "-$100", tone: "loss" },
+            { label: "Wallet", value: "$1,980" }
+          ],
+          history: [
+            { text: "Player 5", tone: "live" },
+            { text: "Banker 7", tone: "loss" },
+            { text: "Rebet open", tone: "live" }
+          ],
+          selectedBet: "player",
+          recentRoad: "banker",
+          scores: { player: "5", tie: "-", banker: "7" }
+        }
+      ]
+    };
+    const demoStateByCard = {};
+    const liveRoundByCard = {};
+    let currentSheetType = null;
+    let active = 0;
+    let liveRoundTimer = 0;
+    let signalTimer = 0;
+
+    function item() {
+      return cards[active];
+    }
+
+    function closeButton() {
+      return '<button class="close" type="button" data-close aria-label="Close">x</button>';
+    }
+
+    let toastTimer = 0;
+
+    function showToast(message) {
+      if (!toast || !message) return;
+      window.clearTimeout(toastTimer);
+      toast.textContent = message;
+      toast.classList.add("show");
+      toastTimer = window.setTimeout(() => toast.classList.remove("show"), 1300);
+    }
+
+    function hideIntro(message = true) {
+      if (!intro || intro.classList.contains("hidden")) return;
+      intro.classList.add("hidden");
+      if (message) showToast("Demo mode. No real-money transactions.");
+    }
+
+    function signalText(card) {
+      const signals = [
+        `${card.seat} opened at ${card.table}`,
+        `${card.dealer} live now: ${card.game}`,
+        `${card.join} join-rate signal tracking`,
+        `${card.game} round settled by operator wallet`,
+        `Return alert queued for ${card.dealer} followers`
+      ];
+      const index = Math.floor(Date.now() / 4200) % signals.length;
+      return signals[index];
+    }
+
+    function updateSignal() {
+      if (!signalStrip) return;
+      const label = signalStrip.querySelector("span");
+      if (label) label.textContent = signalText(item());
+    }
+
+    function startSignalTimer() {
+      window.clearInterval(signalTimer);
+      updateSignal();
+      signalTimer = window.setInterval(updateSignal, 4200);
+    }
+
+    function demoStates(card) {
+      return gameDemoStates[card.game] || [];
+    }
+
+    function demoStateIndex(card) {
+      return demoStateByCard[card.id] ?? 0;
+    }
+
+    function demoState(card) {
+      return demoStates(card)[demoStateIndex(card)] || demoStates(card)[0];
+    }
+
+    function isLiveRound(card) {
+      return liveRoundByCard[card.id] ?? true;
+    }
+
+    function roundPhases(card) {
+      if (card.game === "Blackjack") {
+        return [
+          { title: "Seat", text: "Bet locked" },
+          { title: "Decision", text: "Player action" },
+          { title: "Settle", text: "Payout" }
+        ];
+      }
+      if (card.game === "Baccarat") {
+        return [
+          { title: "Choose", text: "Side bet" },
+          { title: "Reveal", text: "Cards open" },
+          { title: "Settle", text: "Road update" }
+        ];
+      }
+      return [
+        { title: "Bet", text: "Chips on felt" },
+        { title: "Spin", text: "Wheel live" },
+        { title: "Settle", text: "Result paid" }
+      ];
+    }
+
+    function roundTimerLabel(card, state) {
+      if (state.name === "Betting") return card.gameplayTimer || "Bets open";
+      if (state.name === "Win") return state.badge;
+      if (state.name === "Loss") return state.badge;
+      return "Live round";
+    }
+
+    function liveControlsMarkup(card) {
+      const live = isLiveRound(card);
+      const phaseIndex = demoStateIndex(card);
+      const phases = roundPhases(card);
+      return `
+        <div class="live-control-row">
+          <button class="live-control ${live ? "active" : "primary"}" type="button" data-live-toggle>${live ? "Live auto-round" : "Start live round"}</button>
+          <button class="live-control" type="button" data-live-step>Next phase</button>
+          <button class="live-control" type="button" data-live-reset>Reset</button>
+        </div>
+        <div class="round-timeline">
+          ${phases.map((phase, index) => `
+            <div class="round-step ${index === phaseIndex ? "active" : ""}">
+              <strong>${phase.title}</strong>
+              <span>${phase.text}</span>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function liveDealerCall(card, state) {
+      if (card.game === "Blackjack") {
+        if (state.name === "Betting") return { title: "Dealer waits", text: "Seat is live, decision window open." };
+        if (state.name === "Win") return { title: "Dealer bust", text: "Result settles to operator wallet." };
+        return { title: "Dealer wins", text: "Replay and rebet are available." };
+      }
+      if (card.game === "Baccarat") {
+        if (state.name === "Betting") return { title: "Shoe live", text: "Player side selected, cards ready." };
+        if (state.name === "Win") return { title: "Player wins", text: "Roadmap updates and payout lands." };
+        return { title: "Banker streak", text: "Next decision opens immediately." };
+      }
+      if (state.name === "Betting") return { title: "Bets closing", text: "Chip map is active. Spin starts now." };
+      if (state.name === "Win") return { title: "12 Red hits", text: "Win flashes, payout confirmed." };
+      return { title: "8 Black lands", text: "Loss settles, next spin opens." };
+    }
+
+    function refreshSheet() {
+      if (currentSheetType) {
+        sheetPanel.innerHTML = sheetMarkup(currentSheetType);
+      }
+    }
+
+    function advanceLiveRound(card = item()) {
+      const states = demoStates(card);
+      if (!states.length) return;
+      demoStateByCard[card.id] = (demoStateIndex(card) + 1) % states.length;
+      refreshSheet();
+    }
+
+    function startLiveRoundTimer() {
+      window.clearInterval(liveRoundTimer);
+      liveRoundTimer = window.setInterval(() => {
+        if (!currentSheetType || !["watch", "gameplay"].includes(currentSheetType)) return;
+        const card = item();
+        if (!isLiveRound(card)) return;
+        advanceLiveRound(card);
+      }, 2400);
+    }
+
+    function bannerMarkup(state) {
+      return `
+        <div class="state-banner ${state.tone}">
+          <div><strong>${state.title}</strong><span>${state.text}</span></div>
+          <b>${state.badge}</b>
+        </div>
+      `;
+    }
+
+    function historyMarkup(state) {
+      return `
+        <div class="history-row">
+          ${(state.history || []).map((entry) => `<span class="history-pill ${entry.tone || ""}">${entry.text}</span>`).join("")}
+        </div>
+      `;
+    }
+
+    function statsMarkup(state) {
+      return `
+        <div class="summary-strip">
+          ${(state.stats || []).map((entry) => `<div class="summary-box ${entry.tone || ""}"><strong>${entry.value}</strong><span>${entry.label}</span></div>`).join("")}
+        </div>
+      `;
+    }
+
+    function demoTabsMarkup(card) {
+      return `
+        <div class="demo-tabs">
+          ${demoStates(card).map((state, index) => `<button class="demo-tab ${index === demoStateIndex(card) ? "active" : ""}" type="button" data-demo-state="${index}">${state.name}</button>`).join("")}
+        </div>
+      `;
+    }
+
+    function renderRouletteGameplay(card) {
+      const state = demoState(card);
+      const dealerCall = liveDealerCall(card, state);
+      const numbers = [
+        { n: 1, c: "red" }, { n: 2, c: "black" }, { n: 3, c: "red" },
+        { n: 4, c: "black" }, { n: 5, c: "red" }, { n: 6, c: "black" },
+        { n: 7, c: "red" }, { n: 8, c: "black" }, { n: 9, c: "red" },
+        { n: 10, c: "black" }, { n: 11, c: "black" }, { n: 12, c: "red" }
+      ];
+      const outside = [
+        { key: "red", label: "Red" },
+        { key: "even", label: "Even" },
+        { key: "dozen1", label: "1st 12" },
+        { key: "black", label: "Black" },
+        { key: "high", label: "19-36" },
+        { key: "col3", label: "2 to 1" }
+      ];
+      const track = (state.trackTail || card.rouletteTrack || []).map((value, index) => `<span class="roulette-pill ${(state.trackColors || card.rouletteColors || [])[index] || ""} ${String(state.resultNumber ?? "") === String(value) ? "result" : ""}">${value}</span>`).join("");
+      const grid = numbers.map((entry) => `<div class="roulette-cell ${entry.c} ${(state.selectedNumbers || []).includes(entry.n) ? "chipped" : ""} ${state.resultNumber === entry.n ? "hit" : ""}">${entry.n}</div>`).join("");
+      const outsideGrid = outside.map((entry) => `<div class="outside-cell ${(state.selectedOutside || []).includes(entry.key) ? "chipped" : ""} ${(state.resultOutside || []).includes(entry.key) ? "hit" : ""}">${entry.label}</div>`).join("");
+      return `
+        <div class="game-shell ${isLiveRound(card) ? "live-round" : ""}">
+          <div class="game-head">
+            <div><strong>Roulette gameplay</strong><span>Watch -> choose chips -> place bets -> spin -> repeat</span></div>
+            <div class="game-timer">${roundTimerLabel(card, state)}</div>
+          </div>
+          ${liveControlsMarkup(card)}
+          ${bannerMarkup(state)}
+          ${historyMarkup(state)}
+          ${statsMarkup(state)}
+          <div class="game-canvas">
+            <div class="roulette-live-strip">
+              <div class="wheel-mini ${state.tone}"><span>${state.resultNumber ?? "?"}</span></div>
+              <div class="dealer-call"><strong>${dealerCall.title}</strong><span>${dealerCall.text}</span></div>
+            </div>
+            <div class="roulette-track">${track}</div>
+            <div class="roulette-board">
+              <div class="roulette-zero green ${state.resultNumber === 0 ? "hit" : ""} ${(state.selectedNumbers || []).includes(0) ? "chipped" : ""}">0</div>
+              <div class="roulette-grid">${grid}</div>
+            </div>
+            <div class="outside-grid">${outsideGrid}</div>
+          </div>
+          <div class="game-chip-row">
+            <span class="game-chip">$5</span>
+            <span class="game-chip active">$10</span>
+            <span class="game-chip">$25</span>
+            <span class="game-chip">$100</span>
+            <span class="game-chip">Repeat last</span>
+          </div>
+          ${demoTabsMarkup(card)}
+          <div class="game-flow">
+            <div class="flow-step"><strong>Watch</strong><span>Table moment</span></div>
+            <div class="flow-step"><strong>Bet</strong><span>Inside or outside</span></div>
+            <div class="flow-step"><strong>Spin</strong><span>Wheel result</span></div>
+            <div class="flow-step"><strong>Settle</strong><span>Replay next round</span></div>
+          </div>
+          <p class="game-caption">Roulette flow is about speed and clarity: recent numbers, fast chip selection, visible bet map and immediate replay.</p>
+        </div>
+      `;
+    }
+
+    function renderBlackjackGameplay(card) {
+      const state = demoState(card);
+      const dealerCall = liveDealerCall(card, state);
+      const dealerCards = (state.dealerHand || []).map((entry) => `<div class="playing-card ${entry.back ? "back" : ""}">${entry.back ? "?" : `${entry.rank}<small>${entry.suit}</small>`}</div>`).join("");
+      const playerCards = (state.playerHand || []).map((entry) => `<div class="playing-card">${entry.rank}<small>${entry.suit}</small></div>`).join("");
+      return `
+        <div class="game-shell ${isLiveRound(card) ? "live-round" : ""}">
+          <div class="game-head">
+            <div><strong>Blackjack gameplay</strong><span>Join seat -> receive cards -> decide -> settle hand</span></div>
+            <div class="game-timer">${roundTimerLabel(card, state)}</div>
+          </div>
+          ${liveControlsMarkup(card)}
+          ${bannerMarkup(state)}
+          ${historyMarkup(state)}
+          ${statsMarkup(state)}
+          <div class="game-canvas">
+            <div class="blackjack-zone">
+              <div class="dealer-call"><strong>${dealerCall.title}</strong><span>${dealerCall.text}</span></div>
+              <div class="hand-meta"><b>Dealer</b><span>${state.dealerNote}</span></div>
+              <div class="playing-hand">${dealerCards}</div>
+              <div class="table-separator">Your seat</div>
+              <div class="hand-meta"><b>${state.playerNote}</b><span>$75 main bet</span></div>
+              <div class="playing-hand">${playerCards}</div>
+              <div class="decision-row">
+                <div class="decision-pill ${state.action === "Hit" ? "active locked" : ""}">Hit</div>
+                <div class="decision-pill ${state.action === "Stand" ? "active locked" : ""}">Stand</div>
+                <div class="decision-pill">Double</div>
+                <div class="decision-pill">Split</div>
+              </div>
+            </div>
+          </div>
+          <div class="game-chip-row">
+            <span class="game-chip">$25</span>
+            <span class="game-chip active">$50</span>
+            <span class="game-chip">$75</span>
+            <span class="game-chip">$100</span>
+            <span class="game-chip">Side bet</span>
+          </div>
+          ${demoTabsMarkup(card)}
+          <div class="game-flow">
+            <div class="flow-step"><strong>Sit</strong><span>Open seat</span></div>
+            <div class="flow-step"><strong>Deal</strong><span>Cards received</span></div>
+            <div class="flow-step"><strong>Act</strong><span>Hit or stand</span></div>
+            <div class="flow-step"><strong>Settle</strong><span>Hand resolved</span></div>
+          </div>
+          <p class="game-caption">Blackjack flow shows decision depth: seat entry, clear hand state, action buttons and fast operator-side settlement.</p>
+        </div>
+      `;
+    }
+
+    function renderBaccaratGameplay(card) {
+      const state = demoState(card);
+      const dealerCall = liveDealerCall(card, state);
+      const road = [...(card.baccaratRoad || []), ...(state.recentRoad ? [state.recentRoad] : [])]
+        .slice(-12)
+        .map((entry, index, array) => `<div class="road-dot ${entry} ${index === array.length - 1 && state.recentRoad ? "recent" : ""}"></div>`)
+        .join("");
+      return `
+        <div class="game-shell ${isLiveRound(card) ? "live-round" : ""}">
+          <div class="game-head">
+            <div><strong>Baccarat gameplay</strong><span>Read trend -> choose side -> reveal cards -> settle</span></div>
+            <div class="game-timer">${roundTimerLabel(card, state)}</div>
+          </div>
+          ${liveControlsMarkup(card)}
+          ${bannerMarkup(state)}
+          ${historyMarkup(state)}
+          ${statsMarkup(state)}
+          <div class="game-canvas">
+            <div class="dealer-call"><strong>${dealerCall.title}</strong><span>${dealerCall.text}</span></div>
+            <div class="baccarat-scores">
+              <div class="baccarat-score player ${state.selectedBet === "player" || state.recentRoad === "player" ? "active" : ""}"><strong>Player</strong><span>1:1 payout</span><small>Score ${state.scores.player}</small></div>
+              <div class="baccarat-score tie ${state.recentRoad === "tie" ? "active" : ""}"><strong>Tie</strong><span>8:1 payout</span><small>Score ${state.scores.tie}</small></div>
+              <div class="baccarat-score banker ${state.selectedBet === "banker" || state.recentRoad === "banker" ? "active" : ""}"><strong>Banker</strong><span>0.95:1</span><small>Score ${state.scores.banker}</small></div>
+            </div>
+            <div class="road-grid">${road}</div>
+          </div>
+          <div class="game-chip-row">
+            <span class="game-chip ${state.selectedBet === "player" ? "active" : ""}">Player</span>
+            <span class="game-chip ${state.selectedBet === "banker" ? "active" : ""}">Banker</span>
+            <span class="game-chip ${state.selectedBet === "tie" ? "active" : ""}">Tie</span>
+            <span class="game-chip">$25</span>
+            <span class="game-chip">$100</span>
+          </div>
+          ${demoTabsMarkup(card)}
+          <div class="game-flow">
+            <div class="flow-step"><strong>Read</strong><span>Roadmap trend</span></div>
+            <div class="flow-step"><strong>Choose</strong><span>Player / banker</span></div>
+            <div class="flow-step"><strong>Reveal</strong><span>Cards open</span></div>
+            <div class="flow-step"><strong>Settle</strong><span>Next shoe state</span></div>
+          </div>
+          <p class="game-caption">Baccarat flow centers on trend reading, side selection and quick repeat betting based on table rhythm.</p>
+        </div>
+      `;
+    }
+
+    function gameplayMarkup(card) {
+      if (card.game === "Blackjack") return renderBlackjackGameplay(card);
+      if (card.game === "Baccarat") return renderBaccaratGameplay(card);
+      return renderRouletteGameplay(card);
+    }
+
+    function render() {
+      stories.innerHTML = cards.map((card, index) => `
+        <button class="story ${index === active ? "active" : ""}" type="button" data-index="${index}" aria-label="${card.dealer}">
+          <span class="avatar-ring"><img src="${card.image}" alt="${card.dealer} dealer avatar" /></span>
+          <span>${card.dealer}</span>
+        </button>
+      `).join("");
+
+      progress.innerHTML = cards.map((_, index) => `<i class="${index === active ? "active" : ""}"></i>`).join("");
+
+      feed.innerHTML = cards.map((card, index) => `
+        <article class="live-card" data-index="${index}">
+          <img src="${card.image}" alt="${card.dealer} live dealer screen" />
+          <div class="casino-ambience"><span></span></div>
+          <div class="live-badge"><i></i>LIVE</div>
+          <div class="table-state">${card.operator}</div>
+          <div class="copy">
+            <div class="meta-row">
+              <span class="pill gold">${card.game}</span>
+              <span class="pill teal">${card.watching} watching</span>
+              <span class="pill">${card.seat}</span>
+            </div>
+            <h2>${card.title}</h2>
+            <p>${card.caption}</p>
+            <div class="market-line">
+              <div class="mini-stat"><strong>${card.stakes}</strong><span>stakes</span></div>
+              <div class="mini-stat"><strong>${card.state}</strong><span>table</span></div>
+              <div class="mini-stat"><strong>${card.trend}</strong><span>trend</span></div>
+            </div>
+            <div class="cta-row">
+              <button class="btn" type="button" data-sheet="watch">Watch table</button>
+              <button class="btn secondary" type="button" data-sheet="gameplay">Gameplay</button>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="action" type="button" data-action="like" aria-label="Like"><span>${iconHeart}</span><small>Like</small></button>
+            <button class="action" type="button" data-action="follow" aria-label="Follow"><span>${iconUser}</span><small>Follow</small></button>
+            <button class="action" type="button" data-action="save" aria-label="Save"><span>${iconSave}</span><small>Save</small></button>
+            <button class="action" type="button" data-action="share" aria-label="Share"><span>${iconShare}</span><small>Share</small></button>
+          </div>
+        </article>
+      `).join("");
+
+      syncSide();
+    }
+
+    function syncSide() {
+      const card = item();
+      document.getElementById("activeTitle").textContent = card.title;
+      document.getElementById("activeRead").textContent = card.read;
+      document.getElementById("kpiWatch").textContent = card.watching;
+      document.getElementById("kpiJoin").textContent = card.join;
+      document.getElementById("kpiArpu").textContent = card.arpu;
+      stories.querySelectorAll(".story").forEach((story, index) => story.classList.toggle("active", index === active));
+      progress.querySelectorAll("i").forEach((dot, index) => dot.classList.toggle("active", index === active));
+    }
+
+    function goTo(index) {
+      active = (index + cards.length) % cards.length;
+      const target = feed.querySelector(`[data-index="${active}"]`);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      syncSide();
+      updateSignal();
+      if (currentSheetType) openSheet(currentSheetType);
+    }
+
+    function sheetMarkup(type) {
+      const card = item();
+      if (type === "profile") {
+        return `
+          <div class="sheet-head">
+            <div class="sheet-title"><span class="pill gold">Dealer</span><h3>${card.dealer}</h3></div>
+            ${closeButton()}
+          </div>
+          <div class="hero-preview" style="background-image:url('${card.image}')"></div>
+          <div class="row-grid">
+            <div class="metric"><strong>${card.follows}</strong><span>followers</span></div>
+            <div class="metric"><strong>${card.watching}</strong><span>watching</span></div>
+            <div class="metric"><strong>${card.join}</strong><span>join rate</span></div>
+          </div>
+          <div class="list">
+            <div class="list-row"><b>Now live</b><span>${card.table}</span></div>
+            <div class="list-row"><b>Operator</b><span>${card.operator}</span></div>
+            <div class="list-row"><b>Return trigger</b><span>${card.game} alert</span></div>
+          </div>
+          <div class="sheet-actions">
+            <button class="btn" type="button" data-action="follow">Follow dealer</button>
+            <button class="btn secondary" type="button" data-sheet="watch">Watch table</button>
+          </div>
+        `;
+      }
+
+      if (type === "handoff") {
+        return `
+          <div class="sheet-head">
+            <div class="sheet-title"><span class="pill teal">Operator entry</span><h3>${card.operator}</h3></div>
+            ${closeButton()}
+          </div>
+          <div class="list">
+            <div class="list-row"><b>Account</b><span>Operator login</span></div>
+            <div class="list-row"><b>KYC / AML</b><span>Operator controlled</span></div>
+            <div class="list-row"><b>Wallet</b><span>Operator balance</span></div>
+            <div class="list-row"><b>Attribution</b><span>LC App session ID</span></div>
+            <div class="list-row"><b>Table</b><span>${card.table}</span></div>
+          </div>
+          <div class="operator-status">
+            <div>Login ready</div>
+            <div>KYC checked</div>
+            <div>Wallet linked</div>
+          </div>
+          <div class="operator-stack">
+            <div class="operator-card"><strong>Operator-owned cashier</strong><span>LC App passes the player intent and session context, not deposits or withdrawals.</span></div>
+            <div class="operator-card"><strong>Regulated settlement</strong><span>Bet acceptance, win/loss settlement and audit records remain inside the licensed operator environment.</span></div>
+            <div class="operator-card"><strong>Attribution for revenue share</strong><span>The handoff carries LC session ID, dealer source and campaign tag for pilot reporting.</span></div>
+          </div>
+          <div class="demo-disclaimer">Investor demo only. No real-money transactions are processed inside this prototype.</div>
+          <div class="row-grid">
+            <div class="metric"><strong>${card.join}</strong><span>join rate</span></div>
+            <div class="metric"><strong>${card.stakes}</strong><span>stakes</span></div>
+            <div class="metric"><strong>${card.trend}</strong><span>trend</span></div>
+          </div>
+          <div class="sheet-actions">
+            <button class="btn" type="button" data-sheet="insights">View pilot proof</button>
+            <button class="btn secondary" type="button" data-sheet="watch">Back</button>
+          </div>
+        `;
+      }
+
+      if (type === "gameplay") {
+        return `
+          <div class="sheet-head">
+            <div class="sheet-title"><span class="pill gold">Gameplay</span><h3>${card.game} table flow</h3></div>
+            ${closeButton()}
+          </div>
+          ${gameplayMarkup(card)}
+          <div class="sheet-actions">
+            <button class="btn" type="button" data-sheet="handoff">Open operator table</button>
+            <button class="btn secondary" type="button" data-sheet="watch">Back to watch</button>
+          </div>
+        `;
+      }
+
+      if (type === "search") {
+        return `
+          <div class="sheet-head">
+            <div class="sheet-title"><span class="pill">Explore</span><h3>Live now</h3></div>
+            ${closeButton()}
+          </div>
+          <div class="list">
+            <div class="list-row"><b>Roulette</b><span>12 live tables</span></div>
+            <div class="list-row"><b>Blackjack</b><span>8 live tables</span></div>
+            <div class="list-row"><b>Baccarat</b><span>6 live tables</span></div>
+            <div class="list-row"><b>Low minimums</b><span>from $5</span></div>
+            <div class="list-row"><b>VIP rooms</b><span>verified only</span></div>
+          </div>
+        `;
+      }
+
+      if (type === "alerts") {
+        return `
+          <div class="sheet-head">
+            <div class="sheet-title"><span class="pill gold">Alerts</span><h3>Return loop</h3></div>
+            ${closeButton()}
+          </div>
+          <div class="list">
+            <div class="list-row"><b>${card.dealer} is live</b><span>${card.table}</span></div>
+            <div class="list-row"><b>Seat opened</b><span>${card.seat}</span></div>
+            <div class="list-row"><b>Table trend</b><span>${card.state}</span></div>
+            <div class="list-row"><b>Operator promo</b><span>${card.operator}</span></div>
+          </div>
+        `;
+      }
+
+      if (type === "insights") {
+        return `
+          <div class="sheet-head">
+            <div class="sheet-title"><span class="pill teal">Pilot</span><h3>Operator proof</h3></div>
+            ${closeButton()}
+          </div>
+          <div class="row-grid">
+            <div class="metric"><strong>${card.watching}</strong><span>watchers</span></div>
+            <div class="metric"><strong>${card.join}</strong><span>join</span></div>
+            <div class="metric"><strong>${card.trend}</strong><span>lift</span></div>
+          </div>
+          <div class="list">
+            <div class="list-row"><b>Top surface</b><span>Feed card</span></div>
+            <div class="list-row"><b>Best signal</b><span>Dealer follow</span></div>
+            <div class="list-row"><b>Revenue path</b><span>Module + rev-share</span></div>
+            <div class="list-row"><b>Compliance</b><span>Licensed operator</span></div>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="sheet-head">
+          <div class="sheet-title"><span class="pill teal">Watch</span><h3>${card.table}</h3></div>
+          ${closeButton()}
+        </div>
+        <div class="hero-preview" style="background-image:url('${card.image}')"></div>
+        <div class="row-grid">
+          <div class="metric"><strong>${card.watching}</strong><span>watching</span></div>
+          <div class="metric"><strong>${card.stakes}</strong><span>stakes</span></div>
+          <div class="metric"><strong>${card.seat}</strong><span>open</span></div>
+        </div>
+        <div class="list">
+          <div class="list-row"><b>Table state</b><span>${card.state}</span></div>
+          <div class="list-row"><b>Dealer</b><span>${card.dealer}</span></div>
+          <div class="list-row"><b>Operator</b><span>${card.operator}</span></div>
+        </div>
+        ${gameplayMarkup(card)}
+        <div class="sheet-actions">
+          <button class="btn" type="button" data-sheet="handoff">Play via operator</button>
+          <button class="btn secondary" type="button" data-sheet="profile">Dealer</button>
+          <button class="btn secondary" type="button" data-sheet="gameplay">Gameplay</button>
+        </div>
+      `;
+    }
+
+    function openSheet(type) {
+      currentSheetType = type;
+      sheetPanel.innerHTML = sheetMarkup(type);
+      sheet.classList.add("open");
+      sheet.setAttribute("aria-hidden", "false");
+      if (["watch", "gameplay"].includes(type)) startLiveRoundTimer();
+      const labels = {
+        watch: "Watch mode opened",
+        gameplay: "Gameplay flow opened",
+        profile: "Dealer profile opened",
+        handoff: "Operator handoff opened",
+        insights: "Pilot proof opened",
+        search: "Explore opened",
+        alerts: "Alerts opened"
+      };
+      showToast(labels[type]);
+    }
+
+    function closeSheet() {
+      currentSheetType = null;
+      sheet.classList.remove("open");
+      sheet.setAttribute("aria-hidden", "true");
+    }
+
+    render();
+
+    let timer = 0;
+    feed.addEventListener("scroll", () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        active = Math.max(0, Math.min(cards.length - 1, Math.round(feed.scrollTop / feed.clientHeight)));
+        syncSide();
+        if (currentSheetType) openSheet(currentSheetType);
+      }, 60);
+    });
+
+    stories.addEventListener("click", (event) => {
+      const story = event.target.closest(".story");
+      if (story) goTo(Number(story.dataset.index));
+    });
+
+    document.addEventListener("click", (event) => {
+      const open = event.target.closest("[data-sheet]");
+      const close = event.target.closest("[data-close]");
+      const action = event.target.closest(".action");
+      const nav = event.target.closest(".nav");
+      const tab = event.target.closest(".tab");
+      const demo = event.target.closest("[data-demo-state]");
+      const anyAction = event.target.closest("[data-action]");
+      const liveToggle = event.target.closest("[data-live-toggle]");
+      const liveStep = event.target.closest("[data-live-step]");
+      const liveReset = event.target.closest("[data-live-reset]");
+      const introStart = event.target.closest("[data-intro-start]");
+      const introClose = event.target.closest("[data-intro-close]");
+
+      if (introStart || introClose) hideIntro(Boolean(introStart));
+      if (open) openSheet(open.dataset.sheet);
+      if (close) closeSheet();
+      if (liveToggle) {
+        const card = item();
+        liveRoundByCard[card.id] = !isLiveRound(card);
+        if (isLiveRound(card)) startLiveRoundTimer();
+        showToast(isLiveRound(card) ? "Live round running" : "Live round paused");
+        refreshSheet();
+      }
+      if (liveStep) {
+        const card = item();
+        liveRoundByCard[card.id] = false;
+        advanceLiveRound(card);
+        showToast("Next gameplay phase");
+      }
+      if (liveReset) {
+        const card = item();
+        demoStateByCard[card.id] = 0;
+        liveRoundByCard[card.id] = true;
+        startLiveRoundTimer();
+        refreshSheet();
+        showToast("Round restarted");
+      }
+      if (action) action.classList.toggle("active");
+      if (anyAction) {
+        const messages = {
+          like: "Added to favorites",
+          follow: `${item().dealer} followed`,
+          save: "Saved for later",
+          share: "Demo share action"
+        };
+        showToast(messages[anyAction.dataset.action]);
+      }
+      if (demo) {
+        liveRoundByCard[item().id] = false;
+        demoStateByCard[item().id] = Number(demo.dataset.demoState);
+        refreshSheet();
+      }
+      if (nav) {
+        document.querySelectorAll(".nav").forEach((item) => item.classList.remove("active"));
+        nav.classList.add("active");
+        if (nav.dataset.nav === "home") {
+          closeSheet();
+          showToast("Home feed");
+        }
+      }
+      if (tab) {
+        document.querySelectorAll(".tab").forEach((item) => item.classList.remove("active"));
+        tab.classList.add("active");
+        showToast(`${tab.textContent.trim()} feed`);
+      }
+    });
+
+    sheet.addEventListener("click", (event) => {
+      if (event.target === sheet) closeSheet();
+    });
+
+    document.getElementById("nextCard").addEventListener("click", () => goTo(active + 1));
+    startLiveRoundTimer();
+    startSignalTimer();
+    window.setTimeout(() => hideIntro(false), 3600);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowDown") goTo(active + 1);
+      if (event.key === "ArrowUp") goTo(active - 1);
+      if (event.key === "Escape") closeSheet();
+    });
+
+    if ("serviceWorker" in navigator && location.protocol !== "file:") {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js").catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
