@@ -1,26 +1,13 @@
-<<<<<<< HEAD
-self.addEventListener("install", (event) => {
-  event.waitUntil(self.skipWaiting());
-});
-
-self.addEventListener("activate", (event) => {
-  event.waitUntil((async () => {
-    const keys = await caches.keys();
-    await Promise.all(keys.map((key) => caches.delete(key)));
-    await self.clients.claim();
-    await self.registration.unregister();
-    const clients = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
-    await Promise.all(clients.map((client) => client.navigate(client.url)));
-  })());
-=======
-const CACHE_NAME = "lc-app-investor-demo-v3";
+const CACHE_NAME = "lc-app-investor-demo-v24";
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
+  "./?app=1",
   "./02_OPEN_STATIC_PREVIEW.html",
   "./manifest.webmanifest",
   "./app-icon.svg",
+  "./app-icon-512.png",
   "./app_prototype_assets/dealers/dealer_mia_avatar_v1.jpg",
   "./app_prototype_assets/dealers/dealer_sofia_avatar_v1.jpg",
   "./app_prototype_assets/dealers/dealer_marcus_avatar_v1.jpg",
@@ -69,5 +56,4 @@ self.addEventListener("fetch", (event) => {
       });
     })
   );
->>>>>>> 1b1dbdf (Initial LC App investor demo)
 });
