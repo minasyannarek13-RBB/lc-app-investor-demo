@@ -1,11 +1,13 @@
-const CACHE_NAME = "lc-app-investor-demo-v22";
+const CACHE_NAME = "lc-app-investor-demo-v23";
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
+  "./?app=1",
   "./02_OPEN_STATIC_PREVIEW.html",
   "./manifest.webmanifest",
   "./app-icon.svg",
+  "./app-icon-512.png",
   "./app_prototype_assets/dealers/dealer_mia_avatar_v1.jpg",
   "./app_prototype_assets/dealers/dealer_sofia_avatar_v1.jpg",
   "./app_prototype_assets/dealers/dealer_marcus_avatar_v1.jpg",
