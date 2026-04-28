@@ -9,9 +9,6 @@
   <meta name="apple-mobile-web-app-title" content="LC App" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="format-detection" content="telephone=no" />
-  <link rel="manifest" href="./manifest.webmanifest" />
-  <link rel="icon" href="./app-icon-512.png" sizes="512x512" type="image/png" />
-  <link rel="apple-touch-icon" href="./app-icon-512.png" />
   <title>LC App Investor Demo</title>
   <script>
     (() => {
@@ -118,6 +115,12 @@
 
     button {
       -webkit-tap-highlight-color: transparent;
+    }
+
+    button:focus,
+    button:focus-visible {
+      outline: none;
+      box-shadow: none;
     }
 
     .stage {
@@ -1066,7 +1069,7 @@
       top: 56px;
       right: 12px;
       z-index: 71;
-      width: 212px;
+      width: 228px;
       padding: 10px;
       border: 1px solid rgba(255, 255, 255, .12);
       border-radius: 18px;
@@ -1125,6 +1128,12 @@
       font-weight: 900;
       cursor: pointer;
       white-space: nowrap;
+      text-align: center;
+    }
+
+    .home-menu-btn .inline-icon {
+      width: 12px;
+      height: 12px;
     }
 
     .home-menu-btn.primary {
@@ -1287,23 +1296,6 @@
       color: var(--gold2);
     }
 
-    .screen.clean-view .app-top,
-    .screen.clean-view .copy,
-    .screen.clean-view .live-badge,
-    .screen.clean-view .table-state,
-    .screen.clean-view .bottom-nav,
-    .screen.clean-view .progress,
-    .screen.clean-view .dealer-rail-drawer,
-    .screen.clean-view .home-drawer {
-      opacity: 0 !important;
-      pointer-events: none !important;
-      transform: translateY(10px);
-    }
-
-    .screen.clean-view .live-card > img {
-      transform: scale(1.18);
-    }
-
     .sheet {
       position: absolute;
       inset: 0;
@@ -1412,7 +1404,7 @@
     }
 
     .watch-hero {
-      height: 196px;
+      height: 204px;
     }
 
     .watch-hero::after {
@@ -1425,7 +1417,7 @@
       position: absolute;
       inset: 0;
       z-index: 1;
-      padding: 12px;
+      padding: 13px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -2073,7 +2065,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 4px;
-      max-width: calc(100% - 108px);
+      max-width: calc(100% - 92px);
     }
 
     .gameplay-stage-meta .pill,
@@ -2101,7 +2093,7 @@
     .gameplay-stage-actions {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       flex: 0 0 auto;
     }
 
@@ -2184,7 +2176,7 @@
       display: grid;
       gap: 5px;
       justify-items: center;
-      padding: 0 10px calc(8px + env(safe-area-inset-bottom));
+      padding: 0 10px calc(10px + env(safe-area-inset-bottom));
     }
 
     .gameplay-stage-focus {
@@ -2315,15 +2307,15 @@
       position: absolute;
       left: 14px;
       right: 14px;
-      top: 92px;
+      top: 122px;
       display: grid;
       gap: 8px;
       pointer-events: none;
     }
 
     .stream-layer-shell {
-      width: min(248px, calc(100% - 72px));
-      padding: 8px 9px;
+      width: min(224px, calc(100% - 96px));
+      padding: 7px 8px;
       border: 1px solid rgba(255, 255, 255, .14);
       border-radius: 16px;
       background:
@@ -2376,7 +2368,7 @@
     .stream-layer-headline {
       margin-top: 6px;
       color: var(--text);
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 950;
       line-height: 1.15;
       text-shadow: 0 10px 24px rgba(0, 0, 0, .52);
@@ -2385,12 +2377,12 @@
     .stream-layer-note {
       margin-top: 5px;
       color: rgba(255, 255, 255, .7);
-      font-size: 9px;
+      font-size: 8px;
       line-height: 1.32;
     }
 
     .stream-layer-shell.intro {
-      width: min(320px, calc(100% - 40px));
+      width: min(272px, calc(100% - 58px));
       border-color: rgba(255, 227, 154, .24);
       background:
         linear-gradient(180deg, rgba(41, 22, 12, .52), rgba(10, 12, 17, .84)),
@@ -2403,8 +2395,8 @@
     .stream-microstate-strip {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 10px;
+      gap: 5px;
+      margin-top: 8px;
     }
 
     .stream-room-tags span,
@@ -3054,7 +3046,7 @@
       display: grid;
       gap: 5px;
       justify-items: center;
-      width: min(292px, 100%);
+      width: min(304px, 100%);
     }
 
     .gameplay-action-tray {
@@ -3062,7 +3054,7 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 5px;
-      width: min(292px, 100%);
+      width: min(304px, 100%);
     }
 
     .gameplay-overlay-hud .game-chip {
@@ -3072,6 +3064,12 @@
       background: rgba(4, 5, 6, .12);
       backdrop-filter: blur(12px);
       font-size: 8px;
+    }
+
+    .game-chip .inline-icon {
+      width: 11px;
+      height: 11px;
+      color: currentColor;
     }
 
     .gameplay-road-inline {
@@ -5191,19 +5189,7 @@
             <strong id="homeDrawerTitle">Mia · Roulette Royale</strong>
             <span id="homeDrawerMeta">Roulette · $10-$500 · EN</span>
           </div>
-          <div class="home-drawer-grid">
-            <button class="home-menu-btn primary" type="button" data-sheet="gameplay">Play</button>
-            <button class="home-menu-btn" type="button" data-sheet="watch">Watch</button>
-            <button class="home-menu-btn" type="button" data-sheet="profile">Dealer</button>
-            <button class="home-menu-btn" type="button" data-sheet="account">Account</button>
-            <button class="home-menu-btn" type="button" data-sheet="history">History</button>
-            <button class="home-menu-btn" type="button" data-sheet="wallet">Wallet</button>
-            <button class="home-menu-btn" type="button" data-sheet="roles">Roles</button>
-            <button class="home-menu-btn" type="button" data-sheet="tips">Tips</button>
-            <button class="home-menu-btn" type="button" data-sheet="compliance">Access</button>
-            <button class="home-menu-btn" type="button" data-sheet="insights">Proof</button>
-            <button class="home-menu-btn" type="button" data-sheet="search">Explore</button>
-          </div>
+          <div class="home-drawer-grid" id="homeDrawerGrid"></div>
         </div>
 
         <div class="tabs" aria-label="Feed tabs">
@@ -5638,6 +5624,7 @@
     const stories = document.getElementById("stories");
     const dealerRailDrawer = document.getElementById("dealerRailDrawer");
     const homeDrawer = document.getElementById("homeDrawer");
+    const homeDrawerGrid = document.getElementById("homeDrawerGrid");
     const homeDrawerTitle = document.getElementById("homeDrawerTitle");
     const homeDrawerMeta = document.getElementById("homeDrawerMeta");
     const progress = document.getElementById("progress");
@@ -5870,8 +5857,6 @@
     let dealerRailOpen = false;
     let dealerRailTimer = 0;
     let homeMenuOpen = false;
-    let cleanViewTimer = 0;
-
     function item() {
       return cards[active];
     }
@@ -5903,6 +5888,7 @@
         info: '<svg class="inline-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 10v6"></path><path d="M12 7h.01"></path></svg>',
         stats: '<svg class="inline-icon" viewBox="0 0 24 24"><path d="M5 19V9"></path><path d="M12 19V5"></path><path d="M19 19v-7"></path></svg>',
         shield: '<svg class="inline-icon" viewBox="0 0 24 24"><path d="M12 3 5 6v6c0 5 3.4 8.3 7 9 3.6-.7 7-4 7-9V6z"></path></svg>',
+        search: '<svg class="inline-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>',
         close: '<svg class="inline-icon" viewBox="0 0 24 24"><path d="m6 6 12 12"></path><path d="M18 6 6 18"></path></svg>'
       };
       return icons[name] || "";
@@ -5982,12 +5968,28 @@
       }
     }
 
-    function setCleanView(active, duration = 0) {
-      screen.classList.toggle("clean-view", Boolean(active));
-      window.clearTimeout(cleanViewTimer);
-      if (active && duration > 0) {
-        cleanViewTimer = window.setTimeout(() => screen.classList.remove("clean-view"), duration);
-      }
+    function setCleanView() {
+      screen.classList.remove("clean-view");
+    }
+
+    function homeMenuMarkup() {
+      const items = [
+        { iconName: "play", label: "Play", sheet: "gameplay", className: "primary" },
+        { iconName: "watch", label: "Watch", sheet: "watch" },
+        { iconName: "profile", label: "Dealer", sheet: "profile" },
+        { iconName: "wallet", label: "Account", sheet: "account" },
+        { iconName: "wallet", label: "Wallet", sheet: "wallet" },
+        { iconName: "history", label: "History", sheet: "history" },
+        { iconName: "chat", label: "Message", sheet: "message" },
+        { iconName: "tip", label: "Tips", sheet: "tips" },
+        { iconName: "stats", label: "Stats", sheet: "stats" },
+        { iconName: "profile", label: "Roles", sheet: "roles" },
+        { iconName: "shield", label: "Access", sheet: "compliance" },
+        { iconName: "search", label: "Explore", sheet: "search" }
+      ];
+      return items.map((entry) => (
+        `<button class="home-menu-btn ${entry.className || ""}" type="button" data-sheet="${entry.sheet}">${icon(entry.iconName)}<span>${entry.label}</span></button>`
+      )).join("");
     }
 
     function rouletteSelectionLabels(memory) {
@@ -6436,6 +6438,7 @@
         homeDrawer.setAttribute("aria-hidden", homeMenuOpen ? "false" : "true");
       }
       const card = item();
+      if (homeDrawerGrid) homeDrawerGrid.innerHTML = homeMenuMarkup();
       if (homeDrawerTitle) homeDrawerTitle.textContent = `${card.dealer} · ${card.table}`;
       if (homeDrawerMeta) homeDrawerMeta.textContent = `${card.game} · ${card.stakes} · ${card.language}`;
     }
@@ -6522,7 +6525,7 @@
         .map((tag, index) => `<span class="${index === 0 ? "live" : ""}">${tag}</span>`)
         .join("");
       return `
-        <div class="gameplay-stream-layer ${camera.activeShot.key === "reveal" ? "align-right" : ""}">
+        <div class="gameplay-stream-layer align-right">
           <div class="stream-layer-shell intro">
             <div class="stream-layer-kicker"><span>${intro.source === "watch" ? "Back in room" : "Opening room"}</span><b>${card.dealer}</b></div>
             <div class="stream-room-tags">${tags}</div>
@@ -6662,7 +6665,7 @@
         <div class="game-chip-row">
           ${items.map((entry) => {
             const item = typeof entry === "string" ? { label: entry } : entry;
-            return `<button class="game-chip ${item.active ? "active" : ""}" type="button" ${dataAttrs(item.dataset)} data-tap-feedback>${item.label}</button>`;
+            return `<button class="game-chip ${item.active ? "active" : ""}" type="button" ${dataAttrs(item.dataset)} data-tap-feedback>${item.iconName ? icon(item.iconName) : ""}${item.label}</button>`;
           }).join("")}
         </div>
       `;
@@ -6889,7 +6892,6 @@
               </div>
               <div class="gameplay-stage-actions">
                 <button class="gameplay-icon-btn" type="button" data-game-chat data-tap-feedback aria-label="Live chat">${icon("chat")}</button>
-                <button class="gameplay-icon-btn" type="button" data-clean-view data-tap-feedback aria-label="Clean view">${icon("expand")}</button>
                 <button class="gameplay-icon-btn" type="button" data-game-menu data-tap-feedback aria-label="Table menu">${icon("menu")}</button>
                 ${closeButton()}
               </div>
@@ -7039,10 +7041,10 @@
           <div class="gameplay-menu-section">
             <strong>Windows</strong>
             ${gameChipMarkup([
-              { label: "Stats", dataset: { sheet: "stats" } },
-              { label: "Info", dataset: { sheet: "info" } },
-              { label: "Tip", dataset: { sheet: "tips" } },
-              { label: "Account", dataset: { sheet: "account" } }
+              { iconName: "stats", label: "Stats", dataset: { sheet: "stats" } },
+              { iconName: "info", label: "Info", dataset: { sheet: "info" } },
+              { iconName: "tip", label: "Tip", dataset: { sheet: "tips" } },
+              { iconName: "wallet", label: "Account", dataset: { sheet: "account" } }
             ])}
           </div>
           <div class="gameplay-menu-actions">
@@ -7068,10 +7070,10 @@
             <div class="gameplay-action-tray">${quickPickMarkup}</div>
             <div class="gameplay-action-tray">
               ${gameChipMarkup([
-                { label: "Board", dataset: { sheet: "roulette-board" } },
-                { label: "Stats", dataset: { sheet: "stats" } },
-                { label: "Info", dataset: { sheet: "info" } },
-                { label: "Tip", dataset: { sheet: "tips" } }
+                { iconName: "play", label: "Board", dataset: { sheet: "roulette-board" } },
+                { iconName: "stats", label: "Stats", dataset: { sheet: "stats" } },
+                { iconName: "info", label: "Info", dataset: { sheet: "info" } },
+                { iconName: "tip", label: "Tip", dataset: { sheet: "tips" } }
               ])}
             </div>
         </div>
@@ -7132,10 +7134,10 @@
           <div class="gameplay-menu-section">
             <strong>Windows</strong>
             ${gameChipMarkup([
-              { label: "Stats", dataset: { sheet: "stats" } },
-              { label: "Info", dataset: { sheet: "info" } },
-              { label: "Tip", dataset: { sheet: "tips" } },
-              { label: "Account", dataset: { sheet: "account" } }
+              { iconName: "stats", label: "Stats", dataset: { sheet: "stats" } },
+              { iconName: "info", label: "Info", dataset: { sheet: "info" } },
+              { iconName: "tip", label: "Tip", dataset: { sheet: "tips" } },
+              { iconName: "wallet", label: "Account", dataset: { sheet: "account" } }
             ])}
           </div>
           <div class="gameplay-menu-actions">
@@ -7170,9 +7172,9 @@
           </div>
           <div class="gameplay-action-tray">
             ${gameChipMarkup([
-              { label: "Stats", dataset: { sheet: "stats" } },
-              { label: "Info", dataset: { sheet: "info" } },
-              { label: "Tip", dataset: { sheet: "tips" } }
+              { iconName: "stats", label: "Stats", dataset: { sheet: "stats" } },
+              { iconName: "info", label: "Info", dataset: { sheet: "info" } },
+              { iconName: "tip", label: "Tip", dataset: { sheet: "tips" } }
             ])}
           </div>
         </div>
@@ -7224,10 +7226,10 @@
           <div class="gameplay-menu-section">
             <strong>Windows</strong>
             ${gameChipMarkup([
-              { label: "Stats", dataset: { sheet: "stats" } },
-              { label: "Info", dataset: { sheet: "info" } },
-              { label: "Tip", dataset: { sheet: "tips" } },
-              { label: "Account", dataset: { sheet: "account" } }
+              { iconName: "stats", label: "Stats", dataset: { sheet: "stats" } },
+              { iconName: "info", label: "Info", dataset: { sheet: "info" } },
+              { iconName: "tip", label: "Tip", dataset: { sheet: "tips" } },
+              { iconName: "wallet", label: "Account", dataset: { sheet: "account" } }
             ])}
           </div>
           <div class="gameplay-menu-actions">
@@ -7255,9 +7257,9 @@
           </div>
           <div class="gameplay-action-tray">
             ${gameChipMarkup([
-              { label: "Stats", dataset: { sheet: "stats" } },
-              { label: "Info", dataset: { sheet: "info" } },
-              { label: "Tip", dataset: { sheet: "tips" } }
+              { iconName: "stats", label: "Stats", dataset: { sheet: "stats" } },
+              { iconName: "info", label: "Info", dataset: { sheet: "info" } },
+              { iconName: "tip", label: "Tip", dataset: { sheet: "tips" } }
             ])}
           </div>
         </div>
@@ -7562,7 +7564,7 @@
             ${compactListRow("lang", "language", card.language)}
             ${compactListRow("limit", "limits", card.stakes)}
             ${compactListRow("tip", "tips", "Available")}
-            ${compactListRow("expand", "clean view", "Tap empty video")}
+            ${compactListRow("seat", "open seats", card.seat)}
           </div>
         `;
       }
@@ -7837,7 +7839,6 @@
       const liveToggle = event.target.closest("[data-live-toggle]");
       const liveStep = event.target.closest("[data-live-step]");
       const liveReset = event.target.closest("[data-live-reset]");
-      const cleanToggle = event.target.closest("[data-clean-view]");
       const betChip = event.target.closest("[data-bet-chip]");
       const rouletteBet = event.target.closest("[data-roulette-bet]");
       const rouletteClear = event.target.closest("[data-roulette-clear]");
@@ -7846,8 +7847,6 @@
       const baccaratSide = event.target.closest("[data-baccarat-side]");
       const introStart = event.target.closest("[data-intro-start]");
       const introClose = event.target.closest("[data-intro-close]");
-      const liveSurface = event.target.closest(".live-card");
-      const gameplaySurface = event.target.closest(".gameplay-stage");
 
       if (tapFeedback) {
         tapFeedback.classList.remove("pressed");
@@ -7915,9 +7914,6 @@
       }
       if (open) openSheet(open.dataset.sheet);
       if (close) closeSheet();
-      if (cleanToggle) {
-        setCleanView(true, currentSheetType === "gameplay" ? 2600 : 3000);
-      }
       if (liveToggle) {
         const card = item();
         liveRoundByCard[card.id] = !isLiveRound(card);
@@ -7973,12 +7969,6 @@
       }
       if (homeMenuOpen && !event.target.closest("#homeDrawer") && !homeMenuToggle) {
         closeHomeMenu();
-      }
-      if (!event.target.closest("button, .home-drawer, .dealer-rail-drawer, .sheet-panel") && liveSurface && !currentSheetType) {
-        setCleanView(true, 2600);
-      }
-      if (!event.target.closest("button, .home-drawer, .dealer-rail-drawer, .gameplay-chat-panel, .gameplay-menu-drawer") && gameplaySurface) {
-        setCleanView(true, 2200);
       }
     });
 
