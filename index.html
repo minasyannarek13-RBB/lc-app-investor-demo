@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<<<<<<< HEAD
   <meta name="theme-color" content="#08080b" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -21,6 +22,17 @@
       } catch (error) {}
     })();
   </script>
+=======
+  <title>LC App Investor Demo</title>
+  <meta name="theme-color" content="#08080b" />
+  <meta name="description" content="LC App investor demo: feed-first social live casino interface with watch mode, gameplay and licensed-operator handoff." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="LC App" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="app-icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="static_preview/LC_App_V2_Preview_Contact_Sheet.png" />
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
   <style>
     :root {
       --bg: #050609;
@@ -67,6 +79,7 @@
       overflow-x: hidden;
     }
 
+<<<<<<< HEAD
     html.standalone-mode,
     html.standalone-mode body {
       background: #050609;
@@ -108,6 +121,8 @@
       border-radius: 0;
     }
 
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     button,
     input {
       font: inherit;
@@ -117,12 +132,15 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+<<<<<<< HEAD
     button:focus,
     button:focus-visible {
       outline: none;
       box-shadow: none;
     }
 
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     .stage {
       min-height: 100vh;
       display: grid;
@@ -321,7 +339,10 @@
 
     .intro.hidden {
       opacity: 0;
+<<<<<<< HEAD
       visibility: hidden;
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       pointer-events: none;
       transform: translateY(12px);
     }
@@ -436,7 +457,11 @@
       right: 17px;
       top: 228px;
       z-index: 6;
+<<<<<<< HEAD
       display: none;
+=======
+      display: flex;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       align-items: center;
       justify-content: space-between;
       gap: 8px;
@@ -472,11 +497,28 @@
     }
 
     .status {
+<<<<<<< HEAD
       display: none;
+=======
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 70;
+      height: 38px;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 22px 0;
+      color: rgba(255, 255, 255, .82);
+      font-size: 11px;
+      font-weight: 850;
+      pointer-events: none;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .app-top {
       position: absolute;
+<<<<<<< HEAD
       top: 14px;
       left: 18px;
       right: 18px;
@@ -484,12 +526,23 @@
       display: flex;
       align-items: center;
       justify-content: center;
+=======
+      top: 38px;
+      left: 14px;
+      right: 14px;
+      z-index: 70;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       pointer-events: none;
     }
 
     .wordmark {
       display: flex;
       align-items: center;
+<<<<<<< HEAD
       gap: 0;
     }
 
@@ -500,6 +553,11 @@
     .wordmark {
       color: var(--text);
       font-size: 16px;
+=======
+      gap: 8px;
+      color: var(--text);
+      font-size: 23px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       font-weight: 950;
       text-shadow: 0 6px 22px rgba(0, 0, 0, .72);
     }
@@ -507,14 +565,21 @@
     .wordmark b {
       display: grid;
       place-items: center;
+<<<<<<< HEAD
       width: 26px;
       height: 26px;
       border-radius: 8px;
+=======
+      width: 31px;
+      height: 31px;
+      border-radius: 10px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       color: var(--ink);
       background: linear-gradient(135deg, var(--gold2), #d49a3b);
       box-shadow: 0 10px 24px rgba(0, 0, 0, .38);
     }
 
+<<<<<<< HEAD
     .wordmark span {
       display: none;
     }
@@ -529,6 +594,24 @@
       color: var(--text);
       background: rgba(4, 5, 6, .22);
       backdrop-filter: blur(14px);
+=======
+    .top-icons {
+      display: flex;
+      gap: 8px;
+      pointer-events: auto;
+    }
+
+    .icon-btn {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, .15);
+      border-radius: 50%;
+      color: var(--text);
+      background: rgba(4, 5, 6, .44);
+      backdrop-filter: blur(12px);
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       cursor: pointer;
     }
 
@@ -542,6 +625,7 @@
       stroke-linejoin: round;
     }
 
+<<<<<<< HEAD
     .icon-btn.text {
       width: 30px;
       min-width: 30px;
@@ -589,6 +673,22 @@
 
     .story {
       flex: 0 0 56px;
+=======
+    .stories {
+      position: absolute;
+      top: 82px;
+      left: 12px;
+      right: 12px;
+      z-index: 70;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      pointer-events: auto;
+    }
+
+    .story {
+      min-width: 0;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       border: 0;
       padding: 0;
       color: rgba(255, 255, 255, .74);
@@ -622,11 +722,38 @@
     }
 
     .story span {
+<<<<<<< HEAD
       display: none;
     }
 
     .tabs {
       display: none;
+=======
+      display: block;
+      overflow: hidden;
+      color: currentColor;
+      font-size: 9px;
+      font-weight: 800;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .tabs {
+      position: absolute;
+      top: 150px;
+      left: 16px;
+      right: 16px;
+      z-index: 65;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      padding: 5px;
+      border: 1px solid rgba(255, 255, 255, .11);
+      border-radius: 999px;
+      background: rgba(43, 8, 13, .42);
+      backdrop-filter: blur(16px);
+      pointer-events: auto;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .tab {
@@ -660,9 +787,12 @@
     }
 
     .live-card {
+<<<<<<< HEAD
       --feed-parallax-duration: 8.2s;
       --feed-drift-x: 11px;
       --feed-drift-y: 8px;
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       position: relative;
       height: 100%;
       overflow: hidden;
@@ -672,6 +802,7 @@
         #07080b;
     }
 
+<<<<<<< HEAD
     .live-card::before {
       content: "";
       position: absolute;
@@ -688,14 +819,22 @@
     }
 
     .live-card > img {
+=======
+    .live-card img {
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
+<<<<<<< HEAD
       transform: scale(1.03);
       filter: contrast(1.04) saturate(1.04);
       animation: feedDealerFloat var(--feed-parallax-duration) ease-in-out infinite alternate;
+=======
+      transform: scale(1.08);
+      filter: contrast(1.04) saturate(1.04);
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .live-card::after {
@@ -708,6 +847,7 @@
         linear-gradient(90deg, rgba(40, 5, 9, .34), transparent 42%, rgba(0, 0, 0, .46));
     }
 
+<<<<<<< HEAD
     .live-card-parallax {
       position: absolute;
       inset: 0;
@@ -721,6 +861,8 @@
       animation: feedParallaxGlow calc(var(--feed-parallax-duration) * .82) ease-in-out infinite alternate;
     }
 
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     .casino-ambience {
       position: absolute;
       inset: 0;
@@ -735,7 +877,10 @@
       right: 18px;
       top: 178px;
       height: 58px;
+<<<<<<< HEAD
       display: none;
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       border-top: 1px solid rgba(255, 227, 154, .48);
       border-bottom: 1px solid rgba(255, 255, 255, .06);
       border-radius: var(--r);
@@ -756,7 +901,11 @@
       background:
         linear-gradient(0deg, rgba(95, 17, 24, .42), transparent 76%),
         linear-gradient(90deg, rgba(241, 199, 96, .12), transparent 22%, transparent 78%, rgba(241, 199, 96, .1));
+<<<<<<< HEAD
       opacity: .3;
+=======
+      opacity: .66;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .casino-ambience span {
@@ -768,12 +917,16 @@
       border-radius: 999px;
       background: linear-gradient(90deg, transparent, rgba(255, 227, 154, .9), transparent);
       box-shadow: 0 0 20px rgba(255, 227, 154, .36);
+<<<<<<< HEAD
       display: none;
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       opacity: .7;
     }
 
     .live-badge {
       position: absolute;
+<<<<<<< HEAD
       top: 15px;
       left: 18px;
       z-index: 4;
@@ -792,14 +945,36 @@
       backdrop-filter: blur(12px);
       font-size: 0;
       cursor: pointer;
+=======
+      top: 190px;
+      left: 17px;
+      z-index: 4;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      height: 29px;
+      padding: 0 10px;
+      border-radius: 999px;
+      color: #fee2e2;
+      background: rgba(95, 17, 24, .84);
+      border: 1px solid rgba(254, 202, 202, .2);
+      backdrop-filter: blur(12px);
+      font-size: 10px;
+      font-weight: 950;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .live-badge i {
       width: 7px;
       height: 7px;
       border-radius: 50%;
+<<<<<<< HEAD
       background: var(--green);
       box-shadow: 0 0 18px rgba(64, 211, 122, .92);
+=======
+      background: #fca5a5;
+      box-shadow: 0 0 17px var(--red);
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       animation: pulse 1.28s infinite;
     }
 
@@ -816,6 +991,7 @@
 
     .table-state {
       position: absolute;
+<<<<<<< HEAD
       top: 15px;
       right: 18px;
       z-index: 4;
@@ -843,11 +1019,29 @@
     .home-menu-btn .inline-icon {
       width: 12px;
       height: 12px;
+=======
+      top: 190px;
+      right: 17px;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      height: 29px;
+      padding: 0 10px;
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .82);
+      background: rgba(43, 8, 13, .56);
+      backdrop-filter: blur(12px);
+      font-size: 10px;
+      font-weight: 900;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .copy {
       position: absolute;
       left: 18px;
+<<<<<<< HEAD
       right: 18px;
       bottom: 56px;
       z-index: 5;
@@ -859,11 +1053,24 @@
 
     .dealer-glance-hook {
       display: none;
+=======
+      right: 75px;
+      bottom: 92px;
+      z-index: 5;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 10px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .pill {
       display: inline-flex;
       align-items: center;
+<<<<<<< HEAD
       gap: 5px;
       min-height: 20px;
       padding: 0 7px;
@@ -873,10 +1080,21 @@
       background: rgba(4, 5, 6, .22);
       backdrop-filter: blur(14px);
       font-size: 8px;
+=======
+      min-height: 27px;
+      padding: 0 9px;
+      border: 1px solid rgba(255, 255, 255, .15);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .86);
+      background: rgba(4, 5, 6, .45);
+      backdrop-filter: blur(12px);
+      font-size: 10px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       font-weight: 900;
       white-space: nowrap;
     }
 
+<<<<<<< HEAD
     .inline-icon {
       width: 11px;
       height: 11px;
@@ -889,6 +1107,8 @@
       opacity: .84;
     }
 
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     .pill.gold {
       color: var(--gold2);
       border-color: rgba(255, 227, 154, .28);
@@ -900,16 +1120,24 @@
     }
 
     .copy h2 {
+<<<<<<< HEAD
       margin: 0 0 3px;
       color: var(--text);
       font-size: 21px;
       line-height: .98;
+=======
+      margin: 0 0 6px;
+      color: var(--text);
+      font-size: 31px;
+      line-height: 1;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       font-weight: 950;
       text-shadow: 0 6px 26px rgba(0, 0, 0, .82);
     }
 
     .copy p {
       margin: 0;
+<<<<<<< HEAD
       max-width: 170px;
       color: rgba(255, 255, 255, .62);
       font-size: 8px;
@@ -961,6 +1189,16 @@
 
     .market-line {
       display: none;
+=======
+      max-width: 280px;
+      color: rgba(255, 255, 255, .78);
+      font-size: 13px;
+      line-height: 1.36;
+    }
+
+    .market-line {
+      display: grid;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 6px;
       margin-top: 13px;
@@ -998,6 +1236,7 @@
 
     .cta-row {
       display: flex;
+<<<<<<< HEAD
       gap: 6px;
       margin-top: 8px;
       width: fit-content;
@@ -1043,11 +1282,27 @@
       background: linear-gradient(135deg, var(--gold2), #ffb85c);
       box-shadow: 0 16px 34px rgba(0, 0, 0, .38);
       font-size: 10px;
+=======
+      gap: 8px;
+      margin-top: 13px;
+    }
+
+    .btn {
+      min-height: 40px;
+      border: 0;
+      border-radius: 999px;
+      padding: 0 14px;
+      color: var(--ink);
+      background: linear-gradient(135deg, var(--gold2), #ffb85c);
+      box-shadow: 0 16px 34px rgba(0, 0, 0, .38);
+      font-size: 12px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       font-weight: 950;
       cursor: pointer;
       white-space: nowrap;
     }
 
+<<<<<<< HEAD
     .btn.icon {
       width: 32px;
       min-width: 32px;
@@ -1154,6 +1409,27 @@
 
     .action {
       width: 45px;
+=======
+    .btn.secondary {
+      color: var(--text);
+      background: rgba(255, 255, 255, .1);
+      border: 1px solid rgba(255, 255, 255, .14);
+      backdrop-filter: blur(12px);
+      box-shadow: none;
+    }
+
+    .actions {
+      position: absolute;
+      right: 14px;
+      bottom: 154px;
+      z-index: 5;
+      display: grid;
+      gap: 13px;
+    }
+
+    .action {
+      width: 48px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       border: 0;
       padding: 0;
       color: rgba(255, 255, 255, .9);
@@ -1191,12 +1467,17 @@
     }
 
     .action small {
+<<<<<<< HEAD
       display: none;
+=======
+      display: block;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       color: rgba(255, 255, 255, .66);
       font-size: 9px;
       font-weight: 850;
     }
 
+<<<<<<< HEAD
     @keyframes feedDealerFloat {
       0% {
         transform: translate3d(calc(var(--feed-drift-x) * -.35), calc(var(--feed-drift-y) * -.24), 0) scale(1.03);
@@ -1226,12 +1507,18 @@
       }
     }
 
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     .progress {
       position: absolute;
       right: 7px;
       top: 42%;
       z-index: 5;
+<<<<<<< HEAD
       display: none;
+=======
+      display: grid;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       gap: 6px;
       pointer-events: none;
     }
@@ -1250,6 +1537,7 @@
 
     .bottom-nav {
       position: absolute;
+<<<<<<< HEAD
       left: 18px;
       right: 18px;
       bottom: 12px;
@@ -1262,6 +1550,20 @@
       border-radius: 999px;
       background: rgba(8, 9, 12, .16);
       backdrop-filter: blur(16px);
+=======
+      left: 13px;
+      right: 13px;
+      bottom: 16px;
+      z-index: 70;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      align-items: center;
+      height: 52px;
+      border: 1px solid rgba(255, 255, 255, .11);
+      border-radius: 999px;
+      background: rgba(24, 7, 10, .78);
+      backdrop-filter: blur(18px);
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .nav {
@@ -1269,11 +1571,16 @@
       height: 100%;
       border: 0;
       background: transparent;
+<<<<<<< HEAD
       color: rgba(255, 255, 255, .4);
+=======
+      color: rgba(255, 255, 255, .45);
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       cursor: pointer;
       display: grid;
       place-items: center;
       gap: 2px;
+<<<<<<< HEAD
       font-size: 7px;
       font-weight: 850;
     }
@@ -1285,6 +1592,15 @@
     .nav svg {
       width: 16px;
       height: 16px;
+=======
+      font-size: 8px;
+      font-weight: 850;
+    }
+
+    .nav svg {
+      width: 19px;
+      height: 19px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       fill: none;
       stroke: currentColor;
       stroke-width: 2.2;
@@ -1313,15 +1629,21 @@
       pointer-events: auto;
     }
 
+<<<<<<< HEAD
     .sheet.gameplay-open {
       background: linear-gradient(180deg, rgba(0, 0, 0, .08), rgba(0, 0, 0, .28) 22%, rgba(0, 0, 0, .58) 100%);
     }
 
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     .sheet-panel {
       min-height: 61%;
       max-height: 86%;
       overflow: auto;
+<<<<<<< HEAD
       -webkit-overflow-scrolling: touch;
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       border: 1px solid rgba(255, 255, 255, .12);
       border-radius: 24px 24px 0 0;
       background: linear-gradient(180deg, rgba(45, 11, 16, .98), #07080b 72%);
@@ -1335,6 +1657,7 @@
       transform: translateY(0);
     }
 
+<<<<<<< HEAD
     .sheet.gameplay-open .sheet-panel {
       height: 100%;
       min-height: 86%;
@@ -1347,6 +1670,8 @@
       backdrop-filter: none;
     }
 
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     .sheet-head {
       display: flex;
       align-items: center;
@@ -1386,6 +1711,7 @@
       background-size: cover;
     }
 
+<<<<<<< HEAD
     .hero-preview img {
       position: absolute;
       inset: 0;
@@ -1396,6 +1722,8 @@
       transform: scale(1.04);
     }
 
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     .hero-preview::after {
       content: "";
       position: absolute;
@@ -1403,6 +1731,7 @@
       background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, .82));
     }
 
+<<<<<<< HEAD
     .watch-hero {
       height: 204px;
     }
@@ -1760,6 +2089,8 @@
       }
     }
 
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     .row-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1769,18 +2100,30 @@
 
     .metric {
       min-width: 0;
+<<<<<<< HEAD
       padding: 10px 8px;
       border: 1px solid rgba(255, 255, 255, .1);
       border-radius: var(--r);
       background: rgba(255, 255, 255, .05);
+=======
+      padding: 12px 8px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: var(--r);
+      background: rgba(70, 13, 20, .26);
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       text-align: center;
     }
 
     .metric strong {
       display: block;
       overflow: hidden;
+<<<<<<< HEAD
       color: var(--text);
       font-size: 15px;
+=======
+      color: var(--teal);
+      font-size: 17px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       font-weight: 950;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -1788,13 +2131,20 @@
 
     .metric span {
       display: block;
+<<<<<<< HEAD
       margin-top: 2px;
       color: var(--dim);
       font-size: 8px;
+=======
+      margin-top: 3px;
+      color: var(--dim);
+      font-size: 9px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       font-weight: 850;
       text-transform: uppercase;
     }
 
+<<<<<<< HEAD
     .metric.compact {
       display: grid;
       justify-items: center;
@@ -1823,6 +2173,8 @@
       font-size: 7px;
     }
 
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     .list {
       display: grid;
       gap: 8px;
@@ -1834,19 +2186,29 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
+<<<<<<< HEAD
       min-height: 40px;
       padding: 9px 10px;
+=======
+      min-height: 45px;
+      padding: 10px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       border: 1px solid rgba(255, 255, 255, .1);
       border-radius: var(--r);
       background: rgba(255, 255, 255, .055);
     }
 
     .list-row b {
+<<<<<<< HEAD
       font-size: 11px;
+=======
+      font-size: 12px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .list-row span {
       color: var(--muted);
+<<<<<<< HEAD
       font-size: 10px;
       text-align: right;
     }
@@ -1936,6 +2298,12 @@
       color: var(--ink);
     }
 
+=======
+      font-size: 11px;
+      text-align: right;
+    }
+
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     .sheet-actions {
       display: flex;
       flex-wrap: wrap;
@@ -1943,6 +2311,7 @@
       margin-top: 14px;
     }
 
+<<<<<<< HEAD
     .gameplay-stage {
       --stage-idle-duration: 7.6s;
       --stage-breath-duration: 5.2s;
@@ -3410,6 +3779,8 @@
       width: min(252px, 100%);
     }
 
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     .game-shell {
       margin-top: 12px;
       padding: 12px;
@@ -3431,6 +3802,88 @@
       }
     }
 
+<<<<<<< HEAD
+=======
+    .state-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 45px;
+      margin-top: 10px;
+      padding: 10px 11px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: var(--r);
+      background: rgba(255, 255, 255, .06);
+      animation: statePulse 1.8s ease-in-out infinite;
+    }
+
+    .state-banner strong {
+      display: block;
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .state-banner span {
+      display: block;
+      margin-top: 2px;
+      color: var(--soft);
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    .state-banner b {
+      flex: 0 0 auto;
+      min-height: 28px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .state-banner.live {
+      border-color: rgba(255, 227, 154, .18);
+      background: rgba(255, 227, 154, .08);
+    }
+
+    .state-banner.live b {
+      color: var(--ink);
+      background: var(--gold2);
+    }
+
+    .state-banner.win {
+      border-color: rgba(64, 211, 122, .24);
+      background: rgba(64, 211, 122, .1);
+    }
+
+    .state-banner.win b {
+      color: #dcfce7;
+      background: rgba(22, 101, 52, .66);
+    }
+
+    .state-banner.loss {
+      border-color: rgba(248, 113, 113, .24);
+      background: rgba(127, 29, 29, .16);
+    }
+
+    .state-banner.loss b {
+      color: #fee2e2;
+      background: rgba(127, 29, 29, .72);
+    }
+
+    @keyframes statePulse {
+      0%, 100% {
+        box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+      }
+      50% {
+        box-shadow: 0 0 18px rgba(255, 227, 154, .08);
+      }
+    }
+
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     .history-row {
       display: flex;
       flex-wrap: wrap;
@@ -3549,6 +4002,7 @@
       white-space: nowrap;
     }
 
+<<<<<<< HEAD
     .session-toolbar {
       display: flex;
       align-items: center;
@@ -3587,17 +4041,46 @@
     }
 
     .session-chip.primary {
+=======
+    .live-control-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .live-control {
+      min-width: 0;
+      min-height: 32px;
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 999px;
+      padding: 0 10px;
+      color: rgba(255, 255, 255, .84);
+      background: rgba(255, 255, 255, .06);
+      font-size: 10px;
+      font-weight: 950;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .live-control.primary {
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       color: var(--ink);
       background: var(--gold2);
       border-color: transparent;
     }
 
+<<<<<<< HEAD
     .session-chip.active {
+=======
+    .live-control.active {
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       color: #dcfce7;
       border-color: rgba(64, 211, 122, .24);
       background: rgba(22, 101, 52, .5);
     }
 
+<<<<<<< HEAD
     .session-chip.subtle {
       color: var(--muted);
       background: rgba(255, 255, 255, .04);
@@ -3617,12 +4100,16 @@
     }
 
     .phase-rail {
+=======
+    .round-timeline {
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 6px;
       margin-top: 10px;
     }
 
+<<<<<<< HEAD
     .phase-pill {
       min-width: 0;
       min-height: 42px;
@@ -3638,16 +4125,40 @@
     }
 
     .phase-pill strong {
+=======
+    .round-step {
+      min-width: 0;
+      min-height: 38px;
+      display: grid;
+      align-content: center;
+      gap: 2px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: var(--r);
+      padding: 6px 7px;
+      color: rgba(255, 255, 255, .66);
+      background: rgba(255, 255, 255, .045);
+    }
+
+    .round-step strong {
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       overflow: hidden;
       color: currentColor;
       font-size: 9px;
       font-weight: 950;
       text-overflow: ellipsis;
+<<<<<<< HEAD
       text-transform: uppercase;
       white-space: nowrap;
     }
 
     .phase-pill span {
+=======
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    .round-step span {
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       overflow: hidden;
       color: rgba(255, 255, 255, .5);
       font-size: 8px;
@@ -3656,13 +4167,18 @@
       white-space: nowrap;
     }
 
+<<<<<<< HEAD
     .phase-pill.active {
+=======
+    .round-step.active {
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       color: var(--gold2);
       border-color: rgba(255, 227, 154, .3);
       background: rgba(255, 227, 154, .08);
       box-shadow: 0 0 18px rgba(255, 227, 154, .12);
     }
 
+<<<<<<< HEAD
     .session-meta {
       display: flex;
       align-items: center;
@@ -3671,6 +4187,8 @@
       margin-top: 8px;
     }
 
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     .live-round .game-canvas {
       position: relative;
       overflow: hidden;
@@ -3711,6 +4229,7 @@
         conic-gradient(from 0deg, #7f1d1d, #0f1115 12%, #166534 16%, #7f1d1d 27%, #0f1115 42%, #7f1d1d 60%, #0f1115 78%, #166534 84%, #7f1d1d),
         #0f1115;
       box-shadow: inset 0 0 0 7px rgba(255, 227, 154, .1), 0 16px 28px rgba(0, 0, 0, .26);
+<<<<<<< HEAD
       animation: wheelTurn var(--roulette-spin-duration) cubic-bezier(.2, .8, .2, 1) infinite;
     }
 
@@ -3725,6 +4244,9 @@
       border: 1px solid rgba(255, 255, 255, .16);
       border-radius: 50%;
       animation: settleRing .84s ease-out both;
+=======
+      animation: wheelTurn 2.2s cubic-bezier(.2, .8, .2, 1) infinite;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .wheel-mini span {
@@ -3746,6 +4268,7 @@
       animation-duration: 3.2s;
     }
 
+<<<<<<< HEAD
     .wheel-mini.win span {
       box-shadow: 0 0 0 4px rgba(64, 211, 122, .16), 0 0 22px rgba(64, 211, 122, .26);
       animation: resultPop .9s ease both;
@@ -3756,6 +4279,8 @@
       animation: resultPop .9s ease both;
     }
 
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     @keyframes wheelTurn {
       0% {
         transform: rotate(0deg);
@@ -3768,6 +4293,7 @@
       }
     }
 
+<<<<<<< HEAD
     @keyframes wheelSettle {
       0% {
         transform: rotate(0deg) scale(.96);
@@ -3814,20 +4340,40 @@
       border-radius: 999px;
       background: rgba(4, 5, 6, .2);
       backdrop-filter: blur(14px);
+=======
+    .dealer-call {
+      min-width: 0;
+      padding: 9px 10px;
+      border: 1px solid rgba(255, 255, 255, .11);
+      border-radius: var(--r);
+      background: rgba(255, 255, 255, .055);
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .dealer-call strong {
       display: block;
       overflow: hidden;
       color: var(--gold2);
+<<<<<<< HEAD
       font-size: 10px;
+=======
+      font-size: 12px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       font-weight: 950;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
     .dealer-call span {
+<<<<<<< HEAD
       display: none;
+=======
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.3;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .game-canvas {
@@ -3848,6 +4394,7 @@
       line-height: 1.45;
     }
 
+<<<<<<< HEAD
     .game-section {
       margin-top: 10px;
     }
@@ -3876,6 +4423,8 @@
       line-height: 1.25;
     }
 
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     .game-flow {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -3914,24 +4463,39 @@
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
+<<<<<<< HEAD
       justify-content: center;
       margin-top: 0;
     }
 
     .game-chip {
       min-height: 30px;
+=======
+      margin-top: 10px;
+    }
+
+    .game-chip {
+      min-height: 28px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       padding: 0 10px;
       display: inline-flex;
       align-items: center;
       border: 1px solid rgba(255, 255, 255, .13);
       border-radius: 999px;
       color: rgba(255, 255, 255, .84);
+<<<<<<< HEAD
       background: rgba(4, 5, 6, .2);
       backdrop-filter: blur(14px);
       font-size: 9px;
       font-weight: 900;
       white-space: nowrap;
       cursor: pointer;
+=======
+      background: rgba(255, 255, 255, .06);
+      font-size: 10px;
+      font-weight: 900;
+      white-space: nowrap;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .game-chip.active {
@@ -4022,6 +4586,7 @@
 
     .roulette-pill.result,
     .roulette-cell.hit,
+<<<<<<< HEAD
     .outside-cell.hit,
     .roulette-zero.hit {
       box-shadow: 0 0 0 2px rgba(255, 227, 154, .34), 0 0 22px rgba(255, 227, 154, .28);
@@ -4041,6 +4606,10 @@
         transform: scale(1);
         filter: brightness(1);
       }
+=======
+    .outside-cell.hit {
+      box-shadow: 0 0 0 2px rgba(255, 227, 154, .34), 0 0 22px rgba(255, 227, 154, .28);
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .roulette-board {
@@ -4059,7 +4628,10 @@
       font-size: 14px;
       font-weight: 950;
       background: rgba(22, 101, 52, .88);
+<<<<<<< HEAD
       cursor: pointer;
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .roulette-grid {
@@ -4081,7 +4653,10 @@
       font-size: 11px;
       font-weight: 900;
       background: rgba(255, 255, 255, .06);
+<<<<<<< HEAD
       cursor: pointer;
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .roulette-cell.chipped::after,
@@ -4122,20 +4697,32 @@
       justify-content: space-between;
       gap: 10px;
       color: rgba(255, 255, 255, .84);
+<<<<<<< HEAD
       font-size: 10px;
+=======
+      font-size: 11px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       font-weight: 900;
     }
 
     .hand-meta span {
       color: var(--muted);
+<<<<<<< HEAD
       font-size: 8px;
+=======
+      font-size: 10px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       font-weight: 800;
     }
 
     .playing-hand {
       display: flex;
       justify-content: center;
+<<<<<<< HEAD
       gap: 6px;
+=======
+      gap: 8px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .playing-card {
@@ -4151,7 +4738,10 @@
       font-size: 13px;
       font-weight: 950;
       animation: cardLift .34s ease both;
+<<<<<<< HEAD
       transform-origin: center bottom;
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .playing-hand .playing-card:nth-child(2) {
@@ -4173,6 +4763,7 @@
       }
     }
 
+<<<<<<< HEAD
     @keyframes backPulse {
       0%, 100% {
         transform: translateY(0) scale(1);
@@ -4206,6 +4797,8 @@
       }
     }
 
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     .playing-card small {
       display: block;
       font-size: 11px;
@@ -4224,6 +4817,7 @@
       align-content: center;
     }
 
+<<<<<<< HEAD
     .playing-card.waiting {
       animation: backPulse 1.7s ease-in-out infinite;
     }
@@ -4244,6 +4838,8 @@
         0 10px 22px rgba(0, 0, 0, .24);
     }
 
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     .table-separator {
       min-height: 24px;
       display: grid;
@@ -4259,13 +4855,19 @@
 
     .decision-row {
       display: grid;
+<<<<<<< HEAD
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 5px;
       width: min(204px, 100%);
+=======
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .decision-pill {
       min-width: 0;
+<<<<<<< HEAD
       min-height: 30px;
       display: grid;
       place-items: center;
@@ -4278,6 +4880,18 @@
       font-weight: 900;
       text-align: center;
       cursor: pointer;
+=======
+      min-height: 31px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .86);
+      background: rgba(255, 255, 255, .06);
+      font-size: 10px;
+      font-weight: 900;
+      text-align: center;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .decision-pill.active {
@@ -4293,12 +4907,17 @@
     .baccarat-scores {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
+<<<<<<< HEAD
       gap: 5px;
       width: min(228px, 100%);
+=======
+      gap: 6px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .baccarat-score {
       min-width: 0;
+<<<<<<< HEAD
       min-height: 48px;
       padding: 7px 6px;
       border: 1px solid rgba(255, 255, 255, .1);
@@ -4307,21 +4926,39 @@
       backdrop-filter: blur(12px);
       text-align: center;
       cursor: pointer;
+=======
+      padding: 10px 6px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: var(--r);
+      background: rgba(255, 255, 255, .06);
+      text-align: center;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .baccarat-score strong {
       display: block;
       overflow: hidden;
       color: var(--text);
+<<<<<<< HEAD
       font-size: 12px;
+=======
+      font-size: 16px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       font-weight: 950;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
+<<<<<<< HEAD
     .baccarat-score small {
       display: block;
       margin-top: 1px;
+=======
+    .baccarat-score span,
+    .baccarat-score small {
+      display: block;
+      margin-top: 2px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       color: var(--muted);
       font-size: 9px;
       font-weight: 850;
@@ -4341,18 +4978,25 @@
 
     .baccarat-score.active {
       box-shadow: 0 0 0 2px rgba(255, 227, 154, .2), 0 0 22px rgba(255, 227, 154, .1);
+<<<<<<< HEAD
       animation: scoreFloat 1.45s ease-in-out infinite;
     }
 
     .road-grid {
       position: relative;
       overflow: hidden;
+=======
+    }
+
+    .road-grid {
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       display: grid;
       grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 5px;
       margin-top: 10px;
     }
 
+<<<<<<< HEAD
     .road-grid.settle::after {
       content: "";
       position: absolute;
@@ -4363,13 +5007,18 @@
       pointer-events: none;
     }
 
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     .road-dot {
       width: 100%;
       aspect-ratio: 1;
       border: 1px solid rgba(255, 255, 255, .12);
       border-radius: 50%;
       background: rgba(255, 255, 255, .06);
+<<<<<<< HEAD
       cursor: pointer;
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .road-dot.player {
@@ -4386,6 +5035,7 @@
 
     .road-dot.recent {
       box-shadow: 0 0 0 2px rgba(255, 227, 154, .28), 0 0 18px rgba(255, 227, 154, .18);
+<<<<<<< HEAD
       animation: roadPulse 1.35s ease-in-out infinite;
     }
 
@@ -4438,6 +5088,8 @@
     [data-tap-feedback].pressed {
       transform: translateY(1px) scale(.97);
       filter: brightness(1.08);
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     .operator-stack {
@@ -4502,6 +5154,7 @@
       line-height: 1.4;
     }
 
+<<<<<<< HEAD
     .proof-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -4688,6 +5341,8 @@
       line-height: 1.45;
     }
 
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     .side {
       display: grid;
       gap: 12px;
@@ -4853,14 +5508,24 @@
         bottom: calc(78px + env(safe-area-inset-bottom));
       }
 
+<<<<<<< HEAD
       .dealer-rail-drawer {
         top: calc(74px + env(safe-area-inset-top));
         left: 10px;
         right: 10px;
+=======
+      .tabs {
+        top: 145px;
+      }
+
+      .stories {
+        top: 78px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       }
 
       .live-badge,
       .table-state {
+<<<<<<< HEAD
         top: calc(82px + env(safe-area-inset-top));
       }
 
@@ -4885,6 +5550,9 @@
       .home-drawer {
         top: calc(74px + env(safe-area-inset-top));
         right: 10px;
+=======
+        top: 183px;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       }
 
       .signal-strip {
@@ -4894,6 +5562,7 @@
       .intro {
         padding: 22px 14px calc(24px + env(safe-area-inset-bottom));
       }
+<<<<<<< HEAD
 
       .dealer-profile-hero {
         grid-template-columns: 1fr;
@@ -5138,6 +5807,8 @@
         align-items: flex-start;
         flex-direction: column;
       }
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     @supports (height: 100svh) {
@@ -5176,6 +5847,7 @@
 
     <section class="phone-shell" aria-label="LC App ideal mobile prototype">
       <div class="screen" id="screen">
+<<<<<<< HEAD
         <header class="app-top">
           <div class="wordmark top-wordmark" aria-label="LC App"><b>LC</b></div>
         </header>
@@ -5191,6 +5863,23 @@
           </div>
           <div class="home-drawer-grid" id="homeDrawerGrid"></div>
         </div>
+=======
+        <div class="status"><span>9:41</span><span>DEMO MODE</span></div>
+
+        <header class="app-top">
+          <div class="wordmark"><b>LC</b><span>Live</span></div>
+          <div class="top-icons">
+            <button class="icon-btn" type="button" data-sheet="search" aria-label="Search">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.4-3.4"></path></svg>
+            </button>
+            <button class="icon-btn" type="button" data-sheet="alerts" aria-label="Alerts">
+              <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 7h18s-3 0-3-7"></path><path d="M13.7 21a2 2 0 0 1-3.4 0"></path></svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="stories" id="stories"></div>
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
 
         <div class="tabs" aria-label="Feed tabs">
           <button class="tab active" type="button">For You</button>
@@ -5209,13 +5898,30 @@
             <svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"></path><path d="M5 10v10h14V10"></path></svg>
             <span>Home</span>
           </button>
+<<<<<<< HEAD
+=======
+          <button class="nav" type="button" data-sheet="search" aria-label="Explore">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.4-3.4"></path></svg>
+            <span>Explore</span>
+          </button>
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
           <button class="nav" type="button" data-sheet="watch" aria-label="Watch">
             <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"></path><path d="m10 9 5 3-5 3z"></path></svg>
             <span>Watch</span>
           </button>
+<<<<<<< HEAD
           <button class="nav" type="button" data-home-menu aria-label="Account menu">
             <svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"></path><path d="M5 20c1.8-3.2 11.2-3.2 14 0"></path></svg>
             <span>Account</span>
+=======
+          <button class="nav" type="button" data-sheet="alerts" aria-label="Alerts">
+            <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 7h18s-3 0-3-7"></path><path d="M13.7 21a2 2 0 0 1-3.4 0"></path></svg>
+            <span>Alerts</span>
+          </button>
+          <button class="nav" type="button" data-sheet="profile" aria-label="Profile">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>
+            <span>Me</span>
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
           </button>
         </nav>
 
@@ -5223,6 +5929,7 @@
           <div class="sheet-panel" id="sheetPanel"></div>
         </div>
 
+<<<<<<< HEAD
         <div class="intro hidden" id="intro" aria-hidden="true">
           <div class="intro-card">
             <span class="intro-kicker">Investor demo</span>
@@ -5232,6 +5939,17 @@
               <div class="intro-step"><b>1</b><div><strong>Watch live tables</strong><span>Swipe through dealer-led game moments.</span></div></div>
               <div class="intro-step"><b>2</b><div><strong>Follow dealers</strong><span>Build retention before a player enters.</span></div></div>
               <div class="intro-step"><b>3</b><div><strong>Enter the table</strong><span>Gameplay, account and access open in focused popups.</span></div></div>
+=======
+        <div class="intro" id="intro">
+          <div class="intro-card">
+            <span class="intro-kicker">Investor demo</span>
+            <h2>Live casino starts before the table</h2>
+            <p>Open the feed, watch the moment, follow the dealer and continue through a licensed operator.</p>
+            <div class="intro-steps">
+              <div class="intro-step"><b>1</b><div><strong>Watch live tables</strong><span>Swipe through dealer-led game moments.</span></div></div>
+              <div class="intro-step"><b>2</b><div><strong>Follow dealers</strong><span>Build retention before a player enters.</span></div></div>
+              <div class="intro-step"><b>3</b><div><strong>Play via operator</strong><span>KYC, wallet and settlement stay operator-controlled.</span></div></div>
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
             </div>
             <div class="intro-actions">
               <button class="intro-btn" type="button" data-intro-start data-sheet="watch">Start demo</button>
@@ -5245,7 +5963,11 @@
     <aside class="side">
       <div class="side-box">
         <h3 id="activeTitle">Mia Roulette Live</h3>
+<<<<<<< HEAD
         <p id="activeRead">Social-first roulette feed with dealer identity, clean video and a one-step path into table play.</p>
+=======
+        <p id="activeRead">Discovery-first roulette card with dealer identity, live table state and operator-backed entry.</p>
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
         <div class="kpi-row">
           <div class="kpi"><strong id="kpiWatch">2.8K</strong><span>watching</span></div>
           <div class="kpi"><strong id="kpiJoin">8.4%</strong><span>join rate</span></div>
@@ -5259,6 +5981,7 @@
           <button class="side-btn" type="button" data-sheet="gameplay">Try gameplay flow <span>In-table</span></button>
           <button class="side-btn" type="button" data-sheet="profile">Open dealer profile <span>Follow</span></button>
           <button class="side-btn" type="button" data-sheet="handoff">Operator handoff <span>Play</span></button>
+<<<<<<< HEAD
           <button class="side-btn" type="button" data-sheet="insights">Investor proof <span>B2B</span></button>
           <button class="side-btn" type="button" id="nextCard">Next live card <span>Scroll</span></button>
         </div>
@@ -5272,6 +5995,12 @@
           <div class="kpi"><strong>Rev</strong><span>share</span></div>
         </div>
       </div>
+=======
+          <button class="side-btn" type="button" data-sheet="insights">Pilot proof <span>B2B</span></button>
+          <button class="side-btn" type="button" id="nextCard">Next live card <span>Scroll</span></button>
+        </div>
+      </div>
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     </aside>
   </main>
 
@@ -5295,19 +6024,31 @@
         title: "Mia Roulette Live",
         game: "Roulette",
         table: "Roulette Mania",
+<<<<<<< HEAD
         operator: "RoyalBet",
+=======
+        operator: "Licensed Operator A",
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
         image: assets.mia,
         watching: "2.8K",
         join: "8.4%",
         arpu: "$14",
         follows: "2.3K",
         stakes: "$10-$500",
+<<<<<<< HEAD
         seat: "3",
         language: "EN",
         state: "8 red / 2 green",
         trend: "+18%",
         caption: "Social-first roulette room with fast join intent and a clean wheel read.",
         read: "Dealer-led roulette feed that keeps the video first and the table entry one step away.",
+=======
+        seat: "3 seats",
+        state: "8 red / 2 green",
+        trend: "+18%",
+        caption: "Hot roulette table, fast decisions, strong follow-back pattern.",
+        read: "Discovery-first roulette card with dealer identity, live table state and operator-backed entry.",
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
         gameplayTimer: "12s to spin",
         rouletteTrack: ["32", "15", "0", "19", "4"],
         rouletteColors: ["red", "black", "green", "red", "black"]
@@ -5318,19 +6059,31 @@
         title: "Blackjack VIP",
         game: "Blackjack",
         table: "Blackjack Royal",
+<<<<<<< HEAD
         operator: "Velvet Ace",
+=======
+        operator: "Licensed Operator B",
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
         image: assets.sofia,
         watching: "1.9K",
         join: "6.7%",
         arpu: "$22",
         follows: "1.7K",
         stakes: "$25-$1K",
+<<<<<<< HEAD
         seat: "2",
         language: "EN",
         state: "VIP open",
         trend: "+11%",
         caption: "Calm VIP blackjack room built around readable cards and cleaner player actions.",
         read: "Social blackjack discovery layer with visible dealing, fast seat choice and hidden secondary controls.",
+=======
+        seat: "2 seats",
+        state: "VIP open",
+        trend: "+11%",
+        caption: "Premium blackjack discovery with high-value player intent.",
+        read: "High-value blackjack card with calmer presentation and clear VIP player routing.",
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
         gameplayTimer: "Action on you",
         dealerHand: ["A", "5"],
         playerHand: ["8", "7"]
@@ -5341,19 +6094,31 @@
         title: "Baccarat Night",
         game: "Baccarat",
         table: "Golden Baccarat",
+<<<<<<< HEAD
         operator: "Sapphire Play",
+=======
+        operator: "Licensed Operator C",
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
         image: assets.marcus,
         watching: "1.2K",
         join: "5.9%",
         arpu: "$18",
         follows: "980",
         stakes: "$20-$750",
+<<<<<<< HEAD
         seat: "5",
         language: "EN",
         state: "Banker run",
         trend: "+9%",
         caption: "Baccarat room tuned for side choice, road rhythm and social presence.",
         read: "Baccarat discovery layer where the dealer, chat and side choice feel native before betting starts.",
+=======
+        seat: "5 seats",
+        state: "Banker run",
+        trend: "+9%",
+        caption: "Rhythm-led baccarat card with table-state decision support.",
+        read: "Baccarat feed moment for players who react to pace, seats and table streaks.",
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
         gameplayTimer: "9s to deal",
         baccaratRoad: ["banker", "player", "banker", "banker", "tie", "player", "banker", "banker", "player", "player", "banker", "tie"]
       },
@@ -5363,25 +6128,38 @@
         title: "Roulette After Dark",
         game: "Roulette",
         table: "Midnight Roulette",
+<<<<<<< HEAD
         operator: "NightSpin",
+=======
+        operator: "Licensed Operator D",
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
         image: assets.lilit,
         watching: "3.4K",
         join: "9.1%",
         arpu: "$11",
         follows: "3.1K",
         stakes: "$5-$250",
+<<<<<<< HEAD
         seat: "9",
         language: "EN",
         state: "Low min",
         trend: "+24%",
         caption: "Low-min roulette room designed for broad discovery and fast repeat entry.",
         read: "Mobile-first roulette feed with more visible video, simple limits and quick chips.",
+=======
+        seat: "9 seats",
+        state: "Low min",
+        trend: "+24%",
+        caption: "Mass-market roulette with the strongest entertainment pull.",
+        read: "Mass-market roulette card for broad discovery, retention and return notifications.",
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
         gameplayTimer: "15s to spin",
         rouletteTrack: ["11", "24", "3", "29", "0"],
         rouletteColors: ["black", "black", "red", "black", "green"]
       }
     ];
 
+<<<<<<< HEAD
     const gameBankrollBase = {
       Roulette: 1240,
       Blackjack: 1540,
@@ -5627,6 +6405,10 @@
     const homeDrawerGrid = document.getElementById("homeDrawerGrid");
     const homeDrawerTitle = document.getElementById("homeDrawerTitle");
     const homeDrawerMeta = document.getElementById("homeDrawerMeta");
+=======
+    const feed = document.getElementById("feed");
+    const stories = document.getElementById("stories");
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     const progress = document.getElementById("progress");
     const sheet = document.getElementById("sheet");
     const sheetPanel = document.getElementById("sheetPanel");
@@ -5842,6 +6624,7 @@
     };
     const demoStateByCard = {};
     const liveRoundByCard = {};
+<<<<<<< HEAD
     const gameplayMenuByCard = {};
     const gameplayMemoryByCard = {};
     const gameplayEntryByCard = {};
@@ -5850,17 +6633,24 @@
     const gameplayChatByCard = {};
     const cameraCutByCard = {};
     const lastCameraKeyByCard = {};
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     let currentSheetType = null;
     let active = 0;
     let liveRoundTimer = 0;
     let signalTimer = 0;
+<<<<<<< HEAD
     let dealerRailOpen = false;
     let dealerRailTimer = 0;
     let homeMenuOpen = false;
+=======
+
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     function item() {
       return cards[active];
     }
 
+<<<<<<< HEAD
     function cloneDeep(value) {
       return JSON.parse(JSON.stringify(value));
     }
@@ -6072,6 +6862,10 @@
 
     function closeButton() {
       return `<button class="close" type="button" data-close aria-label="Close">${icon("close")}</button>`;
+=======
+    function closeButton() {
+      return '<button class="close" type="button" data-close aria-label="Close">x</button>';
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     let toastTimer = 0;
@@ -6087,7 +6881,10 @@
     function hideIntro(message = true) {
       if (!intro || intro.classList.contains("hidden")) return;
       intro.classList.add("hidden");
+<<<<<<< HEAD
       intro.setAttribute("aria-hidden", "true");
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       if (message) showToast("Demo mode. No real-money transactions.");
     }
 
@@ -6153,6 +6950,7 @@
       ];
     }
 
+<<<<<<< HEAD
     function sessionModeLabel(card) {
       if (card.game === "Blackjack") return "Seat";
       if (card.game === "Baccarat") return "Shoe";
@@ -6906,6 +7704,13 @@
           ${menuOpen ? menuMarkup : ""}
         </div>
       `;
+=======
+    function roundTimerLabel(card, state) {
+      if (state.name === "Betting") return card.gameplayTimer || "Bets open";
+      if (state.name === "Win") return state.badge;
+      if (state.name === "Loss") return state.badge;
+      return "Live round";
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     function liveControlsMarkup(card) {
@@ -6913,6 +7718,7 @@
       const phaseIndex = demoStateIndex(card);
       const phases = roundPhases(card);
       return `
+<<<<<<< HEAD
         <div class="session-toolbar">
           <div class="session-toolbar-main">
             <button class="session-chip ${live ? "active" : "primary"}" type="button" data-live-toggle data-tap-feedback>${live ? "Auto round on" : "Start auto round"}</button>
@@ -6940,6 +7746,38 @@
       demoStateByCard[card.id] = 0;
       syncCameraState(card, currentSheetType === "gameplay");
       refreshSheet();
+=======
+        <div class="live-control-row">
+          <button class="live-control ${live ? "active" : "primary"}" type="button" data-live-toggle>${live ? "Live auto-round" : "Start live round"}</button>
+          <button class="live-control" type="button" data-live-step>Next phase</button>
+          <button class="live-control" type="button" data-live-reset>Reset</button>
+        </div>
+        <div class="round-timeline">
+          ${phases.map((phase, index) => `
+            <div class="round-step ${index === phaseIndex ? "active" : ""}">
+              <strong>${phase.title}</strong>
+              <span>${phase.text}</span>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function liveDealerCall(card, state) {
+      if (card.game === "Blackjack") {
+        if (state.name === "Betting") return { title: "Dealer waits", text: "Seat is live, decision window open." };
+        if (state.name === "Win") return { title: "Dealer bust", text: "Result settles to operator wallet." };
+        return { title: "Dealer wins", text: "Replay and rebet are available." };
+      }
+      if (card.game === "Baccarat") {
+        if (state.name === "Betting") return { title: "Shoe live", text: "Player side selected, cards ready." };
+        if (state.name === "Win") return { title: "Player wins", text: "Roadmap updates and payout lands." };
+        return { title: "Banker streak", text: "Next decision opens immediately." };
+      }
+      if (state.name === "Betting") return { title: "Bets closing", text: "Chip map is active. Spin starts now." };
+      if (state.name === "Win") return { title: "12 Red hits", text: "Win flashes, payout confirmed." };
+      return { title: "8 Black lands", text: "Loss settles, next spin opens." };
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     function refreshSheet() {
@@ -6952,11 +7790,15 @@
       const states = demoStates(card);
       if (!states.length) return;
       demoStateByCard[card.id] = (demoStateIndex(card) + 1) % states.length;
+<<<<<<< HEAD
       syncCameraState(card, currentSheetType === "gameplay");
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       refreshSheet();
     }
 
     function startLiveRoundTimer() {
+<<<<<<< HEAD
       window.clearTimeout(liveRoundTimer);
       if (!currentSheetType || !["watch", "gameplay"].includes(currentSheetType)) return;
       const card = item();
@@ -6968,6 +7810,24 @@
         advanceLiveRound(currentCard);
         startLiveRoundTimer();
       }, liveRoundDelay(card));
+=======
+      window.clearInterval(liveRoundTimer);
+      liveRoundTimer = window.setInterval(() => {
+        if (!currentSheetType || !["watch", "gameplay"].includes(currentSheetType)) return;
+        const card = item();
+        if (!isLiveRound(card)) return;
+        advanceLiveRound(card);
+      }, 2400);
+    }
+
+    function bannerMarkup(state) {
+      return `
+        <div class="state-banner ${state.tone}">
+          <div><strong>${state.title}</strong><span>${state.text}</span></div>
+          <b>${state.badge}</b>
+        </div>
+      `;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     function historyMarkup(state) {
@@ -6986,6 +7846,7 @@
       `;
     }
 
+<<<<<<< HEAD
     function renderRouletteGameplay(card) {
       const state = gameplayState(card);
       const memory = gameplayMemory(card);
@@ -7265,6 +8126,170 @@
         </div>
       `;
       return gameplayStageLayout(card, state, coreMarkup, menuMarkup);
+=======
+    function demoTabsMarkup(card) {
+      return `
+        <div class="demo-tabs">
+          ${demoStates(card).map((state, index) => `<button class="demo-tab ${index === demoStateIndex(card) ? "active" : ""}" type="button" data-demo-state="${index}">${state.name}</button>`).join("")}
+        </div>
+      `;
+    }
+
+    function renderRouletteGameplay(card) {
+      const state = demoState(card);
+      const dealerCall = liveDealerCall(card, state);
+      const numbers = [
+        { n: 1, c: "red" }, { n: 2, c: "black" }, { n: 3, c: "red" },
+        { n: 4, c: "black" }, { n: 5, c: "red" }, { n: 6, c: "black" },
+        { n: 7, c: "red" }, { n: 8, c: "black" }, { n: 9, c: "red" },
+        { n: 10, c: "black" }, { n: 11, c: "black" }, { n: 12, c: "red" }
+      ];
+      const outside = [
+        { key: "red", label: "Red" },
+        { key: "even", label: "Even" },
+        { key: "dozen1", label: "1st 12" },
+        { key: "black", label: "Black" },
+        { key: "high", label: "19-36" },
+        { key: "col3", label: "2 to 1" }
+      ];
+      const track = (state.trackTail || card.rouletteTrack || []).map((value, index) => `<span class="roulette-pill ${(state.trackColors || card.rouletteColors || [])[index] || ""} ${String(state.resultNumber ?? "") === String(value) ? "result" : ""}">${value}</span>`).join("");
+      const grid = numbers.map((entry) => `<div class="roulette-cell ${entry.c} ${(state.selectedNumbers || []).includes(entry.n) ? "chipped" : ""} ${state.resultNumber === entry.n ? "hit" : ""}">${entry.n}</div>`).join("");
+      const outsideGrid = outside.map((entry) => `<div class="outside-cell ${(state.selectedOutside || []).includes(entry.key) ? "chipped" : ""} ${(state.resultOutside || []).includes(entry.key) ? "hit" : ""}">${entry.label}</div>`).join("");
+      return `
+        <div class="game-shell ${isLiveRound(card) ? "live-round" : ""}">
+          <div class="game-head">
+            <div><strong>Roulette gameplay</strong><span>Watch -> choose chips -> place bets -> spin -> repeat</span></div>
+            <div class="game-timer">${roundTimerLabel(card, state)}</div>
+          </div>
+          ${liveControlsMarkup(card)}
+          ${bannerMarkup(state)}
+          ${historyMarkup(state)}
+          ${statsMarkup(state)}
+          <div class="game-canvas">
+            <div class="roulette-live-strip">
+              <div class="wheel-mini ${state.tone}"><span>${state.resultNumber ?? "?"}</span></div>
+              <div class="dealer-call"><strong>${dealerCall.title}</strong><span>${dealerCall.text}</span></div>
+            </div>
+            <div class="roulette-track">${track}</div>
+            <div class="roulette-board">
+              <div class="roulette-zero green ${state.resultNumber === 0 ? "hit" : ""} ${(state.selectedNumbers || []).includes(0) ? "chipped" : ""}">0</div>
+              <div class="roulette-grid">${grid}</div>
+            </div>
+            <div class="outside-grid">${outsideGrid}</div>
+          </div>
+          <div class="game-chip-row">
+            <span class="game-chip">$5</span>
+            <span class="game-chip active">$10</span>
+            <span class="game-chip">$25</span>
+            <span class="game-chip">$100</span>
+            <span class="game-chip">Repeat last</span>
+          </div>
+          ${demoTabsMarkup(card)}
+          <div class="game-flow">
+            <div class="flow-step"><strong>Watch</strong><span>Table moment</span></div>
+            <div class="flow-step"><strong>Bet</strong><span>Inside or outside</span></div>
+            <div class="flow-step"><strong>Spin</strong><span>Wheel result</span></div>
+            <div class="flow-step"><strong>Settle</strong><span>Replay next round</span></div>
+          </div>
+          <p class="game-caption">Roulette flow is about speed and clarity: recent numbers, fast chip selection, visible bet map and immediate replay.</p>
+        </div>
+      `;
+    }
+
+    function renderBlackjackGameplay(card) {
+      const state = demoState(card);
+      const dealerCall = liveDealerCall(card, state);
+      const dealerCards = (state.dealerHand || []).map((entry) => `<div class="playing-card ${entry.back ? "back" : ""}">${entry.back ? "?" : `${entry.rank}<small>${entry.suit}</small>`}</div>`).join("");
+      const playerCards = (state.playerHand || []).map((entry) => `<div class="playing-card">${entry.rank}<small>${entry.suit}</small></div>`).join("");
+      return `
+        <div class="game-shell ${isLiveRound(card) ? "live-round" : ""}">
+          <div class="game-head">
+            <div><strong>Blackjack gameplay</strong><span>Join seat -> receive cards -> decide -> settle hand</span></div>
+            <div class="game-timer">${roundTimerLabel(card, state)}</div>
+          </div>
+          ${liveControlsMarkup(card)}
+          ${bannerMarkup(state)}
+          ${historyMarkup(state)}
+          ${statsMarkup(state)}
+          <div class="game-canvas">
+            <div class="blackjack-zone">
+              <div class="dealer-call"><strong>${dealerCall.title}</strong><span>${dealerCall.text}</span></div>
+              <div class="hand-meta"><b>Dealer</b><span>${state.dealerNote}</span></div>
+              <div class="playing-hand">${dealerCards}</div>
+              <div class="table-separator">Your seat</div>
+              <div class="hand-meta"><b>${state.playerNote}</b><span>$75 main bet</span></div>
+              <div class="playing-hand">${playerCards}</div>
+              <div class="decision-row">
+                <div class="decision-pill ${state.action === "Hit" ? "active locked" : ""}">Hit</div>
+                <div class="decision-pill ${state.action === "Stand" ? "active locked" : ""}">Stand</div>
+                <div class="decision-pill">Double</div>
+                <div class="decision-pill">Split</div>
+              </div>
+            </div>
+          </div>
+          <div class="game-chip-row">
+            <span class="game-chip">$25</span>
+            <span class="game-chip active">$50</span>
+            <span class="game-chip">$75</span>
+            <span class="game-chip">$100</span>
+            <span class="game-chip">Side bet</span>
+          </div>
+          ${demoTabsMarkup(card)}
+          <div class="game-flow">
+            <div class="flow-step"><strong>Sit</strong><span>Open seat</span></div>
+            <div class="flow-step"><strong>Deal</strong><span>Cards received</span></div>
+            <div class="flow-step"><strong>Act</strong><span>Hit or stand</span></div>
+            <div class="flow-step"><strong>Settle</strong><span>Hand resolved</span></div>
+          </div>
+          <p class="game-caption">Blackjack flow shows decision depth: seat entry, clear hand state, action buttons and fast operator-side settlement.</p>
+        </div>
+      `;
+    }
+
+    function renderBaccaratGameplay(card) {
+      const state = demoState(card);
+      const dealerCall = liveDealerCall(card, state);
+      const road = [...(card.baccaratRoad || []), ...(state.recentRoad ? [state.recentRoad] : [])]
+        .slice(-12)
+        .map((entry, index, array) => `<div class="road-dot ${entry} ${index === array.length - 1 && state.recentRoad ? "recent" : ""}"></div>`)
+        .join("");
+      return `
+        <div class="game-shell ${isLiveRound(card) ? "live-round" : ""}">
+          <div class="game-head">
+            <div><strong>Baccarat gameplay</strong><span>Read trend -> choose side -> reveal cards -> settle</span></div>
+            <div class="game-timer">${roundTimerLabel(card, state)}</div>
+          </div>
+          ${liveControlsMarkup(card)}
+          ${bannerMarkup(state)}
+          ${historyMarkup(state)}
+          ${statsMarkup(state)}
+          <div class="game-canvas">
+            <div class="dealer-call"><strong>${dealerCall.title}</strong><span>${dealerCall.text}</span></div>
+            <div class="baccarat-scores">
+              <div class="baccarat-score player ${state.selectedBet === "player" || state.recentRoad === "player" ? "active" : ""}"><strong>Player</strong><span>1:1 payout</span><small>Score ${state.scores.player}</small></div>
+              <div class="baccarat-score tie ${state.recentRoad === "tie" ? "active" : ""}"><strong>Tie</strong><span>8:1 payout</span><small>Score ${state.scores.tie}</small></div>
+              <div class="baccarat-score banker ${state.selectedBet === "banker" || state.recentRoad === "banker" ? "active" : ""}"><strong>Banker</strong><span>0.95:1</span><small>Score ${state.scores.banker}</small></div>
+            </div>
+            <div class="road-grid">${road}</div>
+          </div>
+          <div class="game-chip-row">
+            <span class="game-chip ${state.selectedBet === "player" ? "active" : ""}">Player</span>
+            <span class="game-chip ${state.selectedBet === "banker" ? "active" : ""}">Banker</span>
+            <span class="game-chip ${state.selectedBet === "tie" ? "active" : ""}">Tie</span>
+            <span class="game-chip">$25</span>
+            <span class="game-chip">$100</span>
+          </div>
+          ${demoTabsMarkup(card)}
+          <div class="game-flow">
+            <div class="flow-step"><strong>Read</strong><span>Roadmap trend</span></div>
+            <div class="flow-step"><strong>Choose</strong><span>Player / banker</span></div>
+            <div class="flow-step"><strong>Reveal</strong><span>Cards open</span></div>
+            <div class="flow-step"><strong>Settle</strong><span>Next shoe state</span></div>
+          </div>
+          <p class="game-caption">Baccarat flow centers on trend reading, side selection and quick repeat betting based on table rhythm.</p>
+        </div>
+      `;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     function gameplayMarkup(card) {
@@ -7284,6 +8309,7 @@
       progress.innerHTML = cards.map((_, index) => `<i class="${index === active ? "active" : ""}"></i>`).join("");
 
       feed.innerHTML = cards.map((card, index) => `
+<<<<<<< HEAD
         <article class="live-card feed-${card.id}" data-index="${index}" style="${feedMotionStyle(card)}">
           <img src="${card.image}" alt="${card.dealer} live dealer screen" style="${feedImageStyle(card)}" />
           <div class="live-card-parallax"></div>
@@ -7303,11 +8329,45 @@
               <button class="stream-action primary" type="button" data-sheet="gameplay" aria-label="Play">${icon("play")}</button>
             </div>
           </div>
+=======
+        <article class="live-card" data-index="${index}">
+          <img src="${card.image}" alt="${card.dealer} live dealer screen" />
+          <div class="casino-ambience"><span></span></div>
+          <div class="live-badge"><i></i>LIVE</div>
+          <div class="table-state">${card.operator}</div>
+          <div class="copy">
+            <div class="meta-row">
+              <span class="pill gold">${card.game}</span>
+              <span class="pill teal">${card.watching} watching</span>
+              <span class="pill">${card.seat}</span>
+            </div>
+            <h2>${card.title}</h2>
+            <p>${card.caption}</p>
+            <div class="market-line">
+              <div class="mini-stat"><strong>${card.stakes}</strong><span>stakes</span></div>
+              <div class="mini-stat"><strong>${card.state}</strong><span>table</span></div>
+              <div class="mini-stat"><strong>${card.trend}</strong><span>trend</span></div>
+            </div>
+            <div class="cta-row">
+              <button class="btn" type="button" data-sheet="watch">Watch table</button>
+              <button class="btn secondary" type="button" data-sheet="gameplay">Gameplay</button>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="action" type="button" data-action="like" aria-label="Like"><span>${iconHeart}</span><small>Like</small></button>
+            <button class="action" type="button" data-action="follow" aria-label="Follow"><span>${iconUser}</span><small>Follow</small></button>
+            <button class="action" type="button" data-action="save" aria-label="Save"><span>${iconSave}</span><small>Save</small></button>
+            <button class="action" type="button" data-action="share" aria-label="Share"><span>${iconShare}</span><small>Share</small></button>
+          </div>
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
         </article>
       `).join("");
 
       syncSide();
+<<<<<<< HEAD
       renderChromeState();
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     function syncSide() {
@@ -7319,7 +8379,10 @@
       document.getElementById("kpiArpu").textContent = card.arpu;
       stories.querySelectorAll(".story").forEach((story, index) => story.classList.toggle("active", index === active));
       progress.querySelectorAll("i").forEach((dot, index) => dot.classList.toggle("active", index === active));
+<<<<<<< HEAD
       renderChromeState();
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     function goTo(index) {
@@ -7341,6 +8404,7 @@
             <div class="sheet-title"><span class="pill gold">Dealer</span><h3>${card.dealer}</h3></div>
             ${closeButton()}
           </div>
+<<<<<<< HEAD
           <div class="dealer-profile-hero">
             <div class="dealer-profile-backdrop" style="${profileBackdropStyle(card)}"></div>
             <div class="dealer-avatar-stack">
@@ -7381,6 +8445,22 @@
             <button class="btn" type="button" data-action="follow">Follow dealer</button>
             <button class="btn secondary" type="button" data-sheet="message">Message</button>
             <button class="btn secondary" type="button" data-sheet="tips">Tip</button>
+=======
+          <div class="hero-preview" style="background-image:url('${card.image}')"></div>
+          <div class="row-grid">
+            <div class="metric"><strong>${card.follows}</strong><span>followers</span></div>
+            <div class="metric"><strong>${card.watching}</strong><span>watching</span></div>
+            <div class="metric"><strong>${card.join}</strong><span>join rate</span></div>
+          </div>
+          <div class="list">
+            <div class="list-row"><b>Now live</b><span>${card.table}</span></div>
+            <div class="list-row"><b>Operator</b><span>${card.operator}</span></div>
+            <div class="list-row"><b>Return trigger</b><span>${card.game} alert</span></div>
+          </div>
+          <div class="sheet-actions">
+            <button class="btn" type="button" data-action="follow">Follow dealer</button>
+            <button class="btn secondary" type="button" data-sheet="watch">Watch table</button>
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
           </div>
         `;
       }
@@ -7388,6 +8468,7 @@
       if (type === "handoff") {
         return `
           <div class="sheet-head">
+<<<<<<< HEAD
             <div class="sheet-title"><span class="pill teal">Table entry</span><h3>${card.operator}</h3></div>
             ${closeButton()}
           </div>
@@ -7407,12 +8488,36 @@
             <div class="operator-card"><strong>Wallet stays separate</strong><span>Account, tips and table play can stay grouped without putting those flows on the first screen.</span></div>
             <div class="operator-card"><strong>Tracking stays attached</strong><span>The handoff keeps dealer, table and session context for reporting and retention.</span></div>
           </div>
+=======
+            <div class="sheet-title"><span class="pill teal">Operator entry</span><h3>${card.operator}</h3></div>
+            ${closeButton()}
+          </div>
+          <div class="list">
+            <div class="list-row"><b>Account</b><span>Operator login</span></div>
+            <div class="list-row"><b>KYC / AML</b><span>Operator controlled</span></div>
+            <div class="list-row"><b>Wallet</b><span>Operator balance</span></div>
+            <div class="list-row"><b>Attribution</b><span>LC App session ID</span></div>
+            <div class="list-row"><b>Table</b><span>${card.table}</span></div>
+          </div>
+          <div class="operator-status">
+            <div>Login ready</div>
+            <div>KYC checked</div>
+            <div>Wallet linked</div>
+          </div>
+          <div class="operator-stack">
+            <div class="operator-card"><strong>Operator-owned cashier</strong><span>LC App passes the player intent and session context, not deposits or withdrawals.</span></div>
+            <div class="operator-card"><strong>Regulated settlement</strong><span>Bet acceptance, win/loss settlement and audit records remain inside the licensed operator environment.</span></div>
+            <div class="operator-card"><strong>Attribution for revenue share</strong><span>The handoff carries LC session ID, dealer source and campaign tag for pilot reporting.</span></div>
+          </div>
+          <div class="demo-disclaimer">Investor demo only. No real-money transactions are processed inside this prototype.</div>
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
           <div class="row-grid">
             <div class="metric"><strong>${card.join}</strong><span>join rate</span></div>
             <div class="metric"><strong>${card.stakes}</strong><span>stakes</span></div>
             <div class="metric"><strong>${card.trend}</strong><span>trend</span></div>
           </div>
           <div class="sheet-actions">
+<<<<<<< HEAD
             <button class="btn" type="button" data-sheet="gameplay">Open table</button>
             <button class="btn secondary" type="button" data-sheet="account">Account</button>
           </div>
@@ -7634,12 +8739,30 @@
             <button class="btn secondary" type="button" data-roulette-repeat="1">Repeat</button>
             <button class="btn secondary" type="button" data-roulette-clear="1">Clear</button>
             <button class="btn" type="button" data-sheet="gameplay">Back to game</button>
+=======
+            <button class="btn" type="button" data-sheet="insights">View pilot proof</button>
+            <button class="btn secondary" type="button" data-sheet="watch">Back</button>
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
           </div>
         `;
       }
 
       if (type === "gameplay") {
+<<<<<<< HEAD
         return gameplayMarkup(card);
+=======
+        return `
+          <div class="sheet-head">
+            <div class="sheet-title"><span class="pill gold">Gameplay</span><h3>${card.game} table flow</h3></div>
+            ${closeButton()}
+          </div>
+          ${gameplayMarkup(card)}
+          <div class="sheet-actions">
+            <button class="btn" type="button" data-sheet="handoff">Open operator table</button>
+            <button class="btn secondary" type="button" data-sheet="watch">Back to watch</button>
+          </div>
+        `;
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       }
 
       if (type === "search") {
@@ -7676,6 +8799,7 @@
       if (type === "insights") {
         return `
           <div class="sheet-head">
+<<<<<<< HEAD
             <div class="sheet-title"><span class="pill teal">Investor proof</span><h3>Why this scales</h3></div>
             ${closeButton()}
           </div>
@@ -7706,6 +8830,11 @@
             <div class="pilot-step"><strong>Week 3-6</strong><span>Measure watch, follow, handoff and return alerts.</span></div>
             <div class="pilot-step"><strong>Week 7-8</strong><span>Paid continuation decision with KPI report.</span></div>
           </div>
+=======
+            <div class="sheet-title"><span class="pill teal">Pilot</span><h3>Operator proof</h3></div>
+            ${closeButton()}
+          </div>
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
           <div class="row-grid">
             <div class="metric"><strong>${card.watching}</strong><span>watchers</span></div>
             <div class="metric"><strong>${card.join}</strong><span>join</span></div>
@@ -7715,6 +8844,7 @@
             <div class="list-row"><b>Top surface</b><span>Feed card</span></div>
             <div class="list-row"><b>Best signal</b><span>Dealer follow</span></div>
             <div class="list-row"><b>Revenue path</b><span>Module + rev-share</span></div>
+<<<<<<< HEAD
             <div class="list-row"><b>Upside case</b><span>$8M-$10M+ annualized</span></div>
             <div class="list-row"><b>Scale path</b><span>More operators + higher ARPU</span></div>
           </div>
@@ -7722,6 +8852,9 @@
           <div class="sheet-actions">
             <button class="btn" type="button" data-sheet="handoff">Operator flow</button>
             <button class="btn secondary" type="button" data-sheet="watch">Back to demo</button>
+=======
+            <div class="list-row"><b>Compliance</b><span>Licensed operator</span></div>
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
           </div>
         `;
       }
@@ -7731,6 +8864,7 @@
           <div class="sheet-title"><span class="pill teal">Watch</span><h3>${card.table}</h3></div>
           ${closeButton()}
         </div>
+<<<<<<< HEAD
         <div class="hero-preview watch-hero">
           <img src="${card.image}" alt="${card.dealer} table preview" style="${profileImageStyle(card)}" />
           <div class="watch-hero-copy">
@@ -7770,11 +8904,30 @@
           ${compactListRow("play", "game", card.game)}
           ${compactListRow("trend", "trend", card.trend)}
           ${compactListRow("history", "return", "Saved to profile")}
+=======
+        <div class="hero-preview" style="background-image:url('${card.image}')"></div>
+        <div class="row-grid">
+          <div class="metric"><strong>${card.watching}</strong><span>watching</span></div>
+          <div class="metric"><strong>${card.stakes}</strong><span>stakes</span></div>
+          <div class="metric"><strong>${card.seat}</strong><span>open</span></div>
+        </div>
+        <div class="list">
+          <div class="list-row"><b>Table state</b><span>${card.state}</span></div>
+          <div class="list-row"><b>Dealer</b><span>${card.dealer}</span></div>
+          <div class="list-row"><b>Operator</b><span>${card.operator}</span></div>
+        </div>
+        ${gameplayMarkup(card)}
+        <div class="sheet-actions">
+          <button class="btn" type="button" data-sheet="handoff">Play via operator</button>
+          <button class="btn secondary" type="button" data-sheet="profile">Dealer</button>
+          <button class="btn secondary" type="button" data-sheet="gameplay">Gameplay</button>
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
         </div>
       `;
     }
 
     function openSheet(type) {
+<<<<<<< HEAD
       const previousType = currentSheetType;
       const card = item();
       setCleanView(false);
@@ -7805,6 +8958,29 @@
       sheet.classList.remove("gameplay-open");
       sheet.setAttribute("aria-hidden", "true");
       renderChromeState();
+=======
+      currentSheetType = type;
+      sheetPanel.innerHTML = sheetMarkup(type);
+      sheet.classList.add("open");
+      sheet.setAttribute("aria-hidden", "false");
+      if (["watch", "gameplay"].includes(type)) startLiveRoundTimer();
+      const labels = {
+        watch: "Watch mode opened",
+        gameplay: "Gameplay flow opened",
+        profile: "Dealer profile opened",
+        handoff: "Operator handoff opened",
+        insights: "Pilot proof opened",
+        search: "Explore opened",
+        alerts: "Alerts opened"
+      };
+      showToast(labels[type]);
+    }
+
+    function closeSheet() {
+      currentSheetType = null;
+      sheet.classList.remove("open");
+      sheet.setAttribute("aria-hidden", "true");
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     }
 
     render();
@@ -7827,10 +9003,15 @@
     document.addEventListener("click", (event) => {
       const open = event.target.closest("[data-sheet]");
       const close = event.target.closest("[data-close]");
+<<<<<<< HEAD
+=======
+      const action = event.target.closest(".action");
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       const nav = event.target.closest(".nav");
       const tab = event.target.closest(".tab");
       const demo = event.target.closest("[data-demo-state]");
       const anyAction = event.target.closest("[data-action]");
+<<<<<<< HEAD
       const tapFeedback = event.target.closest("[data-tap-feedback]");
       const gameMenu = event.target.closest("[data-game-menu]");
       const gameChat = event.target.closest("[data-game-chat]");
@@ -7912,46 +9093,81 @@
         gameplayMemory(card).selectedBet = baccaratSide.dataset.baccaratSide;
         commitGameplayMemory(card);
       }
+=======
+      const liveToggle = event.target.closest("[data-live-toggle]");
+      const liveStep = event.target.closest("[data-live-step]");
+      const liveReset = event.target.closest("[data-live-reset]");
+      const introStart = event.target.closest("[data-intro-start]");
+      const introClose = event.target.closest("[data-intro-close]");
+
+      if (introStart || introClose) hideIntro(Boolean(introStart));
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       if (open) openSheet(open.dataset.sheet);
       if (close) closeSheet();
       if (liveToggle) {
         const card = item();
         liveRoundByCard[card.id] = !isLiveRound(card);
         if (isLiveRound(card)) startLiveRoundTimer();
+<<<<<<< HEAD
         refreshSheet();
         if (currentSheetType !== "gameplay") showToast(isLiveRound(card) ? "Live round running" : "Live round paused");
+=======
+        showToast(isLiveRound(card) ? "Live round running" : "Live round paused");
+        refreshSheet();
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       }
       if (liveStep) {
         const card = item();
         liveRoundByCard[card.id] = false;
         advanceLiveRound(card);
+<<<<<<< HEAD
         if (currentSheetType !== "gameplay") showToast("Next gameplay phase");
+=======
+        showToast("Next gameplay phase");
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       }
       if (liveReset) {
         const card = item();
         demoStateByCard[card.id] = 0;
         liveRoundByCard[card.id] = true;
+<<<<<<< HEAD
         syncCameraState(card, currentSheetType === "gameplay");
         startLiveRoundTimer();
         refreshSheet();
         if (currentSheetType !== "gameplay") showToast("Round restarted");
       }
+=======
+        startLiveRoundTimer();
+        refreshSheet();
+        showToast("Round restarted");
+      }
+      if (action) action.classList.toggle("active");
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       if (anyAction) {
         const messages = {
           like: "Added to favorites",
           follow: `${item().dealer} followed`,
           save: "Saved for later",
+<<<<<<< HEAD
           share: "Demo share action",
           tip: `Tip sheet ready for ${item().dealer}`,
           message: `Message draft opened for ${item().dealer}`
         };
         showToast(messages[anyAction.dataset.action]);
         if (event.target.closest("#homeDrawer")) closeHomeMenu();
+=======
+          share: "Demo share action"
+        };
+        showToast(messages[anyAction.dataset.action]);
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       }
       if (demo) {
         liveRoundByCard[item().id] = false;
         demoStateByCard[item().id] = Number(demo.dataset.demoState);
+<<<<<<< HEAD
         syncCameraState(item(), currentSheetType === "gameplay");
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
         refreshSheet();
       }
       if (nav) {
@@ -7967,9 +9183,12 @@
         tab.classList.add("active");
         showToast(`${tab.textContent.trim()} feed`);
       }
+<<<<<<< HEAD
       if (homeMenuOpen && !event.target.closest("#homeDrawer") && !homeMenuToggle) {
         closeHomeMenu();
       }
+=======
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
     });
 
     sheet.addEventListener("click", (event) => {
@@ -7987,7 +9206,11 @@
       if (event.key === "Escape") closeSheet();
     });
 
+<<<<<<< HEAD
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+=======
+    if ("serviceWorker" in navigator && location.protocol !== "file:") {
+>>>>>>> 1b1dbdf (Initial LC App investor demo)
       window.addEventListener("load", () => {
         navigator.serviceWorker.register("./sw.js").catch(() => {});
       });
