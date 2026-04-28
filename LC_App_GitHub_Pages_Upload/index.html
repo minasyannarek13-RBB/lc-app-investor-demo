@@ -629,7 +629,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transform: scale(1.08);
+      transform: scale(1.03);
       filter: contrast(1.04) saturate(1.04);
       animation: feedDealerFloat var(--feed-parallax-duration) ease-in-out infinite alternate;
     }
@@ -857,10 +857,10 @@
 
     .entry-strip {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 4px;
       margin-top: 7px;
-      max-width: 224px;
+      max-width: 176px;
     }
 
     .entry-chip {
@@ -957,6 +957,12 @@
       background: linear-gradient(135deg, rgba(255, 227, 154, .94), rgba(255, 184, 92, .92));
       border-color: rgba(255, 227, 154, .2);
       box-shadow: 0 10px 22px rgba(0, 0, 0, .22);
+    }
+
+    .stream-action.secondary-ghost {
+      color: rgba(255, 255, 255, .74);
+      background: rgba(4, 5, 6, .08);
+      border-color: rgba(255, 255, 255, .06);
     }
 
     .stream-action .inline-icon {
@@ -1123,10 +1129,10 @@
 
     @keyframes feedDealerFloat {
       0% {
-        transform: translate3d(calc(var(--feed-drift-x) * -.35), calc(var(--feed-drift-y) * -.24), 0) scale(1.08);
+        transform: translate3d(calc(var(--feed-drift-x) * -.35), calc(var(--feed-drift-y) * -.24), 0) scale(1.03);
       }
       100% {
-        transform: translate3d(var(--feed-drift-x), var(--feed-drift-y), 0) scale(1.12);
+        transform: translate3d(var(--feed-drift-x), var(--feed-drift-y), 0) scale(1.07);
       }
     }
 
@@ -1342,6 +1348,158 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(180deg, transparent 28%, rgba(0, 0, 0, .82));
+    }
+
+    .watch-hero {
+      height: 196px;
+    }
+
+    .watch-hero::after {
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, .04), transparent 34%),
+        linear-gradient(180deg, transparent 36%, rgba(0, 0, 0, .88));
+    }
+
+    .watch-hero-copy {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .watch-hero-top,
+    .watch-hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .watch-hero-pill,
+    .watch-hero-tags span {
+      min-height: 24px;
+      padding: 0 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .86);
+      background: rgba(4, 5, 6, .22);
+      backdrop-filter: blur(14px);
+      font-size: 9px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .watch-hero-pill .inline-icon,
+    .watch-hero-tags .inline-icon {
+      width: 11px;
+      height: 11px;
+      color: rgba(255, 255, 255, .74);
+    }
+
+    .watch-hero-body {
+      margin-top: auto;
+    }
+
+    .watch-hero-body h4 {
+      margin: 0;
+      font-size: 22px;
+      line-height: .96;
+      font-weight: 950;
+    }
+
+    .watch-hero-body p {
+      margin: 6px 0 0;
+      color: rgba(255, 255, 255, .74);
+      font-size: 10px;
+      line-height: 1.32;
+    }
+
+    .account-hub {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid rgba(255, 255, 255, .11);
+      border-radius: 18px;
+      background:
+        linear-gradient(140deg, rgba(255, 227, 154, .12), transparent 38%),
+        linear-gradient(135deg, rgba(11, 13, 18, .92), rgba(42, 14, 18, .86));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
+    }
+
+    .account-hub::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 82% 16%, rgba(46, 230, 206, .12), transparent 26%);
+      pointer-events: none;
+    }
+
+    .account-hub-top,
+    .account-hub-strip {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .account-hub-tag {
+      min-height: 24px;
+      padding: 0 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .84);
+      background: rgba(255, 255, 255, .06);
+      font-size: 9px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .account-hub-tag .inline-icon {
+      width: 11px;
+      height: 11px;
+      color: var(--gold2);
+    }
+
+    .account-hub-balance {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 4px;
+    }
+
+    .account-hub-balance strong {
+      font-size: 28px;
+      line-height: .92;
+      font-weight: 950;
+    }
+
+    .account-hub-balance span {
+      color: rgba(255, 255, 255, .72);
+      font-size: 10px;
+      line-height: 1.32;
+    }
+
+    .compact-modules .module-card {
+      min-height: 52px;
+      background: rgba(255, 255, 255, .04);
+    }
+
+    .sheet-actions.flush {
+      margin-top: 12px;
     }
 
     .dealer-profile-hero {
@@ -1853,8 +2011,8 @@
       min-width: 0;
       display: flex;
       flex-wrap: wrap;
-      gap: 5px;
-      max-width: calc(100% - 116px);
+      gap: 4px;
+      max-width: calc(100% - 108px);
     }
 
     .gameplay-stage-meta .pill,
@@ -1862,8 +2020,8 @@
       min-height: 20px;
       padding: 0 7px;
       font-size: 8px;
-      border-color: rgba(255, 255, 255, .1);
-      background: rgba(4, 5, 6, .16);
+      border-color: rgba(255, 255, 255, .08);
+      background: rgba(4, 5, 6, .12);
       backdrop-filter: blur(14px);
     }
 
@@ -1887,12 +2045,12 @@
     }
 
     .gameplay-icon-btn {
-      width: 28px;
-      height: 28px;
-      border: 1px solid rgba(255, 255, 255, .11);
+      width: 26px;
+      height: 26px;
+      border: 1px solid rgba(255, 255, 255, .09);
       border-radius: 50%;
       color: var(--text);
-      background: rgba(4, 5, 6, .16);
+      background: rgba(4, 5, 6, .12);
       backdrop-filter: blur(16px);
       font-size: 9px;
       font-weight: 950;
@@ -1902,11 +2060,11 @@
     }
 
     .gameplay-stage-actions .close {
-      flex: 0 0 28px;
-      width: 28px;
-      height: 28px;
-      border: 1px solid rgba(255, 255, 255, .11);
-      background: rgba(4, 5, 6, .16);
+      flex: 0 0 26px;
+      width: 26px;
+      height: 26px;
+      border: 1px solid rgba(255, 255, 255, .09);
+      background: rgba(4, 5, 6, .12);
       backdrop-filter: blur(16px);
       font-size: 10px;
     }
@@ -1963,9 +2121,9 @@
       right: 0;
       bottom: 0;
       display: grid;
-      gap: 6px;
+      gap: 5px;
       justify-items: center;
-      padding: 0 12px calc(10px + env(safe-area-inset-bottom));
+      padding: 0 10px calc(8px + env(safe-area-inset-bottom));
     }
 
     .gameplay-stage-focus {
@@ -2717,15 +2875,15 @@
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       width: fit-content;
       max-width: 100%;
       min-height: 0;
       margin: 0 auto;
-      padding: 6px 8px;
-      border: 1px solid rgba(255, 255, 255, .12);
+      padding: 5px 7px;
+      border: 1px solid rgba(255, 255, 255, .1);
       border-radius: 999px;
-      background: rgba(12, 14, 20, .2);
+      background: rgba(12, 14, 20, .14);
       backdrop-filter: blur(16px);
     }
 
@@ -2833,16 +2991,26 @@
 
     .gameplay-overlay-hud {
       display: grid;
-      gap: 6px;
+      gap: 5px;
       justify-items: center;
+      width: min(292px, 100%);
     }
 
     .gameplay-action-tray {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 6px;
-      width: 100%;
+      gap: 5px;
+      width: min(292px, 100%);
+    }
+
+    .gameplay-overlay-hud .game-chip {
+      min-height: 28px;
+      padding: 0 9px;
+      border-color: rgba(255, 255, 255, .1);
+      background: rgba(4, 5, 6, .12);
+      backdrop-filter: blur(12px);
+      font-size: 8px;
     }
 
     .gameplay-road-inline {
@@ -3109,8 +3277,8 @@
       border: 1px solid rgba(255, 255, 255, .12);
       border-radius: 16px;
       background:
-        linear-gradient(180deg, rgba(14, 16, 22, .14), rgba(14, 16, 22, .32)),
-        rgba(0, 0, 0, .12);
+        linear-gradient(180deg, rgba(14, 16, 22, .08), rgba(14, 16, 22, .2)),
+        rgba(0, 0, 0, .08);
       backdrop-filter: blur(18px);
       box-shadow: 0 12px 22px rgba(0, 0, 0, .14);
       animation: gameRise .18s ease;
@@ -3161,26 +3329,26 @@
 
     .gameplay-overlay-hands {
       display: grid;
-      gap: 6px;
-      width: min(268px, 100%);
+      gap: 5px;
+      width: min(252px, 100%);
     }
 
     .gameplay-hand-block {
-      padding: 8px;
-      border: 1px solid rgba(255, 255, 255, .11);
+      padding: 7px;
+      border: 1px solid rgba(255, 255, 255, .08);
       border-radius: 14px;
-      background: rgba(4, 5, 6, .18);
-      backdrop-filter: blur(14px);
+      background: rgba(4, 5, 6, .12);
+      backdrop-filter: blur(12px);
     }
 
     .gameplay-hand-block .hand-meta {
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .gameplay-baccarat-inline {
       display: grid;
-      gap: 6px;
-      width: min(268px, 100%);
+      gap: 5px;
+      width: min(252px, 100%);
     }
 
     .game-shell {
@@ -4033,20 +4201,20 @@
     .decision-row {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 6px;
-      width: min(220px, 100%);
+      gap: 5px;
+      width: min(204px, 100%);
     }
 
     .decision-pill {
       min-width: 0;
-      min-height: 32px;
+      min-height: 30px;
       display: grid;
       place-items: center;
-      border: 1px solid rgba(255, 255, 255, .12);
+      border: 1px solid rgba(255, 255, 255, .1);
       border-radius: 999px;
       color: rgba(255, 255, 255, .86);
-      background: rgba(4, 5, 6, .2);
-      backdrop-filter: blur(14px);
+      background: rgba(4, 5, 6, .12);
+      backdrop-filter: blur(12px);
       font-size: 9px;
       font-weight: 900;
       text-align: center;
@@ -4066,18 +4234,18 @@
     .baccarat-scores {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 6px;
-      width: min(240px, 100%);
+      gap: 5px;
+      width: min(228px, 100%);
     }
 
     .baccarat-score {
       min-width: 0;
-      min-height: 52px;
-      padding: 8px 6px;
-      border: 1px solid rgba(255, 255, 255, .12);
-      border-radius: 16px;
-      background: rgba(4, 5, 6, .18);
-      backdrop-filter: blur(14px);
+      min-height: 48px;
+      padding: 7px 6px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 14px;
+      background: rgba(4, 5, 6, .12);
+      backdrop-filter: blur(12px);
       text-align: center;
       cursor: pointer;
     }
@@ -4652,7 +4820,7 @@
       }
 
       .entry-strip {
-        max-width: 188px;
+        max-width: 150px;
       }
 
       .home-drawer {
@@ -4672,6 +4840,39 @@
         grid-template-columns: 1fr;
         justify-items: center;
         text-align: center;
+      }
+
+      .watch-hero {
+        height: 184px;
+      }
+
+      .watch-hero-copy {
+        padding: 10px;
+      }
+
+      .watch-hero-body h4 {
+        font-size: 20px;
+      }
+
+      .watch-hero-tags {
+        gap: 5px;
+      }
+
+      .watch-hero-pill,
+      .watch-hero-tags span,
+      .account-hub-tag {
+        min-height: 22px;
+        padding: 0 7px;
+        font-size: 8px;
+      }
+
+      .account-hub {
+        gap: 10px;
+        padding: 12px;
+      }
+
+      .account-hub-balance strong {
+        font-size: 24px;
       }
 
       .dealer-profile-copy {
@@ -5231,7 +5432,7 @@
         floor: "European floor",
         hook: "Wheel-first discovery",
         glance: "Discovery card tuned for clean roulette read, VIP tone and a fast operator handoff.",
-        feedPosition: "center 16%",
+        feedPosition: "center 22%",
         profilePosition: "center 18%",
         overlay: {
           dealer: ["Dealer arc", "Open map", "VIP wheel"],
@@ -5243,7 +5444,7 @@
         floor: "VIP felt",
         hook: "Readable deal path",
         glance: "Blackjack entry built around dealer presence, seat mood and a visible deal flow.",
-        feedPosition: "center 14%",
+        feedPosition: "center 22%",
         profilePosition: "center 16%",
         overlay: {
           dealer: ["Seat open", "Dealer box", "Decision ready"],
@@ -5255,7 +5456,7 @@
         floor: "Shoe rhythm",
         hook: "Squeeze-led baccarat",
         glance: "Baccarat card paced around side selection, shoe tension and road readability.",
-        feedPosition: "center 15%",
+        feedPosition: "center 23%",
         profilePosition: "center 16%",
         overlay: {
           dealer: ["Shoe open", "Side pick", "Calm table"],
@@ -5267,7 +5468,7 @@
         floor: "Night wheel",
         hook: "Mobile-first settle",
         glance: "Mass-market roulette card optimized for fast result readability on iPhone screens.",
-        feedPosition: "center 17%",
+        feedPosition: "center 23%",
         profilePosition: "center 20%",
         overlay: {
           dealer: ["Night floor", "Low-min seat", "Dealer read"],
@@ -7033,12 +7234,10 @@
               ${entryChip("lang", card.language)}
               ${entryChip("watch", card.watching)}
               ${entryChip("seat", `${card.seat} open`)}
-              ${entryChip("limit", card.stakes)}
             </div>
             <div class="cta-row">
-              <button class="stream-action" type="button" data-sheet="watch" aria-label="Watch">${icon("watch")}</button>
+              <button class="stream-action secondary-ghost" type="button" data-sheet="watch" aria-label="Watch">${icon("watch")}</button>
               <button class="stream-action primary" type="button" data-sheet="gameplay" aria-label="Play">${icon("play")}</button>
-              <button class="stream-action" type="button" data-sheet="tips" aria-label="Tip dealer">${icon("tip")}</button>
             </div>
           </div>
         </article>
@@ -7163,14 +7362,31 @@
             <div class="sheet-title"><span class="pill gold">Account</span><h3>Player profile</h3></div>
             ${closeButton()}
           </div>
-          <div class="proof-hero">
-            <div><strong>Player hub</strong><span>Wallet, history, saved dealers and access controls stay in one place.</span></div>
-            <b>Player</b>
+          <div class="account-hub">
+            <div class="account-hub-top">
+              <span class="pill gold">VIP 2</span>
+              <span class="account-hub-tag">${icon("wallet")}USDT + 4</span>
+            </div>
+            <div class="account-hub-balance">
+              <strong>$2.4K</strong>
+              <span>Ready to play across wallet, card and saved table access.</span>
+            </div>
+            <div class="account-hub-strip">
+              <span class="account-hub-tag">${icon("watch")}${card.dealer} + 8</span>
+              <span class="account-hub-tag">${icon("history")}126 hands</span>
+              <span class="account-hub-tag">${icon("tip")}$145</span>
+            </div>
           </div>
           <div class="row-grid">
             ${compactMetric("profile", "VIP 2", "tier")}
             ${compactMetric("watch", card.follows, "saved")}
             ${compactMetric("wallet", "4", "wallets")}
+          </div>
+          <div class="module-grid compact-modules">
+            ${moduleTile("history", "History", { sheet: "history" })}
+            ${moduleTile("wallet", "Wallet", { sheet: "wallet" })}
+            ${moduleTile("profile", "Roles", { sheet: "roles" })}
+            ${moduleTile("shield", "Access", { sheet: "compliance" })}
           </div>
           <div class="list">
             ${compactListRow("wallet", "wallet", "USDT + card")}
@@ -7178,11 +7394,9 @@
             ${compactListRow("tip", "tips sent", "$145")}
             ${compactListRow("watch", "saved", `${card.dealer} + 8`)}
           </div>
-          <div class="module-grid">
-            ${moduleTile("history", "History", { sheet: "history" })}
-            ${moduleTile("wallet", "Wallet", { sheet: "wallet" })}
-            ${moduleTile("profile", "Roles", { sheet: "roles" })}
-            ${moduleTile("shield", "Access", { sheet: "compliance" })}
+          <div class="sheet-actions flush">
+            <button class="btn" type="button" data-sheet="wallet">Wallet</button>
+            <button class="btn secondary" type="button" data-sheet="history">History</button>
           </div>
         `;
       }
@@ -7403,8 +7617,8 @@
             ${closeButton()}
           </div>
           <div class="proof-hero">
-            <div><strong>Clean feed, monetized handoff</strong><span>The app keeps player discovery simple, then opens deeper gameplay, operator entry and KPI proof as focused popups.</span></div>
-            <b>60d pilot</b>
+            <div><strong>Clean feed, measurable handoff</strong><span>The app keeps player discovery simple, then opens gameplay, operator entry and KPI proof without turning the first screen into a heavy casino lobby.</span></div>
+            <b>$2.5M round</b>
           </div>
           <div class="proof-grid">
             <div class="proof-card"><strong>${card.join}</strong><span>current join-rate signal</span></div>
@@ -7438,9 +7652,10 @@
             <div class="list-row"><b>Top surface</b><span>Feed card</span></div>
             <div class="list-row"><b>Best signal</b><span>Dealer follow</span></div>
             <div class="list-row"><b>Revenue path</b><span>Module + rev-share</span></div>
-            <div class="list-row"><b>Entry model</b><span>Account + table handoff</span></div>
+            <div class="list-row"><b>Capital path</b><span>$2.5M lean round</span></div>
+            <div class="list-row"><b>Build path</b><span>Armenia lease-first</span></div>
           </div>
-          <p class="proof-note">Investor readout: LC App can be sold first as an operator-side growth module, then expanded into a broader live casino discovery network after pilot data validates retention and GGR lift.</p>
+          <p class="proof-note">Investor readout: LC App can start with a lean $2.5M Armenia build, operator pilots and staged go-live readiness; larger facilities capex stays outside the initial round.</p>
           <div class="sheet-actions">
             <button class="btn" type="button" data-sheet="handoff">Operator flow</button>
             <button class="btn secondary" type="button" data-sheet="watch">Back to demo</button>
@@ -7453,30 +7668,45 @@
           <div class="sheet-title"><span class="pill teal">Watch</span><h3>${card.table}</h3></div>
           ${closeButton()}
         </div>
-        <div class="hero-preview">
+        <div class="hero-preview watch-hero">
           <img src="${card.image}" alt="${card.dealer} table preview" style="${profileImageStyle(card)}" />
+          <div class="watch-hero-copy">
+            <div class="watch-hero-top">
+              <span class="dealer-live-chip">Live</span>
+              <span class="watch-hero-pill">${icon("lang")}${card.language}</span>
+            </div>
+            <div class="watch-hero-body">
+              <h4>${card.dealer}</h4>
+              <p>${card.table}</p>
+            </div>
+            <div class="watch-hero-tags">
+              <span>${icon("watch")}${card.watching}</span>
+              <span>${icon("limit")}${card.stakes}</span>
+              <span>${icon("seat")}${card.seat}</span>
+            </div>
+          </div>
+        </div>
+        <div class="sheet-actions flush">
+          <button class="btn" type="button" data-sheet="gameplay">Play</button>
+          <button class="btn secondary" type="button" data-sheet="message">Message</button>
+          <button class="btn secondary" type="button" data-sheet="tips">Tip</button>
         </div>
         <div class="row-grid">
           ${compactMetric("watch", card.watching, "watch")}
           ${compactMetric("limit", card.stakes, "limits")}
           ${compactMetric("seat", card.seat, "open")}
         </div>
-        <div class="list">
-          ${compactListRow("profile", "dealer", card.dealer)}
-          ${compactListRow("lang", "language", card.language)}
-          ${compactListRow("play", "game", card.game)}
-          ${compactListRow("trend", "trend", card.trend)}
-        </div>
-        <div class="module-grid" aria-label="Table actions">
+        <div class="module-grid compact-modules" aria-label="Table actions">
           ${moduleTile("play", "Gameplay", { sheet: "gameplay" }, "primary")}
           ${moduleTile("profile", "Dealer", { sheet: "profile" })}
           ${moduleTile("stats", "Stats", { sheet: "stats" })}
           ${moduleTile("info", "Info", { sheet: "info" })}
         </div>
-        <div class="sheet-actions">
-          <button class="btn" type="button" data-sheet="gameplay">Play</button>
-          <button class="btn secondary" type="button" data-sheet="message">Message</button>
-          <button class="btn secondary" type="button" data-sheet="tips">Tip</button>
+        <div class="list">
+          ${compactListRow("profile", "dealer", card.dealer)}
+          ${compactListRow("play", "game", card.game)}
+          ${compactListRow("trend", "trend", card.trend)}
+          ${compactListRow("history", "return", "Saved to profile")}
         </div>
       `;
     }
