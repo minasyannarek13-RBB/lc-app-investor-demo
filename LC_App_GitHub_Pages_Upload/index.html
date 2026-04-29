@@ -465,6 +465,22 @@
       white-space: nowrap;
     }
 
+    .feed-quick-dock {
+      display: none;
+    }
+
+    .feed-quick-dock .icon-btn {
+      width: 28px;
+      height: 28px;
+      background: rgba(255, 255, 255, .04);
+    }
+
+    .feed-quick-dock .icon-btn svg {
+      width: 15px;
+      height: 15px;
+      stroke-width: 2.1;
+    }
+
     .intro-btn.secondary {
       color: var(--text);
       border: 1px solid rgba(255, 255, 255, .14);
@@ -556,10 +572,10 @@
       left: 12px;
       right: 12px;
       z-index: 69;
-      padding: 8px 10px;
+      padding: 9px 10px 10px;
       border: 1px solid rgba(255, 255, 255, .11);
       border-radius: 18px;
-      background: rgba(12, 14, 20, .56);
+      background: rgba(12, 14, 20, .62);
       backdrop-filter: blur(18px);
       opacity: 0;
       pointer-events: none;
@@ -588,7 +604,7 @@
     }
 
     .story {
-      flex: 0 0 56px;
+      flex: 0 0 58px;
       border: 0;
       padding: 0;
       color: rgba(255, 255, 255, .74);
@@ -623,6 +639,21 @@
 
     .story span {
       display: none;
+    }
+
+    .dealer-rail-drawer .story > span:last-child {
+      display: block;
+      margin-top: 1px;
+      overflow: hidden;
+      color: rgba(255, 255, 255, .7);
+      font-size: 8px;
+      font-weight: 900;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .dealer-rail-drawer .story.active > span:last-child {
+      color: rgba(255, 255, 255, .94);
     }
 
     .tabs {
@@ -681,9 +712,8 @@
         radial-gradient(circle at 50% 18%, rgba(255, 255, 255, .1), transparent 28%),
         radial-gradient(circle at 52% 72%, rgba(255, 227, 154, .12), transparent 34%),
         linear-gradient(110deg, rgba(255, 227, 154, .08), transparent 22%, transparent 76%, rgba(46, 230, 206, .08));
-      opacity: .34;
+      opacity: .24;
       mix-blend-mode: screen;
-      animation: feedLightDrift var(--feed-parallax-duration) ease-in-out infinite alternate;
       pointer-events: none;
     }
 
@@ -693,9 +723,8 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transform: scale(1.03);
-      filter: contrast(1.04) saturate(1.04);
-      animation: feedDealerFloat var(--feed-parallax-duration) ease-in-out infinite alternate;
+      transform: scale(1);
+      filter: contrast(1.03) saturate(1.02);
     }
 
     .live-card::after {
@@ -704,8 +733,8 @@
       inset: 0;
       z-index: 1;
       background:
-        linear-gradient(180deg, rgba(0, 0, 0, .62) 0%, rgba(0, 0, 0, .08) 30%, rgba(46, 7, 13, .34) 58%, rgba(0, 0, 0, .96) 100%),
-        linear-gradient(90deg, rgba(40, 5, 9, .34), transparent 42%, rgba(0, 0, 0, .46));
+        linear-gradient(180deg, rgba(0, 0, 0, .54) 0%, rgba(0, 0, 0, .05) 30%, rgba(46, 7, 13, .24) 58%, rgba(0, 0, 0, .92) 100%),
+        linear-gradient(90deg, rgba(40, 5, 9, .24), transparent 42%, rgba(0, 0, 0, .38));
     }
 
     .live-card-parallax {
@@ -716,9 +745,8 @@
         linear-gradient(90deg, rgba(255, 227, 154, .08), transparent 18%, transparent 78%, rgba(46, 230, 206, .08)),
         radial-gradient(circle at 46% 68%, rgba(255, 255, 255, .08), transparent 26%);
       mix-blend-mode: screen;
-      opacity: .28;
+      opacity: .16;
       pointer-events: none;
-      animation: feedParallaxGlow calc(var(--feed-parallax-duration) * .82) ease-in-out infinite alternate;
     }
 
     .casino-ambience {
@@ -800,7 +828,6 @@
       border-radius: 50%;
       background: var(--green);
       box-shadow: 0 0 18px rgba(64, 211, 122, .92);
-      animation: pulse 1.28s infinite;
     }
 
     @keyframes pulse {
@@ -849,7 +876,7 @@
       position: absolute;
       left: 18px;
       right: 18px;
-      bottom: 56px;
+      bottom: 58px;
       z-index: 5;
     }
 
@@ -902,7 +929,7 @@
     .copy h2 {
       margin: 0 0 3px;
       color: var(--text);
-      font-size: 21px;
+      font-size: 20px;
       line-height: .98;
       font-weight: 950;
       text-shadow: 0 6px 26px rgba(0, 0, 0, .82);
@@ -910,10 +937,10 @@
 
     .copy p {
       margin: 0;
-      max-width: 170px;
+      max-width: 168px;
       color: rgba(255, 255, 255, .62);
-      font-size: 8px;
-      line-height: 1.2;
+      font-size: 7.5px;
+      line-height: 1.24;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -921,16 +948,16 @@
 
     .entry-strip {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 4px;
       margin-top: 7px;
-      max-width: 176px;
+      max-width: 132px;
     }
 
     .entry-chip {
       min-width: 0;
-      min-height: 20px;
-      padding: 0 6px;
+      min-height: 18px;
+      padding: 0 5px;
       border: 1px solid rgba(255, 255, 255, .08);
       border-radius: 999px;
       background: rgba(4, 5, 6, .1);
@@ -945,7 +972,7 @@
       display: inline-block;
       overflow: hidden;
       color: var(--text);
-      font-size: 7px;
+      font-size: 6px;
       font-weight: 950;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -998,14 +1025,14 @@
 
     .cta-row {
       display: flex;
-      gap: 6px;
-      margin-top: 8px;
+      gap: 8px;
+      margin-top: 10px;
       width: fit-content;
     }
 
     .stream-action {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border: 1px solid rgba(255, 255, 255, .08);
       border-radius: 50%;
       color: rgba(255, 255, 255, .84);
@@ -1030,8 +1057,8 @@
     }
 
     .stream-action .inline-icon {
-      width: 13px;
-      height: 13px;
+      width: 14px;
+      height: 14px;
     }
 
     .btn {
@@ -1325,7 +1352,7 @@
       border: 1px solid rgba(255, 255, 255, .12);
       border-radius: 24px 24px 0 0;
       background: linear-gradient(180deg, rgba(45, 11, 16, .98), #07080b 72%);
-      padding: 17px 16px 18px;
+      padding: 16px 15px 17px;
       box-shadow: 0 -34px 70px rgba(0, 0, 0, .42);
       transform: translateY(24px);
       transition: transform .22s ease;
@@ -1404,7 +1431,7 @@
     }
 
     .watch-hero {
-      height: 204px;
+      height: 192px;
     }
 
     .watch-hero::after {
@@ -1417,7 +1444,7 @@
       position: absolute;
       inset: 0;
       z-index: 1;
-      padding: 13px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -1461,7 +1488,7 @@
 
     .watch-hero-body h4 {
       margin: 0;
-      font-size: 22px;
+      font-size: 18px;
       line-height: .96;
       font-weight: 950;
     }
@@ -1469,7 +1496,7 @@
     .watch-hero-body p {
       margin: 6px 0 0;
       color: rgba(255, 255, 255, .74);
-      font-size: 10px;
+      font-size: 8px;
       line-height: 1.32;
     }
 
@@ -1477,8 +1504,8 @@
       position: relative;
       overflow: hidden;
       display: grid;
-      gap: 12px;
-      padding: 14px;
+      gap: 10px;
+      padding: 12px;
       border: 1px solid rgba(255, 255, 255, .11);
       border-radius: 18px;
       background:
@@ -1535,7 +1562,7 @@
     }
 
     .account-hub-balance strong {
-      font-size: 28px;
+      font-size: 26px;
       line-height: .92;
       font-weight: 950;
     }
@@ -1544,6 +1571,117 @@
       color: rgba(255, 255, 255, .72);
       font-size: 10px;
       line-height: 1.32;
+    }
+
+    .account-balance-row {
+      display: grid;
+      grid-template-columns: 1.25fr repeat(2, minmax(0, 1fr));
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .account-balance-card {
+      min-width: 0;
+      padding: 10px 9px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .05);
+      display: grid;
+      gap: 4px;
+    }
+
+    .account-balance-card strong {
+      display: block;
+      overflow: hidden;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 950;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .account-balance-card span {
+      color: rgba(255, 255, 255, .62);
+      font-size: 8px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .account-balance-card.primary {
+      background:
+        linear-gradient(135deg, rgba(255, 227, 154, .14), rgba(255, 184, 92, .08)),
+        rgba(255, 255, 255, .05);
+      border-color: rgba(255, 227, 154, .16);
+    }
+
+    .account-balance-card.primary strong {
+      font-size: 18px;
+      color: var(--gold2);
+    }
+
+    .sheet-note {
+      margin-top: 12px;
+      color: rgba(255, 255, 255, .62);
+      font-size: 9px;
+      line-height: 1.34;
+    }
+
+    .sheet-note.tight {
+      margin-top: 10px;
+    }
+
+    .sheet-section {
+      margin-top: 12px;
+    }
+
+    .sheet-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .sheet-section-head strong {
+      font-size: 10px;
+      font-weight: 950;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .74);
+    }
+
+    .sheet-section-head span {
+      color: rgba(255, 255, 255, .48);
+      font-size: 8px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .quick-link-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .quick-link {
+      min-height: 28px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .86);
+      background: rgba(255, 255, 255, .05);
+      font-size: 9px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .quick-link .inline-icon {
+      width: 11px;
+      height: 11px;
+      color: var(--gold2);
     }
 
     .compact-modules .module-card {
@@ -1558,14 +1696,14 @@
     .dealer-profile-hero {
       position: relative;
       overflow: hidden;
-      min-height: 206px;
+      min-height: 186px;
       display: grid;
-      grid-template-columns: 110px minmax(0, 1fr);
+      grid-template-columns: 100px minmax(0, 1fr);
       gap: 14px;
       align-items: center;
       border: 1px solid rgba(255, 255, 255, .11);
       border-radius: 16px;
-      padding: 16px;
+      padding: 14px;
       background:
         linear-gradient(135deg, rgba(95, 17, 24, .72), rgba(7, 8, 11, .94) 72%),
         rgba(255, 255, 255, .05);
@@ -1615,27 +1753,25 @@
 
     .dealer-avatar-preview {
       position: relative;
-      width: 110px;
-      height: 110px;
+      width: 92px;
+      height: 92px;
       display: grid;
       place-items: center;
       border-radius: 50%;
-      padding: 4px;
+      padding: 3px;
       background: conic-gradient(from 0deg, var(--gold2), rgba(95, 17, 24, .92), var(--teal), var(--gold2));
       box-shadow:
         0 18px 36px rgba(0, 0, 0, .34),
         0 0 0 1px rgba(255, 255, 255, .08);
-      animation: avatarOrbit 8s linear infinite;
     }
 
     .dealer-avatar-preview::before {
       content: "";
       position: absolute;
-      inset: -7px;
+      inset: -5px;
       border: 1px solid rgba(255, 227, 154, .24);
       border-radius: 50%;
-      opacity: .72;
-      animation: avatarPulse 2.8s ease-in-out infinite;
+      opacity: .58;
     }
 
     .dealer-avatar-preview img {
@@ -1646,7 +1782,6 @@
       object-fit: cover;
       object-position: center 18%;
       border: 3px solid #090b0f;
-      animation: avatarFloat 3.6s ease-in-out infinite;
       transform-origin: center;
     }
 
@@ -1674,7 +1809,6 @@
       border-radius: 50%;
       background: var(--teal);
       box-shadow: 0 0 16px rgba(46, 230, 206, .52);
-      animation: pulse 1.28s infinite;
     }
 
     .dealer-profile-copy {
@@ -1697,8 +1831,8 @@
     }
 
     .dealer-profile-copy h4 {
-      margin: 10px 0 6px;
-      font-size: 22px;
+      margin: 9px 0 5px;
+      font-size: 18px;
       line-height: .98;
       font-weight: 950;
     }
@@ -1706,27 +1840,27 @@
     .dealer-profile-copy p {
       margin: 0;
       color: var(--soft);
-      font-size: 10px;
-      line-height: 1.36;
+      font-size: 9px;
+      line-height: 1.32;
     }
 
     .dealer-profile-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 12px;
+      gap: 5px;
+      margin-top: 10px;
     }
 
     .dealer-profile-tags span {
-      min-height: 25px;
-      padding: 0 9px;
+      min-height: 23px;
+      padding: 0 8px;
       display: inline-flex;
       align-items: center;
       border: 1px solid rgba(255, 255, 255, .12);
       border-radius: 999px;
       color: rgba(255, 255, 255, .84);
       background: rgba(4, 5, 6, .36);
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 850;
       white-space: nowrap;
     }
@@ -1936,6 +2070,28 @@
       color: var(--ink);
     }
 
+    .module-card.detail {
+      place-items: start;
+      align-content: start;
+      text-align: left;
+      gap: 4px;
+      padding: 10px;
+    }
+
+    .module-card.detail strong {
+      width: 100%;
+      font-size: 10px;
+      white-space: normal;
+    }
+
+    .module-card.detail span {
+      display: block;
+      width: 100%;
+      color: rgba(255, 255, 255, .62);
+      font-size: 8px;
+      line-height: 1.25;
+    }
+
     .sheet-actions {
       display: flex;
       flex-wrap: wrap;
@@ -2050,7 +2206,7 @@
       top: 0;
       left: 0;
       right: 0;
-      padding: calc(10px + env(safe-area-inset-top)) 12px 0;
+      padding: calc(8px + env(safe-area-inset-top)) 10px 0;
     }
 
     .gameplay-stage-pill-row {
@@ -2065,14 +2221,14 @@
       display: flex;
       flex-wrap: wrap;
       gap: 4px;
-      max-width: calc(100% - 92px);
+      max-width: calc(100% - 84px);
     }
 
     .gameplay-stage-meta .pill,
     .gameplay-stage-meta .session-meta-pill {
-      min-height: 20px;
-      padding: 0 7px;
-      font-size: 8px;
+      min-height: 18px;
+      padding: 0 6px;
+      font-size: 7px;
       border-color: rgba(255, 255, 255, .08);
       background: rgba(4, 5, 6, .12);
       backdrop-filter: blur(14px);
@@ -2093,13 +2249,13 @@
     .gameplay-stage-actions {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       flex: 0 0 auto;
     }
 
     .gameplay-icon-btn {
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
       border: 1px solid rgba(255, 255, 255, .09);
       border-radius: 50%;
       color: var(--text);
@@ -2113,9 +2269,9 @@
     }
 
     .gameplay-stage-actions .close {
-      flex: 0 0 26px;
-      width: 26px;
-      height: 26px;
+      flex: 0 0 24px;
+      width: 24px;
+      height: 24px;
       border: 1px solid rgba(255, 255, 255, .09);
       background: rgba(4, 5, 6, .12);
       backdrop-filter: blur(16px);
@@ -2174,9 +2330,9 @@
       right: 0;
       bottom: 0;
       display: grid;
-      gap: 5px;
+      gap: 4px;
       justify-items: center;
-      padding: 0 10px calc(10px + env(safe-area-inset-bottom));
+      padding: 0 8px calc(8px + env(safe-area-inset-bottom));
     }
 
     .gameplay-stage-focus {
@@ -2282,6 +2438,10 @@
       gap: 6px;
     }
 
+    .gameplay-table-rail.compact {
+      gap: 0;
+    }
+
     .gameplay-table-rail span {
       min-height: 20px;
       padding: 0 7px;
@@ -2313,6 +2473,10 @@
       pointer-events: none;
     }
 
+    .gameplay-stream-layer.dealer-shot {
+      top: 92px;
+    }
+
     .stream-layer-shell {
       width: min(224px, calc(100% - 96px));
       padding: 7px 8px;
@@ -2326,12 +2490,30 @@
       animation: streamLayerEnter .42s ease both;
     }
 
+    .stream-layer-shell.minimal {
+      width: min(168px, calc(100% - 120px));
+      padding: 6px 7px;
+      border-radius: 14px;
+      background:
+        linear-gradient(180deg, rgba(10, 12, 17, .28), rgba(10, 12, 17, .46)),
+        rgba(0, 0, 0, .08);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, .14);
+    }
+
     .gameplay-stream-layer.align-right {
       justify-items: end;
     }
 
+    .gameplay-stream-layer.align-right .stream-layer-shell {
+      margin-left: auto;
+    }
+
     .gameplay-stream-layer.align-center {
       justify-items: center;
+    }
+
+    .gameplay-stream-layer.align-center .stream-layer-shell {
+      margin-inline: auto;
     }
 
     .stream-layer-kicker {
@@ -2374,6 +2556,12 @@
       text-shadow: 0 10px 24px rgba(0, 0, 0, .52);
     }
 
+    .stream-layer-shell.minimal .stream-layer-headline {
+      margin-top: 4px;
+      font-size: 9px;
+      line-height: 1.1;
+    }
+
     .stream-layer-note {
       margin-top: 5px;
       color: rgba(255, 255, 255, .7);
@@ -2381,8 +2569,14 @@
       line-height: 1.32;
     }
 
+    .stream-layer-shell.minimal .stream-layer-note {
+      margin-top: 3px;
+      font-size: 7px;
+      line-height: 1.22;
+    }
+
     .stream-layer-shell.intro {
-      width: min(272px, calc(100% - 58px));
+      width: min(196px, calc(100% - 132px));
       border-color: rgba(255, 227, 154, .24);
       background:
         linear-gradient(180deg, rgba(41, 22, 12, .52), rgba(10, 12, 17, .84)),
@@ -2451,6 +2645,11 @@
       margin-top: 9px;
     }
 
+    .stream-layer-shell.minimal .stream-layer-strip {
+      gap: 4px;
+      margin-top: 6px;
+    }
+
     .stream-layer-strip span {
       min-height: 20px;
       padding: 0 7px;
@@ -2463,6 +2662,12 @@
       font-size: 8px;
       font-weight: 900;
       white-space: nowrap;
+    }
+
+    .stream-layer-shell.minimal .stream-layer-strip span {
+      min-height: 18px;
+      padding: 0 6px;
+      font-size: 7px;
     }
 
     .stream-cinematic-zone {
@@ -2928,12 +3133,12 @@
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       width: fit-content;
       max-width: 100%;
       min-height: 0;
       margin: 0 auto;
-      padding: 5px 7px;
+      padding: 4px 6px;
       border: 1px solid rgba(255, 255, 255, .1);
       border-radius: 999px;
       background: rgba(12, 14, 20, .14);
@@ -2942,12 +3147,12 @@
 
     .gameplay-status-chip,
     .gameplay-status-badge {
-      min-height: 20px;
-      padding: 0 7px;
+      min-height: 18px;
+      padding: 0 6px;
       display: inline-flex;
       align-items: center;
       border-radius: 999px;
-      font-size: 8px;
+      font-size: 7px;
       font-weight: 950;
       white-space: nowrap;
     }
@@ -2969,8 +3174,8 @@
 
     .gameplay-status-metric {
       min-width: 0;
-      min-height: 20px;
-      padding: 0 7px;
+      min-height: 18px;
+      padding: 0 6px;
       border: 1px solid rgba(255, 255, 255, .08);
       border-radius: 999px;
       background: rgba(255, 255, 255, .04);
@@ -2984,7 +3189,7 @@
       display: inline-block;
       overflow: hidden;
       color: var(--text);
-      font-size: 9px;
+      font-size: 8px;
       font-weight: 950;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -3046,24 +3251,34 @@
       display: grid;
       gap: 5px;
       justify-items: center;
-      width: min(304px, 100%);
+      width: min(286px, 100%);
+    }
+
+    .gameplay-overlay-hud.compact {
+      width: min(274px, 100%);
+      gap: 4px;
+    }
+
+    .gameplay-overlay-hud.slim {
+      width: min(264px, 100%);
+      gap: 4px;
     }
 
     .gameplay-action-tray {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 5px;
-      width: min(304px, 100%);
+      gap: 4px;
+      width: min(286px, 100%);
     }
 
     .gameplay-overlay-hud .game-chip {
-      min-height: 28px;
-      padding: 0 9px;
+      min-height: 26px;
+      padding: 0 8px;
       border-color: rgba(255, 255, 255, .1);
       background: rgba(4, 5, 6, .12);
       backdrop-filter: blur(12px);
-      font-size: 8px;
+      font-size: 7px;
     }
 
     .game-chip .inline-icon {
@@ -3081,6 +3296,44 @@
     .gameplay-road-inline .road-grid {
       width: min(166px, 100%);
       margin-top: 0;
+    }
+
+    .gameplay-utility-rail {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 4px;
+      width: min(220px, 100%);
+    }
+
+    .gameplay-utility-rail .game-chip {
+      min-height: 22px;
+      padding: 0 7px;
+      background: rgba(4, 5, 6, .08);
+      font-size: 7px;
+    }
+
+    .gameplay-seat-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      width: min(224px, 100%);
+    }
+
+    .gameplay-seat-line span {
+      min-height: 20px;
+      padding: 0 7px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .74);
+      background: rgba(255, 255, 255, .04);
+      font-size: 7px;
+      font-weight: 900;
+      white-space: nowrap;
     }
 
     .gameplay-control-chip {
@@ -3152,7 +3405,7 @@
     .gameplay-wheel-row {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
-      gap: 8px;
+      gap: 6px;
       align-items: center;
       width: 100%;
     }
@@ -3160,7 +3413,7 @@
     .gameplay-compact-bets {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 4px;
       justify-content: center;
       width: 100%;
       margin-top: 0;
@@ -3388,12 +3641,12 @@
 
     .gameplay-overlay-hands {
       display: grid;
-      gap: 5px;
-      width: min(252px, 100%);
+      gap: 4px;
+      width: min(226px, 100%);
     }
 
     .gameplay-hand-block {
-      padding: 7px;
+      padding: 6px;
       border: 1px solid rgba(255, 255, 255, .08);
       border-radius: 14px;
       background: rgba(4, 5, 6, .12);
@@ -3406,8 +3659,14 @@
 
     .gameplay-baccarat-inline {
       display: grid;
-      gap: 5px;
-      width: min(252px, 100%);
+      gap: 4px;
+      width: min(224px, 100%);
+    }
+
+    .gameplay-overlay-hud.compact .gameplay-hand-block,
+    .gameplay-overlay-hud.slim .gameplay-hand-block {
+      background: rgba(4, 5, 6, .08);
+      padding: 5px;
     }
 
     .game-shell {
@@ -3511,6 +3770,73 @@
 
     .summary-box.loss strong {
       color: #fee2e2;
+    }
+
+    .activity-stack {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .activity-card {
+      display: grid;
+      gap: 6px;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: var(--r);
+      background: rgba(255, 255, 255, .045);
+    }
+
+    .activity-card-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .activity-card-top b {
+      color: var(--text);
+      font-size: 10px;
+      font-weight: 950;
+    }
+
+    .activity-card-side {
+      color: rgba(255, 255, 255, .58);
+      font-size: 8px;
+      font-weight: 850;
+      text-transform: uppercase;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    .activity-card p {
+      margin: 0;
+      color: rgba(255, 255, 255, .68);
+      font-size: 9px;
+      line-height: 1.34;
+    }
+
+    .message-draft {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, .11);
+      border-radius: 16px;
+      background:
+        linear-gradient(135deg, rgba(46, 230, 206, .08), transparent 42%),
+        rgba(255, 255, 255, .05);
+    }
+
+    .message-draft-field {
+      min-height: 68px;
+      padding: 10px 11px;
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 14px;
+      color: rgba(255, 255, 255, .82);
+      background: rgba(4, 5, 6, .24);
+      font-size: 10px;
+      line-height: 1.4;
     }
 
     .game-head {
@@ -3702,7 +4028,7 @@
 
     .wheel-mini {
       position: relative;
-      width: 74px;
+      width: 68px;
       aspect-ratio: 1;
       display: grid;
       place-items: center;
@@ -3730,14 +4056,14 @@
     .wheel-mini span {
       position: relative;
       z-index: 2;
-      width: 34px;
-      height: 34px;
+      width: 30px;
+      height: 30px;
       display: grid;
       place-items: center;
       border-radius: 50%;
       color: var(--ink);
       background: var(--gold2);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 950;
     }
 
@@ -3805,9 +4131,9 @@
 
     .dealer-call {
       min-width: 0;
-      max-width: 220px;
-      min-height: 30px;
-      padding: 0 10px;
+      max-width: 188px;
+      min-height: 26px;
+      padding: 0 8px;
       display: inline-flex;
       align-items: center;
       border: 1px solid rgba(255, 255, 255, .11);
@@ -3820,7 +4146,7 @@
       display: block;
       overflow: hidden;
       color: var(--gold2);
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 950;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -3941,6 +4267,87 @@
       animation: chipGlow 1.6s ease-in-out infinite;
     }
 
+    .bet-chip-rail {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .bet-chip-token {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 50%;
+      color: rgba(255, 255, 255, .92);
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255, 255, 255, .22), transparent 30%),
+        rgba(8, 10, 14, .76);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .32);
+      cursor: pointer;
+    }
+
+    .bet-chip-token::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border: 2px dashed rgba(255, 255, 255, .26);
+      border-radius: 50%;
+      opacity: .9;
+    }
+
+    .bet-chip-token b {
+      position: relative;
+      z-index: 1;
+      font-size: 10px;
+      font-weight: 950;
+      letter-spacing: 0;
+    }
+
+    .bet-chip-token.active {
+      color: var(--ink);
+      border-color: rgba(255, 227, 154, .78);
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255, 255, 255, .26), transparent 30%),
+        linear-gradient(135deg, rgba(255, 227, 154, .94), rgba(241, 199, 96, .92));
+      box-shadow: 0 0 0 2px rgba(255, 227, 154, .22), 0 0 26px rgba(255, 227, 154, .24);
+      animation: chipGlow 1.2s ease-in-out infinite;
+    }
+
+    .bet-chip-token.active::before {
+      border-color: rgba(4, 5, 6, .24);
+    }
+
+    .bet-chip-token.tone-emerald {
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255, 255, 255, .22), transparent 30%),
+        linear-gradient(135deg, rgba(19, 78, 74, .9), rgba(13, 148, 136, .76));
+    }
+
+    .bet-chip-token.tone-ruby {
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255, 255, 255, .22), transparent 30%),
+        linear-gradient(135deg, rgba(127, 29, 29, .94), rgba(190, 24, 93, .76));
+    }
+
+    .bet-chip-token.tone-cobalt {
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255, 255, 255, .22), transparent 30%),
+        linear-gradient(135deg, rgba(30, 64, 175, .92), rgba(59, 130, 246, .76));
+    }
+
+    .bet-chip-token.tone-violet {
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255, 255, 255, .22), transparent 30%),
+        linear-gradient(135deg, rgba(91, 33, 182, .94), rgba(168, 85, 247, .76));
+    }
+
     .live-round .game-chip.active,
     .live-round .roulette-cell.chipped::after,
     .live-round .outside-cell.chipped::after {
@@ -4043,10 +4450,72 @@
       }
     }
 
+    .roulette-board-summary {
+      display: grid;
+      gap: 8px;
+      padding: 11px 12px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .04);
+    }
+
+    .roulette-board-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .roulette-board-head strong {
+      font-size: 13px;
+      font-weight: 950;
+    }
+
+    .roulette-board-head span {
+      color: rgba(255, 255, 255, .64);
+      font-size: 9px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .roulette-board-tabs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .roulette-board-tab {
+      min-height: 30px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .74);
+      background: rgba(255, 255, 255, .04);
+      font-size: 9px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .roulette-board-tab.active {
+      color: var(--ink);
+      background: var(--gold2);
+      border-color: transparent;
+    }
+
     .roulette-board {
       display: grid;
-      grid-template-columns: 44px minmax(0, 1fr);
-      gap: 5px;
+      gap: 10px;
+    }
+
+    .roulette-board-main,
+    .roulette-special-layout {
+      display: grid;
+      gap: 10px;
+    }
+
+    .roulette-grid-shell {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) 54px;
+      gap: 6px;
       align-items: stretch;
     }
 
@@ -4054,7 +4523,7 @@
       display: grid;
       place-items: center;
       border: 1px solid rgba(255, 255, 255, .12);
-      border-radius: var(--r);
+      border-radius: 14px;
       color: var(--text);
       font-size: 14px;
       font-weight: 950;
@@ -4068,15 +4537,23 @@
       gap: 5px;
     }
 
+    .roulette-street-rail {
+      display: grid;
+      gap: 5px;
+    }
+
     .roulette-cell,
-    .outside-cell {
+    .outside-cell,
+    .street-cell,
+    .line-cell,
+    .roulette-special-chip {
       position: relative;
       min-width: 0;
       min-height: 34px;
       display: grid;
       place-items: center;
       border: 1px solid rgba(255, 255, 255, .12);
-      border-radius: var(--r);
+      border-radius: 10px;
       color: var(--text);
       font-size: 11px;
       font-weight: 900;
@@ -4085,30 +4562,156 @@
     }
 
     .roulette-cell.chipped::after,
-    .outside-cell.chipped::after {
-      content: "";
+    .outside-cell.chipped::after,
+    .street-cell.chipped::after,
+    .line-cell.chipped::after,
+    .roulette-special-chip.chipped::after,
+    .roulette-zero.chipped::after {
+      content: attr(data-chip-value);
       position: absolute;
-      right: 5px;
-      bottom: 5px;
-      width: 10px;
-      height: 10px;
-      border: 2px solid rgba(255, 255, 255, .85);
-      border-radius: 50%;
-      background: var(--gold2);
-      box-shadow: 0 0 0 2px rgba(0, 0, 0, .2);
+      right: 4px;
+      bottom: 4px;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid rgba(255, 255, 255, .9);
+      border-radius: 999px;
+      color: var(--ink);
+      font-size: 8px;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--gold2), #f1c760);
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, .18);
+      pointer-events: none;
+    }
+
+    .street-cell {
+      min-height: 35px;
+      padding: 0 6px;
+      color: rgba(255, 255, 255, .74);
+      font-size: 9px;
+      text-align: center;
+      background: rgba(255, 255, 255, .04);
+    }
+
+    .line-grid,
+    .column-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 5px;
+    }
+
+    .line-cell,
+    .column-grid .outside-cell {
+      min-height: 32px;
+      padding: 0 7px;
+      color: rgba(255, 255, 255, .78);
+      font-size: 9px;
+      background: rgba(255, 255, 255, .04);
     }
 
     .outside-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 5px;
-      margin-top: 6px;
     }
 
     .outside-cell {
-      min-height: 30px;
+      min-height: 32px;
+      padding: 0 7px;
       color: rgba(255, 255, 255, .82);
       font-size: 10px;
+      text-align: center;
+    }
+
+    .roulette-special-layout {
+      padding-bottom: 2px;
+    }
+
+    .roulette-special-section {
+      display: grid;
+      gap: 7px;
+      padding: 11px 12px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .04);
+    }
+
+    .roulette-special-section strong {
+      display: block;
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .roulette-special-section span {
+      display: block;
+      margin-top: 2px;
+      color: rgba(255, 255, 255, .62);
+      font-size: 9px;
+      line-height: 1.3;
+    }
+
+    .roulette-special-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 5px;
+    }
+
+    .roulette-special-grid.compact {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .roulette-special-chip {
+      min-height: 32px;
+      padding: 6px 7px;
+      align-content: center;
+      color: rgba(255, 255, 255, .8);
+      font-size: 9px;
+      line-height: 1.12;
+      text-align: center;
+    }
+
+    .roulette-special-chip b {
+      display: block;
+      font-size: 9px;
+      font-weight: 950;
+    }
+
+    .roulette-special-chip small {
+      display: block;
+      margin-top: 2px;
+      color: rgba(255, 255, 255, .5);
+      font-size: 7px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .roulette-selection-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .roulette-selection-strip span {
+      min-height: 22px;
+      padding: 0 8px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .78);
+      background: rgba(255, 255, 255, .04);
+      font-size: 9px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .roulette-selection-strip span.live {
+      color: var(--ink);
+      background: var(--gold2);
+      border-color: transparent;
     }
 
     .blackjack-zone {
@@ -4135,20 +4738,20 @@
     .playing-hand {
       display: flex;
       justify-content: center;
-      gap: 6px;
+      gap: 5px;
     }
 
     .playing-card {
-      width: 44px;
-      height: 62px;
-      padding: 6px 5px;
+      width: 40px;
+      height: 58px;
+      padding: 5px 4px;
       display: grid;
       align-content: space-between;
       border-radius: 8px;
       color: #0f1115;
       background: linear-gradient(180deg, #fff7ea, #efe5d1);
       box-shadow: 0 10px 22px rgba(0, 0, 0, .24);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 950;
       animation: cardLift .34s ease both;
       transform-origin: center bottom;
@@ -4208,7 +4811,7 @@
 
     .playing-card small {
       display: block;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 900;
     }
 
@@ -4260,13 +4863,13 @@
     .decision-row {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 5px;
-      width: min(204px, 100%);
+      gap: 4px;
+      width: min(172px, 100%);
     }
 
     .decision-pill {
       min-width: 0;
-      min-height: 30px;
+      min-height: 28px;
       display: grid;
       place-items: center;
       border: 1px solid rgba(255, 255, 255, .1);
@@ -4274,7 +4877,7 @@
       color: rgba(255, 255, 255, .86);
       background: rgba(4, 5, 6, .12);
       backdrop-filter: blur(12px);
-      font-size: 9px;
+      font-size: 8px;
       font-weight: 900;
       text-align: center;
       cursor: pointer;
@@ -4293,14 +4896,14 @@
     .baccarat-scores {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 5px;
-      width: min(228px, 100%);
+      gap: 4px;
+      width: min(214px, 100%);
     }
 
     .baccarat-score {
       min-width: 0;
-      min-height: 48px;
-      padding: 7px 6px;
+      min-height: 44px;
+      padding: 6px 5px;
       border: 1px solid rgba(255, 255, 255, .1);
       border-radius: 14px;
       background: rgba(4, 5, 6, .12);
@@ -4313,10 +4916,19 @@
       display: block;
       overflow: hidden;
       color: var(--text);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 950;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    .gameplay-overlay-hud.slim .baccarat-score {
+      min-height: 40px;
+      padding: 5px 4px;
+    }
+
+    .gameplay-overlay-hud.slim .gameplay-road-inline .road-grid {
+      width: min(150px, 100%);
     }
 
     .baccarat-score small {
@@ -4934,6 +5546,22 @@
         font-size: 24px;
       }
 
+      .account-balance-row {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .account-balance-card {
+        padding: 9px 8px;
+      }
+
+      .account-balance-card strong {
+        font-size: 12px;
+      }
+
+      .account-balance-card.primary strong {
+        font-size: 16px;
+      }
+
       .dealer-profile-copy {
         width: 100%;
       }
@@ -4962,13 +5590,21 @@
         top: 84px;
       }
 
+      .gameplay-stream-layer.dealer-shot {
+        top: 72px;
+      }
+
       .stream-layer-shell {
-        width: min(220px, calc(100% - 48px));
-        padding: 8px 9px;
+        width: min(192px, calc(100% - 92px));
+        padding: 7px 8px;
+      }
+
+      .stream-layer-shell.minimal {
+        width: min(150px, calc(100% - 120px));
       }
 
       .stream-layer-shell.intro {
-        width: min(238px, calc(100% - 28px));
+        width: min(168px, calc(100% - 124px));
       }
 
       .stream-layer-headline {
@@ -5202,6 +5838,17 @@
         <div class="feed" id="feed"></div>
         <div class="progress" id="progress"></div>
         <div class="signal-strip" id="signalStrip"><b>Live signal</b><span>Seat opened at Roulette Mania</span></div>
+        <div class="feed-quick-dock" aria-label="Quick tools">
+          <button class="icon-btn" type="button" data-sheet="search" aria-label="Explore">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          </button>
+          <button class="icon-btn" type="button" data-sheet="alerts" aria-label="Alerts">
+            <svg viewBox="0 0 24 24"><path d="M12 5a4 4 0 0 1 4 4v2.6c0 .8.2 1.6.7 2.3l1 1.6H6.3l1-1.6c.5-.7.7-1.5.7-2.3V9a4 4 0 0 1 4-4Z"></path><path d="M10 18a2 2 0 0 0 4 0"></path></svg>
+          </button>
+          <button class="icon-btn" type="button" data-sheet="insights" aria-label="Investor proof">
+            <svg viewBox="0 0 24 24"><path d="M5 19V9"></path><path d="M12 19V5"></path><path d="M19 19v-7"></path></svg>
+          </button>
+        </div>
         <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
         <nav class="bottom-nav" aria-label="App navigation">
@@ -5402,6 +6049,78 @@
       col2: { label: "Col 2", payout: 2 },
       col3: { label: "Col 3", payout: 2 }
     };
+
+    const rouletteBoardLayout = {
+      outsideRows: [
+        [["low", "1-18"], ["even", "Even"], ["red", "Red"]],
+        [["black", "Black"], ["odd", "Odd"], ["high", "19-36"]]
+      ],
+      dozens: [["dozen1", "1st 12"], ["dozen2", "2nd 12"], ["dozen3", "3rd 12"]],
+      columns: [["col1", "Col 1"], ["col2", "Col 2"], ["col3", "Col 3"]]
+    };
+
+    const rouletteStreetKeys = [];
+    const rouletteLineKeys = [];
+    const rouletteCornerKeys = [];
+    const rouletteSplitZeroKeys = [];
+    const rouletteSplitHorizontalKeys = [];
+    const rouletteSplitVerticalKeys = [];
+    const rouletteWheelOrder = [0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26];
+    const rouletteSectorCalls = [
+      { label: "Voisins", meta: "17 nums", numbers: [22, 18, 29, 7, 28, 12, 35, 3, 26, 0, 32, 15, 19, 4, 21, 2, 25] },
+      { label: "Tiers", meta: "12 nums", numbers: [27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33] },
+      { label: "Orphelins", meta: "8 nums", numbers: [17, 34, 6, 1, 20, 14, 31, 9] }
+    ];
+    const rouletteNeighborCalls = [0, 17, 32, 8, 31, 26].map((center) => {
+      const index = rouletteWheelOrder.indexOf(center);
+      const neighbors = Array.from({ length: 5 }, (_, offset) => rouletteWheelOrder[(index + offset - 2 + rouletteWheelOrder.length) % rouletteWheelOrder.length]);
+      return { label: `${center} ±2`, meta: "5 nums", numbers: neighbors };
+    });
+
+    const rouletteSpecialConfig = (() => {
+      const config = {};
+      const add = (group, key, label, numbers, payout, shortLabel = label) => {
+        config[key] = { group, key, label, shortLabel, numbers, payout };
+      };
+      add("trio", "trio:0-1-2", "0-1-2 Trio", [0, 1, 2], 11, "0-1-2");
+      add("trio", "trio:0-2-3", "0-2-3 Trio", [0, 2, 3], 11, "0-2-3");
+      for (let start = 1; start <= 34; start += 3) {
+        const numbers = [start, start + 1, start + 2];
+        const key = `street:${numbers.join("-")}`;
+        rouletteStreetKeys.push(key);
+        add("street", key, `${start}-${start + 2} Street`, numbers, 11, `${start}-${start + 2}`);
+      }
+      for (let start = 1; start <= 31; start += 3) {
+        const numbers = [start, start + 1, start + 2, start + 3, start + 4, start + 5];
+        const key = `line:${start}-${start + 5}`;
+        rouletteLineKeys.push(key);
+        add("line", key, `${start}-${start + 5} Six Line`, numbers, 5, `${start}-${start + 5}`);
+      }
+      [["0-1", [0, 1]], ["0-2", [0, 2]], ["0-3", [0, 3]]].forEach(([label, numbers]) => {
+        const key = `split:${label}`;
+        rouletteSplitZeroKeys.push(key);
+        add("split", key, `${label} Split`, numbers, 17, label);
+      });
+      for (let value = 1; value <= 36; value += 1) {
+        if (value % 3 !== 0) {
+          const key = `split:${value}-${value + 1}`;
+          rouletteSplitHorizontalKeys.push(key);
+          add("split", key, `${value}-${value + 1} Split`, [value, value + 1], 17, `${value}-${value + 1}`);
+        }
+        if (value <= 33) {
+          const key = `split:${value}-${value + 3}`;
+          rouletteSplitVerticalKeys.push(key);
+          add("split", key, `${value}-${value + 3} Split`, [value, value + 3], 17, `${value}-${value + 3}`);
+        }
+        if (value <= 32 && value % 3 !== 0) {
+          const numbers = [value, value + 1, value + 3, value + 4];
+          const key = `corner:${numbers.join("-")}`;
+          rouletteCornerKeys.push(key);
+          add("corner", key, `${value}-${value + 4} Corner`, numbers, 8, `${value}-${value + 4}`);
+        }
+      }
+      return config;
+    })();
 
     const baccaratPayouts = {
       player: 1,
@@ -5942,8 +6661,11 @@
         betChip: 10,
         selectedNumbers: [12],
         selectedOutside: ["red", "dozen1"],
+        selectedSpecial: [],
         lastNumbers: [12],
         lastOutside: ["red", "dozen1"],
+        lastSpecial: [],
+        boardView: "main",
         tips: 0
       };
     }
@@ -5961,10 +6683,26 @@
       else list.push(value);
     }
 
+    function toggleNumberGroup(list, values) {
+      const active = values.every((value) => list.includes(value));
+      if (active) {
+        values.forEach((value) => {
+          const index = list.indexOf(value);
+          if (index >= 0) list.splice(index, 1);
+        });
+      } else {
+        values.forEach((value) => {
+          if (!list.includes(value)) list.push(value);
+        });
+      }
+      list.sort((a, b) => a - b);
+    }
+
     function rememberRouletteSelection(memory) {
-      if (memory.selectedNumbers.length || memory.selectedOutside.length) {
+      if (memory.selectedNumbers.length || memory.selectedOutside.length || (memory.selectedSpecial || []).length) {
         memory.lastNumbers = [...memory.selectedNumbers];
         memory.lastOutside = [...memory.selectedOutside];
+        memory.lastSpecial = [...(memory.selectedSpecial || [])];
       }
     }
 
@@ -5983,6 +6721,8 @@
         { iconName: "chat", label: "Message", sheet: "message" },
         { iconName: "tip", label: "Tips", sheet: "tips" },
         { iconName: "stats", label: "Stats", sheet: "stats" },
+        { iconName: "watch", label: "Alerts", sheet: "alerts" },
+        { iconName: "info", label: "Proof", sheet: "insights" },
         { iconName: "profile", label: "Roles", sheet: "roles" },
         { iconName: "shield", label: "Access", sheet: "compliance" },
         { iconName: "search", label: "Explore", sheet: "search" }
@@ -5992,34 +6732,119 @@
       )).join("");
     }
 
-    function rouletteSelectionLabels(memory) {
+    function rouletteSelectionEntries(memory) {
+      const specialKeys = memory.selectedSpecial || [];
       return [
-        ...memory.selectedNumbers.map((value) => String(value)),
-        ...memory.selectedOutside.map((key) => rouletteOutsideConfig[key]?.label || key)
+        ...memory.selectedNumbers.map((value) => ({
+          type: "number",
+          key: `number:${value}`,
+          label: String(value),
+          shortLabel: String(value),
+          payout: 35,
+          numbers: [Number(value)]
+        })),
+        ...memory.selectedOutside.map((key) => ({
+          type: "outside",
+          key,
+          label: rouletteOutsideConfig[key]?.label || key,
+          shortLabel: rouletteOutsideConfig[key]?.label || key,
+          payout: rouletteOutsideConfig[key]?.payout || 0
+        })),
+        ...specialKeys
+          .filter((key) => rouletteSpecialConfig[key])
+          .map((key) => ({
+            type: "special",
+            key,
+            label: rouletteSpecialConfig[key].label,
+            shortLabel: rouletteSpecialConfig[key].shortLabel,
+            payout: rouletteSpecialConfig[key].payout,
+            numbers: rouletteSpecialConfig[key].numbers
+          }))
       ];
     }
 
+    function rouletteSelectedCount(memory) {
+      return rouletteSelectionEntries(memory).length;
+    }
+
+    function rouletteSelectionLabels(memory, compact = false) {
+      return rouletteSelectionEntries(memory).map((entry) => compact ? entry.shortLabel : entry.label);
+    }
+
     function rouletteStake(memory) {
-      return memory.betChip * (memory.selectedNumbers.length + memory.selectedOutside.length);
+      return memory.betChip * rouletteSelectedCount(memory);
     }
 
     function roulettePotential(memory) {
-      return (memory.selectedNumbers.length * memory.betChip * 35)
-        + memory.selectedOutside.reduce((sum, key) => sum + (memory.betChip * (rouletteOutsideConfig[key]?.payout || 0)), 0);
+      return rouletteSelectionEntries(memory)
+        .reduce((sum, entry) => sum + (memory.betChip * entry.payout), 0);
     }
 
     function roulettePayout(memory, state) {
-      let payout = 0;
-      if (state.resultNumber !== null && memory.selectedNumbers.includes(Number(state.resultNumber))) {
-        payout += memory.betChip * 35;
-      }
-      const outsideHits = rouletteOutsideHits(state.resultNumber);
-      for (const key of memory.selectedOutside) {
-        if ([...(state.resultOutside || []), ...outsideHits].includes(key)) {
-          payout += memory.betChip * (rouletteOutsideConfig[key]?.payout || 0);
+      const result = Number(state.resultNumber);
+      if (!Number.isFinite(result)) return 0;
+      const outsideHits = [...(state.resultOutside || []), ...rouletteOutsideHits(result)];
+      return rouletteSelectionEntries(memory).reduce((sum, entry) => {
+        if (entry.type === "outside") {
+          return outsideHits.includes(entry.key) ? sum + (memory.betChip * entry.payout) : sum;
         }
-      }
-      return payout;
+        return entry.numbers?.includes(result) ? sum + (memory.betChip * entry.payout) : sum;
+      }, 0);
+    }
+
+    function rouletteChipValue(memory) {
+      return String(memory.betChip);
+    }
+
+    function betChipTone(value) {
+      if (value <= 5) return "emerald";
+      if (value <= 25) return "cobalt";
+      if (value <= 100) return "ruby";
+      return "violet";
+    }
+
+    function betChipRailMarkup(values, activeValue) {
+      return `
+        <div class="bet-chip-rail">
+          ${values.map((value) => `
+            <button class="bet-chip-token tone-${betChipTone(value)} ${activeValue === value ? "active" : ""}" type="button" data-bet-chip="${value}" data-tap-feedback>
+              <b>${money(value)}</b>
+            </button>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function rouletteGroupToggleState(memory, keys) {
+      return keys.length > 0 && keys.every((key) => (memory.selectedSpecial || []).includes(key));
+    }
+
+    function rouletteSpecialButtonMarkup(keys, label, meta = "") {
+      const memory = gameplayMemory(item());
+      const active = rouletteGroupToggleState(memory, keys);
+      return `<button class="roulette-special-chip ${active ? "chipped" : ""}" type="button" data-roulette-group="${keys.join(",")}" data-chip-value="${rouletteChipValue(memory)}" data-tap-feedback><b>${label}</b>${meta ? `<small>${meta}</small>` : ""}</button>`;
+    }
+
+    function rouletteNumberGroupActive(memory, numbers) {
+      return numbers.length > 0 && numbers.every((value) => memory.selectedNumbers.includes(value));
+    }
+
+    function rouletteNumberGroupMarkup(memory, numbers, label, meta = "") {
+      const active = rouletteNumberGroupActive(memory, numbers);
+      return `<button class="roulette-special-chip ${active ? "chipped" : ""}" type="button" data-roulette-numbers="${numbers.join(",")}" ${active ? `data-chip-value="${rouletteChipValue(memory)}"` : ""} data-tap-feedback><b>${label}</b>${meta ? `<small>${meta}</small>` : ""}</button>`;
+    }
+
+    function rouletteSelectionStripMarkup(memory, { compact = false, max = 6, liveFirst = false } = {}) {
+      const labels = rouletteSelectionLabels(memory, compact);
+      if (!labels.length) return "";
+      const visible = labels.slice(0, max);
+      const extra = labels.length - visible.length;
+      return `
+        <div class="roulette-selection-strip">
+          ${visible.map((label, index) => `<span class="${liveFirst && index === 0 ? "live" : ""}">${label}</span>`).join("")}
+          ${extra > 0 ? `<span>+${extra}</span>` : ""}
+        </div>
+      `;
     }
 
     function cameraFrame(card, shotKey) {
@@ -6192,7 +7017,6 @@
 
       return `
         <div class="gameplay-status-card ${state.tone}">
-          <span class="gameplay-status-chip">${camera.activeShot.label}</span>
           <span class="gameplay-status-chip">${state.name}</span>
           <b class="gameplay-status-badge">${state.badge}</b>
           ${metrics.map((metric) => `<span class="gameplay-status-metric" title="${metric.label}">${icon(metric.icon)}<strong>${metric.value}</strong></span>`).join("")}
@@ -6521,11 +7345,11 @@
     function roomIntroStreamOverlay(card, camera, intro) {
       const preset = roomIntroPreset(card);
       const tags = [camera.activeShot.label, ...(preset.tags || [])]
-        .slice(0, 4)
+        .slice(0, 2)
         .map((tag, index) => `<span class="${index === 0 ? "live" : ""}">${tag}</span>`)
         .join("");
       return `
-        <div class="gameplay-stream-layer align-right">
+        <div class="gameplay-stream-layer align-right dealer-shot">
           <div class="stream-layer-shell intro">
             <div class="stream-layer-kicker"><span>${intro.source === "watch" ? "Back in room" : "Opening room"}</span><b>${card.dealer}</b></div>
             <div class="stream-room-tags">${tags}</div>
@@ -6550,11 +7374,12 @@
       const preset = dealerFeedPreset(card);
       const labels = preset.overlay?.[camera.activeShot.key] || preset.overlay?.dealer || [];
       const activeIndex = camera.activeShot.key === "reveal" ? 2 : camera.activeShot.key === "table" ? 1 : 0;
+      const activeLabel = labels[activeIndex] || labels[0] || preset.floor;
       return `
         <div class="gameplay-table-overlay ${camera.activeShot.key}">
           <div class="gameplay-table-kicker">${preset.floor}</div>
-          <div class="gameplay-table-rail">
-            ${labels.map((label, index) => `<span class="${index === activeIndex ? "active" : ""}">${label}</span>`).join("")}
+          <div class="gameplay-table-rail compact">
+            <span class="active">${activeLabel}</span>
           </div>
         </div>
       `;
@@ -6562,14 +7387,26 @@
 
     function rouletteStreamOverlay(card, state, camera) {
       const preset = cinematicPreset(card);
+      const memory = gameplayMemory(card);
       const chips = state.selectionText
-        ? state.selectionText.split(", ").slice(0, 3).map((label) => `<span>${label}</span>`).join("")
+        ? state.selectionText.split(", ").slice(0, 2).map((label) => `<span>${label}</span>`).join("")
         : "<span>Quick pick open</span>";
       const headline = camera.activeShot.key === "dealer"
-        ? "Dealer open"
+        ? state.badge
         : camera.activeShot.key === "table"
           ? "Wheel live"
-          : "Result live";
+          : `${state.resultNumber ?? "?"} settles`;
+      if (camera.activeShot.key === "dealer") {
+        return `
+          <div class="gameplay-stream-layer align-right dealer-shot">
+            <div class="stream-layer-shell minimal">
+              <div class="stream-layer-kicker"><span>${preset.label}</span><b>${camera.activeShot.label}</b></div>
+              <div class="stream-layer-headline">${headline}</div>
+              <div class="stream-layer-strip">${chips}<span>${money(memory.betChip)} chip</span></div>
+            </div>
+          </div>
+        `;
+      }
       return `
         <div class="gameplay-stream-layer ${camera.activeShot.key === "reveal" ? "align-right" : ""}">
           <div class="stream-layer-shell">
@@ -6600,12 +7437,23 @@
         return miniCardMarkup(entry, className, (index + 1) * motion.cardStep);
       }).join("");
       const headline = camera.activeShot.key === "dealer"
-        ? "Seat open"
+        ? `${state.badge}`
         : camera.activeShot.key === "table"
           ? "Deal live"
           : "Reveal live";
+      if (camera.activeShot.key === "dealer") {
+        return `
+          <div class="gameplay-stream-layer align-right dealer-shot">
+            <div class="stream-layer-shell minimal">
+              <div class="stream-layer-kicker"><span>${preset.label}</span><b>${camera.activeShot.label}</b></div>
+              <div class="stream-layer-headline">${headline}</div>
+              <div class="stream-layer-strip"><span>${state.playerNote}</span><span>${money(memory.stake)}</span></div>
+            </div>
+          </div>
+        `;
+      }
       return `
-        <div class="gameplay-stream-layer ${camera.activeShot.key === "reveal" ? "align-center" : ""}">
+        <div class="gameplay-stream-layer ${camera.activeShot.key === "reveal" ? "align-right" : "align-center"}">
           <div class="stream-layer-shell">
             <div class="stream-layer-kicker"><span>${preset.label}</span><b>${camera.activeShot.label}</b></div>
             <div class="stream-layer-headline">${headline}</div>
@@ -6629,10 +7477,21 @@
         .map((entry, index, array) => `<i class="${entry} ${index === array.length - 1 && state.recentRoad ? "recent" : ""}"></i>`)
         .join("");
       const headline = camera.activeShot.key === "dealer"
-        ? "Side open"
+        ? `${state.badge}`
         : camera.activeShot.key === "table"
           ? "Cards live"
           : "Result live";
+      if (camera.activeShot.key === "dealer") {
+        return `
+          <div class="gameplay-stream-layer align-right dealer-shot">
+            <div class="stream-layer-shell minimal">
+              <div class="stream-layer-kicker"><span>${preset.label}</span><b>${camera.activeShot.label}</b></div>
+              <div class="stream-layer-headline">${headline}</div>
+              <div class="stream-layer-strip"><span>${state.selectedBet}</span><span>${money(memory.stake)}</span></div>
+            </div>
+          </div>
+        `;
+      }
       return `
         <div class="gameplay-stream-layer ${camera.activeShot.key === "reveal" ? "align-right" : ""}">
           <div class="stream-layer-shell">
@@ -6678,6 +7537,7 @@
       const wallet = bankrollBase(card);
       resolved.selectedNumbers = [...memory.selectedNumbers];
       resolved.selectedOutside = [...memory.selectedOutside];
+      resolved.selectedSpecial = [...(memory.selectedSpecial || [])];
       resolved.betChip = memory.betChip;
       resolved.selectionText = labels.join(", ");
       if (!labels.length) {
@@ -6885,9 +7745,7 @@
           <div class="gameplay-stage-top">
             <div class="gameplay-stage-pill-row">
               <div class="gameplay-stage-meta">
-                <span class="session-meta-pill">${icon("play")}${card.game}</span>
-                <span class="session-meta-pill">${icon("profile")}${card.dealer}</span>
-                <span class="session-meta-pill">${icon("watch")}${card.watching}</span>
+                <span class="session-meta-pill">${icon("play")}${card.game} · ${card.dealer}</span>
                 <span class="session-meta-pill">${icon("trend")}${phases[phaseIndex].title}</span>
               </div>
               <div class="gameplay-stage-actions">
@@ -6991,24 +7849,20 @@
       const memory = gameplayMemory(card);
       const camera = cameraDirector(card, state);
       const track = (state.trackTail || card.rouletteTrack || []).map((value, index) => `<span class="roulette-pill ${(state.trackColors || card.rouletteColors || [])[index] || ""} ${String(state.resultNumber ?? "") === String(value) ? "result" : ""}">${value}</span>`).join("");
-      const selectedMarkup = state.selectionText
-        ? gameChipMarkup([
-            ...memory.selectedNumbers.map((value) => ({ label: `${value} · ${money(memory.betChip)}`, active: true, dataset: { "roulette-bet": `number:${value}` } })),
-            ...memory.selectedOutside.map((key) => ({ label: `${rouletteOutsideConfig[key]?.label || key} · ${money(memory.betChip)}`, active: true, dataset: { "roulette-bet": `outside:${key}` } }))
-          ])
-        : '<div class="gameplay-stream-note">No bet selected.</div>';
-      const selectedHudMarkup = state.selectionText
-        ? gameChipMarkup([
-            ...memory.selectedNumbers.slice(0, 3).map((value) => ({ label: `${value}`, active: true, dataset: { "roulette-bet": `number:${value}` } })),
-            ...memory.selectedOutside.slice(0, 2).map((key) => ({ label: rouletteOutsideConfig[key]?.label || key, active: true, dataset: { "roulette-bet": `outside:${key}` } }))
-          ])
+      const selectedCount = rouletteSelectedCount(memory);
+      const selectedMarkup = selectedCount
+        ? rouletteSelectionStripMarkup(memory, { max: 8 })
+        : '<div class="gameplay-stream-note">No map selected yet.</div>';
+      const selectedHudMarkup = selectedCount
+        ? rouletteSelectionStripMarkup(memory, { compact: true, max: 4, liveFirst: true })
         : '<div class="dealer-call"><strong>No map</strong></div>';
       const quickPickMarkup = gameChipMarkup([
         { label: "12", active: memory.selectedNumbers.includes(12), dataset: { "roulette-bet": "number:12" } },
         { label: "0", active: memory.selectedNumbers.includes(0), dataset: { "roulette-bet": "number:0" } },
         { label: "Red", active: memory.selectedOutside.includes("red"), dataset: { "roulette-bet": "outside:red" } },
-        { label: "1st 12", active: memory.selectedOutside.includes("dozen1"), dataset: { "roulette-bet": "outside:dozen1" } },
-        { label: "Black", active: memory.selectedOutside.includes("black"), dataset: { "roulette-bet": "outside:black" } },
+        { label: "Voisins", active: rouletteNumberGroupActive(memory, rouletteSectorCalls[0].numbers), dataset: { "roulette-numbers": rouletteSectorCalls[0].numbers.join(",") } },
+        { label: "1-3", active: (memory.selectedSpecial || []).includes("street:1-2-3"), dataset: { "roulette-bet": "special:street:1-2-3" } },
+        { label: "1-5", active: (memory.selectedSpecial || []).includes("corner:1-2-4-5"), dataset: { "roulette-bet": "special:corner:1-2-4-5" } },
         { label: "Repeat", dataset: { "roulette-repeat": "1" } }
       ]);
       const menuMarkup = `
@@ -7054,28 +7908,25 @@
         </div>
       `;
       const coreMarkup = `
-          <div class="gameplay-core-card gameplay-overlay-hud">
+          <div class="gameplay-core-card gameplay-overlay-hud compact">
+            <div class="gameplay-seat-line">
+              <span>${selectedCount ? `${selectedCount} spots live` : "Map open"}</span>
+              <span>${money(rouletteStake(memory))} stake</span>
+            </div>
             <div class="gameplay-wheel-row">
               <div class="gameplay-compact-bets">${selectedHudMarkup}</div>
               <div class="wheel-mini ${state.tone} ${state.resultNumber !== null ? "resulting" : ""}" data-tap-feedback><span>${state.resultNumber ?? "?"}</span></div>
             </div>
             <div class="gameplay-action-tray">
-              ${gameChipMarkup([
-                { label: "$5", active: memory.betChip === 5, dataset: { "bet-chip": 5 } },
-                { label: "$10", active: memory.betChip === 10, dataset: { "bet-chip": 10 } },
-                { label: "$25", active: memory.betChip === 25, dataset: { "bet-chip": 25 } },
-                { label: "$100", active: memory.betChip === 100, dataset: { "bet-chip": 100 } }
-              ])}
+              ${betChipRailMarkup([5, 10, 25, 100], memory.betChip)}
             </div>
-            <div class="gameplay-action-tray">${quickPickMarkup}</div>
-            <div class="gameplay-action-tray">
-              ${gameChipMarkup([
-                { iconName: "play", label: "Board", dataset: { sheet: "roulette-board" } },
-                { iconName: "stats", label: "Stats", dataset: { sheet: "stats" } },
-                { iconName: "info", label: "Info", dataset: { sheet: "info" } },
-                { iconName: "tip", label: "Tip", dataset: { sheet: "tips" } }
-              ])}
-            </div>
+          <div class="gameplay-utility-rail">
+            ${gameChipMarkup([
+              { iconName: "play", label: "Board", dataset: { sheet: "roulette-board" } },
+              { iconName: "stats", label: "Stats", dataset: { sheet: "stats" } },
+              { iconName: "info", label: "Info", dataset: { sheet: "info" } }
+            ])}
+          </div>
         </div>
       `;
       return gameplayStageLayout(card, state, coreMarkup, menuMarkup);
@@ -7119,12 +7970,9 @@
             <strong>Seat memory</strong>
             ${gameChipMarkup([
               { label: "Hit", active: memory.action === "Hit", dataset: { "blackjack-action": "Hit" } },
-              { label: "Stand", active: memory.action === "Stand", dataset: { "blackjack-action": "Stand" } },
-              { label: "$25", active: memory.stake === 25, dataset: { "bet-chip": 25 } },
-              { label: "$50", active: memory.stake === 50, dataset: { "bet-chip": 50 } },
-              { label: "$75", active: memory.stake === 75, dataset: { "bet-chip": 75 } },
-              { label: "$100", active: memory.stake === 100, dataset: { "bet-chip": 100 } }
+              { label: "Stand", active: memory.action === "Stand", dataset: { "blackjack-action": "Stand" } }
             ])}
+            ${betChipRailMarkup([25, 50, 75, 100], memory.stake)}
           </div>
           <div class="gameplay-menu-section">
             <strong>Round data</strong>
@@ -7147,7 +7995,11 @@
         </div>
       `;
       const coreMarkup = `
-        <div class="gameplay-core-card gameplay-overlay-hud">
+        <div class="gameplay-core-card gameplay-overlay-hud compact">
+          <div class="gameplay-seat-line">
+            <span>Seat 1</span>
+            <span>${money(memory.stake)} live</span>
+          </div>
           <div class="gameplay-overlay-hands">
             <div class="gameplay-hand-block">
               <div class="hand-meta"><b>Dealer</b><span>${dealerMeta}</span></div>
@@ -7163,18 +8015,12 @@
             <button class="decision-pill ${memory.action === "Stand" ? "active locked" : ""}" type="button" data-blackjack-action="Stand" data-tap-feedback>Stand</button>
           </div>
           <div class="gameplay-action-tray">
-            ${gameChipMarkup([
-              { label: "$25", active: memory.stake === 25, dataset: { "bet-chip": 25 } },
-              { label: "$50", active: memory.stake === 50, dataset: { "bet-chip": 50 } },
-              { label: "$75", active: memory.stake === 75, dataset: { "bet-chip": 75 } },
-              { label: "$100", active: memory.stake === 100, dataset: { "bet-chip": 100 } }
-            ])}
-          </div>
-          <div class="gameplay-action-tray">
+            ${betChipRailMarkup([25, 50, 75, 100], memory.stake)}
+            </div>
+          <div class="gameplay-utility-rail">
             ${gameChipMarkup([
               { iconName: "stats", label: "Stats", dataset: { sheet: "stats" } },
-              { iconName: "info", label: "Info", dataset: { sheet: "info" } },
-              { iconName: "tip", label: "Tip", dataset: { sheet: "tips" } }
+              { iconName: "info", label: "Info", dataset: { sheet: "info" } }
             ])}
           </div>
         </div>
@@ -7213,11 +8059,9 @@
             ${gameChipMarkup([
               { label: "Player", active: memory.selectedBet === "player", dataset: { "baccarat-side": "player" } },
               { label: "Banker", active: memory.selectedBet === "banker", dataset: { "baccarat-side": "banker" } },
-              { label: "Tie", active: memory.selectedBet === "tie", dataset: { "baccarat-side": "tie" } },
-              { label: "$25", active: memory.stake === 25, dataset: { "bet-chip": 25 } },
-              { label: "$100", active: memory.stake === 100, dataset: { "bet-chip": 100 } },
-              { label: "$250", active: memory.stake === 250, dataset: { "bet-chip": 250 } }
+              { label: "Tie", active: memory.selectedBet === "tie", dataset: { "baccarat-side": "tie" } }
             ])}
+            ${betChipRailMarkup([25, 100, 250], memory.stake)}
           </div>
           <div class="gameplay-menu-section">
             <strong>Road map</strong>
@@ -7239,7 +8083,11 @@
         </div>
       `;
       const coreMarkup = `
-        <div class="gameplay-core-card gameplay-overlay-hud">
+        <div class="gameplay-core-card gameplay-overlay-hud slim">
+          <div class="gameplay-seat-line">
+            <span>${memory.selectedBet ? memory.selectedBet.charAt(0).toUpperCase() + memory.selectedBet.slice(1) : "Side open"}</span>
+            <span>${money(memory.stake)} live</span>
+          </div>
           <div class="gameplay-baccarat-inline">
             <div class="baccarat-scores">
               <button class="baccarat-score player ${state.selectedBet === "player" || state.recentRoad === "player" ? "active" : ""}" type="button" data-baccarat-side="player" data-tap-feedback><strong>P</strong><small>${state.scores.player}</small></button>
@@ -7249,17 +8097,12 @@
             <div class="gameplay-road-inline"><div class="road-grid ${state.recentRoad ? "settle" : ""}">${road}</div></div>
           </div>
           <div class="gameplay-action-tray">
-            ${gameChipMarkup([
-              { label: "$25", active: memory.stake === 25, dataset: { "bet-chip": 25 } },
-              { label: "$100", active: memory.stake === 100, dataset: { "bet-chip": 100 } },
-              { label: "$250", active: memory.stake === 250, dataset: { "bet-chip": 250 } }
-            ])}
+            ${betChipRailMarkup([25, 100, 250], memory.stake)}
           </div>
-          <div class="gameplay-action-tray">
+          <div class="gameplay-utility-rail">
             ${gameChipMarkup([
               { iconName: "stats", label: "Stats", dataset: { sheet: "stats" } },
-              { iconName: "info", label: "Info", dataset: { sheet: "info" } },
-              { iconName: "tip", label: "Tip", dataset: { sheet: "tips" } }
+              { iconName: "info", label: "Info", dataset: { sheet: "info" } }
             ])}
           </div>
         </div>
@@ -7295,7 +8138,6 @@
             <p>${card.table}</p>
             <div class="entry-strip">
               ${entryChip("lang", card.language)}
-              ${entryChip("watch", card.watching)}
               ${entryChip("seat", `${card.seat} open`)}
             </div>
             <div class="cta-row">
@@ -7360,16 +8202,22 @@
               </div>
             </div>
           </div>
-          <div class="row-grid">
-            ${compactMetric("profile", card.follows, "follow")}
-            ${compactMetric("watch", card.watching, "live")}
-            ${compactMetric("trend", card.join, "join")}
+          <div class="sheet-actions flush">
+            <button class="btn" type="button" data-sheet="gameplay">Play</button>
+            <button class="btn secondary" type="button" data-sheet="message">Message</button>
+            <button class="btn secondary" type="button" data-sheet="tips">Tip</button>
+          </div>
+          <div class="quick-link-row">
+            <span class="quick-link">${icon("play")}Open room</span>
+            <span class="quick-link">${icon("tip")}Tips on</span>
+            <span class="quick-link">${icon("watch")}Saved by 8</span>
           </div>
           <div class="list">
             ${compactListRow("play", "table", card.table)}
             ${compactListRow("lang", "language", card.language)}
             ${compactListRow("limit", "limits", card.stakes)}
             ${compactListRow("seat", "open seats", card.seat)}
+            ${compactListRow("trend", "return rate", card.trend)}
           </div>
           <div class="module-grid" aria-label="Dealer actions">
             ${moduleTile("chat", "Message", { sheet: "message" })}
@@ -7377,11 +8225,7 @@
             ${moduleTile("stats", "Stats", { sheet: "stats" })}
             ${moduleTile("watch", "Watch", { sheet: "watch" })}
           </div>
-          <div class="sheet-actions">
-            <button class="btn" type="button" data-action="follow">Follow dealer</button>
-            <button class="btn secondary" type="button" data-sheet="message">Message</button>
-            <button class="btn secondary" type="button" data-sheet="tips">Tip</button>
-          </div>
+          <div class="sheet-note tight">Dealer profile is built around room entry, quick message, tipping and repeat-room retention.</div>
         `;
       }
 
@@ -7422,84 +8266,255 @@
       if (type === "account") {
         return `
           <div class="sheet-head">
-            <div class="sheet-title"><span class="pill gold">Account</span><h3>Player profile</h3></div>
+            <div class="sheet-title"><span class="pill gold">Account</span><h3>Player account</h3></div>
             ${closeButton()}
           </div>
           <div class="account-hub">
             <div class="account-hub-top">
               <span class="pill gold">VIP 2</span>
-              <span class="account-hub-tag">${icon("wallet")}USDT + 4</span>
+              <span class="account-hub-tag">${icon("shield")}Verified</span>
             </div>
             <div class="account-hub-balance">
               <strong>$2.4K</strong>
-              <span>Ready to play across wallet, card and saved table access.</span>
+              <span>Main player balance across live rooms, saved wallets and dealer-first sessions.</span>
             </div>
             <div class="account-hub-strip">
-              <span class="account-hub-tag">${icon("watch")}${card.dealer} + 8</span>
+              <span class="account-hub-tag">${icon("wallet")}USDT · Visa</span>
               <span class="account-hub-tag">${icon("history")}126 hands</span>
-              <span class="account-hub-tag">${icon("tip")}$145</span>
+              <span class="account-hub-tag">${icon("watch")}${card.dealer} + 8</span>
             </div>
           </div>
-          <div class="row-grid">
-            ${compactMetric("profile", "VIP 2", "tier")}
-            ${compactMetric("watch", card.follows, "saved")}
-            ${compactMetric("wallet", "4", "wallets")}
+          <div class="account-balance-row">
+            <div class="account-balance-card primary"><strong>$2.1K</strong><span>ready to play</span></div>
+            <div class="account-balance-card"><strong>$380</strong><span>pending cashout</span></div>
+            <div class="account-balance-card"><strong>$85</strong><span>tip balance</span></div>
           </div>
-          <div class="module-grid compact-modules">
-            ${moduleTile("history", "History", { sheet: "history" })}
-            ${moduleTile("wallet", "Wallet", { sheet: "wallet" })}
-            ${moduleTile("profile", "Roles", { sheet: "roles" })}
-            ${moduleTile("shield", "Access", { sheet: "compliance" })}
+          <div class="quick-link-row">
+            <span class="quick-link">${icon("wallet")}instant cashier</span>
+            <span class="quick-link">${icon("watch")}3 saved rooms</span>
+            <span class="quick-link">${icon("shield")}limits active</span>
+          </div>
+          <div class="sheet-section">
+            <div class="sheet-section-head"><strong>Cashier</strong><span>core</span></div>
+            <div class="module-grid compact-modules">
+              ${moduleTile("wallet", "Cashier", { sheet: "wallet" })}
+              ${moduleTile("history", "History", { sheet: "history" })}
+              ${moduleTile("tip", "Tips", { sheet: "tips" })}
+              ${moduleTile("shield", "Limits", { sheet: "compliance" })}
+            </div>
+          </div>
+          <div class="sheet-section">
+            <div class="sheet-section-head"><strong>Player loop</strong><span>social</span></div>
+            <div class="module-grid compact-modules">
+              ${moduleTile("watch", "Saved rooms", { sheet: "saved" })}
+              ${moduleTile("chat", "Messages", { sheet: "message" })}
+              ${moduleTile("watch", "Alerts", { sheet: "alerts" })}
+              ${moduleTile("profile", "Roles", { sheet: "roles" })}
+            </div>
           </div>
           <div class="list">
-            ${compactListRow("wallet", "wallet", "USDT + card")}
-            ${compactListRow("history", "history", "126 hands")}
-            ${compactListRow("tip", "tips sent", "$145")}
-            ${compactListRow("watch", "saved", `${card.dealer} + 8`)}
+            ${compactListRow("profile", "player id", "LC-2481")}
+            ${compactListRow("wallet", "wallet rails", "USDT · Visa")}
+            ${compactListRow("history", "cashout", "$380 pending")}
+            ${compactListRow("watch", "saved dealer", `${card.dealer} + 8`)}
           </div>
           <div class="sheet-actions flush">
-            <button class="btn" type="button" data-sheet="wallet">Wallet</button>
+            <button class="btn" type="button" data-sheet="wallet">Open cashier</button>
             <button class="btn secondary" type="button" data-sheet="history">History</button>
           </div>
+          <div class="sheet-note">Account is now the player hub: cashier, saved rooms, alerts, limits and dealer-linked history without loading the main video layer.</div>
         `;
       }
 
       if (type === "history") {
         return `
           <div class="sheet-head">
-            <div class="sheet-title"><span class="pill">History</span><h3>Recent activity</h3></div>
+            <div class="sheet-title"><span class="pill">History</span><h3>Player timeline</h3></div>
             ${closeButton()}
           </div>
-          <div class="list">
-            ${compactListRow("play", "Roulette · Mia", "12 / Red · +$90")}
-            ${compactListRow("play", "Blackjack · Sofia", "Stand · -$50")}
-            ${compactListRow("play", "Baccarat · Marcus", "Player · +$95")}
-            ${compactListRow("tip", `Tip · ${card.dealer}`, "$10")}
+          <div class="account-hub">
+            <div class="account-hub-top">
+              <span class="pill">Timeline</span>
+              <span class="account-hub-tag">${icon("history")}126 hands</span>
+            </div>
+            <div class="account-hub-balance">
+              <strong>$2.4K</strong>
+              <span>Unified player timeline across bets, cashout moments, dealer interactions and saved-room returns.</span>
+            </div>
+            <div class="account-hub-strip">
+              <span class="account-hub-tag">${icon("watch")}3 saved rooms</span>
+              <span class="account-hub-tag">${icon("tip")}$145 tips</span>
+              <span class="account-hub-tag">${icon("wallet")}$380 cashout</span>
+            </div>
           </div>
-          <div class="row-grid">
-            ${compactMetric("history", "126", "sessions")}
-            ${compactMetric("trend", "58%", "win")}
-            ${compactMetric("wallet", "$2.4K", "net")}
+          <div class="summary-strip">
+            <div class="summary-box"><strong>126</strong><span>hands</span></div>
+            <div class="summary-box win"><strong>58%</strong><span>win rate</span></div>
+            <div class="summary-box"><strong>$2.4K</strong><span>net result</span></div>
           </div>
+          <div class="quick-link-row">
+            <span class="quick-link">${icon("watch")}3 saved rooms</span>
+            <span class="quick-link">${icon("tip")}$145 tips sent</span>
+            <span class="quick-link">${icon("wallet")}$380 cashout</span>
+          </div>
+          <div class="history-row">
+            <span class="history-pill live">live rooms</span>
+            <span class="history-pill win">winning streak</span>
+            <span class="history-pill">tips tracked</span>
+            <span class="history-pill">return visits</span>
+          </div>
+          <div class="sheet-section">
+            <div class="sheet-section-head"><strong>Timeline tools</strong><span>filters</span></div>
+            <div class="module-grid compact-modules">
+              ${moduleTile("watch", "Saved", { sheet: "saved" })}
+              ${moduleTile("wallet", "Cashier", { sheet: "wallet" })}
+              ${moduleTile("tip", "Tips", { sheet: "tips" })}
+              ${moduleTile("chat", "Messages", { sheet: "message" })}
+            </div>
+          </div>
+          <div class="activity-stack">
+            <div class="activity-card">
+              <div class="activity-card-top">
+                <span class="history-pill win">+$90</span>
+                <b>Roulette · Mia</b>
+                <span class="activity-card-side">12 / Red</span>
+              </div>
+              <p>Repeat bet landed in the saved room and payout settled back into playable balance.</p>
+            </div>
+            <div class="activity-card">
+              <div class="activity-card-top">
+                <span class="history-pill loss">-$50</span>
+                <b>Blackjack · Sofia</b>
+                <span class="activity-card-side">Stand</span>
+              </div>
+              <p>Seat stayed open after the hand and the room remained pinned for a later return.</p>
+            </div>
+            <div class="activity-card">
+              <div class="activity-card-top">
+                <span class="history-pill win">+$95</span>
+                <b>Baccarat · Marcus</b>
+                <span class="activity-card-side">Player</span>
+              </div>
+              <p>Side call closed in one pass, then the session rolled into the next live round.</p>
+            </div>
+            <div class="activity-card">
+              <div class="activity-card-top">
+                <span class="history-pill live">$10 tip</span>
+                <b>${card.dealer}</b>
+                <span class="activity-card-side">2h ago</span>
+              </div>
+              <p>Tip and room save stayed attached to the dealer profile without interrupting gameplay.</p>
+            </div>
+          </div>
+          <div class="sheet-actions flush">
+            <button class="btn secondary" type="button" data-sheet="wallet">Wallet</button>
+            <button class="btn" type="button" data-sheet="saved">Saved rooms</button>
+          </div>
+          <div class="sheet-note">Recent activity blends bets, return sessions and dealer interactions into one player timeline.</div>
+        `;
+      }
+
+      if (type === "saved") {
+        return `
+          <div class="sheet-head">
+            <div class="sheet-title"><span class="pill gold">Saved</span><h3>Saved rooms</h3></div>
+            ${closeButton()}
+          </div>
+          <div class="summary-strip">
+            <div class="summary-box"><strong>3</strong><span>saved rooms</span></div>
+            <div class="summary-box"><strong>2</strong><span>live now</span></div>
+            <div class="summary-box win"><strong>61%</strong><span>return rate</span></div>
+          </div>
+          <div class="quick-link-row">
+            <span class="quick-link">${icon("watch")}Mia live</span>
+            <span class="quick-link">${icon("seat")}2 open seats</span>
+            <span class="quick-link">${icon("history")}last visit 2h</span>
+          </div>
+          <div class="activity-stack">
+            <div class="activity-card">
+              <div class="activity-card-top">
+                <span class="history-pill live">Live now</span>
+                <b>Mia · Roulette Mania</b>
+                <span class="activity-card-side">$10-$500</span>
+              </div>
+              <p>Primary roulette room with fast re-entry, saved chip memory and dealer-linked alerts.</p>
+            </div>
+            <div class="activity-card">
+              <div class="activity-card-top">
+                <span class="history-pill">Saved</span>
+                <b>Sofia · Blackjack Royal</b>
+                <span class="activity-card-side">$25-$1K</span>
+              </div>
+              <p>VIP blackjack room kept for seat quality, readable deals and higher average stake sessions.</p>
+            </div>
+            <div class="activity-card">
+              <div class="activity-card-top">
+                <span class="history-pill win">Hot room</span>
+                <b>Marcus · Golden Baccarat</b>
+                <span class="activity-card-side">$20-$750</span>
+              </div>
+              <p>Saved for road rhythm, cleaner side choice and stronger repeat-session pull.</p>
+            </div>
+          </div>
+          <div class="sheet-actions flush">
+            <button class="btn" type="button" data-sheet="watch">Open live room</button>
+            <button class="btn secondary" type="button" data-sheet="alerts">Room alerts</button>
+          </div>
+          <div class="sheet-note">Saved rooms hold the social memory of the product: who the player returns to, where alerts matter and which tables convert into repeat play.</div>
         `;
       }
 
       if (type === "wallet") {
         return `
           <div class="sheet-head">
-            <div class="sheet-title"><span class="pill teal">Wallet</span><h3>Funding and payout</h3></div>
+            <div class="sheet-title"><span class="pill teal">Wallet</span><h3>Cashier</h3></div>
             ${closeButton()}
+          </div>
+          <div class="account-hub">
+            <div class="account-hub-top">
+              <span class="pill teal">USDT main</span>
+              <span class="account-hub-tag">${icon("history")}Instant payouts</span>
+            </div>
+            <div class="account-hub-balance">
+              <strong>$2.1K</strong>
+              <span>Primary playable balance with linked crypto, card and payout routing.</span>
+            </div>
+            <div class="account-hub-strip">
+              <span class="account-hub-tag">${icon("wallet")}TRC20</span>
+              <span class="account-hub-tag">${icon("wallet")}Visa •4242</span>
+              <span class="account-hub-tag">${icon("shield")}withdrawal check</span>
+            </div>
+          </div>
+          <div class="account-balance-row">
+            <div class="account-balance-card primary"><strong>$2.1K</strong><span>available</span></div>
+            <div class="account-balance-card"><strong>$380</strong><span>cashout</span></div>
+            <div class="account-balance-card"><strong>$85</strong><span>tips ready</span></div>
+          </div>
+          <div class="quick-link-row">
+            <span class="quick-link">${icon("wallet")}Crypto</span>
+            <span class="quick-link">${icon("wallet")}Card</span>
+            <span class="quick-link">${icon("history")}Instant payout</span>
+          </div>
+          <div class="sheet-section">
+            <div class="sheet-section-head"><strong>Cashier tools</strong><span>flow</span></div>
+            <div class="module-grid compact-modules">
+              ${moduleTile("wallet", "Deposit", { action: "save" }, "primary")}
+              ${moduleTile("history", "Withdraw", { action: "save" })}
+              ${moduleTile("wallet", "Wallets", { action: "save" })}
+              ${moduleTile("shield", "Limits", { sheet: "compliance" })}
+            </div>
           </div>
           <div class="list">
             ${compactListRow("wallet", "main wallet", "USDT · linked")}
-            ${compactListRow("wallet", "card", "•••• 4242")}
-            ${compactListRow("history", "payout", "Instant")}
-            ${compactListRow("tip", "tips", "$85 ready")}
+            ${compactListRow("wallet", "bank card", "•••• 4242")}
+            ${compactListRow("history", "payout rail", "Instant")}
+            ${compactListRow("shield", "withdrawal check", "Active")}
           </div>
-          <div class="sheet-actions">
-            <button class="btn" type="button" data-action="save">Attach wallet</button>
+          <div class="sheet-actions flush">
+            <button class="btn" type="button" data-action="save">Add wallet</button>
             <button class="btn secondary" type="button" data-sheet="account">Back to account</button>
           </div>
+          <div class="sheet-note">Cashier keeps deposit, withdraw, payout routing and limits in one place without leaking that complexity into gameplay.</div>
         `;
       }
 
@@ -7509,20 +8524,90 @@
             <div class="sheet-title"><span class="pill gold">Roles</span><h3>Choose your path</h3></div>
             ${closeButton()}
           </div>
-          <div class="module-grid">
+          <div class="account-hub">
+            <div class="account-hub-top">
+              <span class="pill gold">Role graph</span>
+              <span class="account-hub-tag">${icon("shield")}single app surface</span>
+            </div>
+            <div class="account-hub-balance">
+              <strong>4 roles</strong>
+              <span>Player, dealer, studio and operator surfaces share one product graph instead of splitting into separate tools.</span>
+            </div>
+            <div class="account-hub-strip">
+              <span class="account-hub-tag">${icon("play")}player-first</span>
+              <span class="account-hub-tag">${icon("profile")}dealer social</span>
+              <span class="account-hub-tag">${icon("shield")}operator layer</span>
+            </div>
+          </div>
+          <div class="summary-strip">
+            <div class="summary-box"><strong>4</strong><span>roles</span></div>
+            <div class="summary-box"><strong>2</strong><span>active now</span></div>
+            <div class="summary-box win"><strong>1 app</strong><span>shared graph</span></div>
+          </div>
+          <div class="quick-link-row">
+            <span class="quick-link">${icon("play")}player-first</span>
+            <span class="quick-link">${icon("profile")}dealer social</span>
+            <span class="quick-link">${icon("shield")}operator layer</span>
+          </div>
+          <div class="module-grid compact-modules">
             ${moduleTile("play", "Player", {}, "primary")}
             ${moduleTile("profile", "Dealer")}
             ${moduleTile("stats", "Studio")}
             ${moduleTile("shield", "Operator")}
           </div>
+          <div class="activity-stack">
+            <div class="activity-card">
+              <div class="activity-card-top">
+                <span class="history-pill live">Primary</span>
+                <b>Player</b>
+                <span class="activity-card-side">wallet · rooms · gameplay</span>
+              </div>
+              <p>The consumer surface: saved dealers, live discovery, gameplay handoff, wallet, tips and return alerts.</p>
+            </div>
+            <div class="activity-card">
+              <div class="activity-card-top">
+                <span class="history-pill">Social</span>
+                <b>Dealer</b>
+                <span class="activity-card-side">profile · chat · tips</span>
+              </div>
+              <p>The dealer surface holds room identity, inbound messages, saved followers and lightweight social interaction.</p>
+            </div>
+          </div>
+          <div class="list">
+            ${compactListRow("play", "Player", "wallet, saved rooms, gameplay")}
+            ${compactListRow("profile", "Dealer", "profile, room, tips, messages")}
+            ${compactListRow("stats", "Studio", "performance and room ops")}
+            ${compactListRow("shield", "Operator", "handoff, access, reporting")}
+          </div>
+          <div class="sheet-actions flush">
+            <button class="btn" type="button" data-sheet="account">Stay in player</button>
+            <button class="btn secondary" type="button" data-sheet="watch">See live room</button>
+          </div>
+          <div class="sheet-note tight">Role system keeps the product social-first while still supporting dealer, studio and operator workflows.</div>
         `;
       }
 
       if (type === "compliance") {
         return `
           <div class="sheet-head">
-            <div class="sheet-title"><span class="pill teal">Access</span><h3>Compliance and controls</h3></div>
+            <div class="sheet-title"><span class="pill teal">Access</span><h3>Limits and controls</h3></div>
             ${closeButton()}
+          </div>
+          <div class="summary-strip">
+            <div class="summary-box"><strong>Verified</strong><span>account</span></div>
+            <div class="summary-box"><strong>$500</strong><span>daily cap</span></div>
+            <div class="summary-box win"><strong>2h</strong><span>session guard</span></div>
+          </div>
+          <div class="quick-link-row">
+            <span class="quick-link">${icon("shield")}withdrawal check</span>
+            <span class="quick-link">${icon("history")}cool-off ready</span>
+            <span class="quick-link">${icon("wallet")}cashier-linked</span>
+          </div>
+          <div class="module-grid compact-modules">
+            ${moduleTile("shield", "Deposit cap", { action: "save" })}
+            ${moduleTile("history", "Cool off", { action: "save" })}
+            ${moduleTile("watch", "Session timer", { action: "save" })}
+            ${moduleTile("wallet", "Withdrawal check", { action: "save" })}
           </div>
           <div class="list">
             ${compactListRow("shield", "age", "18+")}
@@ -7530,6 +8615,7 @@
             ${compactListRow("shield", "geo", "operator controlled")}
             ${compactListRow("shield", "limits", "timeout / self-exclude")}
           </div>
+          <div class="sheet-note">Controls stay below discovery but are still player-usable: caps, cool-off, verification and withdrawal checks belong in account, not on the feed.</div>
         `;
       }
 
@@ -7539,10 +8625,35 @@
             <div class="sheet-title"><span class="pill gold">Stats</span><h3>${card.dealer} · ${card.game}</h3></div>
             ${closeButton()}
           </div>
-          <div class="row-grid">
-            ${compactMetric("watch", card.watching, "watch")}
-            ${compactMetric("trend", card.join, "join")}
-            ${compactMetric("tip", card.arpu, "value")}
+          <div class="account-hub">
+            <div class="account-hub-top">
+              <span class="pill gold">Live stats</span>
+              <span class="account-hub-tag">${icon("watch")}${card.watching}</span>
+            </div>
+            <div class="account-hub-balance">
+              <strong>${card.join}</strong>
+              <span>Dealer-linked room performance across viewing, join intent and repeat-room pull.</span>
+            </div>
+            <div class="account-hub-strip">
+              <span class="account-hub-tag">${icon("limit")}${card.stakes}</span>
+              <span class="account-hub-tag">${icon("seat")}${card.seat} open</span>
+              <span class="account-hub-tag">${icon("trend")}${card.trend}</span>
+            </div>
+          </div>
+          <div class="summary-strip">
+            <div class="summary-box"><strong>${card.watching}</strong><span>watching</span></div>
+            <div class="summary-box"><strong>${card.join}</strong><span>join rate</span></div>
+            <div class="summary-box"><strong>${card.arpu}</strong><span>avg value</span></div>
+          </div>
+          <div class="quick-link-row">
+            <span class="quick-link">${icon("lang")}${card.language}</span>
+            <span class="quick-link">${icon("limit")}${card.stakes}</span>
+            <span class="quick-link">${icon("seat")}${card.seat} open</span>
+          </div>
+          <div class="history-row">
+            <span class="history-pill live">${card.table}</span>
+            <span class="history-pill">${card.game}</span>
+            <span class="history-pill win">${card.trend}</span>
           </div>
           <div class="list">
             ${compactListRow("limit", "limits", card.stakes)}
@@ -7550,6 +8661,11 @@
             ${compactListRow("trend", "trend", card.trend)}
             ${compactListRow("profile", "followers", card.follows)}
           </div>
+          <div class="sheet-actions flush">
+            <button class="btn" type="button" data-sheet="watch">Back to room</button>
+            <button class="btn secondary" type="button" data-sheet="gameplay">Open table</button>
+          </div>
+          <div class="sheet-note">Stats stay one tap away so the player can read room quality without loading the main video layer.</div>
         `;
       }
 
@@ -7559,12 +8675,31 @@
             <div class="sheet-title"><span class="pill">Info</span><h3>${card.table}</h3></div>
             ${closeButton()}
           </div>
+          <div class="account-hub">
+            <div class="account-hub-top">
+              <span class="pill">Table info</span>
+              <span class="account-hub-tag">${icon("lang")}${card.language}</span>
+            </div>
+            <div class="account-hub-balance">
+              <strong>${card.table}</strong>
+              <span>Core room data for discovery, table entry and dealer-led return behavior.</span>
+            </div>
+            <div class="account-hub-strip">
+              <span class="account-hub-tag">${icon("play")}${card.game}</span>
+              <span class="account-hub-tag">${icon("limit")}${card.stakes}</span>
+              <span class="account-hub-tag">${icon("seat")}${card.seat} open</span>
+            </div>
+          </div>
           <div class="list">
             ${compactListRow("play", "game", card.game)}
             ${compactListRow("lang", "language", card.language)}
             ${compactListRow("limit", "limits", card.stakes)}
             ${compactListRow("tip", "tips", "Available")}
             ${compactListRow("seat", "open seats", card.seat)}
+          </div>
+          <div class="sheet-actions flush">
+            <button class="btn" type="button" data-sheet="watch">Watch room</button>
+            <button class="btn secondary" type="button" data-sheet="profile">Dealer</button>
           </div>
         `;
       }
@@ -7575,11 +8710,59 @@
             <div class="sheet-title"><span class="pill gold">Tips</span><h3>${card.dealer}</h3></div>
             ${closeButton()}
           </div>
+          <div class="account-hub">
+            <div class="account-hub-top">
+              <span class="pill gold">Dealer tips</span>
+              <span class="account-hub-tag">${icon("wallet")}wallet-linked</span>
+            </div>
+            <div class="account-hub-balance">
+              <strong>$85</strong>
+              <span>Separate tip balance for dealer-first gestures that never interfere with live betting flow.</span>
+            </div>
+            <div class="account-hub-strip">
+              <span class="account-hub-tag">${icon("tip")}$145 this week</span>
+              <span class="account-hub-tag">${icon("watch")}3 tipped rooms</span>
+              <span class="account-hub-tag">${icon("history")}off-table</span>
+            </div>
+          </div>
+          <div class="account-balance-row">
+            <div class="account-balance-card primary"><strong>$85</strong><span>tip balance</span></div>
+            <div class="account-balance-card"><strong>$145</strong><span>sent this week</span></div>
+            <div class="account-balance-card"><strong>3</strong><span>tipped rooms</span></div>
+          </div>
+          <div class="quick-link-row">
+            <span class="quick-link">${icon("tip")}off-table</span>
+            <span class="quick-link">${icon("wallet")}wallet-linked</span>
+            <span class="quick-link">${icon("watch")}dealer-first</span>
+          </div>
           <div class="module-grid">
-            <button class="module-card primary" type="button" data-action="tip"><strong>$5</strong><span>Quick tip</span></button>
-            <button class="module-card" type="button" data-action="tip"><strong>$10</strong><span>Good energy</span></button>
-            <button class="module-card" type="button" data-action="tip"><strong>$25</strong><span>Big hand</span></button>
-            <button class="module-card" type="button" data-action="tip"><strong>$50</strong><span>VIP thank you</span></button>
+            <button class="module-card detail primary" type="button" data-action="tip">${icon("tip")}<strong>$5 quick tip</strong><span>Light thank-you that does not interrupt the room.</span></button>
+            <button class="module-card detail" type="button" data-action="tip">${icon("tip")}<strong>$10 good energy</strong><span>Clean social gesture after a strong read or fast round.</span></button>
+            <button class="module-card detail" type="button" data-action="tip">${icon("tip")}<strong>$25 big hand</strong><span>Used when the dealer room converts and the player stays in flow.</span></button>
+            <button class="module-card detail" type="button" data-action="tip">${icon("tip")}<strong>$50 VIP thanks</strong><span>High-value signal for premium rooms and repeat sessions.</span></button>
+          </div>
+          <div class="activity-stack">
+            <div class="activity-card">
+              <div class="activity-card-top">
+                <span class="history-pill live">$10</span>
+                <b>${card.dealer}</b>
+                <span class="activity-card-side">2h ago</span>
+              </div>
+              <p>Sent after a saved-room return when the table reopened with clean seat availability.</p>
+            </div>
+            <div class="activity-card">
+              <div class="activity-card-top">
+                <span class="history-pill">$25</span>
+                <b>Sofia · Blackjack Royal</b>
+                <span class="activity-card-side">yesterday</span>
+              </div>
+              <p>VIP tip after a strong hand sequence, kept separate from the gameplay settlement path.</p>
+            </div>
+          </div>
+          <div class="list">
+            ${compactListRow("tip", "tip status", "separate from bets")}
+            ${compactListRow("wallet", "settlement", "wallet-linked")}
+            ${compactListRow("watch", "favorite room", `${card.dealer} saved`)}
           </div>
           <div class="demo-disclaimer">Tips stay separate from bets and never cover the main video layer.</div>
         `;
@@ -7588,48 +8771,147 @@
       if (type === "message") {
         return `
           <div class="sheet-head">
-            <div class="sheet-title"><span class="pill teal">Message</span><h3>${card.dealer}</h3></div>
+            <div class="sheet-title"><span class="pill teal">Messages</span><h3>Inbox and dealer chat</h3></div>
             ${closeButton()}
           </div>
-          <div class="module-grid">
-            <button class="module-card" type="button" data-action="message"><strong>Good luck</strong><span>Short dealer message</span></button>
-            <button class="module-card" type="button" data-action="message"><strong>Open seat?</strong><span>Ask about seat availability</span></button>
-            <button class="module-card" type="button" data-action="message"><strong>Great table</strong><span>Send quick feedback</span></button>
-            <button class="module-card" type="button" data-action="message"><strong>See you later</strong><span>Save the room for later</span></button>
+          <div class="account-hub">
+            <div class="account-hub-top">
+              <span class="pill teal">Inbox</span>
+              <span class="account-hub-tag">${icon("chat")}3 unread</span>
+            </div>
+            <div class="account-hub-balance">
+              <strong>${card.dealer}</strong>
+              <span>Room-linked messages, seat requests and short social notes that stay attached to saved dealers.</span>
+            </div>
+            <div class="account-hub-strip">
+              <span class="account-hub-tag">${icon("watch")}room linked</span>
+              <span class="account-hub-tag">${icon("seat")}seat requests</span>
+              <span class="account-hub-tag">${icon("tip")}tip context</span>
+            </div>
           </div>
+          <div class="message-draft">
+            <div class="sheet-section-head"><strong>Draft</strong><span>live room</span></div>
+            <div class="message-draft-field">Good luck tonight. If a seat opens after this hand, save me a spot at ${card.table}.</div>
+          </div>
+          <div class="history-row">
+            <span class="history-pill live">dealer chat</span>
+            <span class="history-pill">saved room</span>
+            <span class="history-pill win">fast reply</span>
+          </div>
+          <div class="module-grid">
+            <button class="module-card detail" type="button" data-action="message">${icon("chat")}<strong>Good luck tonight</strong><span>Short dealer message before the next live round starts.</span></button>
+            <button class="module-card detail" type="button" data-action="message">${icon("seat")}<strong>Open seat after this hand?</strong><span>Ask about availability without leaving the current room context.</span></button>
+            <button class="module-card detail" type="button" data-action="message">${icon("watch")}<strong>Save this room for later</strong><span>Bookmark the dealer thread and come back from account history.</span></button>
+            <button class="module-card detail" type="button" data-action="message">${icon("tip")}<strong>Great table flow</strong><span>Send a quick social note after a strong table session.</span></button>
+          </div>
+          <div class="sheet-actions flush">
+            <button class="btn" type="button" data-action="message">Send draft</button>
+            <button class="btn secondary" type="button" data-sheet="saved">Saved rooms</button>
+          </div>
+          <div class="sheet-note">Messages stay lightweight and dealer-linked so chat helps retention and seat coordination without becoming a heavy social feed.</div>
         `;
       }
 
       if (type === "roulette-board") {
         const state = gameplayState(card);
         const memory = gameplayMemory(card);
-        const cells = Array.from({ length: 36 }, (_, index) => {
-          const value = index + 1;
-          const hit = Number(state.resultNumber) === value;
-          return `<button class="roulette-cell ${rouletteNumberColor(value)} ${memory.selectedNumbers.includes(value) ? "chipped" : ""} ${hit ? "hit" : ""}" type="button" data-roulette-bet="number:${value}" data-tap-feedback>${value}</button>`;
-        }).join("");
-        const outsideHits = rouletteOutsideHits(state.resultNumber);
-        const outsideMarkup = (items) => items.map(([key, label]) => `<button class="outside-cell ${memory.selectedOutside.includes(key) ? "chipped" : ""} ${outsideHits.includes(key) ? "hit" : ""}" type="button" data-roulette-bet="outside:${key}" data-tap-feedback>${label}</button>`).join("");
+        const view = memory.boardView || "main";
+        const chipValue = rouletteChipValue(memory);
+        const resultNumber = Number(state.resultNumber);
+        const outsideHits = rouletteOutsideHits(resultNumber);
+        const selectedSpecial = new Set(memory.selectedSpecial || []);
+        const chipAttr = (active) => active ? ` data-chip-value="${chipValue}"` : "";
+        const numberButton = (value) => {
+          const active = memory.selectedNumbers.includes(value);
+          const hit = resultNumber === value;
+          return `<button class="roulette-cell ${rouletteNumberColor(value)} ${active ? "chipped" : ""} ${hit ? "hit" : ""}" type="button" data-roulette-bet="number:${value}"${chipAttr(active)} data-tap-feedback>${value}</button>`;
+        };
+        const outsideButton = (key, label) => {
+          const active = memory.selectedOutside.includes(key);
+          const hit = outsideHits.includes(key);
+          return `<button class="outside-cell ${active ? "chipped" : ""} ${hit ? "hit" : ""}" type="button" data-roulette-bet="outside:${key}"${chipAttr(active)} data-tap-feedback>${label}</button>`;
+        };
+        const streetButton = (key) => {
+          const config = rouletteSpecialConfig[key];
+          const active = selectedSpecial.has(key);
+          const hit = config.numbers.includes(resultNumber);
+          return `<button class="street-cell ${active ? "chipped" : ""} ${hit ? "hit" : ""}" type="button" data-roulette-bet="special:${key}"${chipAttr(active)} data-tap-feedback>${config.shortLabel}</button>`;
+        };
+        const lineButton = (key) => {
+          const config = rouletteSpecialConfig[key];
+          const active = selectedSpecial.has(key);
+          const hit = config.numbers.includes(resultNumber);
+          return `<button class="line-cell ${active ? "chipped" : ""} ${hit ? "hit" : ""}" type="button" data-roulette-bet="special:${key}"${chipAttr(active)} data-tap-feedback>${config.shortLabel}</button>`;
+        };
+        const specialButton = (key) => {
+          const config = rouletteSpecialConfig[key];
+          const active = selectedSpecial.has(key);
+          const hit = config.numbers.includes(resultNumber);
+          return `<button class="roulette-special-chip ${active ? "chipped" : ""} ${hit ? "hit" : ""}" type="button" data-roulette-bet="special:${key}"${chipAttr(active)} data-tap-feedback><b>${config.shortLabel}</b><small>x${config.payout + 1}</small></button>`;
+        };
+        const cells = Array.from({ length: 36 }, (_, index) => numberButton(index + 1)).join("");
+        const selectionSummary = rouletteSelectedCount(memory)
+          ? rouletteSelectionStripMarkup(memory, { compact: true, max: 7, liveFirst: true })
+          : '<div class="gameplay-stream-note">Use the cloth for numbers, dozens, splits, corners and blocks without covering the live stream.</div>';
         return `
           <div class="sheet-head">
             <div class="sheet-title"><span class="pill gold">Board</span><h3>${card.table}</h3></div>
             ${closeButton()}
           </div>
-          <div class="gameplay-action-tray">
-            ${gameChipMarkup([
-              { label: "$5", active: memory.betChip === 5, dataset: { "bet-chip": 5 } },
-              { label: "$10", active: memory.betChip === 10, dataset: { "bet-chip": 10 } },
-              { label: "$25", active: memory.betChip === 25, dataset: { "bet-chip": 25 } },
-              { label: "$100", active: memory.betChip === 100, dataset: { "bet-chip": 100 } }
-            ])}
+          <div class="roulette-board-summary">
+            <div class="roulette-board-head">
+              <strong>${rouletteSelectedCount(memory) ? `${rouletteSelectedCount(memory)} bets live` : "Build the roulette map"}</strong>
+              <span>${money(rouletteStake(memory))} stake · +${money(roulettePotential(memory))}</span>
+            </div>
+            ${selectionSummary}
+            ${betChipRailMarkup([5, 10, 25, 100], memory.betChip)}
+            <div class="roulette-board-tabs">
+              <button class="roulette-board-tab ${view === "main" ? "active" : ""}" type="button" data-roulette-view="main">Numbers</button>
+              <button class="roulette-board-tab ${view === "special" ? "active" : ""}" type="button" data-roulette-view="special">Splits & blocks</button>
+            </div>
           </div>
           <div class="roulette-board">
-            <button class="roulette-zero ${memory.selectedNumbers.includes(0) ? "chipped" : ""} ${Number(state.resultNumber) === 0 ? "hit" : ""}" type="button" data-roulette-bet="number:0" data-tap-feedback>0</button>
-            <div class="roulette-grid">${cells}</div>
+            ${view === "main" ? `
+              <div class="roulette-board-main">
+                <div class="roulette-grid-shell">
+                  <button class="roulette-zero ${memory.selectedNumbers.includes(0) ? "chipped" : ""} ${resultNumber === 0 ? "hit" : ""}" type="button" data-roulette-bet="number:0"${chipAttr(memory.selectedNumbers.includes(0))} data-tap-feedback>0</button>
+                  <div class="roulette-grid">${cells}</div>
+                  <div class="roulette-street-rail">${rouletteStreetKeys.map((key) => streetButton(key)).join("")}</div>
+                </div>
+                <div class="line-grid">${rouletteLineKeys.map((key) => lineButton(key)).join("")}</div>
+                ${rouletteBoardLayout.outsideRows.map((row) => `<div class="outside-grid">${row.map(([key, label]) => outsideButton(key, label)).join("")}</div>`).join("")}
+                <div class="outside-grid">${rouletteBoardLayout.dozens.map(([key, label]) => outsideButton(key, label)).join("")}</div>
+                <div class="column-grid">${rouletteBoardLayout.columns.map(([key, label]) => outsideButton(key, label)).join("")}</div>
+              </div>
+            ` : `
+              <div class="roulette-special-layout">
+                <div class="roulette-special-section">
+                  <div><strong>Wheel sectors</strong><span>Fast racetrack-style number coverage optimized for mobile live play.</span></div>
+                  <div class="roulette-special-grid">${rouletteSectorCalls.map((entry) => rouletteNumberGroupMarkup(memory, entry.numbers, entry.label, entry.meta)).join("")}</div>
+                </div>
+                <div class="roulette-special-section">
+                  <div><strong>Neighbours</strong><span>Quick 5-number calls around common wheel anchors without hiding the dealer stream.</span></div>
+                  <div class="roulette-special-grid compact">${rouletteNeighborCalls.map((entry) => rouletteNumberGroupMarkup(memory, entry.numbers, entry.label, entry.meta)).join("")}</div>
+                </div>
+                <div class="roulette-special-section">
+                  <div><strong>Zero calls</strong><span>0 cluster, split and trio coverage around the dealer side of the cloth.</span></div>
+                  <div class="roulette-special-grid">${["trio:0-1-2", "trio:0-2-3", ...rouletteSplitZeroKeys].map((key) => specialButton(key)).join("")}</div>
+                </div>
+                <div class="roulette-special-section">
+                  <div><strong>Corners</strong><span>4-number block coverage for fast mobile betting without opening a heavy casino lobby.</span></div>
+                  <div class="roulette-special-grid compact">${rouletteCornerKeys.map((key) => specialButton(key)).join("")}</div>
+                </div>
+                <div class="roulette-special-section">
+                  <div><strong>Horizontal splits</strong><span>Same-row pairs across the cloth.</span></div>
+                  <div class="roulette-special-grid compact">${rouletteSplitHorizontalKeys.map((key) => specialButton(key)).join("")}</div>
+                </div>
+                <div class="roulette-special-section">
+                  <div><strong>Vertical splits</strong><span>Up-and-down pairs for fuller board coverage.</span></div>
+                  <div class="roulette-special-grid compact">${rouletteSplitVerticalKeys.map((key) => specialButton(key)).join("")}</div>
+                </div>
+              </div>
+            `}
           </div>
-          <div class="outside-grid">${outsideMarkup([["low","1-18"],["even","Even"],["red","Red"],["black","Black"],["odd","Odd"],["high","19-36"]])}</div>
-          <div class="outside-grid">${outsideMarkup([["dozen1","1st 12"],["dozen2","2nd 12"],["dozen3","3rd 12"]])}</div>
-          <div class="outside-grid">${outsideMarkup([["col1","Col 1"],["col2","Col 2"],["col3","Col 3"]])}</div>
           <div class="sheet-actions">
             <button class="btn secondary" type="button" data-roulette-repeat="1">Repeat</button>
             <button class="btn secondary" type="button" data-roulette-clear="1">Clear</button>
@@ -7664,12 +8946,33 @@
             <div class="sheet-title"><span class="pill gold">Alerts</span><h3>Return loop</h3></div>
             ${closeButton()}
           </div>
+          <div class="summary-strip">
+            <div class="summary-box"><strong>4</strong><span>alerts on</span></div>
+            <div class="summary-box"><strong>2</strong><span>live now</span></div>
+            <div class="summary-box win"><strong>31%</strong><span>return lift</span></div>
+          </div>
+          <div class="quick-link-row">
+            <span class="quick-link">${icon("watch")}${card.dealer} live</span>
+            <span class="quick-link">${icon("seat")}${card.seat} open seats</span>
+            <span class="quick-link">${icon("trend")}${card.trend}</span>
+          </div>
+          <div class="module-grid compact-modules">
+            ${moduleTile("watch", "Dealer live", { sheet: "watch" }, "primary")}
+            ${moduleTile("seat", "Seat alert", { action: "save" })}
+            ${moduleTile("trend", "Trend alert", { action: "save" })}
+            ${moduleTile("wallet", "Promo alert", { action: "save" })}
+          </div>
           <div class="list">
             <div class="list-row"><b>${card.dealer} is live</b><span>${card.table}</span></div>
             <div class="list-row"><b>Seat opened</b><span>${card.seat}</span></div>
             <div class="list-row"><b>Table trend</b><span>${card.state}</span></div>
             <div class="list-row"><b>Operator promo</b><span>${card.operator}</span></div>
           </div>
+          <div class="sheet-actions flush">
+            <button class="btn" type="button" data-sheet="watch">Open room</button>
+            <button class="btn secondary" type="button" data-sheet="saved">Saved rooms</button>
+          </div>
+          <div class="sheet-note">Alerts are the return engine: they bring the player back to saved dealers, open seats and the rooms most likely to convert again.</div>
         `;
       }
 
@@ -7754,11 +9057,6 @@
           <button class="btn secondary" type="button" data-sheet="message">Message</button>
           <button class="btn secondary" type="button" data-sheet="tips">Tip</button>
         </div>
-        <div class="row-grid">
-          ${compactMetric("watch", card.watching, "watch")}
-          ${compactMetric("limit", card.stakes, "limits")}
-          ${compactMetric("seat", card.seat, "open")}
-        </div>
         <div class="module-grid compact-modules" aria-label="Table actions">
           ${moduleTile("play", "Gameplay", { sheet: "gameplay" }, "primary")}
           ${moduleTile("profile", "Dealer", { sheet: "profile" })}
@@ -7769,8 +9067,9 @@
           ${compactListRow("profile", "dealer", card.dealer)}
           ${compactListRow("play", "game", card.game)}
           ${compactListRow("trend", "trend", card.trend)}
-          ${compactListRow("history", "return", "Saved to profile")}
+          ${compactListRow("tip", "tips", "dealer-first")}
         </div>
+        <div class="sheet-note tight">Watch mode is the low-friction room surface: video first, quick table entry second, everything else behind focused actions.</div>
       `;
     }
 
@@ -7840,7 +9139,9 @@
       const liveStep = event.target.closest("[data-live-step]");
       const liveReset = event.target.closest("[data-live-reset]");
       const betChip = event.target.closest("[data-bet-chip]");
+      const rouletteNumbersGroup = event.target.closest("[data-roulette-numbers]");
       const rouletteBet = event.target.closest("[data-roulette-bet]");
+      const rouletteView = event.target.closest("[data-roulette-view]");
       const rouletteClear = event.target.closest("[data-roulette-clear]");
       const rouletteRepeat = event.target.closest("[data-roulette-repeat]");
       const blackjackAction = event.target.closest("[data-blackjack-action]");
@@ -7879,20 +9180,39 @@
         if (card.game === "Roulette") rememberRouletteSelection(memory);
         commitGameplayMemory(card);
       }
+      if (rouletteView) {
+        const card = item();
+        gameplayMemory(card).boardView = rouletteView.dataset.rouletteView;
+        refreshSheet();
+      }
+      if (rouletteNumbersGroup) {
+        const card = item();
+        const memory = gameplayMemory(card);
+        const values = rouletteNumbersGroup.dataset.rouletteNumbers.split(",").map((value) => Number(value)).filter((value) => Number.isFinite(value));
+        toggleNumberGroup(memory.selectedNumbers, values);
+        rememberRouletteSelection(memory);
+        commitGameplayMemory(card);
+      }
       if (rouletteBet) {
         const card = item();
         const memory = gameplayMemory(card);
-        const [type, raw] = rouletteBet.dataset.rouletteBet.split(":");
+        const rawValue = rouletteBet.dataset.rouletteBet;
+        const splitIndex = rawValue.indexOf(":");
+        const type = splitIndex >= 0 ? rawValue.slice(0, splitIndex) : rawValue;
+        const raw = splitIndex >= 0 ? rawValue.slice(splitIndex + 1) : "";
         if (type === "number") toggleValue(memory.selectedNumbers, Number(raw));
         if (type === "outside") toggleValue(memory.selectedOutside, raw);
+        if (type === "special") toggleValue(memory.selectedSpecial, raw);
         rememberRouletteSelection(memory);
         commitGameplayMemory(card);
       }
       if (rouletteClear) {
         const card = item();
         const memory = gameplayMemory(card);
+        rememberRouletteSelection(memory);
         memory.selectedNumbers = [];
         memory.selectedOutside = [];
+        memory.selectedSpecial = [];
         commitGameplayMemory(card);
       }
       if (rouletteRepeat) {
@@ -7900,6 +9220,7 @@
         const memory = gameplayMemory(card);
         memory.selectedNumbers = [...(memory.lastNumbers || [12])];
         memory.selectedOutside = [...(memory.lastOutside || ["red", "dozen1"])];
+        memory.selectedSpecial = [...(memory.lastSpecial || [])];
         commitGameplayMemory(card);
       }
       if (blackjackAction) {
