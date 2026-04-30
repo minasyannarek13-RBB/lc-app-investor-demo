@@ -656,6 +656,46 @@
       color: rgba(255, 255, 255, .94);
     }
 
+    .dealer-rail-inline {
+      position: absolute;
+      top: 50px;
+      left: 12px;
+      right: 78px;
+      z-index: 68;
+      pointer-events: auto;
+    }
+
+    .dealer-rail-inline .stories {
+      gap: 8px;
+      padding: 0 2px 2px 0;
+    }
+
+    .dealer-rail-inline .story {
+      flex: 0 0 42px;
+      color: rgba(255, 255, 255, .82);
+    }
+
+    .dealer-rail-inline .avatar-ring {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 3px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .26);
+    }
+
+    .dealer-rail-inline .story > span:last-child {
+      display: none;
+    }
+
+    .dealer-rail-inline .story.active > span:last-child {
+      display: block;
+      overflow: hidden;
+      color: rgba(255, 255, 255, .92);
+      font-size: 7px;
+      font-weight: 900;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     .tabs {
       display: none;
     }
@@ -849,14 +889,14 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      min-height: 18px;
-      padding: 0 6px;
+      min-height: 20px;
+      padding: 0 7px;
       border: 1px solid rgba(255, 255, 255, .08);
       border-radius: 999px;
       color: rgba(255, 255, 255, .72);
       background: rgba(4, 5, 6, .12);
       backdrop-filter: blur(14px);
-      font-size: 7px;
+      font-size: 7.5px;
       font-weight: 900;
       max-width: 164px;
       overflow: hidden;
@@ -878,6 +918,19 @@
       right: 18px;
       bottom: 58px;
       z-index: 5;
+    }
+
+    .copy-topline {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 7px;
+    }
+
+    .copy-topline .pill {
+      min-height: 18px;
+      padding: 0 6px;
+      font-size: 7px;
     }
 
     .dealer-glance {
@@ -937,10 +990,10 @@
 
     .copy p {
       margin: 0;
-      max-width: 168px;
+      max-width: 182px;
       color: rgba(255, 255, 255, .62);
-      font-size: 7.5px;
-      line-height: 1.24;
+      font-size: 8px;
+      line-height: 1.28;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -948,16 +1001,16 @@
 
     .entry-strip {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 4px;
-      margin-top: 7px;
-      max-width: 132px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 3px;
+      margin-top: 6px;
+      max-width: 182px;
     }
 
     .entry-chip {
       min-width: 0;
-      min-height: 18px;
-      padding: 0 5px;
+      min-height: 19px;
+      padding: 0 6px;
       border: 1px solid rgba(255, 255, 255, .08);
       border-radius: 999px;
       background: rgba(4, 5, 6, .1);
@@ -972,7 +1025,7 @@
       display: inline-block;
       overflow: hidden;
       color: var(--text);
-      font-size: 6px;
+      font-size: 6.8px;
       font-weight: 950;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -1025,14 +1078,14 @@
 
     .cta-row {
       display: flex;
-      gap: 8px;
-      margin-top: 10px;
+      gap: 6px;
+      margin-top: 8px;
       width: fit-content;
     }
 
     .stream-action {
-      width: 34px;
-      height: 34px;
+      width: 32px;
+      height: 32px;
       border: 1px solid rgba(255, 255, 255, .08);
       border-radius: 50%;
       color: rgba(255, 255, 255, .84);
@@ -1431,7 +1484,7 @@
     }
 
     .watch-hero {
-      height: 192px;
+      height: 188px;
     }
 
     .watch-hero::after {
@@ -1444,7 +1497,7 @@
       position: absolute;
       inset: 0;
       z-index: 1;
-      padding: 12px;
+      padding: 10px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -1460,8 +1513,8 @@
 
     .watch-hero-pill,
     .watch-hero-tags span {
-      min-height: 24px;
-      padding: 0 8px;
+      min-height: 22px;
+      padding: 0 7px;
       display: inline-flex;
       align-items: center;
       gap: 5px;
@@ -1470,7 +1523,7 @@
       color: rgba(255, 255, 255, .86);
       background: rgba(4, 5, 6, .22);
       backdrop-filter: blur(14px);
-      font-size: 9px;
+      font-size: 8px;
       font-weight: 900;
       white-space: nowrap;
     }
@@ -1488,7 +1541,7 @@
 
     .watch-hero-body h4 {
       margin: 0;
-      font-size: 18px;
+      font-size: 17px;
       line-height: .96;
       font-weight: 950;
     }
@@ -1496,16 +1549,16 @@
     .watch-hero-body p {
       margin: 6px 0 0;
       color: rgba(255, 255, 255, .74);
-      font-size: 8px;
-      line-height: 1.32;
+      font-size: 7px;
+      line-height: 1.28;
     }
 
     .account-hub {
       position: relative;
       overflow: hidden;
       display: grid;
-      gap: 10px;
-      padding: 12px;
+      gap: 9px;
+      padding: 11px;
       border: 1px solid rgba(255, 255, 255, .11);
       border-radius: 18px;
       background:
@@ -1530,12 +1583,12 @@
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      gap: 6px;
     }
 
     .account-hub-tag {
-      min-height: 24px;
-      padding: 0 8px;
+      min-height: 22px;
+      padding: 0 7px;
       display: inline-flex;
       align-items: center;
       gap: 5px;
@@ -1543,7 +1596,7 @@
       border-radius: 999px;
       color: rgba(255, 255, 255, .84);
       background: rgba(255, 255, 255, .06);
-      font-size: 9px;
+      font-size: 8px;
       font-weight: 900;
       white-space: nowrap;
     }
@@ -1562,7 +1615,7 @@
     }
 
     .account-hub-balance strong {
-      font-size: 26px;
+      font-size: 25px;
       line-height: .92;
       font-weight: 950;
     }
@@ -1576,25 +1629,25 @@
     .account-balance-row {
       display: grid;
       grid-template-columns: 1.25fr repeat(2, minmax(0, 1fr));
-      gap: 7px;
-      margin-top: 10px;
+      gap: 6px;
+      margin-top: 8px;
     }
 
     .account-balance-card {
       min-width: 0;
-      padding: 10px 9px;
+      padding: 9px 8px;
       border: 1px solid rgba(255, 255, 255, .1);
       border-radius: 14px;
       background: rgba(255, 255, 255, .05);
       display: grid;
-      gap: 4px;
+      gap: 3px;
     }
 
     .account-balance-card strong {
       display: block;
       overflow: hidden;
       color: var(--text);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 950;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -1639,7 +1692,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      margin-bottom: 8px;
+      margin-bottom: 7px;
     }
 
     .sheet-section-head strong {
@@ -1659,13 +1712,13 @@
     .quick-link-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 7px;
-      margin-top: 10px;
+      gap: 6px;
+      margin-top: 8px;
     }
 
     .quick-link {
-      min-height: 28px;
-      padding: 0 10px;
+      min-height: 24px;
+      padding: 0 8px;
       display: inline-flex;
       align-items: center;
       gap: 5px;
@@ -1673,7 +1726,7 @@
       border-radius: 999px;
       color: rgba(255, 255, 255, .86);
       background: rgba(255, 255, 255, .05);
-      font-size: 9px;
+      font-size: 8px;
       font-weight: 900;
       white-space: nowrap;
     }
@@ -1696,14 +1749,14 @@
     .dealer-profile-hero {
       position: relative;
       overflow: hidden;
-      min-height: 186px;
+      min-height: 178px;
       display: grid;
-      grid-template-columns: 100px minmax(0, 1fr);
-      gap: 14px;
+      grid-template-columns: 94px minmax(0, 1fr);
+      gap: 12px;
       align-items: center;
       border: 1px solid rgba(255, 255, 255, .11);
       border-radius: 16px;
-      padding: 14px;
+      padding: 12px;
       background:
         linear-gradient(135deg, rgba(95, 17, 24, .72), rgba(7, 8, 11, .94) 72%),
         rgba(255, 255, 255, .05);
@@ -1748,13 +1801,13 @@
     .dealer-avatar-stack {
       display: grid;
       justify-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .dealer-avatar-preview {
       position: relative;
-      width: 92px;
-      height: 92px;
+      width: 86px;
+      height: 86px;
       display: grid;
       place-items: center;
       border-radius: 50%;
@@ -1786,17 +1839,17 @@
     }
 
     .dealer-live-chip {
-      min-height: 25px;
+      min-height: 23px;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 0 10px;
+      padding: 0 9px;
       border: 1px solid rgba(46, 230, 206, .24);
       border-radius: 999px;
       color: var(--teal);
       background: rgba(4, 5, 6, .44);
       backdrop-filter: blur(12px);
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 950;
       text-transform: uppercase;
       white-space: nowrap;
@@ -1817,22 +1870,22 @@
     }
 
     .dealer-profile-kicker {
-      min-height: 24px;
+      min-height: 22px;
       display: inline-flex;
       align-items: center;
-      padding: 0 9px;
+      padding: 0 8px;
       border-radius: 999px;
       color: var(--gold2);
       background: rgba(255, 227, 154, .08);
       border: 1px solid rgba(255, 227, 154, .16);
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 950;
       text-transform: uppercase;
     }
 
     .dealer-profile-copy h4 {
-      margin: 9px 0 5px;
-      font-size: 18px;
+      margin: 8px 0 4px;
+      font-size: 17px;
       line-height: .98;
       font-weight: 950;
     }
@@ -1840,27 +1893,27 @@
     .dealer-profile-copy p {
       margin: 0;
       color: var(--soft);
-      font-size: 9px;
-      line-height: 1.32;
+      font-size: 8px;
+      line-height: 1.28;
     }
 
     .dealer-profile-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 5px;
-      margin-top: 10px;
+      gap: 4px;
+      margin-top: 8px;
     }
 
     .dealer-profile-tags span {
-      min-height: 23px;
-      padding: 0 8px;
+      min-height: 21px;
+      padding: 0 7px;
       display: inline-flex;
       align-items: center;
       border: 1px solid rgba(255, 255, 255, .12);
       border-radius: 999px;
       color: rgba(255, 255, 255, .84);
       background: rgba(4, 5, 6, .36);
-      font-size: 9px;
+      font-size: 8px;
       font-weight: 850;
       white-space: nowrap;
     }
@@ -2095,8 +2148,8 @@
     .sheet-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 14px;
+      gap: 7px;
+      margin-top: 12px;
     }
 
     .gameplay-stage {
@@ -2668,6 +2721,18 @@
       min-height: 18px;
       padding: 0 6px;
       font-size: 7px;
+    }
+
+    .stream-layer-strip.poker span:nth-child(2) {
+      color: var(--gold2);
+      border-color: rgba(255, 227, 154, .18);
+      background: rgba(255, 227, 154, .08);
+    }
+
+    .stream-layer-strip.poker span:last-child {
+      color: #d8fff3;
+      border-color: rgba(46, 230, 206, .18);
+      background: rgba(15, 59, 45, .18);
     }
 
     .stream-cinematic-zone {
@@ -3268,8 +3333,8 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 4px;
-      width: min(286px, 100%);
+      gap: 3px;
+      width: min(272px, 100%);
     }
 
     .gameplay-overlay-hud .game-chip {
@@ -3302,36 +3367,36 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 4px;
-      width: min(220px, 100%);
+      gap: 3px;
+      width: min(208px, 100%);
     }
 
     .gameplay-utility-rail .game-chip {
-      min-height: 22px;
-      padding: 0 7px;
+      min-height: 21px;
+      padding: 0 6px;
       background: rgba(4, 5, 6, .08);
-      font-size: 7px;
+      font-size: 6.8px;
     }
 
     .gameplay-seat-line {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 5px;
       flex-wrap: wrap;
-      width: min(224px, 100%);
+      width: min(214px, 100%);
     }
 
     .gameplay-seat-line span {
-      min-height: 20px;
-      padding: 0 7px;
+      min-height: 19px;
+      padding: 0 6px;
       display: inline-flex;
       align-items: center;
       border: 1px solid rgba(255, 255, 255, .1);
       border-radius: 999px;
       color: rgba(255, 255, 255, .74);
       background: rgba(255, 255, 255, .04);
-      font-size: 7px;
+      font-size: 6.8px;
       font-weight: 900;
       white-space: nowrap;
     }
@@ -3732,13 +3797,13 @@
     .summary-strip {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 6px;
-      margin-top: 10px;
+      gap: 5px;
+      margin-top: 8px;
     }
 
     .summary-box {
       min-width: 0;
-      padding: 8px 7px;
+      padding: 7px 6px;
       border: 1px solid rgba(255, 255, 255, .12);
       border-radius: var(--r);
       background: rgba(255, 255, 255, .05);
@@ -3749,7 +3814,7 @@
       display: block;
       overflow: hidden;
       color: var(--text);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 950;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -3780,8 +3845,8 @@
 
     .activity-card {
       display: grid;
-      gap: 6px;
-      padding: 10px;
+      gap: 5px;
+      padding: 9px;
       border: 1px solid rgba(255, 255, 255, .1);
       border-radius: var(--r);
       background: rgba(255, 255, 255, .045);
@@ -3812,15 +3877,15 @@
     .activity-card p {
       margin: 0;
       color: rgba(255, 255, 255, .68);
-      font-size: 9px;
-      line-height: 1.34;
+      font-size: 8px;
+      line-height: 1.3;
     }
 
     .message-draft {
       display: grid;
-      gap: 8px;
-      margin-top: 12px;
-      padding: 12px;
+      gap: 7px;
+      margin-top: 10px;
+      padding: 10px;
       border: 1px solid rgba(255, 255, 255, .11);
       border-radius: 16px;
       background:
@@ -3829,14 +3894,14 @@
     }
 
     .message-draft-field {
-      min-height: 68px;
-      padding: 10px 11px;
+      min-height: 60px;
+      padding: 9px 10px;
       border: 1px solid rgba(255, 255, 255, .08);
       border-radius: 14px;
       color: rgba(255, 255, 255, .82);
       background: rgba(4, 5, 6, .24);
-      font-size: 10px;
-      line-height: 1.4;
+      font-size: 9px;
+      line-height: 1.34;
     }
 
     .game-head {
@@ -4893,6 +4958,149 @@
       box-shadow: 0 0 0 2px rgba(255, 227, 154, .16);
     }
 
+    .decision-row.poker {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      width: min(224px, 100%);
+    }
+
+    .decision-row.poker .decision-pill {
+      min-height: 32px;
+      font-size: 8.5px;
+    }
+
+    .decision-row.poker .decision-pill.check:not(.active) {
+      color: rgba(255, 255, 255, .72);
+      background: rgba(255, 255, 255, .04);
+    }
+
+    .decision-row.poker .decision-pill.call:not(.active) {
+      color: #d8fff3;
+      border-color: rgba(46, 230, 206, .18);
+      background: rgba(15, 59, 45, .16);
+    }
+
+    .decision-row.poker .decision-pill.raise:not(.active) {
+      color: #ffe7b7;
+      border-color: rgba(255, 227, 154, .18);
+      background: rgba(95, 17, 24, .18);
+    }
+
+    .gameplay-poker-inline {
+      display: grid;
+      gap: 5px;
+      width: min(228px, 100%);
+    }
+
+    .poker-pot-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 4px;
+      width: min(228px, 100%);
+    }
+
+    .poker-pot-pill {
+      min-width: 0;
+      min-height: 34px;
+      padding: 6px 5px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 12px;
+      background: rgba(4, 5, 6, .12);
+      backdrop-filter: blur(12px);
+      text-align: center;
+    }
+
+    .poker-pot-pill strong {
+      display: block;
+      overflow: hidden;
+      color: var(--text);
+      font-size: 10px;
+      font-weight: 950;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .poker-pot-pill small {
+      display: block;
+      margin-top: 1px;
+      color: var(--muted);
+      font-size: 8px;
+      font-weight: 850;
+    }
+
+    .poker-pot-pill.live strong {
+      color: var(--gold2);
+    }
+
+    .poker-pot-pill.pot strong {
+      color: rgba(255, 255, 255, .94);
+    }
+
+    .poker-pot-pill.action strong {
+      color: var(--teal);
+    }
+
+    .gameplay-hand-block.poker-live {
+      box-shadow: 0 0 0 1px rgba(255, 227, 154, .14), 0 0 20px rgba(255, 227, 154, .08);
+    }
+
+    .gameplay-hand-block.poker-dim {
+      opacity: .86;
+    }
+
+    .poker-board-row {
+      gap: 4px;
+    }
+
+    .gameplay-hand-block.board-focus {
+      background:
+        linear-gradient(135deg, rgba(255, 227, 154, .08), transparent 42%),
+        rgba(4, 5, 6, .12);
+      border-color: rgba(255, 227, 154, .14);
+    }
+
+    .gameplay-hand-block.board-focus .hand-meta b,
+    .gameplay-hand-block.poker-live .hand-meta b {
+      color: var(--gold2);
+    }
+
+    .gameplay-hand-block.board-focus .hand-meta span {
+      color: rgba(255, 255, 255, .76);
+    }
+
+    .gameplay-hand-block.poker-live .playing-card {
+      box-shadow:
+        0 0 0 1px rgba(255, 227, 154, .14),
+        0 0 18px rgba(255, 227, 154, .09),
+        0 10px 18px rgba(0, 0, 0, .2);
+    }
+
+    .gameplay-hand-block.board-focus .playing-card {
+      box-shadow:
+        0 0 0 1px rgba(255, 227, 154, .1),
+        0 8px 16px rgba(0, 0, 0, .18);
+    }
+
+    .poker-board-row .playing-card {
+      width: 32px;
+      height: 46px;
+      padding: 4px 3px;
+      font-size: 10px;
+    }
+
+    .poker-board-row .playing-card small {
+      font-size: 8px;
+    }
+
+    .stream-card-stage.poker {
+      gap: 6px;
+    }
+
+    .stream-card-row.board-row .stream-mini-card {
+      box-shadow:
+        0 0 0 1px rgba(255, 227, 154, .1),
+        0 10px 18px rgba(0, 0, 0, .2);
+    }
+
     .baccarat-scores {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -5794,20 +6002,20 @@
 <body>
   <main class="stage">
     <section class="brand">
-      <p class="eyebrow">Investor demo app</p>
-      <h1>LC App <span>live casino feed</span></h1>
-      <p>Open the feed, watch a table, test roulette/blackjack/baccarat gameplay and move into a licensed-operator handoff.</p>
+      <p class="eyebrow">Social live casino</p>
+      <h1>LC App <span>dealer-led live rooms</span></h1>
+      <p>Swipe dealer rooms, open live tables and move across roulette, blackjack, baccarat and poker without crowding the video.</p>
       <div class="tags" aria-label="Design pillars">
-        <span class="tag">Reels-style feed</span>
-        <span class="tag">Dealer identity</span>
-        <span class="tag">Operator-safe flow</span>
-        <span class="tag">KPI-led pilot</span>
+        <span class="tag">Video-first feed</span>
+        <span class="tag">Dealer circles</span>
+        <span class="tag">Poker added</span>
+        <span class="tag">Operator handoff</span>
       </div>
       <div class="primary-actions">
-        <button class="launch-btn" type="button" data-sheet="watch">Start demo</button>
-        <button class="launch-btn secondary" type="button" data-sheet="gameplay">Gameplay</button>
+        <button class="launch-btn" type="button" data-sheet="watch">Open feed</button>
+        <button class="launch-btn secondary" type="button" data-sheet="gameplay">Open live table</button>
       </div>
-      <div class="demo-note">Offline-ready: HTML, local assets, static preview and PDF fallback are included in the iPhone package.</div>
+      <div class="demo-note">Offline-ready investor preview with video-first feed, dealer identity and gameplay overlays.</div>
     </section>
 
     <section class="phone-shell" aria-label="LC App ideal mobile prototype">
@@ -5815,6 +6023,10 @@
         <header class="app-top">
           <div class="wordmark top-wordmark" aria-label="LC App"><b>LC</b></div>
         </header>
+
+        <div class="dealer-rail-inline" aria-label="Dealer circles">
+          <div class="stories" id="homeStories"></div>
+        </div>
 
         <div class="dealer-rail-drawer" id="dealerRailDrawer">
           <div class="stories" id="stories"></div>
@@ -6007,32 +6219,31 @@
       {
         id: "lilit",
         dealer: "Lilit",
-        title: "Roulette After Dark",
-        game: "Roulette",
-        table: "Midnight Roulette",
+        title: "Poker After Dark",
+        game: "Poker",
+        table: "Hold'em Lounge",
         operator: "NightSpin",
         image: assets.lilit,
-        watching: "3.4K",
-        join: "9.1%",
-        arpu: "$11",
-        follows: "3.1K",
-        stakes: "$5-$250",
-        seat: "9",
+        watching: "1.6K",
+        join: "5.4%",
+        arpu: "$27",
+        follows: "1.4K",
+        stakes: "$50-$500",
+        seat: "4",
         language: "EN",
-        state: "Low min",
-        trend: "+24%",
-        caption: "Low-min roulette room designed for broad discovery and fast repeat entry.",
-        read: "Mobile-first roulette feed with more visible video, simple limits and quick chips.",
-        gameplayTimer: "15s to spin",
-        rouletteTrack: ["11", "24", "3", "29", "0"],
-        rouletteColors: ["black", "black", "red", "black", "green"]
+        state: "Heads-up",
+        trend: "+13%",
+        caption: "Heads-up poker room tuned for social watching, visible board cards and a lighter action layer.",
+        read: "Poker feed where the board stays visible, actions stay light and the stream keeps the first layer.",
+        gameplayTimer: "8s to deal"
       }
     ];
 
     const gameBankrollBase = {
       Roulette: 1240,
       Blackjack: 1540,
-      Baccarat: 2080
+      Baccarat: 2080,
+      Poker: 1860
     };
 
     const rouletteOutsideConfig = {
@@ -6145,9 +6356,9 @@
         reveal: { mediaPosition: "center 33%", mediaScale: 1.13, focusBottom: 188, focusHeight: 118, focusOpacity: .44, focusScale: 1.02 }
       },
       lilit: {
-        dealer: { mediaPosition: "center 14%", mediaScale: 1.04, focusBottom: 246, focusHeight: 182, focusOpacity: .18, focusScale: .98 },
-        table: { mediaPosition: "center 35%", mediaScale: 1.2, focusBottom: 162, focusHeight: 154, focusOpacity: .42, focusScale: 1 },
-        reveal: { mediaPosition: "center 39%", mediaScale: 1.23, focusBottom: 180, focusHeight: 122, focusOpacity: .48, focusScale: 1.02 }
+        dealer: { mediaPosition: "center 15%", mediaScale: 1.03, focusBottom: 246, focusHeight: 180, focusOpacity: .18, focusScale: .98 },
+        table: { mediaPosition: "center 39%", mediaScale: 1.16, focusBottom: 166, focusHeight: 148, focusOpacity: .4, focusScale: 1 },
+        reveal: { mediaPosition: "center 33%", mediaScale: 1.14, focusBottom: 186, focusHeight: 118, focusOpacity: .46, focusScale: 1.02 }
       }
     };
 
@@ -6165,8 +6376,8 @@
         note: "Marcus plays the shoe through a reveal-first rhythm to keep Player/Banker legible."
       },
       lilit: {
-        label: "Night wheel",
-        note: "Lilit leans into the settle shot so the result reads instantly on mobile."
+        label: "After-hours poker",
+        note: "Lilit holds the board low enough to read the community cards without drowning the dealer shot."
       }
     };
 
@@ -6187,9 +6398,9 @@
         tags: ["Shoe-first", "Squeeze setup", "Road-ready"]
       },
       lilit: {
-        title: "Lilit opens tighter and shifts quickly into the settle angle so roulette results feel immediate on iPhone.",
-        note: "The room intro stays brief so the stream still dominates the first interaction.",
-        tags: ["Night settle", "Fast result read", "Mobile-first"]
+        title: "Lilit opens on the dealer, then drops to the board so the hand and showdown remain visible on mobile.",
+        note: "The room intro stays short and the board becomes the main proof layer once the hand starts.",
+        tags: ["Poker board", "Heads-up room", "Mobile-first"]
       }
     };
 
@@ -6231,15 +6442,15 @@
         }
       },
       lilit: {
-        floor: "Night wheel",
-        hook: "Mobile-first settle",
-        glance: "Mass-market roulette card optimized for fast result readability on iPhone screens.",
-        feedPosition: "center 23%",
+        floor: "After-hours poker",
+        hook: "Board-first hold'em",
+        glance: "Poker card tuned around readable board cards, clear pot context and a lighter action layer.",
+        feedPosition: "center 24%",
         profilePosition: "center 20%",
         overlay: {
-          dealer: ["Night floor", "Low-min seat", "Dealer read"],
-          table: ["Wheel line", "Ball settle", "Open bets"],
-          reveal: ["Result line", "Replay lane", "Low-min return"]
+          dealer: ["Night room", "Button seat", "Dealer read"],
+          table: ["Board lane", "Heads-up pot", "Action row"],
+          reveal: ["Showdown board", "Pot ship", "Next hand open"]
         }
       }
     };
@@ -6315,7 +6526,7 @@
         settle: .96,
         cardStep: 62,
         revealDelay: 150,
-        phaseMs: { Betting: 2280, Win: 1960, Loss: 1820 }
+        phaseMs: { Betting: 2480, Win: 2140, Loss: 1980 }
       }
     };
 
@@ -6333,14 +6544,15 @@
         loss: ["Squeeze reveal", "Banker closes", "Road prints red"]
       },
       lilit: {
-        win: ["Wheel settles", "Dozen lights", "Wallet push"],
-        loss: ["Wheel settles", "Table clears", "Rebet open"]
+        win: ["Board lands", "Hero holds", "Pot ships"],
+        loss: ["Board lands", "Villain takes it", "Next hand open"]
       }
     };
 
     const screen = document.getElementById("screen");
     const feed = document.getElementById("feed");
     const stories = document.getElementById("stories");
+    const homeStories = document.getElementById("homeStories");
     const dealerRailDrawer = document.getElementById("dealerRailDrawer");
     const homeDrawer = document.getElementById("homeDrawer");
     const homeDrawerGrid = document.getElementById("homeDrawerGrid");
@@ -6557,6 +6769,83 @@
           recentRoad: "banker",
           scores: { player: "5", tie: "-", banker: "7" }
         }
+      ],
+      Poker: [
+        {
+          name: "Betting",
+          tone: "live",
+          title: "Pre-flop decision locked",
+          text: "$50 enters the hand with the button in view.",
+          badge: "Action on you",
+          stats: [
+            { label: "Stake", value: "$50" },
+            { label: "Pot", value: "$140" },
+            { label: "Wallet", value: "$1,860" }
+          ],
+          history: [
+            { text: "Button seat", tone: "live" },
+            { text: "Heads-up table", tone: "live" },
+            { text: "Flop pending", tone: "live" }
+          ],
+          heroHand: [{ rank: "A", suit: "♠" }, { rank: "Q", suit: "♠" }],
+          villainHand: [{ back: true }, { back: true }],
+          board: [{ back: true }, { back: true }, { back: true }, { back: true }, { back: true }],
+          heroNote: "Hero · Button",
+          villainNote: "Villain · Big blind",
+          street: "Pre-flop",
+          pot: "$140",
+          action: "Call"
+        },
+        {
+          name: "Win",
+          tone: "win",
+          title: "Top pair holds",
+          text: "Showdown lands clean and the pot ships back to the seat.",
+          badge: "Win +$180",
+          stats: [
+            { label: "Stake", value: "$50" },
+            { label: "Payout", value: "+$180", tone: "win" },
+            { label: "Wallet", value: "$2,040" }
+          ],
+          history: [
+            { text: "Flop A-high", tone: "live" },
+            { text: "River holds", tone: "win" },
+            { text: "Pot shipped", tone: "win" }
+          ],
+          heroHand: [{ rank: "A", suit: "♠" }, { rank: "Q", suit: "♠" }],
+          villainHand: [{ rank: "K", suit: "♦" }, { rank: "Q", suit: "♣" }],
+          board: [{ rank: "A", suit: "♦" }, { rank: "9", suit: "♣" }, { rank: "4", suit: "♠" }, { rank: "2", suit: "♥" }, { rank: "9", suit: "♦" }],
+          heroNote: "Hero · Two pair",
+          villainNote: "Villain · Pair",
+          street: "Showdown",
+          pot: "$180",
+          action: "Raise"
+        },
+        {
+          name: "Loss",
+          tone: "loss",
+          title: "River pair misses",
+          text: "The hand settles against the seat and the room resets quickly.",
+          badge: "Loss -$50",
+          stats: [
+            { label: "Stake", value: "$50" },
+            { label: "Outcome", value: "-$50", tone: "loss" },
+            { label: "Wallet", value: "$1,810" }
+          ],
+          history: [
+            { text: "Turn checked", tone: "live" },
+            { text: "River pairs villain", tone: "loss" },
+            { text: "Next hand ready", tone: "live" }
+          ],
+          heroHand: [{ rank: "J", suit: "♥" }, { rank: "10", suit: "♥" }],
+          villainHand: [{ rank: "A", suit: "♣" }, { rank: "10", suit: "♣" }],
+          board: [{ rank: "10", suit: "♠" }, { rank: "7", suit: "♦" }, { rank: "2", suit: "♣" }, { rank: "A", suit: "♦" }, { rank: "3", suit: "♥" }],
+          heroNote: "Hero · Pair",
+          villainNote: "Villain · Two pair",
+          street: "River",
+          pot: "$110",
+          action: "Call"
+        }
       ]
     };
     const demoStateByCard = {};
@@ -6608,6 +6897,7 @@
         stats: '<svg class="inline-icon" viewBox="0 0 24 24"><path d="M5 19V9"></path><path d="M12 19V5"></path><path d="M19 19v-7"></path></svg>',
         shield: '<svg class="inline-icon" viewBox="0 0 24 24"><path d="M12 3 5 6v6c0 5 3.4 8.3 7 9 3.6-.7 7-4 7-9V6z"></path></svg>',
         search: '<svg class="inline-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>',
+        cards: '<svg class="inline-icon" viewBox="0 0 24 24"><path d="M7 5h10a2 2 0 0 1 2 2v10H9a2 2 0 0 1-2-2Z"></path><path d="M7 7H6a2 2 0 0 0-2 2v9h9"></path></svg>',
         close: '<svg class="inline-icon" viewBox="0 0 24 24"><path d="m6 6 12 12"></path><path d="M18 6 6 18"></path></svg>'
       };
       return icons[name] || "";
@@ -6655,6 +6945,12 @@
         return {
           stake: 100,
           selectedBet: "player"
+        };
+      }
+      if (card.game === "Poker") {
+        return {
+          stake: 50,
+          action: "Call"
         };
       }
       return {
@@ -6863,6 +7159,11 @@
           dealer: { mediaPosition: "center 15%", mediaScale: 1.03, mediaFilter: "saturate(1.06) contrast(1.05)", focusBottom: 250, focusHeight: 184, focusOpacity: .18, focusScale: .97 },
           table: { mediaPosition: "center 37%", mediaScale: 1.17, mediaFilter: "saturate(1.08) contrast(1.06) brightness(.94)", focusBottom: 168, focusHeight: 148, focusOpacity: .38, focusScale: 1 },
           reveal: { mediaPosition: "center 33%", mediaScale: 1.14, mediaFilter: "saturate(1.08) contrast(1.06) brightness(.98)", focusBottom: 190, focusHeight: 118, focusOpacity: .44, focusScale: 1.02 }
+        },
+        Poker: {
+          dealer: { mediaPosition: "center 15%", mediaScale: 1.03, mediaFilter: "saturate(1.05) contrast(1.05)", focusBottom: 248, focusHeight: 182, focusOpacity: .18, focusScale: .97 },
+          table: { mediaPosition: "center 39%", mediaScale: 1.16, mediaFilter: "saturate(1.06) contrast(1.05) brightness(.94)", focusBottom: 166, focusHeight: 144, focusOpacity: .4, focusScale: 1 },
+          reveal: { mediaPosition: "center 33%", mediaScale: 1.14, mediaFilter: "saturate(1.08) contrast(1.06) brightness(.98)", focusBottom: 186, focusHeight: 116, focusOpacity: .46, focusScale: 1.02 }
         }
       };
       return {
@@ -6971,6 +7272,13 @@
           { title: "Settle", text: "Road update" }
         ];
       }
+      if (card.game === "Poker") {
+        return [
+          { title: "Pre-flop", text: "Seat action" },
+          { title: "Board", text: "Community cards" },
+          { title: "Showdown", text: "Pot settles" }
+        ];
+      }
       return [
         { title: "Bet", text: "Chips on felt" },
         { title: "Spin", text: "Wheel live" },
@@ -6981,6 +7289,7 @@
     function sessionModeLabel(card) {
       if (card.game === "Blackjack") return "Seat";
       if (card.game === "Baccarat") return "Shoe";
+      if (card.game === "Poker") return "Hand";
       return "Round";
     }
 
@@ -6997,6 +7306,12 @@
           { icon: "play", value: state.action || "-", label: "Action" },
           { icon: "tip", value: state.stats?.[0]?.value || "$0", label: "Stake" },
           { icon: "profile", value: playerTotal, label: "Player" }
+        ];
+      } else if (card.game === "Poker") {
+        metrics = [
+          { icon: "play", value: state.action || "-", label: "Action" },
+          { icon: "tip", value: state.stats?.[0]?.value || "$0", label: "Stake" },
+          { icon: "cards", value: state.pot || "$0", label: "Pot" }
         ];
       } else if (card.game === "Baccarat") {
         const side = state.selectedBet ? state.selectedBet.charAt(0).toUpperCase() + state.selectedBet.slice(1) : "-";
@@ -7031,6 +7346,12 @@
             { user: "vip", text: `${card.dealer} keeps the felt clear` },
             { user: "pit", text: "dealer cam open" }
           ]
+        : card.game === "Poker"
+          ? [
+              { user: "button", text: state.name === "Betting" ? "pre-flop in view" : state.badge.toLowerCase() },
+              { user: "board", text: "community cards stay readable" },
+              { user: "table", text: `${card.dealer} keeps the board clean` }
+            ]
         : card.game === "Baccarat"
           ? [
               { user: "banker", text: state.name === "Betting" ? "side locked, shoe calm" : state.badge.toLowerCase() },
@@ -7065,6 +7386,13 @@
           { key: "dealer", label: "Dealer cam", note: "Keep the dealer read visible while the side is still being chosen." },
           { key: "table", label: "Deal cam", note: "Move to the table when Player and Banker cards are dealt." },
           { key: "reveal", label: "Reveal cam", note: "Hold on the reveal so the final score reads instantly." }
+        ];
+      }
+      if (card.game === "Poker") {
+        return [
+          { key: "dealer", label: "Dealer cam", note: "Open on the dealer and seat context before the hand starts." },
+          { key: "table", label: "Board cam", note: "Drop lower so the board and hero cards stay visible." },
+          { key: "reveal", label: "Showdown cam", note: "Hold on the board and villain reveal when the pot settles." }
         ];
       }
       return [
@@ -7187,6 +7515,28 @@
           <strong>${label}</strong>
         </button>
       `;
+    }
+
+    function gameIconName(card) {
+      return card.game === "Poker" ? "cards" : "play";
+    }
+
+    function dealerRoleLabel(card) {
+      return card.game === "Poker" ? "Poker host" : `${card.game} dealer`;
+    }
+
+    function roomModeLabel(card) {
+      if (card.game === "Poker") return "Heads-up room";
+      if (card.game === "Blackjack") return "Seat-first room";
+      if (card.game === "Baccarat") return "Road-first room";
+      return "Wheel-first room";
+    }
+
+    function roomSignalLabel(card) {
+      if (card.game === "Poker") return "Board read";
+      if (card.game === "Blackjack") return "Deal read";
+      if (card.game === "Baccarat") return "Road rhythm";
+      return "Wheel read";
     }
 
     function miniCardMarkup(entry, className = "", delayMs = 0) {
@@ -7511,10 +7861,53 @@
       `;
     }
 
+    function pokerStreamOverlay(card, state, camera) {
+      const preset = cinematicPreset(card);
+      const motion = dealerMotionPreset(card);
+      const heroCards = (state.heroHand || []).map((entry, index) => miniCardMarkup(entry, index > 0 ? "deal" : "", index * motion.cardStep)).join("");
+      const boardCards = (state.board || []).map((entry, index) => {
+        const className = entry.back ? "" : (state.name === "Betting" ? "" : (index >= 3 ? "reveal" : "deal"));
+        return miniCardMarkup(entry, className, index * Math.max(42, motion.cardStep - 6));
+      }).join("");
+      const headline = camera.activeShot.key === "dealer"
+        ? `${state.badge}`
+        : camera.activeShot.key === "table"
+          ? state.street || "Board live"
+          : "Showdown live";
+      if (camera.activeShot.key === "dealer") {
+        return `
+          <div class="gameplay-stream-layer align-right dealer-shot">
+            <div class="stream-layer-shell minimal">
+              <div class="stream-layer-kicker"><span>${preset.label}</span><b>${camera.activeShot.label}</b></div>
+              <div class="stream-layer-headline">${headline}</div>
+              <div class="stream-layer-strip"><span>${state.street}</span><span>${state.pot}</span></div>
+            </div>
+          </div>
+        `;
+      }
+      return `
+        <div class="gameplay-stream-layer ${camera.activeShot.key === "reveal" ? "align-right" : "align-center"}">
+          <div class="stream-layer-shell">
+            <div class="stream-layer-kicker"><span>${preset.label}</span><b>${camera.activeShot.label}</b></div>
+            <div class="stream-layer-headline">${headline}</div>
+            <div class="stream-cinematic-zone">
+              <div class="stream-card-stage poker">
+                <div class="stream-card-row board-row">${boardCards}</div>
+                <div class="stream-card-row">${heroCards}</div>
+              </div>
+              <div class="stream-layer-strip poker"><span>${state.heroNote}</span><span>${state.pot}</span><span>${state.action}</span></div>
+            </div>
+            ${revealMicrostateMarkup(card, state, camera)}
+          </div>
+        </div>
+      `;
+    }
+
     function streamOverlayMarkup(card, state, camera) {
       const intro = roomIntro(card);
       if (intro) return roomIntroStreamOverlay(card, camera, intro);
       if (card.game === "Blackjack") return blackjackStreamOverlay(card, state, camera);
+      if (card.game === "Poker") return pokerStreamOverlay(card, state, camera);
       if (card.game === "Baccarat") return baccaratStreamOverlay(card, state, camera);
       return rouletteStreamOverlay(card, state, camera);
     }
@@ -7717,10 +8110,66 @@
       return resolved;
     }
 
+    function resolvedPokerState(card, state, memory) {
+      const resolved = cloneDeep(state);
+      const wallet = bankrollBase(card);
+      const stake = memory.stake;
+      const action = memory.action;
+      const winPayout = action === "Raise" ? Math.round(stake * 3.6) : action === "Call" ? Math.round(stake * 2.2) : Math.round(stake * 1.3);
+      const lossAmount = action === "Raise" ? Math.round(stake * 1.4) : action === "Call" ? stake : Math.round(stake * .4);
+      resolved.action = action;
+      if (state.name === "Betting") {
+        resolved.tone = "live";
+        resolved.title = `${action} queued`;
+        resolved.text = `${money(stake)} ${action.toLowerCase()} sits on the button before the flop opens.`;
+        resolved.badge = "Action on you";
+        resolved.stats = [
+          { label: "Stake", value: money(stake) },
+          { label: "Pot", value: money(Math.round(stake * 2.8)) },
+          { label: "Wallet", value: money(wallet) }
+        ];
+        resolved.heroNote = `Hero · Button · ${action}`;
+        resolved.pot = money(Math.round(stake * 2.8));
+        resolved.history = [
+          { text: "Button seat", tone: "live" },
+          { text: `${action} queued`, tone: "live" },
+          { text: "Flop pending", tone: "live" }
+        ];
+        return resolved;
+      }
+      const win = state.name === "Win";
+      resolved.tone = win ? "win" : "loss";
+      resolved.title = win ? `${action} wins the pot` : `${action} loses the hand`;
+      resolved.text = win
+        ? `${action} carries through the showdown and ships ${money(winPayout)}.`
+        : `${action} settles against the board and drops ${money(lossAmount)}.`;
+      resolved.badge = `${win ? "Win +" : "Loss -"}${money(win ? winPayout : lossAmount)}`;
+      resolved.stats = [
+        { label: "Stake", value: money(stake) },
+        { label: win ? "Payout" : "Outcome", value: `${win ? "+" : "-"}${money(win ? winPayout : lossAmount)}`, tone: win ? "win" : "loss" },
+        { label: "Wallet", value: money(wallet + (win ? winPayout : -lossAmount)) }
+      ];
+      resolved.heroNote = `${resolved.heroNote} · ${action}`;
+      resolved.pot = money(win ? winPayout : Math.round(stake * 2.2));
+      resolved.history = win
+        ? [
+            { text: `${action} carried`, tone: "live" },
+            { text: "Board holds", tone: "win" },
+            { text: `Paid +${money(winPayout)}`, tone: "win" }
+          ]
+        : [
+            { text: `${action} carried`, tone: "live" },
+            { text: "Villain improves", tone: "loss" },
+            { text: `Lost ${money(lossAmount)}`, tone: "loss" }
+          ];
+      return resolved;
+    }
+
     function gameplayState(card) {
       const state = cloneDeep(demoState(card));
       const memory = gameplayMemory(card);
       if (card.game === "Blackjack") return resolvedBlackjackState(card, state, memory);
+      if (card.game === "Poker") return resolvedPokerState(card, state, memory);
       if (card.game === "Baccarat") return resolvedBaccaratState(card, state, memory);
       return resolvedRouletteState(card, state, memory);
     }
@@ -8110,19 +8559,129 @@
       return gameplayStageLayout(card, state, coreMarkup, menuMarkup);
     }
 
+    function renderPokerGameplay(card) {
+      const state = gameplayState(card);
+      const memory = gameplayMemory(card);
+      const camera = cameraDirector(card, state);
+      const heroToneClass = state.tone === "win" ? "poker-live" : state.tone === "loss" ? "poker-dim" : "";
+      const villainToneClass = state.tone === "loss" ? "poker-live" : state.tone === "win" ? "poker-dim" : "";
+      const heroCards = (state.heroHand || []).map((entry) => `<div class="playing-card player-card" data-tap-feedback>${entry.rank}<small>${entry.suit}</small></div>`).join("");
+      const villainCards = (state.villainHand || []).map((entry, index) => {
+        const classes = ["playing-card", "dealer-card"];
+        if (entry.back) classes.push("back", "waiting");
+        else if (state.name !== "Betting") classes.push(index === 1 ? "reveal" : "drawn");
+        return `<div class="${classes.join(" ")}" data-tap-feedback>${entry.back ? "?" : `${entry.rank}<small>${entry.suit}</small>`}</div>`;
+      }).join("");
+      const boardCards = (state.board || []).map((entry, index) => {
+        const classes = ["playing-card"];
+        if (entry.back) classes.push("back");
+        else if (state.name !== "Betting") classes.push(index >= 3 ? "reveal" : "drawn");
+        return `<div class="${classes.join(" ")}" data-tap-feedback>${entry.back ? "?" : `${entry.rank}<small>${entry.suit}</small>`}</div>`;
+      }).join("");
+      const menuMarkup = `
+        <div class="gameplay-menu-drawer">
+          <div class="gameplay-menu-header">
+            <div><strong>Hand menu</strong><span>Action memory, round data and reset</span></div>
+          </div>
+          ${liveControlsMarkup(card)}
+          <div class="gameplay-menu-section">
+            <strong>Camera logic</strong>
+            <div class="gameplay-camera-strip">
+              ${camera.shots.map((shot, index) => `<span class="gameplay-camera-chip ${index === camera.activeIndex ? "active" : ""}">${shot.label}</span>`).join("")}
+            </div>
+            <div class="gameplay-stream-note">${camera.activeShot.note}</div>
+          </div>
+          <div class="gameplay-menu-section">
+            <strong>Action memory</strong>
+            ${gameChipMarkup([
+              { label: "Check", active: memory.action === "Check", dataset: { "poker-action": "Check" } },
+              { label: "Call", active: memory.action === "Call", dataset: { "poker-action": "Call" } },
+              { label: "Raise", active: memory.action === "Raise", dataset: { "poker-action": "Raise" } }
+            ])}
+            ${betChipRailMarkup([25, 50, 100, 250], memory.stake)}
+          </div>
+          <div class="gameplay-menu-section">
+            <strong>Round data</strong>
+            ${historyMarkup(state)}
+            ${statsMarkup(state)}
+          </div>
+          <div class="gameplay-menu-section">
+            <strong>Windows</strong>
+            ${gameChipMarkup([
+              { iconName: "stats", label: "Stats", dataset: { sheet: "stats" } },
+              { iconName: "info", label: "Info", dataset: { sheet: "info" } },
+              { iconName: "tip", label: "Tip", dataset: { sheet: "tips" } },
+              { iconName: "wallet", label: "Account", dataset: { sheet: "account" } }
+            ])}
+          </div>
+          <div class="gameplay-menu-actions">
+            <button class="gameplay-control-chip" type="button" data-live-reset data-tap-feedback>Reset hand</button>
+            <button class="gameplay-control-chip" type="button" data-sheet="watch" data-tap-feedback>Back to feed</button>
+          </div>
+        </div>
+      `;
+      const coreMarkup = `
+        <div class="gameplay-core-card gameplay-overlay-hud compact">
+          <div class="gameplay-seat-line">
+            <span>${state.heroNote}</span>
+            <span>${money(memory.stake)} live</span>
+          </div>
+          <div class="gameplay-poker-inline">
+            <div class="poker-pot-row">
+              <div class="poker-pot-pill live"><strong>${state.street}</strong><small>street</small></div>
+              <div class="poker-pot-pill pot"><strong>${state.pot}</strong><small>pot</small></div>
+              <div class="poker-pot-pill action"><strong>${state.action}</strong><small>action</small></div>
+            </div>
+            <div class="gameplay-hand-block board-focus">
+              <div class="hand-meta"><b>Board</b><span>${state.street}</span></div>
+              <div class="playing-hand poker-board-row">${boardCards}</div>
+            </div>
+            <div class="gameplay-overlay-hands">
+              <div class="gameplay-hand-block villain-hand ${villainToneClass}">
+                <div class="hand-meta"><b>Villain</b><span>${state.villainNote}</span></div>
+                <div class="playing-hand dealer-hand">${villainCards}</div>
+              </div>
+              <div class="gameplay-hand-block hero-hand ${heroToneClass}">
+                <div class="hand-meta"><b>You</b><span>${state.heroNote}</span></div>
+                <div class="playing-hand player-hand">${heroCards}</div>
+              </div>
+            </div>
+          </div>
+          <div class="decision-row poker">
+            <button class="decision-pill check ${memory.action === "Check" ? "active locked" : ""}" type="button" data-poker-action="Check" data-tap-feedback>Check</button>
+            <button class="decision-pill call ${memory.action === "Call" ? "active locked" : ""}" type="button" data-poker-action="Call" data-tap-feedback>Call</button>
+            <button class="decision-pill raise ${memory.action === "Raise" ? "active locked" : ""}" type="button" data-poker-action="Raise" data-tap-feedback>Raise</button>
+          </div>
+          <div class="gameplay-action-tray">
+            ${betChipRailMarkup([25, 50, 100, 250], memory.stake)}
+          </div>
+          <div class="gameplay-utility-rail">
+            ${gameChipMarkup([
+              { iconName: "stats", label: "Stats", dataset: { sheet: "stats" } },
+              { iconName: "info", label: "Info", dataset: { sheet: "info" } }
+            ])}
+          </div>
+        </div>
+      `;
+      return gameplayStageLayout(card, state, coreMarkup, menuMarkup);
+    }
+
     function gameplayMarkup(card) {
       if (card.game === "Blackjack") return renderBlackjackGameplay(card);
+      if (card.game === "Poker") return renderPokerGameplay(card);
       if (card.game === "Baccarat") return renderBaccaratGameplay(card);
       return renderRouletteGameplay(card);
     }
 
     function render() {
-      stories.innerHTML = cards.map((card, index) => `
+      const storyMarkup = cards.map((card, index) => `
         <button class="story ${index === active ? "active" : ""}" type="button" data-index="${index}" aria-label="${card.dealer}">
           <span class="avatar-ring"><img src="${card.image}" alt="${card.dealer} dealer avatar" /></span>
           <span>${card.dealer}</span>
         </button>
       `).join("");
+      stories.innerHTML = storyMarkup;
+      if (homeStories) homeStories.innerHTML = storyMarkup;
 
       progress.innerHTML = cards.map((_, index) => `<i class="${index === active ? "active" : ""}"></i>`).join("");
 
@@ -8134,11 +8693,16 @@
           <button class="live-badge" type="button" data-reveal-rail aria-label="Live dealers"><i></i></button>
           <div class="table-state">${icon("limit")}${card.stakes}</div>
           <div class="copy">
+            <div class="copy-topline">
+              <span class="pill">${icon(card.game === "Poker" ? "cards" : "play")}${card.game}</span>
+              <span class="pill">${icon("trend")}${card.trend}</span>
+            </div>
             <h2>${card.dealer}</h2>
             <p>${card.table}</p>
             <div class="entry-strip">
               ${entryChip("lang", card.language)}
               ${entryChip("seat", `${card.seat} open`)}
+              ${entryChip("watch", card.watching)}
             </div>
             <div class="cta-row">
               <button class="stream-action secondary-ghost" type="button" data-sheet="watch" aria-label="Watch">${icon("watch")}</button>
@@ -8159,7 +8723,10 @@
       document.getElementById("kpiWatch").textContent = card.watching;
       document.getElementById("kpiJoin").textContent = card.join;
       document.getElementById("kpiArpu").textContent = card.arpu;
-      stories.querySelectorAll(".story").forEach((story, index) => story.classList.toggle("active", index === active));
+      [stories, homeStories].forEach((container) => {
+        if (!container) return;
+        container.querySelectorAll(".story").forEach((story, index) => story.classList.toggle("active", index === active));
+      });
       progress.querySelectorAll("i").forEach((dot, index) => dot.classList.toggle("active", index === active));
       renderChromeState();
     }
@@ -8177,6 +8744,24 @@
 
     function sheetMarkup(type) {
       const card = item();
+      const gameIconLabel = gameIconName(card);
+      const roomRole = dealerRoleLabel(card);
+      const roomMode = roomModeLabel(card);
+      const roomSignal = roomSignalLabel(card);
+      const roomDraft = card.game === "Poker"
+        ? `Keep me in ${card.table} if the next hand stays heads-up.`
+        : card.game === "Roulette"
+          ? `If the next spin opens clean at ${card.table}, save me a spot.`
+          : card.game === "Blackjack"
+            ? `If seat ${card.seat} stays open after this hand, hold it for me.`
+            : `If the next shoe opens at ${card.table}, keep me in the room.`;
+      const roomQuickAsk = card.game === "Poker"
+        ? "Hold me for the next hand"
+        : card.game === "Roulette"
+          ? "Open seat on next spin?"
+          : card.game === "Blackjack"
+            ? "Seat after this hand?"
+            : "Keep me for next shoe";
       if (type === "profile") {
         return `
           <div class="sheet-head">
@@ -8192,7 +8777,7 @@
               <span class="dealer-live-chip">${icon("lang")}${card.language}</span>
             </div>
             <div class="dealer-profile-copy">
-              <span class="dealer-profile-kicker">${card.game} dealer</span>
+              <span class="dealer-profile-kicker">${roomRole}</span>
               <h4>${card.dealer} leads the room</h4>
               <p>${card.caption}</p>
               <div class="dealer-profile-tags">
@@ -8208,18 +8793,19 @@
             <button class="btn secondary" type="button" data-sheet="tips">Tip</button>
           </div>
           <div class="quick-link-row">
-            <span class="quick-link">${icon("play")}Open room</span>
-            <span class="quick-link">${icon("tip")}Tips on</span>
-            <span class="quick-link">${icon("watch")}Saved by 8</span>
+            <span class="quick-link">${icon(gameIconLabel)}${roomMode}</span>
+            <span class="quick-link">${icon("watch")}${card.watching}</span>
+            <span class="quick-link">${icon("trend")}${card.trend}</span>
           </div>
           <div class="list">
             ${compactListRow("play", "table", card.table)}
             ${compactListRow("lang", "language", card.language)}
             ${compactListRow("limit", "limits", card.stakes)}
             ${compactListRow("seat", "open seats", card.seat)}
-            ${compactListRow("trend", "return rate", card.trend)}
+            ${compactListRow("watch", "watching", card.watching)}
+            ${compactListRow("trend", roomSignal.toLowerCase(), card.trend)}
           </div>
-          <div class="module-grid" aria-label="Dealer actions">
+          <div class="module-grid compact-modules" aria-label="Dealer actions">
             ${moduleTile("chat", "Message", { sheet: "message" })}
             ${moduleTile("tip", "Tips", { sheet: "tips" })}
             ${moduleTile("stats", "Stats", { sheet: "stats" })}
@@ -8280,7 +8866,7 @@
             <div class="account-hub-strip">
               <span class="account-hub-tag">${icon("wallet")}USDT · Visa</span>
               <span class="account-hub-tag">${icon("history")}126 hands</span>
-              <span class="account-hub-tag">${icon("watch")}${card.dealer} + 8</span>
+              <span class="account-hub-tag">${icon(gameIconLabel)}${card.table}</span>
             </div>
           </div>
           <div class="account-balance-row">
@@ -8290,7 +8876,7 @@
           </div>
           <div class="quick-link-row">
             <span class="quick-link">${icon("wallet")}instant cashier</span>
-            <span class="quick-link">${icon("watch")}3 saved rooms</span>
+            <span class="quick-link">${icon(gameIconLabel)}${roomMode}</span>
             <span class="quick-link">${icon("shield")}limits active</span>
           </div>
           <div class="sheet-section">
@@ -8315,7 +8901,7 @@
             ${compactListRow("profile", "player id", "LC-2481")}
             ${compactListRow("wallet", "wallet rails", "USDT · Visa")}
             ${compactListRow("history", "cashout", "$380 pending")}
-            ${compactListRow("watch", "saved dealer", `${card.dealer} + 8`)}
+            ${compactListRow(gameIconLabel, "active room", `${card.dealer} · ${card.table}`)}
           </div>
           <div class="sheet-actions flush">
             <button class="btn" type="button" data-sheet="wallet">Open cashier</button>
@@ -8351,7 +8937,7 @@
             <div class="summary-box"><strong>$2.4K</strong><span>net result</span></div>
           </div>
           <div class="quick-link-row">
-            <span class="quick-link">${icon("watch")}3 saved rooms</span>
+            <span class="quick-link">${icon(gameIconLabel)}${card.table}</span>
             <span class="quick-link">${icon("tip")}$145 tips sent</span>
             <span class="quick-link">${icon("wallet")}$380 cashout</span>
           </div>
@@ -8373,11 +8959,11 @@
           <div class="activity-stack">
             <div class="activity-card">
               <div class="activity-card-top">
-                <span class="history-pill win">+$90</span>
-                <b>Roulette · Mia</b>
-                <span class="activity-card-side">12 / Red</span>
+                <span class="history-pill live">${card.game}</span>
+                <b>${card.dealer} · ${card.table}</b>
+                <span class="activity-card-side">${card.stakes}</span>
               </div>
-              <p>Repeat bet settled into playable balance.</p>
+              <p>${roomSignal} tracked through the latest saved-room session.</p>
             </div>
             <div class="activity-card">
               <div class="activity-card-top">
@@ -8423,18 +9009,18 @@
             <div class="summary-box win"><strong>61%</strong><span>return rate</span></div>
           </div>
           <div class="quick-link-row">
-            <span class="quick-link">${icon("watch")}Mia live</span>
-            <span class="quick-link">${icon("seat")}2 open seats</span>
-            <span class="quick-link">${icon("history")}last visit 2h</span>
+            <span class="quick-link">${icon("watch")}${card.dealer} live</span>
+            <span class="quick-link">${icon("seat")}${card.seat} open seats</span>
+            <span class="quick-link">${icon(gameIconLabel)}${roomMode}</span>
           </div>
           <div class="activity-stack">
             <div class="activity-card">
               <div class="activity-card-top">
                 <span class="history-pill live">Live now</span>
-                <b>Mia · Roulette Mania</b>
-                <span class="activity-card-side">$10-$500</span>
+                <b>${card.dealer} · ${card.table}</b>
+                <span class="activity-card-side">${card.stakes}</span>
               </div>
-              <p>Fast re-entry and saved chip memory.</p>
+              <p>${roomSignal} and saved-room memory stay attached to the live table.</p>
             </div>
             <div class="activity-card">
               <div class="activity-card-top">
@@ -8489,7 +9075,7 @@
           <div class="quick-link-row">
             <span class="quick-link">${icon("wallet")}Crypto</span>
             <span class="quick-link">${icon("wallet")}Card</span>
-            <span class="quick-link">${icon("history")}Instant payout</span>
+            <span class="quick-link">${icon(gameIconLabel)}${card.game} ready</span>
           </div>
           <div class="sheet-section">
             <div class="sheet-section-head"><strong>Cashier tools</strong><span>flow</span></div>
@@ -8504,7 +9090,26 @@
             ${compactListRow("wallet", "main wallet", "USDT · linked")}
             ${compactListRow("wallet", "bank card", "•••• 4242")}
             ${compactListRow("history", "payout rail", "Instant")}
+            ${compactListRow(gameIconLabel, "active room", `${card.table} · ${card.stakes}`)}
             ${compactListRow("shield", "withdrawal check", "Active")}
+          </div>
+          <div class="activity-stack">
+            <div class="activity-card">
+              <div class="activity-card-top">
+                <span class="history-pill live">Ready</span>
+                <b>Table balance armed</b>
+                <span class="activity-card-side">${card.stakes}</span>
+              </div>
+              <p>Room-linked cashier stays ready for ${card.table} without leaving the player flow.</p>
+            </div>
+            <div class="activity-card">
+              <div class="activity-card-top">
+                <span class="history-pill">$380</span>
+                <b>Pending cashout</b>
+                <span class="activity-card-side">instant rail</span>
+              </div>
+              <p>Latest withdrawal keeps the fast payout route and verification state attached.</p>
+            </div>
           </div>
           <div class="sheet-actions flush">
             <button class="btn" type="button" data-action="save">Add wallet</button>
@@ -8641,7 +9246,7 @@
           <div class="quick-link-row">
             <span class="quick-link">${icon("lang")}${card.language}</span>
             <span class="quick-link">${icon("limit")}${card.stakes}</span>
-            <span class="quick-link">${icon("seat")}${card.seat} open</span>
+            <span class="quick-link">${icon(gameIconLabel)}${roomSignal}</span>
           </div>
           <div class="history-row">
             <span class="history-pill live">${card.table}</span>
@@ -8655,8 +9260,8 @@
             ${compactListRow("profile", "followers", card.follows)}
           </div>
           <div class="sheet-actions flush">
-            <button class="btn" type="button" data-sheet="watch">Back to room</button>
-            <button class="btn secondary" type="button" data-sheet="gameplay">Open table</button>
+            <button class="btn" type="button" data-sheet="gameplay">Open table</button>
+            <button class="btn secondary" type="button" data-sheet="watch">Back to room</button>
           </div>
         `;
       }
@@ -8690,7 +9295,7 @@
             ${compactListRow("seat", "open seats", card.seat)}
           </div>
           <div class="sheet-actions flush">
-            <button class="btn" type="button" data-sheet="watch">Watch room</button>
+            <button class="btn" type="button" data-sheet="gameplay">Open table</button>
             <button class="btn secondary" type="button" data-sheet="profile">Dealer</button>
           </div>
         `;
@@ -8725,7 +9330,7 @@
           <div class="quick-link-row">
             <span class="quick-link">${icon("tip")}off-table</span>
             <span class="quick-link">${icon("wallet")}wallet-linked</span>
-            <span class="quick-link">${icon("watch")}dealer-first</span>
+            <span class="quick-link">${icon(gameIconLabel)}${card.table}</span>
           </div>
           <div class="module-grid">
             <button class="module-card detail primary" type="button" data-action="tip">${icon("tip")}<strong>$5 quick tip</strong><span>Light thank-you.</span></button>
@@ -8754,7 +9359,7 @@
           <div class="list">
             ${compactListRow("tip", "tip status", "separate from bets")}
             ${compactListRow("wallet", "settlement", "wallet-linked")}
-            ${compactListRow("watch", "favorite room", `${card.dealer} saved`)}
+            ${compactListRow("watch", "favorite room", `${card.dealer} · ${card.table}`)}
           </div>
           <div class="demo-disclaimer">Separate from bets.</div>
         `;
@@ -8775,26 +9380,44 @@
               <strong>${card.dealer}</strong>
               <span>Dealer-linked inbox</span>
             </div>
-            <div class="account-hub-strip">
-              <span class="account-hub-tag">${icon("watch")}room linked</span>
-              <span class="account-hub-tag">${icon("seat")}seat requests</span>
-              <span class="account-hub-tag">${icon("tip")}tip context</span>
-            </div>
+          <div class="account-hub-strip">
+            <span class="account-hub-tag">${icon("watch")}room linked</span>
+            <span class="account-hub-tag">${icon("seat")}seat requests</span>
+            <span class="account-hub-tag">${icon(gameIconLabel)}${roomMode}</span>
+          </div>
           </div>
           <div class="message-draft">
             <div class="sheet-section-head"><strong>Draft</strong><span>live room</span></div>
-            <div class="message-draft-field">Good luck tonight. If a seat opens after this hand, save me a spot at ${card.table}.</div>
+            <div class="message-draft-field">${roomDraft}</div>
           </div>
           <div class="history-row">
             <span class="history-pill live">dealer chat</span>
             <span class="history-pill">saved room</span>
             <span class="history-pill win">fast reply</span>
           </div>
-          <div class="module-grid">
-            <button class="module-card detail" type="button" data-action="message">${icon("chat")}<strong>Good luck tonight</strong><span>Short dealer note.</span></button>
-            <button class="module-card detail" type="button" data-action="message">${icon("seat")}<strong>Open seat after this hand?</strong><span>Seat check.</span></button>
+          <div class="module-grid compact-modules">
+            <button class="module-card detail" type="button" data-action="message">${icon("chat")}<strong>${card.dealer}, good luck tonight</strong><span>${roomMode} note.</span></button>
+            <button class="module-card detail" type="button" data-action="message">${icon("seat")}<strong>${roomQuickAsk}</strong><span>Seat check.</span></button>
             <button class="module-card detail" type="button" data-action="message">${icon("watch")}<strong>Save this room for later</strong><span>Room bookmark.</span></button>
-            <button class="module-card detail" type="button" data-action="message">${icon("tip")}<strong>Great table flow</strong><span>Quick social note.</span></button>
+            <button class="module-card detail" type="button" data-action="message">${icon("tip")}<strong>Great ${roomSignal.toLowerCase()}</strong><span>Quick social note.</span></button>
+          </div>
+          <div class="activity-stack">
+            <div class="activity-card">
+              <div class="activity-card-top">
+                <span class="history-pill live">Unread</span>
+                <b>${card.dealer}</b>
+                <span class="activity-card-side">${card.table}</span>
+              </div>
+              <p>${card.dealer} keeps the room warm and the next entry point attached to this table.</p>
+            </div>
+            <div class="activity-card">
+              <div class="activity-card-top">
+                <span class="history-pill">Saved</span>
+                <b>Seat request queued</b>
+                <span class="activity-card-side">${roomMode}</span>
+              </div>
+              <p>The request stays tied to ${card.seat} open seats and the current room signal.</p>
+            </div>
           </div>
           <div class="sheet-actions flush">
             <button class="btn" type="button" data-action="message">Send draft</button>
@@ -8925,6 +9548,7 @@
             <div class="list-row"><b>Roulette</b><span>12 live tables</span></div>
             <div class="list-row"><b>Blackjack</b><span>8 live tables</span></div>
             <div class="list-row"><b>Baccarat</b><span>6 live tables</span></div>
+            <div class="list-row"><b>Poker</b><span>4 live tables</span></div>
             <div class="list-row"><b>Low minimums</b><span>from $5</span></div>
             <div class="list-row"><b>VIP rooms</b><span>verified only</span></div>
           </div>
@@ -8945,7 +9569,7 @@
           <div class="quick-link-row">
             <span class="quick-link">${icon("watch")}${card.dealer} live</span>
             <span class="quick-link">${icon("seat")}${card.seat} open seats</span>
-            <span class="quick-link">${icon("trend")}${card.trend}</span>
+            <span class="quick-link">${icon(gameIconLabel)}${roomSignal}</span>
           </div>
           <div class="module-grid compact-modules">
             ${moduleTile("watch", "Dealer live", { sheet: "watch" }, "primary")}
@@ -8956,8 +9580,26 @@
           <div class="list">
             <div class="list-row"><b>${card.dealer} is live</b><span>${card.table}</span></div>
             <div class="list-row"><b>Seat opened</b><span>${card.seat}</span></div>
-            <div class="list-row"><b>Table trend</b><span>${card.state}</span></div>
+            <div class="list-row"><b>${roomSignal}</b><span>${card.state}</span></div>
             <div class="list-row"><b>Operator promo</b><span>${card.operator}</span></div>
+          </div>
+          <div class="activity-stack">
+            <div class="activity-card">
+              <div class="activity-card-top">
+                <span class="history-pill live">Now</span>
+                <b>${card.dealer} live again</b>
+                <span class="activity-card-side">${card.watching}</span>
+              </div>
+              <p>High-intent alert returns the player into the same room instead of a generic lobby.</p>
+            </div>
+            <div class="activity-card">
+              <div class="activity-card-top">
+                <span class="history-pill win">${roomSignal}</span>
+                <b>${card.state}</b>
+                <span class="activity-card-side">${card.trend}</span>
+              </div>
+              <p>Signal-based alerts stay readable and map directly to the active table context.</p>
+            </div>
           </div>
           <div class="sheet-actions flush">
             <button class="btn" type="button" data-sheet="watch">Open room</button>
@@ -9030,15 +9672,17 @@
             <div class="watch-hero-top">
               <span class="dealer-live-chip">Live</span>
               <span class="watch-hero-pill">${icon("lang")}${card.language}</span>
+              <span class="watch-hero-pill">${icon(gameIconLabel)}${roomMode}</span>
             </div>
             <div class="watch-hero-body">
               <h4>${card.dealer}</h4>
-              <p>${card.table}</p>
+              <p>${card.read}</p>
             </div>
             <div class="watch-hero-tags">
               <span>${icon("watch")}${card.watching}</span>
               <span>${icon("limit")}${card.stakes}</span>
               <span>${icon("seat")}${card.seat}</span>
+              <span>${icon("trend")}${card.join}</span>
             </div>
           </div>
         </div>
@@ -9054,10 +9698,11 @@
           ${moduleTile("info", "Info", { sheet: "info" })}
         </div>
         <div class="list">
-          ${compactListRow("profile", "dealer", card.dealer)}
-          ${compactListRow("play", "game", card.game)}
-          ${compactListRow("trend", "trend", card.trend)}
-          ${compactListRow("tip", "tips", "dealer-first")}
+            ${compactListRow("profile", "dealer", card.dealer)}
+            ${compactListRow("play", "game", card.game)}
+            ${compactListRow("trend", "join signal", card.join)}
+            ${compactListRow("watch", "watching", card.watching)}
+            ${compactListRow("tip", "tips", "dealer-first")}
         </div>
       `;
     }
@@ -9112,6 +9757,13 @@
       if (story) goTo(Number(story.dataset.index));
     });
 
+    if (homeStories) {
+      homeStories.addEventListener("click", (event) => {
+        const story = event.target.closest(".story");
+        if (story) goTo(Number(story.dataset.index));
+      });
+    }
+
     document.addEventListener("click", (event) => {
       const open = event.target.closest("[data-sheet]");
       const close = event.target.closest("[data-close]");
@@ -9134,6 +9786,7 @@
       const rouletteClear = event.target.closest("[data-roulette-clear]");
       const rouletteRepeat = event.target.closest("[data-roulette-repeat]");
       const blackjackAction = event.target.closest("[data-blackjack-action]");
+      const pokerAction = event.target.closest("[data-poker-action]");
       const baccaratSide = event.target.closest("[data-baccarat-side]");
       const introStart = event.target.closest("[data-intro-start]");
       const introClose = event.target.closest("[data-intro-close]");
@@ -9215,6 +9868,11 @@
       if (blackjackAction) {
         const card = item();
         gameplayMemory(card).action = blackjackAction.dataset.blackjackAction;
+        commitGameplayMemory(card);
+      }
+      if (pokerAction) {
+        const card = item();
+        gameplayMemory(card).action = pokerAction.dataset.pokerAction;
         commitGameplayMemory(card);
       }
       if (baccaratSide) {
