@@ -237,6 +237,12 @@
       right: 14px;
     }
 
+    html.iphone-edge-mode .signal-strip {
+      top: calc(118px + env(safe-area-inset-top));
+      left: 14px;
+      right: 64px;
+    }
+
     html.iphone-edge-mode .toast {
       bottom: calc(78px + env(safe-area-inset-bottom));
     }
@@ -617,29 +623,31 @@
 
     .signal-strip {
       position: absolute;
-      left: 17px;
-      right: 17px;
-      top: 228px;
+      left: 14px;
+      right: 64px;
+      top: 112px;
       z-index: 6;
-      display: none;
+      display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
       gap: 8px;
-      min-height: 30px;
-      border: 1px solid rgba(255, 255, 255, .12);
-      border-radius: 999px;
-      padding: 0 10px;
-      color: rgba(255, 255, 255, .84);
-      background: rgba(4, 5, 6, .45);
-      backdrop-filter: blur(14px);
-      font-size: 10px;
+      min-height: 28px;
+      border: 1px solid rgba(255, 255, 255, .09);
+      border-radius: 14px;
+      padding: 0 9px;
+      color: rgba(255, 255, 255, .82);
+      background: rgba(8, 9, 12, .34);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, .18);
+      backdrop-filter: blur(18px);
+      font-size: 9px;
       font-weight: 900;
+      overflow: hidden;
     }
 
     .signal-strip b {
       flex: 0 0 auto;
       color: var(--teal);
-      font-size: 9px;
+      font-size: 8px;
       text-transform: uppercase;
     }
 
@@ -657,20 +665,21 @@
       z-index: 6;
       display: grid;
       gap: 8px;
-      padding: 8px 6px;
+      padding: 7px 6px;
       border: 1px solid rgba(255, 255, 255, .08);
       border-radius: 18px;
-      background: rgba(8, 9, 12, .34);
-      backdrop-filter: blur(18px);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, .24);
+      background: linear-gradient(180deg, rgba(11, 12, 16, .42), rgba(8, 9, 12, .58));
+      backdrop-filter: blur(22px);
+      box-shadow: 0 20px 42px rgba(0, 0, 0, .26);
       pointer-events: auto;
     }
 
     .feed-quick-dock .icon-btn {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-color: rgba(255, 255, 255, .08);
       background: rgba(255, 255, 255, .05);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
     }
 
     .feed-quick-dock .icon-btn svg {
@@ -1130,20 +1139,30 @@
       bottom: 64px;
       z-index: 5;
       display: grid;
-      gap: 8px;
-      padding: 12px 12px 10px;
+      gap: 9px;
+      padding: 14px 14px 12px;
       border: 1px solid rgba(255, 255, 255, .08);
-      border-radius: 20px;
-      background: linear-gradient(180deg, rgba(9, 11, 15, .12), rgba(9, 11, 15, .44) 32%, rgba(9, 11, 15, .82) 100%);
-      box-shadow: 0 18px 34px rgba(0, 0, 0, .24);
-      backdrop-filter: blur(20px);
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(9, 11, 15, .16), rgba(9, 11, 15, .54) 36%, rgba(9, 11, 15, .88) 100%);
+      box-shadow: 0 22px 40px rgba(0, 0, 0, .28);
+      backdrop-filter: blur(22px);
+      overflow: hidden;
+    }
+
+    .copy::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .22), transparent);
+      opacity: .7;
     }
 
     .copy-topline {
       display: flex;
       align-items: center;
       gap: 5px;
-      margin-bottom: 7px;
+      margin-bottom: 2px;
     }
 
     .copy-topline .pill {
@@ -1199,9 +1218,9 @@
     }
 
     .copy h2 {
-      margin: 0 0 4px;
+      margin: 0;
       color: var(--text);
-      font-size: 21px;
+      font-size: 22px;
       line-height: .98;
       font-weight: 950;
       text-shadow: 0 6px 26px rgba(0, 0, 0, .82);
@@ -1210,9 +1229,9 @@
     .copy p {
       margin: 0;
       max-width: none;
-      color: rgba(255, 255, 255, .68);
-      font-size: 9px;
-      line-height: 1.34;
+      color: rgba(255, 255, 255, .72);
+      font-size: 9.6px;
+      line-height: 1.38;
       overflow: hidden;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -1221,21 +1240,39 @@
       text-overflow: initial;
     }
 
+    .copy-room-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255, 255, 255, .56);
+      font-size: 8px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .copy-room-line span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     .entry-strip {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 4px;
-      margin-top: 7px;
+      gap: 5px;
+      margin-top: 2px;
       max-width: none;
     }
 
     .entry-chip {
       min-width: 0;
-      min-height: 22px;
-      padding: 0 7px;
+      min-height: 24px;
+      padding: 0 8px;
       border: 1px solid rgba(255, 255, 255, .1);
       border-radius: 999px;
-      background: rgba(255, 255, 255, .06);
+      background: rgba(255, 255, 255, .065);
       backdrop-filter: blur(14px);
       display: inline-flex;
       align-items: center;
@@ -1247,7 +1284,7 @@
       display: inline-block;
       overflow: hidden;
       color: var(--text);
-      font-size: 7.4px;
+      font-size: 7.8px;
       font-weight: 950;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -1299,22 +1336,28 @@
     }
 
     .cta-row {
-      display: flex;
-      gap: 6px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
       margin-top: 10px;
-      width: fit-content;
+      width: 100%;
     }
 
     .stream-action {
-      width: 34px;
-      height: 34px;
+      width: 100%;
+      min-height: 38px;
       border: 1px solid rgba(255, 255, 255, .09);
-      border-radius: 50%;
+      border-radius: 999px;
       color: rgba(255, 255, 255, .84);
       background: rgba(4, 5, 6, .18);
       backdrop-filter: blur(16px);
-      display: grid;
-      place-items: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 0 12px;
+      font-size: 9px;
+      font-weight: 900;
       cursor: pointer;
     }
 
@@ -1326,26 +1369,35 @@
     }
 
     .stream-action.secondary-ghost {
-      color: rgba(255, 255, 255, .74);
-      background: rgba(4, 5, 6, .12);
+      color: rgba(255, 255, 255, .82);
+      background: rgba(4, 5, 6, .16);
       border-color: rgba(255, 255, 255, .08);
     }
 
     .stream-action .inline-icon {
-      width: 14px;
-      height: 14px;
+      width: 13px;
+      height: 13px;
+    }
+
+    .stream-action span {
+      display: inline-block;
     }
 
     .btn {
-      min-height: 32px;
+      min-height: 34px;
       border: 0;
       border-radius: 999px;
-      padding: 0 12px;
+      padding: 0 13px;
       color: var(--ink);
       background: linear-gradient(135deg, var(--gold2), #ffb85c);
       box-shadow: 0 16px 34px rgba(0, 0, 0, .38);
-      font-size: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 10.2px;
       font-weight: 950;
+      text-align: center;
       cursor: pointer;
       white-space: nowrap;
     }
@@ -1360,7 +1412,7 @@
 
     .btn.secondary {
       color: var(--text);
-      background: rgba(4, 5, 6, .18);
+      background: rgba(4, 5, 6, .22);
       border: 1px solid rgba(255, 255, 255, .12);
       backdrop-filter: blur(14px);
       box-shadow: none;
@@ -1371,13 +1423,13 @@
       top: 56px;
       right: 12px;
       z-index: 71;
-      width: 236px;
-      padding: 12px;
+      width: 248px;
+      padding: 13px;
       border: 1px solid rgba(255, 255, 255, .12);
       border-radius: 20px;
-      background: linear-gradient(180deg, rgba(15, 17, 23, .84), rgba(10, 12, 17, .92));
+      background: linear-gradient(180deg, rgba(15, 17, 23, .86), rgba(10, 12, 17, .94));
       backdrop-filter: blur(22px);
-      box-shadow: 0 22px 42px rgba(0, 0, 0, .34);
+      box-shadow: 0 24px 44px rgba(0, 0, 0, .36);
       opacity: 0;
       pointer-events: none;
       transform: translateY(-8px);
@@ -1391,20 +1443,20 @@
     }
 
     .home-drawer-head {
-      margin-bottom: 10px;
+      margin-bottom: 11px;
     }
 
     .home-drawer-head strong {
       display: block;
-      font-size: 12px;
+      font-size: 12.4px;
       font-weight: 950;
     }
 
     .home-drawer-head span {
       display: block;
       margin-top: 4px;
-      color: rgba(255, 255, 255, .68);
-      font-size: 9px;
+      color: rgba(255, 255, 255, .64);
+      font-size: 8.8px;
       line-height: 1.34;
     }
 
@@ -1416,9 +1468,9 @@
 
     .home-menu-btn {
       min-width: 0;
-      min-height: 38px;
+      min-height: 40px;
       border: 1px solid rgba(255, 255, 255, .12);
-      border-radius: 13px;
+      border-radius: 14px;
       padding: 0 11px;
       color: rgba(255, 255, 255, .9);
       background: rgba(255, 255, 255, .07);
@@ -1560,13 +1612,13 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       align-items: center;
-      height: 44px;
-      padding: 4px;
+      height: 48px;
+      padding: 5px;
       border: 1px solid rgba(255, 255, 255, .08);
       border-radius: 999px;
-      background: rgba(8, 9, 12, .42);
-      backdrop-filter: blur(18px);
-      box-shadow: 0 18px 36px rgba(0, 0, 0, .26);
+      background: linear-gradient(180deg, rgba(8, 9, 12, .38), rgba(8, 9, 12, .58));
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 38px rgba(0, 0, 0, .28);
     }
 
     .nav {
@@ -1574,15 +1626,15 @@
       height: 100%;
       border: 0;
       border-radius: 999px;
-      padding: 0 4px;
+      padding: 0 6px;
       background: transparent;
       color: rgba(255, 255, 255, .54);
       cursor: pointer;
       display: grid;
       place-items: center;
       gap: 2px;
-      font-size: 7px;
-      font-weight: 850;
+      font-size: 7.4px;
+      font-weight: 900;
       line-height: 1;
     }
 
@@ -1602,8 +1654,8 @@
 
     .nav.active {
       color: var(--gold2);
-      background: linear-gradient(180deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .04));
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
+      background: linear-gradient(180deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .04));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 8px 18px rgba(0, 0, 0, .12);
     }
 
     .sheet {
@@ -1727,20 +1779,20 @@
     }
 
     .watch-hero {
-      height: 196px;
+      height: 204px;
     }
 
     .watch-hero::after {
       background:
         linear-gradient(180deg, rgba(0, 0, 0, .04), transparent 34%),
-        linear-gradient(180deg, transparent 36%, rgba(0, 0, 0, .88));
+        linear-gradient(180deg, transparent 34%, rgba(0, 0, 0, .9));
     }
 
     .watch-hero-copy {
       position: absolute;
       inset: 0;
       z-index: 1;
-      padding: 12px;
+      padding: 13px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -1756,17 +1808,17 @@
 
     .watch-hero-pill,
     .watch-hero-tags span {
-      min-height: 24px;
-      padding: 0 8px;
+      min-height: 25px;
+      padding: 0 9px;
       display: inline-flex;
       align-items: center;
       gap: 5px;
       border: 1px solid rgba(255, 255, 255, .12);
       border-radius: 999px;
       color: rgba(255, 255, 255, .86);
-      background: rgba(4, 5, 6, .28);
+      background: rgba(4, 5, 6, .32);
       backdrop-filter: blur(14px);
-      font-size: 8.2px;
+      font-size: 8.4px;
       font-weight: 900;
       white-space: nowrap;
     }
@@ -1784,17 +1836,17 @@
 
     .watch-hero-body h4 {
       margin: 0;
-      font-size: 18px;
+      font-size: 20px;
       line-height: .98;
       font-weight: 950;
     }
 
     .watch-hero-body p {
       margin: 6px 0 0;
-      max-width: 210px;
-      color: rgba(255, 255, 255, .78);
-      font-size: 9px;
-      line-height: 1.34;
+      max-width: 224px;
+      color: rgba(255, 255, 255, .8);
+      font-size: 9.6px;
+      line-height: 1.36;
       display: -webkit-box;
       overflow: hidden;
       -webkit-line-clamp: 2;
@@ -1805,14 +1857,14 @@
       position: relative;
       overflow: hidden;
       display: grid;
-      gap: 9px;
-      padding: 11px;
+      gap: 10px;
+      padding: 13px;
       border: 1px solid rgba(255, 255, 255, .11);
-      border-radius: 18px;
+      border-radius: 20px;
       background:
-        linear-gradient(140deg, rgba(255, 227, 154, .12), transparent 38%),
-        linear-gradient(135deg, rgba(11, 13, 18, .92), rgba(42, 14, 18, .86));
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
+        linear-gradient(140deg, rgba(255, 227, 154, .14), transparent 38%),
+        linear-gradient(135deg, rgba(11, 13, 18, .94), rgba(42, 14, 18, .9));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 16px 30px rgba(0, 0, 0, .18);
     }
 
     .account-hub::after {
@@ -1835,8 +1887,8 @@
     }
 
     .account-hub-tag {
-      min-height: 22px;
-      padding: 0 7px;
+      min-height: 23px;
+      padding: 0 8px;
       display: inline-flex;
       align-items: center;
       gap: 5px;
@@ -1844,7 +1896,7 @@
       border-radius: 999px;
       color: rgba(255, 255, 255, .84);
       background: rgba(255, 255, 255, .06);
-      font-size: 8px;
+      font-size: 8.4px;
       font-weight: 900;
       white-space: nowrap;
     }
@@ -1877,16 +1929,16 @@
     .account-balance-row {
       display: grid;
       grid-template-columns: 1.25fr repeat(2, minmax(0, 1fr));
-      gap: 6px;
-      margin-top: 8px;
+      gap: 7px;
+      margin-top: 9px;
     }
 
     .account-balance-card {
       min-width: 0;
-      padding: 9px 8px;
+      padding: 10px 9px;
       border: 1px solid rgba(255, 255, 255, .1);
-      border-radius: 14px;
-      background: rgba(255, 255, 255, .05);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, .055);
       display: grid;
       gap: 3px;
     }
@@ -1895,7 +1947,7 @@
       display: block;
       overflow: hidden;
       color: var(--text);
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 950;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -1916,7 +1968,7 @@
     }
 
     .account-balance-card.primary strong {
-      font-size: 18px;
+      font-size: 20px;
       color: var(--gold2);
     }
 
@@ -1986,8 +2038,8 @@
     }
 
     .compact-modules .module-card {
-      min-height: 52px;
-      background: rgba(255, 255, 255, .04);
+      min-height: 58px;
+      background: rgba(255, 255, 255, .05);
     }
 
     .sheet-actions.flush {
@@ -1997,14 +2049,14 @@
     .dealer-profile-hero {
       position: relative;
       overflow: hidden;
-      min-height: 178px;
+      min-height: 186px;
       display: grid;
       grid-template-columns: 94px minmax(0, 1fr);
       gap: 12px;
       align-items: center;
       border: 1px solid rgba(255, 255, 255, .11);
-      border-radius: 16px;
-      padding: 12px;
+      border-radius: 18px;
+      padding: 13px;
       background:
         linear-gradient(135deg, rgba(95, 17, 24, .72), rgba(7, 8, 11, .94) 72%),
         rgba(255, 255, 255, .05);
@@ -2141,27 +2193,27 @@
     .dealer-profile-copy p {
       margin: 0;
       color: var(--soft);
-      font-size: 8px;
-      line-height: 1.28;
+      font-size: 9px;
+      line-height: 1.34;
     }
 
     .dealer-profile-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 8px;
+      gap: 5px;
+      margin-top: 9px;
     }
 
     .dealer-profile-tags span {
-      min-height: 21px;
-      padding: 0 7px;
+      min-height: 22px;
+      padding: 0 8px;
       display: inline-flex;
       align-items: center;
       border: 1px solid rgba(255, 255, 255, .12);
       border-radius: 999px;
       color: rgba(255, 255, 255, .84);
       background: rgba(4, 5, 6, .36);
-      font-size: 8px;
+      font-size: 8.2px;
       font-weight: 850;
       white-space: nowrap;
     }
@@ -2328,16 +2380,17 @@
 
     .module-card {
       min-width: 0;
-      min-height: 56px;
+      min-height: 58px;
       border: 1px solid rgba(255, 255, 255, .11);
-      border-radius: var(--r);
-      padding: 10px 8px;
+      border-radius: 14px;
+      padding: 11px 9px;
       color: var(--text);
-      background: rgba(255, 255, 255, .055);
+      background: linear-gradient(180deg, rgba(255, 255, 255, .065), rgba(255, 255, 255, .04));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
       cursor: pointer;
       display: grid;
       place-items: center;
-      gap: 5px;
+      gap: 6px;
       text-align: center;
     }
 
@@ -2345,7 +2398,7 @@
       display: block;
       overflow: hidden;
       color: var(--text);
-      font-size: 10px;
+      font-size: 10.4px;
       font-weight: 950;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -2375,8 +2428,8 @@
       place-items: start;
       align-content: start;
       text-align: left;
-      gap: 4px;
-      padding: 10px;
+      gap: 5px;
+      padding: 11px;
     }
 
     .module-card.detail strong {
@@ -2396,8 +2449,12 @@
     .sheet-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 7px;
-      margin-top: 12px;
+      gap: 8px;
+      margin-top: 13px;
+    }
+
+    .sheet-actions .btn {
+      flex: 1 1 calc(50% - 4px);
     }
 
     .gameplay-stage {
@@ -2507,7 +2564,7 @@
       top: 0;
       left: 0;
       right: 0;
-      padding: calc(8px + env(safe-area-inset-top)) 10px 0;
+      padding: calc(10px + env(safe-area-inset-top)) 12px 0;
     }
 
     .gameplay-stage-pill-row {
@@ -2521,17 +2578,17 @@
       min-width: 0;
       display: flex;
       flex-wrap: wrap;
-      gap: 4px;
-      max-width: calc(100% - 84px);
+      gap: 5px;
+      max-width: calc(100% - 94px);
     }
 
     .gameplay-stage-meta .pill,
     .gameplay-stage-meta .session-meta-pill {
-      min-height: 20px;
-      padding: 0 7px;
-      font-size: 7.4px;
+      min-height: 22px;
+      padding: 0 8px;
+      font-size: 7.8px;
       border-color: rgba(255, 255, 255, .09);
-      background: rgba(4, 5, 6, .18);
+      background: rgba(4, 5, 6, .22);
       backdrop-filter: blur(16px);
     }
 
@@ -2555,8 +2612,8 @@
     }
 
     .gameplay-icon-btn {
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       border: 1px solid rgba(255, 255, 255, .1);
       border-radius: 50%;
       color: var(--text);
@@ -2570,9 +2627,9 @@
     }
 
     .gameplay-stage-actions .close {
-      flex: 0 0 26px;
-      width: 26px;
-      height: 26px;
+      flex: 0 0 28px;
+      width: 28px;
+      height: 28px;
       border: 1px solid rgba(255, 255, 255, .1);
       background: rgba(4, 5, 6, .16);
       backdrop-filter: blur(16px);
@@ -2592,13 +2649,13 @@
     .gameplay-camera-strip {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 10px;
+      gap: 7px;
+      margin-top: 11px;
     }
 
     .gameplay-camera-chip {
-      min-height: 24px;
-      padding: 0 8px;
+      min-height: 25px;
+      padding: 0 9px;
       display: inline-flex;
       align-items: center;
       border: 1px solid rgba(255, 255, 255, .12);
@@ -2606,7 +2663,7 @@
       color: rgba(255, 255, 255, .72);
       background: rgba(4, 5, 6, .24);
       backdrop-filter: blur(12px);
-      font-size: 9px;
+      font-size: 9.2px;
       font-weight: 900;
       white-space: nowrap;
     }
@@ -2619,7 +2676,7 @@
 
     .gameplay-camera-note {
       margin-top: 8px;
-      max-width: 260px;
+      max-width: 280px;
       color: rgba(255, 255, 255, .74);
       font-size: 10px;
       line-height: 1.32;
@@ -2631,9 +2688,9 @@
       right: 0;
       bottom: 0;
       display: grid;
-      gap: 6px;
+      gap: 8px;
       justify-items: center;
-      padding: 0 10px calc(10px + env(safe-area-inset-bottom));
+      padding: 0 12px calc(12px + env(safe-area-inset-bottom));
     }
 
     .gameplay-stage-focus {
@@ -3446,26 +3503,26 @@
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
       width: fit-content;
       max-width: 100%;
       min-height: 0;
       margin: 0 auto;
-      padding: 4px 6px;
+      padding: 5px 7px;
       border: 1px solid rgba(255, 255, 255, .1);
       border-radius: 999px;
-      background: rgba(12, 14, 20, .14);
+      background: rgba(12, 14, 20, .18);
       backdrop-filter: blur(16px);
     }
 
     .gameplay-status-chip,
     .gameplay-status-badge {
-      min-height: 18px;
-      padding: 0 6px;
+      min-height: 19px;
+      padding: 0 7px;
       display: inline-flex;
       align-items: center;
       border-radius: 999px;
-      font-size: 7px;
+      font-size: 7.4px;
       font-weight: 950;
       white-space: nowrap;
     }
@@ -3502,7 +3559,7 @@
       display: inline-block;
       overflow: hidden;
       color: var(--text);
-      font-size: 8px;
+      font-size: 8.4px;
       font-weight: 950;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -3550,48 +3607,48 @@
 
     .gameplay-core-card {
       display: grid;
-      gap: 6px;
+      gap: 8px;
       width: 100%;
-      padding: 0;
-      border: 0;
-      border-radius: 0;
-      background: none;
-      backdrop-filter: none;
-      box-shadow: none;
+      padding: 8px 8px 10px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(8, 9, 12, .3), rgba(8, 9, 12, .56));
+      backdrop-filter: blur(18px);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, .18);
     }
 
     .gameplay-overlay-hud {
       display: grid;
-      gap: 5px;
+      gap: 6px;
       justify-items: center;
-      width: min(286px, 100%);
+      width: min(300px, 100%);
     }
 
     .gameplay-overlay-hud.compact {
-      width: min(274px, 100%);
-      gap: 4px;
+      width: min(286px, 100%);
+      gap: 5px;
     }
 
     .gameplay-overlay-hud.slim {
-      width: min(264px, 100%);
-      gap: 4px;
+      width: min(276px, 100%);
+      gap: 5px;
     }
 
     .gameplay-action-tray {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 3px;
-      width: min(272px, 100%);
+      gap: 4px;
+      width: 100%;
     }
 
     .gameplay-overlay-hud .game-chip {
-      min-height: 26px;
-      padding: 0 8px;
+      min-height: 28px;
+      padding: 0 9px;
       border-color: rgba(255, 255, 255, .1);
-      background: rgba(4, 5, 6, .12);
+      background: rgba(4, 5, 6, .14);
       backdrop-filter: blur(12px);
-      font-size: 7px;
+      font-size: 7.4px;
     }
 
     .game-chip .inline-icon {
@@ -3615,51 +3672,51 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 3px;
-      width: min(208px, 100%);
+      gap: 4px;
+      width: min(224px, 100%);
     }
 
     .gameplay-utility-rail .game-chip {
-      min-height: 21px;
-      padding: 0 6px;
-      background: rgba(4, 5, 6, .08);
-      font-size: 6.8px;
+      min-height: 22px;
+      padding: 0 7px;
+      background: rgba(4, 5, 6, .1);
+      font-size: 7px;
     }
 
     .gameplay-seat-line {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
+      gap: 6px;
       flex-wrap: wrap;
-      width: min(214px, 100%);
+      width: min(230px, 100%);
     }
 
     .gameplay-seat-line span {
-      min-height: 19px;
-      padding: 0 6px;
+      min-height: 20px;
+      padding: 0 7px;
       display: inline-flex;
       align-items: center;
       border: 1px solid rgba(255, 255, 255, .1);
       border-radius: 999px;
       color: rgba(255, 255, 255, .74);
       background: rgba(255, 255, 255, .04);
-      font-size: 6.8px;
+      font-size: 7.2px;
       font-weight: 900;
       white-space: nowrap;
     }
 
     .gameplay-control-chip {
-      min-height: 30px;
-      padding: 0 11px;
+      min-height: 32px;
+      padding: 0 12px;
       display: inline-flex;
       align-items: center;
       border: 1px solid rgba(255, 255, 255, .14);
       border-radius: 999px;
       color: rgba(255, 255, 255, .88);
-      background: rgba(4, 5, 6, .22);
+      background: rgba(4, 5, 6, .24);
       backdrop-filter: blur(14px);
-      font-size: 10px;
+      font-size: 10.2px;
       font-weight: 900;
       cursor: pointer;
       white-space: nowrap;
@@ -3740,17 +3797,17 @@
       position: absolute;
       left: 12px;
       right: 12px;
-      bottom: calc(118px + env(safe-area-inset-bottom));
+      bottom: calc(122px + env(safe-area-inset-bottom));
       display: grid;
       gap: 10px;
-      max-height: 41%;
+      max-height: 44%;
       overflow: auto;
-      padding: 12px;
+      padding: 13px;
       border: 1px solid rgba(255, 255, 255, .12);
-      border-radius: 18px;
-      background: rgba(10, 12, 17, .74);
+      border-radius: 20px;
+      background: rgba(10, 12, 17, .78);
       backdrop-filter: blur(20px);
-      box-shadow: 0 18px 34px rgba(0, 0, 0, .24);
+      box-shadow: 0 20px 38px rgba(0, 0, 0, .26);
       animation: gameRise .22s ease;
     }
 
@@ -3846,7 +3903,7 @@
 
     .gameplay-menu-header strong {
       display: block;
-      font-size: 12px;
+      font-size: 12.4px;
       font-weight: 950;
     }
 
@@ -3854,7 +3911,7 @@
       display: block;
       margin-top: 3px;
       color: var(--muted);
-      font-size: 10px;
+      font-size: 10.2px;
     }
 
     .gameplay-menu-section {
@@ -3886,8 +3943,8 @@
 
     .gameplay-stream-note {
       color: rgba(255, 255, 255, .72);
-      font-size: 9px;
-      line-height: 1.28;
+      font-size: 9.6px;
+      line-height: 1.32;
     }
 
     .gameplay-chat-panel {
@@ -3895,17 +3952,17 @@
       right: 12px;
       bottom: calc(118px + env(safe-area-inset-bottom));
       z-index: 6;
-      width: min(182px, calc(100% - 32px));
+      width: min(188px, calc(100% - 32px));
       display: grid;
       gap: 7px;
-      padding: 10px;
+      padding: 11px;
       border: 1px solid rgba(255, 255, 255, .12);
-      border-radius: 16px;
+      border-radius: 18px;
       background:
-        linear-gradient(180deg, rgba(14, 16, 22, .08), rgba(14, 16, 22, .2)),
-        rgba(0, 0, 0, .08);
+        linear-gradient(180deg, rgba(14, 16, 22, .12), rgba(14, 16, 22, .28)),
+        rgba(0, 0, 0, .1);
       backdrop-filter: blur(18px);
-      box-shadow: 0 12px 22px rgba(0, 0, 0, .14);
+      box-shadow: 0 14px 24px rgba(0, 0, 0, .16);
       animation: gameRise .18s ease;
     }
 
@@ -3959,10 +4016,10 @@
     }
 
     .gameplay-hand-block {
-      padding: 6px;
+      padding: 8px;
       border: 1px solid rgba(255, 255, 255, .08);
-      border-radius: 14px;
-      background: rgba(4, 5, 6, .12);
+      border-radius: 15px;
+      background: rgba(4, 5, 6, .14);
       backdrop-filter: blur(12px);
     }
 
@@ -4011,15 +4068,15 @@
     }
 
     .history-pill {
-      min-height: 24px;
-      padding: 0 9px;
+      min-height: 25px;
+      padding: 0 10px;
       display: inline-flex;
       align-items: center;
       border: 1px solid rgba(255, 255, 255, .12);
       border-radius: 999px;
       color: rgba(255, 255, 255, .84);
-      background: rgba(255, 255, 255, .06);
-      font-size: 9px;
+      background: rgba(255, 255, 255, .07);
+      font-size: 9.2px;
       font-weight: 900;
       white-space: nowrap;
     }
@@ -4045,16 +4102,17 @@
     .summary-strip {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 5px;
-      margin-top: 8px;
+      gap: 6px;
+      margin-top: 9px;
     }
 
     .summary-box {
       min-width: 0;
-      padding: 7px 6px;
+      padding: 9px 7px;
       border: 1px solid rgba(255, 255, 255, .12);
-      border-radius: var(--r);
-      background: rgba(255, 255, 255, .05);
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .04));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
       text-align: center;
     }
 
@@ -4062,7 +4120,7 @@
       display: block;
       overflow: hidden;
       color: var(--text);
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 950;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -4087,17 +4145,18 @@
 
     .activity-stack {
       display: grid;
-      gap: 8px;
+      gap: 9px;
       margin-top: 12px;
     }
 
     .activity-card {
       display: grid;
-      gap: 5px;
-      padding: 9px;
+      gap: 6px;
+      padding: 10px;
       border: 1px solid rgba(255, 255, 255, .1);
-      border-radius: var(--r);
-      background: rgba(255, 255, 255, .045);
+      border-radius: 15px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .04));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .03);
     }
 
     .activity-card-top {
@@ -4109,13 +4168,13 @@
 
     .activity-card-top b {
       color: var(--text);
-      font-size: 10px;
+      font-size: 10.4px;
       font-weight: 950;
     }
 
     .activity-card-side {
       color: rgba(255, 255, 255, .58);
-      font-size: 8px;
+      font-size: 8.2px;
       font-weight: 850;
       text-transform: uppercase;
       margin-left: auto;
@@ -4124,32 +4183,33 @@
 
     .activity-card p {
       margin: 0;
-      color: rgba(255, 255, 255, .68);
-      font-size: 8px;
-      line-height: 1.3;
+      color: rgba(255, 255, 255, .7);
+      font-size: 8.8px;
+      line-height: 1.34;
     }
 
     .message-draft {
       display: grid;
-      gap: 7px;
+      gap: 8px;
       margin-top: 10px;
-      padding: 10px;
+      padding: 11px;
       border: 1px solid rgba(255, 255, 255, .11);
-      border-radius: 16px;
+      border-radius: 18px;
       background:
-        linear-gradient(135deg, rgba(46, 230, 206, .08), transparent 42%),
+        linear-gradient(135deg, rgba(46, 230, 206, .1), transparent 42%),
         rgba(255, 255, 255, .05);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
     }
 
     .message-draft-field {
-      min-height: 60px;
-      padding: 9px 10px;
+      min-height: 64px;
+      padding: 10px 11px;
       border: 1px solid rgba(255, 255, 255, .08);
-      border-radius: 14px;
-      color: rgba(255, 255, 255, .82);
-      background: rgba(4, 5, 6, .24);
-      font-size: 9px;
-      line-height: 1.34;
+      border-radius: 15px;
+      color: rgba(255, 255, 255, .84);
+      background: rgba(4, 5, 6, .26);
+      font-size: 9.4px;
+      line-height: 1.38;
     }
 
     .game-head {
@@ -5562,10 +5622,10 @@
     .demo-disclaimer {
       margin-top: 10px;
       border: 1px solid rgba(255, 227, 154, .18);
-      border-radius: var(--r);
-      padding: 10px;
-      color: rgba(255, 255, 255, .78);
-      background: rgba(255, 227, 154, .075);
+      border-radius: 14px;
+      padding: 11px;
+      color: rgba(255, 255, 255, .8);
+      background: rgba(255, 227, 154, .08);
       font-size: 10px;
       line-height: 1.4;
     }
@@ -5573,7 +5633,7 @@
     .proof-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
+      gap: 9px;
       margin-top: 12px;
     }
 
@@ -5582,19 +5642,20 @@
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 12px;
       align-items: center;
-      min-height: 86px;
+      min-height: 92px;
       border: 1px solid rgba(46, 230, 206, .16);
-      border-radius: var(--r);
-      padding: 12px;
+      border-radius: 16px;
+      padding: 13px;
       background:
-        linear-gradient(135deg, rgba(46, 230, 206, .1), transparent 52%),
-        rgba(255, 255, 255, .055);
+        linear-gradient(135deg, rgba(46, 230, 206, .12), transparent 52%),
+        rgba(255, 255, 255, .06);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
     }
 
     .proof-hero strong {
       display: block;
       color: var(--text);
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 950;
     }
 
@@ -5602,19 +5663,19 @@
       display: block;
       margin-top: 4px;
       color: var(--muted);
-      font-size: 10px;
-      line-height: 1.35;
+      font-size: 10.2px;
+      line-height: 1.36;
     }
 
     .proof-hero b {
-      min-height: 32px;
+      min-height: 34px;
       display: inline-flex;
       align-items: center;
-      padding: 0 10px;
+      padding: 0 11px;
       border-radius: 999px;
       color: var(--ink);
       background: var(--teal);
-      font-size: 10px;
+      font-size: 10.2px;
       font-weight: 950;
       white-space: nowrap;
     }
@@ -5622,17 +5683,17 @@
     .proof-ladder {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 6px;
+      gap: 7px;
       margin-top: 12px;
     }
 
     .proof-ladder div {
       min-width: 0;
-      min-height: 58px;
+      min-height: 62px;
       border: 1px solid rgba(255, 255, 255, .1);
-      border-radius: var(--r);
-      padding: 8px 6px;
-      background: rgba(255, 255, 255, .048);
+      border-radius: 14px;
+      padding: 9px 7px;
+      background: rgba(255, 255, 255, .05);
       text-align: center;
     }
 
@@ -5658,16 +5719,17 @@
     .proof-card {
       min-width: 0;
       border: 1px solid rgba(255, 255, 255, .11);
-      border-radius: var(--r);
-      padding: 10px;
-      background: rgba(255, 255, 255, .055);
+      border-radius: 14px;
+      padding: 11px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .045));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
     }
 
     .proof-card strong {
       display: block;
       overflow: hidden;
       color: var(--gold2);
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 950;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -5675,7 +5737,7 @@
 
     .proof-card span {
       display: block;
-      margin-top: 3px;
+      margin-top: 4px;
       color: var(--muted);
       font-size: 9px;
       line-height: 1.3;
@@ -5685,7 +5747,7 @@
 
     .revenue-stack {
       display: grid;
-      gap: 7px;
+      gap: 8px;
       margin-top: 12px;
     }
 
@@ -5694,24 +5756,24 @@
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 10px;
       align-items: center;
-      min-height: 43px;
+      min-height: 46px;
       border: 1px solid rgba(255, 255, 255, .1);
-      border-radius: var(--r);
-      padding: 9px 10px;
-      background: rgba(255, 255, 255, .05);
+      border-radius: 14px;
+      padding: 10px 11px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .04));
     }
 
     .deal-row b {
       overflow: hidden;
       color: var(--text);
-      font-size: 12px;
+      font-size: 12.2px;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
     .deal-row span {
       color: var(--teal);
-      font-size: 11px;
+      font-size: 11.2px;
       font-weight: 950;
       text-align: right;
       white-space: nowrap;
@@ -5720,23 +5782,23 @@
     .pilot-timeline {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 6px;
+      gap: 7px;
       margin-top: 12px;
     }
 
     .pilot-step {
       min-width: 0;
-      min-height: 52px;
+      min-height: 56px;
       border: 1px solid rgba(255, 227, 154, .14);
-      border-radius: var(--r);
-      padding: 8px 7px;
-      background: rgba(255, 227, 154, .055);
+      border-radius: 14px;
+      padding: 9px 8px;
+      background: rgba(255, 227, 154, .06);
     }
 
     .pilot-step strong {
       display: block;
       color: var(--gold2);
-      font-size: 10px;
+      font-size: 10.2px;
       font-weight: 950;
       text-transform: uppercase;
     }
@@ -5746,7 +5808,7 @@
       margin-top: 4px;
       color: var(--muted);
       font-size: 9px;
-      line-height: 1.25;
+      line-height: 1.28;
     }
 
     .proof-note {
@@ -5958,7 +6020,9 @@
       }
 
       .signal-strip {
-        top: 218px;
+        top: 154px;
+        left: 14px;
+        right: 74px;
       }
 
       .intro {
@@ -6001,7 +6065,7 @@
       }
 
       .account-hub-balance strong {
-        font-size: 24px;
+        font-size: 25px;
       }
 
       .account-balance-row {
@@ -6039,7 +6103,7 @@
       }
 
       .gameplay-stage-top {
-        padding: calc(8px + env(safe-area-inset-top)) 10px 0;
+        padding: calc(10px + env(safe-area-inset-top)) 12px 0;
       }
 
       .gameplay-stream-layer {
@@ -6100,18 +6164,18 @@
       }
 
       .gameplay-camera-chip {
-        min-height: 22px;
-        padding: 0 7px;
-        font-size: 8px;
+        min-height: 24px;
+        padding: 0 8px;
+        font-size: 8.6px;
       }
 
       .gameplay-camera-note {
-        max-width: 220px;
-        font-size: 9px;
+        max-width: 232px;
+        font-size: 9.4px;
       }
 
       .gameplay-stage-bottom {
-        gap: 5px;
+        gap: 7px;
         padding: 0 10px calc(10px + env(safe-area-inset-bottom));
       }
 
@@ -6163,9 +6227,9 @@
       }
 
       .gameplay-control-chip {
-        min-height: 29px;
-        padding: 0 10px;
-        font-size: 9px;
+        min-height: 30px;
+        padding: 0 11px;
+        font-size: 9.2px;
       }
 
       .gameplay-status-metric {
@@ -6206,16 +6270,16 @@
       .gameplay-menu-drawer {
         left: 10px;
         right: 10px;
-        bottom: calc(100px + env(safe-area-inset-bottom));
-        max-height: 36%;
-        padding: 10px;
+        bottom: calc(104px + env(safe-area-inset-bottom));
+        max-height: 38%;
+        padding: 11px;
       }
 
       .gameplay-chat-panel {
         right: 10px;
-        bottom: calc(96px + env(safe-area-inset-bottom));
-        width: min(156px, calc(100% - 20px));
-        padding: 9px;
+        bottom: calc(98px + env(safe-area-inset-bottom));
+        width: min(168px, calc(100% - 20px));
+        padding: 10px;
       }
 
       .session-toolbar {
@@ -7467,13 +7531,13 @@
       if (message) showToast("Demo mode. No real-money transactions.");
     }
 
-    function signalText(card) {
+    function signalState(card) {
       const signals = [
-        `${card.seat} opened at ${card.table}`,
-        `${card.dealer} live now: ${card.game}`,
-        `${card.join} join-rate signal tracking`,
-        `${card.game} round settled by operator wallet`,
-        `Return alert queued for ${card.dealer} followers`
+        { label: "Live", text: `${card.dealer} on ${card.table}` },
+        { label: "Seat", text: `${card.seat} seats open · ${card.language}` },
+        { label: "Join", text: `${card.join} join rate · ${card.watching} watching` },
+        { label: "Handoff", text: `${card.operator} entry path ready` },
+        { label: "Return", text: `${card.trend} room lift signal` }
       ];
       const index = Math.floor(Date.now() / 4200) % signals.length;
       return signals[index];
@@ -7481,8 +7545,11 @@
 
     function updateSignal() {
       if (!signalStrip) return;
+      const badge = signalStrip.querySelector("b");
       const label = signalStrip.querySelector("span");
-      if (label) label.textContent = signalText(item());
+      const state = signalState(item());
+      if (badge) badge.textContent = state.label;
+      if (label) label.textContent = state.text;
     }
 
     function startSignalTimer() {
@@ -7864,7 +7931,7 @@
       const card = item();
       if (homeDrawerGrid) homeDrawerGrid.innerHTML = homeMenuMarkup();
       if (homeDrawerTitle) homeDrawerTitle.textContent = `${card.dealer} · ${card.table}`;
-      if (homeDrawerMeta) homeDrawerMeta.textContent = `${card.game} · ${card.stakes} · ${card.language}`;
+      if (homeDrawerMeta) homeDrawerMeta.textContent = `${card.operator} · ${card.game} · ${card.stakes}`;
     }
 
     function closeHomeMenu() {
@@ -8948,15 +9015,19 @@
               <span class="pill">${icon("trend")}${card.trend}</span>
             </div>
             <h2>${card.dealer}</h2>
-            <p>${card.table}</p>
+            <p>${card.read}</p>
+            <div class="copy-room-line">
+              <span>${card.table}</span>
+              <span>${card.operator}</span>
+            </div>
             <div class="entry-strip">
               ${entryChip("lang", card.language)}
               ${entryChip("seat", `${card.seat} open`)}
               ${entryChip("watch", card.watching)}
             </div>
             <div class="cta-row">
-              <button class="stream-action secondary-ghost" type="button" data-sheet="watch" aria-label="Watch">${icon("watch")}</button>
-              <button class="stream-action primary" type="button" data-sheet="gameplay" aria-label="Play">${icon("play")}</button>
+              <button class="stream-action secondary-ghost" type="button" data-sheet="watch" aria-label="Watch" data-tap-feedback>${icon("watch")}<span>Watch</span></button>
+              <button class="stream-action primary" type="button" data-sheet="gameplay" aria-label="Play" data-tap-feedback>${icon("play")}<span>Play now</span></button>
             </div>
           </div>
         </article>
@@ -9583,10 +9654,10 @@
             <span class="quick-link">${icon(gameIconLabel)}${card.table}</span>
           </div>
           <div class="module-grid">
-            <button class="module-card detail primary" type="button" data-action="tip">${icon("tip")}<strong>$5 quick tip</strong><span>Light thank-you.</span></button>
-            <button class="module-card detail" type="button" data-action="tip">${icon("tip")}<strong>$10 good energy</strong><span>Clean social gesture.</span></button>
-            <button class="module-card detail" type="button" data-action="tip">${icon("tip")}<strong>$25 big hand</strong><span>Strong table moment.</span></button>
-            <button class="module-card detail" type="button" data-action="tip">${icon("tip")}<strong>$50 VIP thanks</strong><span>Premium room signal.</span></button>
+            <button class="module-card detail primary" type="button" data-action="tip">${icon("tip")}<strong>$5 quick thanks</strong><span>Light dealer gesture.</span></button>
+            <button class="module-card detail" type="button" data-action="tip">${icon("tip")}<strong>$10 table energy</strong><span>Clean social signal.</span></button>
+            <button class="module-card detail" type="button" data-action="tip">${icon("tip")}<strong>$25 hand momentum</strong><span>Strong table moment.</span></button>
+            <button class="module-card detail" type="button" data-action="tip">${icon("tip")}<strong>$50 VIP moment</strong><span>Premium room signal.</span></button>
           </div>
           <div class="activity-stack">
             <div class="activity-card">
@@ -9670,7 +9741,7 @@
             </div>
           </div>
           <div class="sheet-actions flush">
-            <button class="btn" type="button" data-action="message">Send draft</button>
+            <button class="btn" type="button" data-action="message">Send message</button>
             <button class="btn secondary" type="button" data-sheet="saved">Saved rooms</button>
           </div>
         `;
@@ -9852,8 +9923,8 @@
             </div>
           </div>
           <div class="sheet-actions flush">
-            <button class="btn" type="button" data-sheet="watch">Open room</button>
-            <button class="btn secondary" type="button" data-sheet="saved">Saved rooms</button>
+            <button class="btn" type="button" data-sheet="watch">Open live room</button>
+            <button class="btn secondary" type="button" data-sheet="saved">Manage alerts</button>
           </div>
         `;
       }
@@ -9865,14 +9936,14 @@
             ${closeButton()}
           </div>
           <div class="proof-hero">
-            <div><strong>Clean feed, measurable handoff</strong><span>The app keeps player discovery simple, then opens gameplay, operator entry and KPI proof without turning the first screen into a heavy casino lobby.</span></div>
+            <div><strong>Feed converts before gameplay</strong><span>The app keeps discovery clean, then opens gameplay, operator entry and KPI proof without turning the first screen into a heavy casino lobby.</span></div>
             <b>Revenue engine</b>
           </div>
           <div class="proof-grid">
-            <div class="proof-card"><strong>${card.join}</strong><span>current join-rate signal</span></div>
-            <div class="proof-card"><strong>${card.trend}</strong><span>table-intent lift</span></div>
-            <div class="proof-card"><strong>${card.watching}</strong><span>live audience on card</span></div>
-            <div class="proof-card"><strong>$${card.arpu.replace("$", "")}K</strong><span>modeled monthly value / 1k players</span></div>
+            <div class="proof-card"><strong>${card.join}</strong><span>join-rate signal</span></div>
+            <div class="proof-card"><strong>${card.trend}</strong><span>intent lift</span></div>
+            <div class="proof-card"><strong>${card.watching}</strong><span>live audience</span></div>
+            <div class="proof-card"><strong>$${card.arpu.replace("$", "")}K</strong><span>modeled value / 1k players</span></div>
           </div>
           <div class="proof-ladder">
             <div><strong>Discover</strong><span>Swipe live dealer feed</span></div>
@@ -9905,8 +9976,8 @@
           </div>
           <p class="proof-note">Investor readout: LC App can earn through setup, module fees, attributed rev-share and premium placement, then scale toward a wider operator revenue network after pilot proof.</p>
           <div class="sheet-actions">
-            <button class="btn" type="button" data-sheet="handoff">Operator flow</button>
-            <button class="btn secondary" type="button" data-sheet="watch">Back to demo</button>
+            <button class="btn" type="button" data-sheet="handoff">Operator handoff</button>
+            <button class="btn secondary" type="button" data-sheet="watch">Back to room</button>
           </div>
         `;
       }
