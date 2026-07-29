@@ -215,10 +215,6 @@
       padding-right: 4px;
     }
 
-    html.iphone-edge-mode .live-badge,
-    html.iphone-edge-mode .table-state {
-      top: calc(18px + env(safe-area-inset-top));
-    }
 
     html.iphone-edge-mode .copy {
       left: 14px;
@@ -642,12 +638,13 @@
       font-size: 9px;
       font-weight: 900;
       overflow: hidden;
+      transition: opacity .18s ease, transform .18s ease;
     }
 
     .signal-strip b {
       flex: 0 0 auto;
       color: var(--teal);
-      font-size: 8px;
+      font-size: 7.4px;
       text-transform: uppercase;
     }
 
@@ -672,6 +669,7 @@
       backdrop-filter: blur(22px);
       box-shadow: 0 20px 42px rgba(0, 0, 0, .26);
       pointer-events: auto;
+      transition: opacity .18s ease, transform .18s ease;
     }
 
     .feed-quick-dock .icon-btn {
@@ -686,6 +684,114 @@
       width: 15px;
       height: 15px;
       stroke-width: 2.1;
+    }
+
+    .screen.sheet-active .signal-strip,
+    .screen.sheet-active .feed-quick-dock {
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+    }
+
+    .screen.gameplay-active {
+      background: #050609;
+    }
+
+    .screen.gameplay-active .app-top,
+    .screen.gameplay-active .dealer-rail-inline,
+    .screen.gameplay-active .dealer-rail-drawer,
+    .screen.gameplay-active .tabs,
+    .screen.gameplay-active .progress,
+    .screen.gameplay-active .bottom-nav,
+    .screen.gameplay-active .home-drawer,
+    .screen.gameplay-active .signal-strip,
+    .screen.gameplay-active .feed-quick-dock {
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+    }
+
+    .screen.gameplay-active .feed {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.01);
+    }
+
+    .screen.gameplay-active .feed .live-card::before,
+    .screen.gameplay-active .feed .live-card::after,
+    .screen.gameplay-active .feed .live-card-parallax,
+    .screen.gameplay-active .feed .casino-ambience {
+      opacity: 0;
+    }
+
+    .screen.gameplay-active .sheet.gameplay-open {
+      background: #050609;
+    }
+
+    .screen.gameplay-active .gameplay-stage::before {
+      background:
+        linear-gradient(180deg, #050609 0 54px, rgba(5, 6, 9, .68) 88px, rgba(5, 6, 9, .1) 144px, transparent 220px, transparent 54%, rgba(5, 6, 9, .12) 64%, rgba(5, 6, 9, .54) 80%, #050609 100%);
+    }
+
+    .screen.gameplay-active .gameplay-stage.game-blackjack::before {
+      background:
+        linear-gradient(180deg, #050609 0 54px, rgba(5, 6, 9, .72) 92px, rgba(5, 6, 9, .08) 150px, transparent 224px, transparent 48%, rgba(5, 6, 9, .16) 60%, rgba(5, 6, 9, .62) 76%, #050609 100%);
+    }
+
+    .screen.gameplay-active .gameplay-stage-media::before,
+    .screen.gameplay-active .gameplay-stage-media::after,
+    .screen.gameplay-active .gameplay-stage-focus,
+    .screen.gameplay-active .gameplay-stage-focus::after {
+      opacity: 0;
+    }
+
+    .screen.gameplay-active .gameplay-stage::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 40%;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(5, 6, 9, 0) 0%, rgba(5, 6, 9, .1) 16%, rgba(5, 6, 9, .44) 58%, #050609 100%);
+    }
+
+    .screen.gameplay-active .gameplay-stage.game-blackjack::after {
+      height: 46%;
+      background: linear-gradient(180deg, rgba(5, 6, 9, 0) 0%, rgba(5, 6, 9, .14) 18%, rgba(5, 6, 9, .56) 60%, #050609 100%);
+    }
+
+    .screen.gameplay-active .gameplay-stage-top {
+      padding: calc(8px + env(safe-area-inset-top)) 10px 0;
+    }
+
+    .screen.gameplay-active .gameplay-stage-bottom {
+      padding: 0 10px calc(10px + env(safe-area-inset-bottom));
+    }
+
+    .screen.gameplay-active .gameplay-stage-meta .session-meta-pill,
+    .screen.gameplay-active .gameplay-stage-actions .close {
+      background: rgba(4, 5, 6, .22);
+    }
+
+    .screen.watch-active .app-top,
+    .screen.watch-active .dealer-rail-inline,
+    .screen.watch-active .dealer-rail-drawer,
+    .screen.watch-active .home-drawer,
+    .screen.watch-active .progress,
+    .screen.watch-active .bottom-nav {
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+    }
+
+    .screen.watch-active .feed .copy,
+    .screen.watch-active .feed .live-badge,
+    .screen.watch-active .feed .table-state {
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
     }
 
     .intro-btn.secondary {
@@ -781,9 +887,322 @@
       font-weight: 950;
     }
 
+    .app-top {
+      left: 14px;
+      right: 14px;
+      justify-content: flex-start;
+      pointer-events: none;
+    }
+
+    .home-topbar,
+    .account-topbar {
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      pointer-events: auto;
+    }
+
+    .home-top-copy {
+      min-width: 0;
+      display: grid;
+      gap: 2px;
+    }
+
+    .home-top-kicker,
+    .account-top-meta > span {
+      color: rgba(255, 255, 255, .56);
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .home-top-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .home-top-title strong {
+      font-size: 14px;
+      line-height: .96;
+      font-weight: 950;
+      text-shadow: 0 6px 22px rgba(0, 0, 0, .52);
+    }
+
+    .home-top-note,
+    .account-top-meta p {
+      margin: 0;
+      color: rgba(255, 255, 255, .72);
+      font-size: 9px;
+      line-height: 1.34;
+    }
+
+    .home-top-actions,
+    .account-top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .top-chip {
+      min-height: 30px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .86);
+      background: rgba(4, 5, 6, .28);
+      backdrop-filter: blur(16px);
+      font-size: 8.4px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .top-chip.live {
+      color: var(--gold2);
+      background: rgba(255, 227, 154, .08);
+    }
+
+    .top-chip .inline-icon {
+      width: 11px;
+      height: 11px;
+    }
+
+    .top-wordmark {
+      gap: 7px;
+      padding: 2px 8px 2px 2px;
+    }
+
+    .top-wordmark::after {
+      content: "LC App";
+      color: rgba(255, 255, 255, .92);
+      font-size: 10px;
+      font-weight: 950;
+      letter-spacing: .04em;
+    }
+
+    .home-view {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      transition: opacity .22s ease, transform .22s ease;
+    }
+
+    .account-page {
+      position: absolute;
+      inset: 0;
+      z-index: 24;
+      overflow-y: auto;
+      padding: calc(92px + env(safe-area-inset-top)) 14px calc(82px + env(safe-area-inset-bottom));
+      background:
+        radial-gradient(circle at 16% 6%, rgba(255, 227, 154, .08), transparent 24%),
+        linear-gradient(180deg, #090b10 0%, #07080b 100%);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: opacity .22s ease, transform .22s ease;
+      scrollbar-width: none;
+    }
+
+    .account-page::-webkit-scrollbar {
+      display: none;
+    }
+
+    .account-page-stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .account-top-copy {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .account-avatar {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, .14);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, .24);
+    }
+
+    .account-avatar img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .account-top-meta {
+      min-width: 0;
+      display: grid;
+      gap: 3px;
+    }
+
+    .account-top-meta strong {
+      font-size: 15px;
+      line-height: 1;
+      font-weight: 950;
+    }
+
+    .account-quick-actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .account-room-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .account-room-card {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, .09);
+      border-radius: 18px;
+      padding: 10px;
+      color: var(--text);
+      background: rgba(255, 255, 255, .04);
+      display: grid;
+      gap: 6px;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .account-room-card.active {
+      border-color: rgba(255, 227, 154, .26);
+      background: linear-gradient(180deg, rgba(255, 227, 154, .08), rgba(255, 255, 255, .05));
+      box-shadow: 0 14px 26px rgba(0, 0, 0, .18);
+    }
+
+    .account-room-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .account-room-meta {
+      min-width: 0;
+    }
+
+    .account-room-meta strong {
+      display: block;
+      font-size: 12px;
+      font-weight: 950;
+      line-height: 1.15;
+    }
+
+    .account-room-meta span {
+      display: block;
+      margin-top: 4px;
+      color: rgba(255, 255, 255, .64);
+      font-size: 8.6px;
+      line-height: 1.34;
+    }
+
+    .account-room-chip {
+      min-height: 22px;
+      padding: 0 8px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .82);
+      background: rgba(255, 255, 255, .07);
+      font-size: 7.8px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .quick-link-row.compact {
+      gap: 6px;
+    }
+
+    .quick-link-row.compact .quick-link {
+      min-height: 22px;
+      font-size: 7.8px;
+    }
+
+    .account-page-section {
+      display: grid;
+      gap: 10px;
+    }
+
+    .screen.view-account .home-view {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.01);
+    }
+
+    .screen.view-account .account-page {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .screen.view-account .signal-strip,
+    .screen.view-account .feed-quick-dock,
+    .screen.view-account .dealer-rail-inline,
+    .screen.view-account .dealer-rail-drawer,
+    .screen.view-account .home-drawer,
+    .screen.view-account .progress {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-10px);
+    }
+
+    .dealer-rail-inline {
+      display: none;
+    }
+
+    .dealer-rail-drawer,
+    .home-drawer {
+      top: 96px;
+    }
+
+    .signal-strip {
+      display: none;
+    }
+
+    .feed-quick-dock {
+      display: none;
+    }
+
+    html.iphone-edge-mode .app-top {
+      top: calc(14px + env(safe-area-inset-top));
+      left: 14px;
+      right: 14px;
+      justify-content: flex-start;
+    }
+
+    html.iphone-edge-mode .dealer-rail-inline {
+      display: none;
+    }
+
+
+
+    html.iphone-edge-mode .dealer-rail-drawer,
+    html.iphone-edge-mode .home-drawer {
+      top: calc(102px + env(safe-area-inset-top));
+    }
+
+    html.iphone-edge-mode .account-page {
+      padding: calc(96px + env(safe-area-inset-top)) 14px calc(84px + env(safe-area-inset-bottom));
+    }
+
     .dealer-rail-drawer {
       position: absolute;
-      top: 50px;
+      top: 96px;
       left: 12px;
       right: 12px;
       z-index: 69;
@@ -852,7 +1271,7 @@
       border: 2px solid #07080b;
     }
 
-    .story span {
+    .story > span:last-child {
       display: none;
     }
 
@@ -872,34 +1291,31 @@
     }
 
     .dealer-rail-inline {
-      position: absolute;
-      top: 50px;
-      left: 12px;
-      right: 78px;
-      z-index: 68;
-      pointer-events: auto;
+      display: none;
     }
 
     .dealer-rail-inline .stories {
-      gap: 8px;
-      padding: 6px 8px 4px;
-      border: 1px solid rgba(255, 255, 255, .08);
-      border-radius: 18px;
-      background: rgba(8, 10, 14, .28);
-      backdrop-filter: blur(18px);
-      box-shadow: 0 14px 32px rgba(0, 0, 0, .18);
+      width: auto;
+      gap: 6px;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      backdrop-filter: none;
+      box-shadow: none;
     }
 
     .dealer-rail-inline .story {
-      flex: 0 0 42px;
+      flex: 0 0 34px;
       color: rgba(255, 255, 255, .82);
     }
 
     .dealer-rail-inline .avatar-ring {
-      width: 40px;
-      height: 40px;
-      margin-bottom: 3px;
-      box-shadow: 0 10px 24px rgba(0, 0, 0, .26);
+      width: 34px;
+      height: 34px;
+      margin-bottom: 0;
+      padding: 1px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, .18);
     }
 
     .dealer-rail-inline .story > span:last-child {
@@ -972,12 +1388,13 @@
         radial-gradient(circle at 50% 18%, rgba(255, 255, 255, .1), transparent 28%),
         radial-gradient(circle at 52% 72%, rgba(255, 227, 154, .12), transparent 34%),
         linear-gradient(110deg, rgba(255, 227, 154, .08), transparent 22%, transparent 76%, rgba(46, 230, 206, .08));
-      opacity: .24;
+      opacity: .08;
       mix-blend-mode: screen;
       pointer-events: none;
     }
 
-    .live-card > img {
+    .live-card > img,
+    .live-card > video {
       position: absolute;
       inset: 0;
       width: 100%;
@@ -987,14 +1404,31 @@
       filter: contrast(1.03) saturate(1.02);
     }
 
+    .live-card > video {
+      z-index: 0;
+      background: #050609;
+      opacity: .99;
+    }
+
+    .live-card.has-stream > img {
+      opacity: .18;
+      transform: scale(1.05);
+      filter: blur(1.4px) saturate(.88) brightness(.84);
+    }
+
     .live-card::after {
       content: "";
       position: absolute;
       inset: 0;
       z-index: 1;
+      background: linear-gradient(180deg, rgba(0, 0, 0, .24) 0%, rgba(0, 0, 0, .03) 28%, rgba(0, 0, 0, .12) 58%, rgba(0, 0, 0, .74) 100%);
+    }
+
+    .live-card.provider-capture::after {
       background:
-        linear-gradient(180deg, rgba(0, 0, 0, .54) 0%, rgba(0, 0, 0, .05) 30%, rgba(46, 7, 13, .24) 58%, rgba(0, 0, 0, .92) 100%),
-        linear-gradient(90deg, rgba(40, 5, 9, .24), transparent 42%, rgba(0, 0, 0, .38));
+        linear-gradient(180deg, rgba(5, 7, 10, .52) 0%, rgba(5, 7, 10, .34) 14%, rgba(5, 7, 10, .12) 26%, rgba(0, 0, 0, .02) 38%, rgba(0, 0, 0, .1) 58%, rgba(0, 0, 0, .72) 100%),
+        linear-gradient(90deg, rgba(5, 7, 10, .34) 0%, rgba(5, 7, 10, .16) 18%, rgba(5, 7, 10, .04) 28%, rgba(5, 7, 10, 0) 38%),
+        linear-gradient(270deg, rgba(5, 7, 10, .18) 0%, rgba(5, 7, 10, .08) 12%, rgba(5, 7, 10, 0) 22%);
     }
 
     .live-card-parallax {
@@ -1005,7 +1439,7 @@
         linear-gradient(90deg, rgba(255, 227, 154, .08), transparent 18%, transparent 78%, rgba(46, 230, 206, .08)),
         radial-gradient(circle at 46% 68%, rgba(255, 255, 255, .08), transparent 26%);
       mix-blend-mode: screen;
-      opacity: .16;
+      opacity: .05;
       pointer-events: none;
     }
 
@@ -1060,26 +1494,36 @@
       opacity: .7;
     }
 
-    .live-badge {
+    .provider-capture-matte {
       position: absolute;
-      top: 15px;
-      left: 18px;
-      z-index: 4;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
-      width: 24px;
-      height: 24px;
-      padding: 0;
-      border: 0;
-      border-radius: 999px;
-      color: transparent;
-      background: rgba(7, 32, 19, .62);
-      box-shadow: inset 0 0 0 1px rgba(64, 211, 122, .24), 0 12px 28px rgba(0, 0, 0, .24);
-      backdrop-filter: blur(14px);
-      font-size: 0;
-      cursor: pointer;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .provider-capture-matte.home {
+      background:
+        linear-gradient(180deg, rgba(5, 7, 10, .36) 0 58px, rgba(5, 7, 10, .14) 94px, rgba(5, 7, 10, 0) 132px),
+        linear-gradient(90deg, rgba(5, 7, 10, .56) 0 88px, rgba(5, 7, 10, .24) 118px, rgba(5, 7, 10, .07) 146px, rgba(5, 7, 10, 0) 178px),
+        linear-gradient(270deg, rgba(5, 7, 10, .22) 0 46px, rgba(5, 7, 10, .08) 72px, rgba(5, 7, 10, 0) 106px);
+    }
+
+    .provider-capture-matte.watch {
+      background:
+        linear-gradient(180deg, rgba(5, 7, 10, .76) 0 54px, rgba(5, 7, 10, .3) 88px, rgba(5, 7, 10, 0) 126px),
+        linear-gradient(90deg, rgba(5, 7, 10, .84) 0 96px, rgba(5, 7, 10, .58) 124px, rgba(5, 7, 10, .18) 152px, rgba(5, 7, 10, 0) 182px),
+        linear-gradient(270deg, rgba(5, 7, 10, .58) 0 52px, rgba(5, 7, 10, .22) 78px, rgba(5, 7, 10, 0) 112px);
+    }
+
+    .provider-capture-matte.gameplay {
+      background:
+        linear-gradient(180deg, rgba(5, 7, 10, .62) 0 62px, rgba(5, 7, 10, .22) 102px, rgba(5, 7, 10, 0) 148px),
+        linear-gradient(90deg, rgba(5, 7, 10, .84) 0 118px, rgba(5, 7, 10, .62) 148px, rgba(5, 7, 10, .18) 184px, rgba(5, 7, 10, 0) 220px),
+        linear-gradient(270deg, rgba(5, 7, 10, .54) 0 62px, rgba(5, 7, 10, .18) 94px, rgba(5, 7, 10, 0) 132px);
+    }
+
+    .live-badge {
+      display: none;
     }
 
     .live-badge i {
@@ -1102,26 +1546,7 @@
     }
 
     .table-state {
-      position: absolute;
-      top: 15px;
-      right: 18px;
-      z-index: 4;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      min-height: 24px;
-      padding: 0 8px;
-      border: 1px solid rgba(255, 255, 255, .09);
-      border-radius: 999px;
-      color: rgba(255, 255, 255, .78);
-      background: rgba(4, 5, 6, .18);
-      backdrop-filter: blur(16px);
-      font-size: 7.8px;
-      font-weight: 900;
-      max-width: 176px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      display: none;
     }
 
     .table-state .inline-icon,
@@ -1136,16 +1561,16 @@
       position: absolute;
       left: 14px;
       right: 14px;
-      bottom: 64px;
+      bottom: 72px;
       z-index: 5;
       display: grid;
-      gap: 9px;
-      padding: 14px 14px 12px;
-      border: 1px solid rgba(255, 255, 255, .08);
-      border-radius: 22px;
-      background: linear-gradient(180deg, rgba(9, 11, 15, .16), rgba(9, 11, 15, .54) 36%, rgba(9, 11, 15, .88) 100%);
-      box-shadow: 0 22px 40px rgba(0, 0, 0, .28);
-      backdrop-filter: blur(22px);
+      gap: 10px;
+      padding: 15px 15px 14px;
+      border: 1px solid rgba(255, 255, 255, .06);
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(9, 11, 15, .02), rgba(9, 11, 15, .12) 34%, rgba(9, 11, 15, .44) 100%);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, .14);
+      backdrop-filter: blur(16px) saturate(1.06);
       overflow: hidden;
     }
 
@@ -1154,8 +1579,8 @@
       position: absolute;
       inset: 0 0 auto;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .22), transparent);
-      opacity: .7;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .18), transparent);
+      opacity: .54;
     }
 
     .copy-topline {
@@ -1167,8 +1592,8 @@
 
     .copy-topline .pill {
       min-height: 18px;
-      padding: 0 6px;
-      font-size: 7px;
+      padding: 0 7px;
+      font-size: 7.1px;
     }
 
     .dealer-glance {
@@ -1183,8 +1608,8 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      min-height: 20px;
-      padding: 0 7px;
+      min-height: 18px;
+      padding: 0 6px;
       border: 1px solid rgba(255, 255, 255, .15);
       border-radius: 999px;
       color: rgba(255, 255, 255, .86);
@@ -1220,18 +1645,25 @@
     .copy h2 {
       margin: 0;
       color: var(--text);
-      font-size: 22px;
-      line-height: .98;
+      font-size: 20px;
+      line-height: .96;
       font-weight: 950;
-      text-shadow: 0 6px 26px rgba(0, 0, 0, .82);
+      text-shadow: 0 6px 22px rgba(0, 0, 0, .68);
+    }
+
+    .copy-subtitle {
+      color: rgba(255, 255, 255, .78);
+      font-size: 9px;
+      line-height: 1.26;
+      font-weight: 800;
     }
 
     .copy p {
       margin: 0;
       max-width: none;
-      color: rgba(255, 255, 255, .72);
-      font-size: 9.6px;
-      line-height: 1.38;
+      color: rgba(255, 255, 255, .7);
+      font-size: 9.2px;
+      line-height: 1.4;
       overflow: hidden;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -1245,8 +1677,8 @@
       flex-wrap: wrap;
       align-items: center;
       gap: 6px;
-      color: rgba(255, 255, 255, .56);
-      font-size: 8px;
+      color: rgba(255, 255, 255, .5);
+      font-size: 7.4px;
       font-weight: 900;
       text-transform: uppercase;
     }
@@ -1261,19 +1693,19 @@
     .entry-strip {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 5px;
+      gap: 6px;
       margin-top: 2px;
       max-width: none;
     }
 
     .entry-chip {
       min-width: 0;
-      min-height: 24px;
-      padding: 0 8px;
-      border: 1px solid rgba(255, 255, 255, .1);
+      min-height: 26px;
+      padding: 0 9px;
+      border: 1px solid rgba(255, 255, 255, .07);
       border-radius: 999px;
-      background: rgba(255, 255, 255, .065);
-      backdrop-filter: blur(14px);
+      background: rgba(255, 255, 255, .04);
+      backdrop-filter: blur(10px);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -1345,18 +1777,18 @@
 
     .stream-action {
       width: 100%;
-      min-height: 38px;
-      border: 1px solid rgba(255, 255, 255, .09);
+      min-height: 40px;
+      border: 1px solid rgba(255, 255, 255, .08);
       border-radius: 999px;
       color: rgba(255, 255, 255, .84);
-      background: rgba(4, 5, 6, .18);
-      backdrop-filter: blur(16px);
+      background: rgba(4, 5, 6, .14);
+      backdrop-filter: blur(14px);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 7px;
       padding: 0 12px;
-      font-size: 9px;
+      font-size: 9.3px;
       font-weight: 900;
       cursor: pointer;
     }
@@ -1364,14 +1796,14 @@
     .stream-action.primary {
       color: var(--ink);
       background: linear-gradient(135deg, rgba(255, 227, 154, .94), rgba(255, 184, 92, .92));
-      border-color: rgba(255, 227, 154, .2);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, .24);
+      border-color: rgba(255, 227, 154, .16);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, .18);
     }
 
     .stream-action.secondary-ghost {
-      color: rgba(255, 255, 255, .82);
-      background: rgba(4, 5, 6, .16);
-      border-color: rgba(255, 255, 255, .08);
+      color: rgba(255, 255, 255, .84);
+      background: rgba(4, 5, 6, .1);
+      border-color: rgba(255, 255, 255, .07);
     }
 
     .stream-action .inline-icon {
@@ -1420,7 +1852,7 @@
 
     .home-drawer {
       position: absolute;
-      top: 56px;
+      top: 96px;
       right: 12px;
       z-index: 71;
       width: 248px;
@@ -1676,7 +2108,11 @@
     }
 
     .sheet.gameplay-open {
-      background: linear-gradient(180deg, rgba(0, 0, 0, .08), rgba(0, 0, 0, .28) 22%, rgba(0, 0, 0, .58) 100%);
+      background: rgba(5, 6, 9, .98);
+    }
+
+    .sheet.watch-open {
+      background: rgba(5, 6, 9, .94);
     }
 
     .sheet-panel {
@@ -1711,14 +2147,32 @@
 
     .sheet.gameplay-open .sheet-panel {
       height: 100%;
-      min-height: 86%;
-      max-height: 92%;
+      min-height: 100%;
+      max-height: 100%;
       overflow: hidden;
       padding: 0;
       border: 0;
+      border-radius: 0;
       background: transparent;
       box-shadow: none;
       backdrop-filter: none;
+    }
+
+    .sheet.watch-open .sheet-panel {
+      height: 100%;
+      min-height: 100%;
+      max-height: 100%;
+      overflow: auto;
+      padding: calc(10px + env(safe-area-inset-top)) 16px calc(22px + env(safe-area-inset-bottom));
+      border: 0;
+      border-radius: 0;
+      background: linear-gradient(180deg, rgba(8, 10, 14, .98), #07080b 62%);
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .sheet.watch-open .sheet-panel::before {
+      display: none;
     }
 
     .sheet-head {
@@ -1761,7 +2215,8 @@
       background-size: cover;
     }
 
-    .hero-preview img {
+    .hero-preview img,
+    .hero-preview video {
       position: absolute;
       inset: 0;
       width: 100%;
@@ -1769,6 +2224,16 @@
       display: block;
       object-fit: cover;
       transform: scale(1.04);
+    }
+
+    .hero-preview video {
+      background: #050609;
+      opacity: .99;
+    }
+
+    .hero-preview.has-stream img {
+      opacity: .16;
+      filter: blur(1.2px) saturate(.84) brightness(.82);
     }
 
     .hero-preview::after {
@@ -1779,13 +2244,21 @@
     }
 
     .watch-hero {
-      height: 204px;
+      height: 228px;
     }
 
     .watch-hero::after {
       background:
-        linear-gradient(180deg, rgba(0, 0, 0, .04), transparent 34%),
-        linear-gradient(180deg, transparent 34%, rgba(0, 0, 0, .9));
+        linear-gradient(180deg, rgba(0, 0, 0, .04), transparent 26%),
+        linear-gradient(180deg, transparent 38%, rgba(0, 0, 0, .86));
+    }
+
+    .watch-hero.provider-capture::after {
+      background:
+        linear-gradient(180deg, rgba(5, 7, 10, .86) 0%, rgba(5, 7, 10, .58) 14%, rgba(5, 7, 10, .14) 26%, transparent 38%),
+        linear-gradient(90deg, rgba(5, 7, 10, .72) 0%, rgba(5, 7, 10, .46) 18%, rgba(5, 7, 10, .12) 28%, rgba(5, 7, 10, 0) 38%),
+        linear-gradient(270deg, rgba(5, 7, 10, .52) 0%, rgba(5, 7, 10, .18) 11%, rgba(5, 7, 10, 0) 18%),
+        linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, .84));
     }
 
     .watch-hero-copy {
@@ -1853,18 +2326,219 @@
       -webkit-box-orient: vertical;
     }
 
+    .watch-sheet-head {
+      margin-bottom: 12px;
+    }
+
+    .watch-sheet-head .sheet-title h3 {
+      margin-top: 3px;
+      font-size: 15px;
+      line-height: 1.02;
+    }
+
+    .watch-room-summary {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .watch-hero-bottom {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .watch-room-caption {
+      min-width: 0;
+      display: grid;
+      gap: 4px;
+    }
+
+    .watch-room-caption strong {
+      font-size: 18px;
+      line-height: .98;
+      font-weight: 950;
+    }
+
+    .watch-room-caption span {
+      color: rgba(255, 255, 255, .76);
+      font-size: 8.8px;
+      line-height: 1.32;
+    }
+
+    .watch-room-pill {
+      min-height: 24px;
+      padding: 0 9px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .8);
+      background: rgba(255, 255, 255, .06);
+      font-size: 8px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .watch-room-shell {
+      display: grid;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .045);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
+    }
+
+    .watch-dealer-row {
+      display: grid;
+      grid-template-columns: 46px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .watch-dealer-avatar {
+      width: 46px;
+      height: 46px;
+      overflow: hidden;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, .22);
+    }
+
+    .watch-dealer-avatar img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .watch-dealer-copy {
+      min-width: 0;
+      display: grid;
+      gap: 4px;
+    }
+
+    .watch-dealer-copy strong {
+      font-size: 15px;
+      line-height: 1;
+      font-weight: 950;
+    }
+
+    .watch-dealer-copy p {
+      margin: 0;
+      color: rgba(255, 255, 255, .74);
+      font-size: 9.2px;
+      line-height: 1.34;
+    }
+
+    .watch-action-chip {
+      min-height: 28px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, .88);
+      background: rgba(255, 255, 255, .07);
+      font-size: 8px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .watch-action-chip .inline-icon {
+      width: 11px;
+      height: 11px;
+    }
+
+    .watch-room-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .watch-room-stat {
+      min-width: 0;
+      min-height: 44px;
+      padding: 8px;
+      border: 1px solid rgba(255, 255, 255, .09);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .035);
+      display: grid;
+      align-content: space-between;
+      gap: 3px;
+    }
+
+    .watch-room-stat b {
+      overflow: hidden;
+      font-size: 11px;
+      font-weight: 950;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .watch-room-stat span {
+      color: rgba(255, 255, 255, .56);
+      font-size: 7px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      line-height: 1.16;
+    }
+
+    .watch-cta-grid {
+      display: grid;
+      grid-template-columns: 1.15fr repeat(2, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .watch-meta-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .watch-meta-card {
+      min-width: 0;
+      padding: 9px 9px;
+      border: 1px solid rgba(255, 255, 255, .09);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .032);
+      display: grid;
+      gap: 2px;
+    }
+
+    .watch-meta-card strong {
+      overflow: hidden;
+      font-size: 12px;
+      font-weight: 950;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .watch-meta-card span {
+      color: rgba(255, 255, 255, .56);
+      font-size: 7px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
     .account-hub {
       position: relative;
       overflow: hidden;
       display: grid;
-      gap: 10px;
-      padding: 13px;
-      border: 1px solid rgba(255, 255, 255, .11);
+      gap: 9px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, .1);
       border-radius: 20px;
       background:
-        linear-gradient(140deg, rgba(255, 227, 154, .14), transparent 38%),
-        linear-gradient(135deg, rgba(11, 13, 18, .94), rgba(42, 14, 18, .9));
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 16px 30px rgba(0, 0, 0, .18);
+        linear-gradient(140deg, rgba(255, 227, 154, .1), transparent 36%),
+        linear-gradient(135deg, rgba(11, 13, 18, .94), rgba(17, 19, 26, .9));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05), 0 12px 24px rgba(0, 0, 0, .14);
     }
 
     .account-hub::after {
@@ -1915,7 +2589,7 @@
     }
 
     .account-hub-balance strong {
-      font-size: 25px;
+      font-size: 24px;
       line-height: .92;
       font-weight: 950;
     }
@@ -1929,16 +2603,16 @@
     .account-balance-row {
       display: grid;
       grid-template-columns: 1.25fr repeat(2, minmax(0, 1fr));
-      gap: 7px;
-      margin-top: 9px;
+      gap: 6px;
+      margin-top: 7px;
     }
 
     .account-balance-card {
       min-width: 0;
-      padding: 10px 9px;
-      border: 1px solid rgba(255, 255, 255, .1);
+      padding: 9px 9px;
+      border: 1px solid rgba(255, 255, 255, .09);
       border-radius: 15px;
-      background: rgba(255, 255, 255, .055);
+      background: rgba(255, 255, 255, .045);
       display: grid;
       gap: 3px;
     }
@@ -2477,7 +3151,7 @@
       height: 100%;
       min-height: 100%;
       overflow: hidden;
-      border-radius: 26px 26px 0 0;
+      border-radius: 0;
       background: #07080b;
       isolation: isolate;
     }
@@ -2488,9 +3162,9 @@
       background-position: center 18%;
       background-size: cover;
       overflow: hidden;
-      transform: scale(1.04);
+      transform: scale(1.03);
       transform-origin: center center;
-      filter: saturate(1.06) contrast(1.05);
+      filter: saturate(1.05) contrast(1.04);
       transition:
         transform .42s ease,
         filter .42s ease,
@@ -2498,13 +3172,26 @@
         opacity .32s ease;
     }
 
+    .gameplay-stage-media video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #050609;
+      opacity: .98;
+      pointer-events: none;
+      transition: transform .34s ease, filter .34s ease, object-position .34s ease, opacity .22s ease;
+      will-change: transform, filter, object-position;
+    }
+
     .gameplay-stage-media::after {
       content: "";
       position: absolute;
       inset: -6%;
       background:
-        radial-gradient(circle at 44% 20%, rgba(255, 255, 255, .08), transparent 26%),
-        radial-gradient(circle at 58% 58%, rgba(255, 227, 154, .12), transparent 34%);
+        radial-gradient(circle at 50% 12%, rgba(255, 255, 255, .05), transparent 24%),
+        linear-gradient(180deg, rgba(255, 255, 255, .02), transparent 46%);
       mix-blend-mode: screen;
       opacity: 0;
       pointer-events: none;
@@ -2515,12 +3202,21 @@
       position: absolute;
       inset: -7%;
       background:
-        linear-gradient(115deg, rgba(255, 227, 154, .08), transparent 18%, transparent 78%, rgba(46, 230, 206, .08)),
-        radial-gradient(circle at 48% 70%, rgba(255, 255, 255, .06), transparent 24%),
-        repeating-linear-gradient(90deg, transparent 0 58px, rgba(255, 255, 255, .03) 58px 60px);
+        linear-gradient(180deg, rgba(0, 0, 0, .04), transparent 22%, transparent 74%, rgba(0, 0, 0, .08)),
+        radial-gradient(circle at 50% 78%, rgba(255, 255, 255, .03), transparent 24%);
       mix-blend-mode: screen;
-      opacity: .16;
+      opacity: .08;
       pointer-events: none;
+    }
+
+    .gameplay-stage.provider-capture .gameplay-stage-media::before {
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(5, 7, 10, .82) 0%, rgba(5, 7, 10, .56) 14%, rgba(5, 7, 10, .12) 26%, rgba(5, 7, 10, 0) 38%, rgba(5, 7, 10, 0) 78%, rgba(5, 7, 10, .08) 100%),
+        linear-gradient(90deg, rgba(5, 7, 10, .78) 0%, rgba(5, 7, 10, .54) 18%, rgba(5, 7, 10, .12) 28%, rgba(5, 7, 10, 0) 40%),
+        linear-gradient(270deg, rgba(5, 7, 10, .58) 0%, rgba(5, 7, 10, .16) 12%, rgba(5, 7, 10, 0) 20%);
+      mix-blend-mode: normal;
+      opacity: 1;
     }
 
     .gameplay-stage::before {
@@ -2529,9 +3225,8 @@
       inset: 0;
       z-index: 0;
       background:
-        radial-gradient(circle at 50% 18%, rgba(255, 255, 255, .06), transparent 28%),
-        linear-gradient(180deg, rgba(0, 0, 0, .18), rgba(0, 0, 0, .05) 26%, rgba(0, 0, 0, .2) 58%, rgba(6, 7, 11, .68) 100%),
-        linear-gradient(90deg, rgba(50, 8, 14, .2), transparent 40%, rgba(7, 8, 11, .18));
+        radial-gradient(circle at 50% 16%, rgba(255, 255, 255, .04), transparent 24%),
+        linear-gradient(180deg, rgba(0, 0, 0, .12), rgba(0, 0, 0, .04) 22%, rgba(0, 0, 0, .16) 58%, rgba(6, 7, 11, .74) 100%);
       z-index: 1;
     }
 
@@ -2564,7 +3259,7 @@
       top: 0;
       left: 0;
       right: 0;
-      padding: calc(10px + env(safe-area-inset-top)) 12px 0;
+      padding: calc(8px + env(safe-area-inset-top)) 12px 0;
     }
 
     .gameplay-stage-pill-row {
@@ -2584,12 +3279,12 @@
 
     .gameplay-stage-meta .pill,
     .gameplay-stage-meta .session-meta-pill {
-      min-height: 22px;
+      min-height: 20px;
       padding: 0 8px;
-      font-size: 7.8px;
-      border-color: rgba(255, 255, 255, .09);
-      background: rgba(4, 5, 6, .22);
-      backdrop-filter: blur(16px);
+      font-size: 7.2px;
+      border-color: rgba(255, 255, 255, .08);
+      background: rgba(4, 5, 6, .1);
+      backdrop-filter: blur(14px);
     }
 
     .session-meta-pill {
@@ -2688,9 +3383,9 @@
       right: 0;
       bottom: 0;
       display: grid;
-      gap: 8px;
+      gap: 6px;
       justify-items: center;
-      padding: 0 12px calc(12px + env(safe-area-inset-bottom));
+      padding: 0 10px calc(10px + env(safe-area-inset-bottom));
     }
 
     .gameplay-stage-focus {
@@ -2699,15 +3394,15 @@
       right: 14px;
       bottom: 150px;
       height: 156px;
-      border: 1px solid rgba(255, 255, 255, .12);
+      border: 1px solid rgba(255, 255, 255, .06);
       border-radius: 22px;
       background:
-        linear-gradient(180deg, rgba(255, 255, 255, .03), transparent),
-        radial-gradient(circle at center, rgba(255, 227, 154, .1), transparent 62%);
+        linear-gradient(180deg, rgba(255, 255, 255, .02), transparent),
+        radial-gradient(circle at center, rgba(255, 255, 255, .04), transparent 62%);
       box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, .08),
+        inset 0 1px 0 rgba(255, 255, 255, .04),
         0 0 0 1px rgba(0, 0, 0, .12);
-      opacity: .14;
+      opacity: .06;
       transition:
         opacity .24s ease,
         transform .24s ease,
@@ -2722,24 +3417,24 @@
       position: absolute;
       inset: 8px;
       border-radius: inherit;
-      border: 1px solid rgba(255, 227, 154, .12);
-      background: radial-gradient(circle at 50% 50%, rgba(255, 227, 154, .08), transparent 68%);
+      border: 1px solid rgba(255, 255, 255, .05);
+      background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, .04), transparent 68%);
       opacity: 0;
       pointer-events: none;
     }
 
     .gameplay-stage.motion-live .gameplay-stage-media::after {
-      opacity: .3;
+      opacity: .12;
       animation: dealerLightDrift var(--stage-breath-duration) ease-in-out infinite alternate;
     }
 
     .gameplay-stage.motion-live .gameplay-stage-media::before {
-      opacity: .22;
+      opacity: .08;
       animation: stageFrameParallax var(--stage-parallax-duration) ease-in-out infinite alternate;
     }
 
     .gameplay-stage.motion-live .gameplay-stage-focus::after {
-      opacity: .62;
+      opacity: .18;
       animation: dealerFocusBreath var(--stage-idle-duration) ease-in-out infinite;
     }
 
@@ -2836,26 +3531,26 @@
     }
 
     .stream-layer-shell {
-      width: min(232px, calc(100% - 92px));
-      padding: 8px 9px;
-      border: 1px solid rgba(255, 255, 255, .14);
-      border-radius: 18px;
+      width: min(214px, calc(100% - 102px));
+      padding: 7px 8px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 17px;
       background:
-        linear-gradient(180deg, rgba(10, 12, 17, .42), rgba(10, 12, 17, .62)),
-        rgba(0, 0, 0, .16);
-      backdrop-filter: blur(18px);
-      box-shadow: 0 14px 28px rgba(0, 0, 0, .2);
+        linear-gradient(180deg, rgba(10, 12, 17, .32), rgba(10, 12, 17, .5)),
+        rgba(0, 0, 0, .12);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, .16);
       animation: streamLayerEnter .42s ease both;
     }
 
     .stream-layer-shell.minimal {
-      width: min(176px, calc(100% - 116px));
-      padding: 7px 8px;
-      border-radius: 15px;
+      width: min(162px, calc(100% - 124px));
+      padding: 6px 7px;
+      border-radius: 14px;
       background:
-        linear-gradient(180deg, rgba(10, 12, 17, .32), rgba(10, 12, 17, .5)),
-        rgba(0, 0, 0, .1);
-      box-shadow: 0 10px 22px rgba(0, 0, 0, .16);
+        linear-gradient(180deg, rgba(10, 12, 17, .26), rgba(10, 12, 17, .42)),
+        rgba(0, 0, 0, .08);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, .14);
     }
 
     .gameplay-stream-layer.align-right {
@@ -3133,7 +3828,7 @@
       display: grid;
       align-content: space-between;
       border-radius: 7px;
-      color: #0f1115;
+      color: #111318;
       background: linear-gradient(180deg, #fff7ea, #efe5d1);
       box-shadow: 0 10px 18px rgba(0, 0, 0, .2);
       font-size: 10px;
@@ -3142,8 +3837,20 @@
     }
 
     .stream-mini-card small {
+      display: block;
       font-size: 8px;
       font-weight: 900;
+      color: inherit;
+    }
+
+    .stream-mini-card.suit-red,
+    .stream-mini-card.suit-red small {
+      color: #b91c1c;
+    }
+
+    .stream-mini-card.suit-black,
+    .stream-mini-card.suit-black small {
+      color: #111318;
     }
 
     .stream-mini-card.back {
@@ -3409,8 +4116,9 @@
 
     .gameplay-stage.game-blackjack.camera-dealer .gameplay-stage-media,
     .gameplay-stage.game-baccarat.camera-dealer .gameplay-stage-media {
-      background-position: center 15%;
-      transform: scale(1.03);
+      background-position: center 24%;
+      transform: scale(1);
+      filter: saturate(1.06) contrast(1.04) brightness(.98);
     }
 
     .gameplay-stage.game-blackjack.camera-dealer .gameplay-stage-focus,
@@ -3421,9 +4129,9 @@
     }
 
     .gameplay-stage.game-blackjack.camera-table .gameplay-stage-media {
-      background-position: center 40%;
-      transform: scale(1.19);
-      filter: saturate(1.08) contrast(1.06) brightness(.93);
+      background-position: center 42%;
+      transform: scale(1.13);
+      filter: saturate(1.08) contrast(1.05) brightness(.98);
     }
 
     .gameplay-stage.game-blackjack.camera-table .gameplay-stage-focus {
@@ -3433,9 +4141,9 @@
     }
 
     .gameplay-stage.game-blackjack.camera-reveal .gameplay-stage-media {
-      background-position: center 35%;
-      transform: scale(1.16);
-      filter: saturate(1.08) contrast(1.08) brightness(.98);
+      background-position: center 37%;
+      transform: scale(1.1);
+      filter: saturate(1.08) contrast(1.06) brightness(1.02);
     }
 
     .gameplay-stage.game-blackjack.camera-reveal .gameplay-stage-focus {
@@ -3445,9 +4153,9 @@
     }
 
     .gameplay-stage.game-baccarat.camera-table .gameplay-stage-media {
-      background-position: center 37%;
-      transform: scale(1.17);
-      filter: saturate(1.08) contrast(1.06) brightness(.94);
+      background-position: center 48%;
+      transform: scale(1.06);
+      filter: saturate(1.07) contrast(1.04) brightness(.99);
     }
 
     .gameplay-stage.game-baccarat.camera-table .gameplay-stage-focus {
@@ -3457,8 +4165,9 @@
     }
 
     .gameplay-stage.game-baccarat.camera-reveal .gameplay-stage-media {
-      background-position: center 33%;
-      transform: scale(1.14);
+      background-position: center 46%;
+      transform: scale(1.04);
+      filter: saturate(1.08) contrast(1.04) brightness(1.01);
     }
 
     .gameplay-stage.game-baccarat.camera-reveal .gameplay-stage-focus {
@@ -3605,16 +4314,31 @@
       background: rgba(127, 29, 29, .76);
     }
 
+    .gameplay-status-card.compact {
+      min-height: 34px;
+      padding: 6px 10px;
+      gap: 8px;
+      background: rgba(6, 8, 11, .42);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, .18);
+    }
+
+    .gameplay-status-card.compact .gameplay-status-chip,
+    .gameplay-status-card.compact .gameplay-status-badge {
+      min-height: 20px;
+      padding: 0 8px;
+      font-size: 8px;
+    }
+
     .gameplay-core-card {
       display: grid;
-      gap: 8px;
+      gap: 7px;
       width: 100%;
-      padding: 8px 8px 10px;
-      border: 1px solid rgba(255, 255, 255, .1);
+      padding: 7px 7px 9px;
+      border: 1px solid rgba(255, 255, 255, .09);
       border-radius: 20px;
-      background: linear-gradient(180deg, rgba(8, 9, 12, .3), rgba(8, 9, 12, .56));
-      backdrop-filter: blur(18px);
-      box-shadow: 0 14px 30px rgba(0, 0, 0, .18);
+      background: linear-gradient(180deg, rgba(8, 9, 12, .22), rgba(8, 9, 12, .46));
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .14);
     }
 
     .gameplay-overlay-hud {
@@ -3707,16 +4431,16 @@
     }
 
     .gameplay-control-chip {
-      min-height: 32px;
-      padding: 0 12px;
+      min-height: 30px;
+      padding: 0 11px;
       display: inline-flex;
       align-items: center;
-      border: 1px solid rgba(255, 255, 255, .14);
+      border: 1px solid rgba(255, 255, 255, .12);
       border-radius: 999px;
       color: rgba(255, 255, 255, .88);
-      background: rgba(4, 5, 6, .24);
-      backdrop-filter: blur(14px);
-      font-size: 10.2px;
+      background: rgba(4, 5, 6, .2);
+      backdrop-filter: blur(12px);
+      font-size: 9.6px;
       font-weight: 900;
       cursor: pointer;
       white-space: nowrap;
@@ -4037,6 +4761,54 @@
     .gameplay-overlay-hud.slim .gameplay-hand-block {
       background: rgba(4, 5, 6, .08);
       padding: 5px;
+    }
+
+    .gameplay-overlay-hud.blackjack-hud {
+      transition: transform .24s ease, width .24s ease, opacity .24s ease;
+    }
+
+    .gameplay-overlay-hud.blackjack-hud .gameplay-overlay-hands,
+    .gameplay-overlay-hud.blackjack-hud .gameplay-hand-block,
+    .gameplay-overlay-hud.blackjack-hud .decision-row,
+    .gameplay-overlay-hud.blackjack-hud .gameplay-action-tray {
+      transition: transform .24s ease, width .24s ease, opacity .24s ease, background .24s ease;
+    }
+
+    .gameplay-stage.game-blackjack.camera-dealer .blackjack-hud {
+      width: min(250px, 100%);
+      transform: translateY(12px);
+    }
+
+    .gameplay-stage.game-blackjack.camera-dealer .blackjack-hud .gameplay-overlay-hands {
+      width: min(210px, 100%);
+    }
+
+    .gameplay-stage.game-blackjack.camera-dealer .blackjack-hud .gameplay-hand-block {
+      background: rgba(4, 5, 6, .05);
+    }
+
+    .gameplay-stage.game-blackjack.camera-table .blackjack-hud {
+      width: min(292px, 100%);
+      transform: translateY(-2px);
+    }
+
+    .gameplay-stage.game-blackjack.camera-table .blackjack-hud .gameplay-overlay-hands {
+      width: min(238px, 100%);
+      transform: scale(1.02);
+    }
+
+    .gameplay-stage.game-blackjack.camera-reveal .blackjack-hud {
+      width: min(304px, 100%);
+      transform: translateY(-12px);
+    }
+
+    .gameplay-stage.game-blackjack.camera-reveal .blackjack-hud .gameplay-overlay-hands {
+      width: min(248px, 100%);
+      transform: scale(1.04);
+    }
+
+    .gameplay-stage.game-blackjack.camera-reveal .blackjack-hud .gameplay-hand-block {
+      background: rgba(4, 5, 6, .13);
     }
 
     .game-shell {
@@ -5186,6 +5958,17 @@
       display: block;
       font-size: 10px;
       font-weight: 900;
+      color: inherit;
+    }
+
+    .playing-card.suit-red,
+    .playing-card.suit-red small {
+      color: #b91c1c;
+    }
+
+    .playing-card.suit-black,
+    .playing-card.suit-black small {
+      color: #111318;
     }
 
     .playing-card.back {
@@ -6334,47 +7117,49 @@
 
     <section class="phone-shell" aria-label="LC App ideal mobile prototype">
       <div class="screen" id="screen">
-        <header class="app-top">
-          <div class="wordmark top-wordmark" aria-label="LC App"><b>LC</b></div>
-        </header>
+        <header class="app-top" id="appTop"></header>
 
-        <div class="dealer-rail-inline" aria-label="Dealer circles">
-          <div class="stories" id="homeStories"></div>
-        </div>
-
-        <div class="dealer-rail-drawer" id="dealerRailDrawer">
-          <div class="stories" id="stories"></div>
-        </div>
-
-        <div class="home-drawer" id="homeDrawer" aria-hidden="true">
-          <div class="home-drawer-head">
-            <strong id="homeDrawerTitle">Mia · Roulette Royale</strong>
-            <span id="homeDrawerMeta">Roulette · $10-$500 · EN</span>
+        <div class="home-view" id="homeView">
+          <div class="dealer-rail-inline" aria-label="Dealer circles">
+            <div class="stories" id="homeStories"></div>
           </div>
-          <div class="home-drawer-grid" id="homeDrawerGrid"></div>
+
+          <div class="dealer-rail-drawer" id="dealerRailDrawer">
+            <div class="stories" id="stories"></div>
+          </div>
+
+          <div class="home-drawer" id="homeDrawer" aria-hidden="true">
+            <div class="home-drawer-head">
+              <strong id="homeDrawerTitle">Mia · Roulette Royale</strong>
+              <span id="homeDrawerMeta">Roulette · $10-$500 · EN</span>
+            </div>
+            <div class="home-drawer-grid" id="homeDrawerGrid"></div>
+          </div>
+
+          <div class="tabs" aria-label="Feed tabs">
+            <button class="tab active" type="button">For You</button>
+            <button class="tab" type="button">Following</button>
+            <button class="tab" type="button">VIP</button>
+            <button class="tab" type="button">New</button>
+          </div>
+
+          <div class="feed" id="feed"></div>
+          <div class="progress" id="progress"></div>
+          <div class="signal-strip" id="signalStrip"><b>Live signal</b><span>Seat opened at Roulette Mania</span></div>
+          <div class="feed-quick-dock" aria-label="Quick tools">
+            <button class="icon-btn" type="button" data-sheet="search" aria-label="Explore">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+            </button>
+            <button class="icon-btn" type="button" data-sheet="saved" aria-label="Saved rooms">
+              <svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>
+            </button>
+            <button class="icon-btn" type="button" data-sheet="alerts" aria-label="Alerts">
+              <svg viewBox="0 0 24 24"><path d="M12 5a4 4 0 0 1 4 4v2.6c0 .8.2 1.6.7 2.3l1 1.6H6.3l1-1.6c.5-.7.7-1.5.7-2.3V9a4 4 0 0 1 4-4Z"></path><path d="M10 18a2 2 0 0 0 4 0"></path></svg>
+            </button>
+          </div>
         </div>
 
-        <div class="tabs" aria-label="Feed tabs">
-          <button class="tab active" type="button">For You</button>
-          <button class="tab" type="button">Following</button>
-          <button class="tab" type="button">VIP</button>
-          <button class="tab" type="button">New</button>
-        </div>
-
-        <div class="feed" id="feed"></div>
-        <div class="progress" id="progress"></div>
-        <div class="signal-strip" id="signalStrip"><b>Live signal</b><span>Seat opened at Roulette Mania</span></div>
-        <div class="feed-quick-dock" aria-label="Quick tools">
-          <button class="icon-btn" type="button" data-sheet="search" aria-label="Explore">
-            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
-          </button>
-          <button class="icon-btn" type="button" data-sheet="alerts" aria-label="Alerts">
-            <svg viewBox="0 0 24 24"><path d="M12 5a4 4 0 0 1 4 4v2.6c0 .8.2 1.6.7 2.3l1 1.6H6.3l1-1.6c.5-.7.7-1.5.7-2.3V9a4 4 0 0 1 4-4Z"></path><path d="M10 18a2 2 0 0 0 4 0"></path></svg>
-          </button>
-          <button class="icon-btn" type="button" data-sheet="insights" aria-label="Investor proof">
-            <svg viewBox="0 0 24 24"><path d="M5 19V9"></path><path d="M12 19V5"></path><path d="M19 19v-7"></path></svg>
-          </button>
-        </div>
+        <section class="account-page" id="accountPage" aria-hidden="true"></section>
         <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
         <nav class="bottom-nav" aria-label="App navigation">
@@ -6386,7 +7171,7 @@
             <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"></path><path d="m10 9 5 3-5 3z"></path></svg>
             <span>Watch</span>
           </button>
-          <button class="nav" type="button" data-home-menu aria-label="Account menu">
+          <button class="nav" type="button" data-nav="account" aria-label="Account">
             <svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"></path><path d="M5 20c1.8-3.2 11.2-3.2 14 0"></path></svg>
             <span>Account</span>
           </button>
@@ -6454,11 +7239,19 @@
     const iconSave = '<svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>';
     const iconShare = '<svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.5 6.8-4"></path><path d="m8.6 13.5 6.8 4"></path></svg>';
 
+    const localFileHref = (relativePath) => new URL(relativePath, window.location.href).href;
+
     const assets = {
       mia: "app_prototype_assets/dealers/dealer_mia_avatar_v1.jpg",
       sofia: "app_prototype_assets/dealers/dealer_sofia_avatar_v1.jpg",
       marcus: "app_prototype_assets/dealers/dealer_marcus_avatar_v1.jpg",
-      lilit: "app_prototype_assets/dealers/dealer_lilit_avatar_v1.jpg"
+      lilit: "app_prototype_assets/dealers/dealer_lilit_avatar_v1.jpg",
+      streamFeed: "app_prototype_assets/streams/feed_live_loop_v1.mp4",
+      streamOverlay: "app_prototype_assets/streams/dealer_stream_overlay_v1.mp4",
+      streamDealer: "app_prototype_assets/streams/dealer_blackjack_loop_v1.mp4",
+      streamRealBlackjack: localFileHref("../../../../../ScreenRecording_05-06-2026 16-10-33_1.MP4"),
+      streamRealRoulette: localFileHref("../../../../../ScreenRecording_05-06-2026 16-13-56_1.MP4"),
+      streamRealBaccarat: localFileHref("../../../../../ScreenRecording_05-06-2026 16-14-49_1.MP4")
     };
 
     const cards = [
@@ -6470,6 +7263,11 @@
         table: "Roulette Mania",
         operator: "RoyalBet",
         image: assets.mia,
+        providerCapture: true,
+        feedVideo: assets.streamRealRoulette,
+        tableVideo: assets.streamRealRoulette,
+        watchVideo: assets.streamRealRoulette,
+        gameplayVideo: assets.streamRealRoulette,
         watching: "2.8K",
         join: "8.4%",
         arpu: "$14",
@@ -6479,8 +7277,8 @@
         language: "EN",
         state: "8 red / 2 green",
         trend: "+18%",
-        caption: "Social-first roulette room with fast join intent and a clean wheel read.",
-        read: "Dealer-led roulette feed that keeps the video first and the table entry one step away.",
+        caption: "Fast roulette room with a clear wheel read and direct live entry.",
+        read: "Fast roulette room with clear wheel view and live chat.",
         gameplayTimer: "12s to spin",
         rouletteTrack: ["32", "15", "0", "19", "4"],
         rouletteColors: ["red", "black", "green", "red", "black"]
@@ -6493,6 +7291,11 @@
         table: "Blackjack Royal",
         operator: "Velvet Ace",
         image: assets.sofia,
+        providerCapture: true,
+        feedVideo: assets.streamRealBlackjack,
+        tableVideo: assets.streamRealBlackjack,
+        watchVideo: assets.streamRealBlackjack,
+        gameplayVideo: assets.streamRealBlackjack,
         watching: "1.9K",
         join: "6.7%",
         arpu: "$22",
@@ -6502,8 +7305,8 @@
         language: "EN",
         state: "VIP open",
         trend: "+11%",
-        caption: "Calm VIP blackjack room built around readable cards and cleaner player actions.",
-        read: "Social blackjack discovery layer with visible dealing, fast seat choice and hidden secondary controls.",
+        caption: "VIP blackjack room with clean dealing, readable cards and fast seat entry.",
+        read: "VIP blackjack room with readable cards and fast seat entry.",
         gameplayTimer: "Action on you",
         dealerHand: ["A", "5"],
         playerHand: ["8", "7"]
@@ -6516,6 +7319,10 @@
         table: "Golden Baccarat",
         operator: "Sapphire Play",
         image: assets.marcus,
+        feedVideo: assets.streamFeed,
+        tableVideo: assets.streamFeed,
+        watchVideo: assets.streamFeed,
+        gameplayVideo: assets.streamFeed,
         watching: "1.2K",
         join: "5.9%",
         arpu: "$18",
@@ -6525,8 +7332,8 @@
         language: "EN",
         state: "Banker run",
         trend: "+9%",
-        caption: "Baccarat room tuned for side choice, road rhythm and social presence.",
-        read: "Baccarat discovery layer where the dealer, chat and side choice feel native before betting starts.",
+        caption: "Baccarat room with clear side choice, visible road flow and steady pace.",
+        read: "Baccarat room with clean road view and quick side selection.",
         gameplayTimer: "9s to deal",
         baccaratRoad: ["banker", "player", "banker", "banker", "tie", "player", "banker", "banker", "player", "player", "banker", "tie"]
       },
@@ -6538,6 +7345,10 @@
         table: "Hold'em Lounge",
         operator: "NightSpin",
         image: assets.lilit,
+        feedVideo: assets.streamFeed,
+        tableVideo: assets.streamDealer,
+        watchVideo: assets.streamDealer,
+        gameplayVideo: assets.streamDealer,
         watching: "1.6K",
         join: "5.4%",
         arpu: "$27",
@@ -6547,8 +7358,8 @@
         language: "EN",
         state: "Heads-up",
         trend: "+13%",
-        caption: "Heads-up poker room tuned for social watching, visible board cards and a lighter action layer.",
-        read: "Poker feed where the board stays visible, actions stay light and the stream keeps the first layer.",
+        caption: "Heads-up poker room with visible board cards and a cleaner live-table pace.",
+        read: "Heads-up poker room with readable board cards and light table chat.",
         gameplayTimer: "8s to deal"
       }
     ];
@@ -6655,19 +7466,19 @@
 
     const dealerFramePresets = {
       mia: {
-        dealer: { mediaPosition: "center 11%", mediaScale: 1.02, focusBottom: 254, focusHeight: 186, focusOpacity: .2, focusScale: .98 },
-        table: { mediaPosition: "center 36%", mediaScale: 1.16, focusBottom: 162, focusHeight: 150, focusOpacity: .4, focusScale: 1 },
-        reveal: { mediaPosition: "center 31%", mediaScale: 1.14, focusBottom: 188, focusHeight: 120, focusOpacity: .46, focusScale: 1.02 }
+        dealer: { mediaPosition: "center 11%", mediaScale: 1.02, videoPosition: "center 28%", videoScale: 1.18, videoFilter: "saturate(1.02) contrast(1.04) brightness(.88)", focusBottom: 232, focusHeight: 138, focusOpacity: .04, focusScale: .98 },
+        table: { mediaPosition: "center 36%", mediaScale: 1.16, videoPosition: "center 44%", videoScale: 1.28, videoFilter: "saturate(1.02) contrast(1.05) brightness(.9)", focusBottom: 166, focusHeight: 132, focusOpacity: .06, focusScale: 1 },
+        reveal: { mediaPosition: "center 31%", mediaScale: 1.14, videoPosition: "center 44%", videoScale: 1.34, videoFilter: "saturate(1.03) contrast(1.06) brightness(.93)", focusBottom: 182, focusHeight: 106, focusOpacity: .08, focusScale: 1.02 }
       },
       sofia: {
-        dealer: { mediaPosition: "center 13%", mediaScale: 1.01, focusBottom: 248, focusHeight: 182, focusOpacity: .18, focusScale: .97 },
-        table: { mediaPosition: "center 41%", mediaScale: 1.18, focusBottom: 160, focusHeight: 146, focusOpacity: .42, focusScale: 1 },
-        reveal: { mediaPosition: "center 34%", mediaScale: 1.17, focusBottom: 186, focusHeight: 110, focusOpacity: .5, focusScale: 1.03 }
+        dealer: { mediaPosition: "center 13%", mediaScale: 1.01, videoPosition: "center 36%", videoScale: 1.14, videoFilter: "saturate(1.02) contrast(1.04) brightness(.94)", focusBottom: 228, focusHeight: 136, focusOpacity: .04, focusScale: .97 },
+        table: { mediaPosition: "center 41%", mediaScale: 1.18, videoPosition: "center 56%", videoScale: 1.1, videoFilter: "saturate(1.03) contrast(1.04) brightness(.98)", focusBottom: 168, focusHeight: 122, focusOpacity: .06, focusScale: 1 },
+        reveal: { mediaPosition: "center 34%", mediaScale: 1.17, videoPosition: "center 58%", videoScale: 1.02, videoFilter: "saturate(1.04) contrast(1.05) brightness(1.02)", focusBottom: 184, focusHeight: 100, focusOpacity: .08, focusScale: 1.03 }
       },
       marcus: {
-        dealer: { mediaPosition: "center 12%", mediaScale: 1.02, focusBottom: 250, focusHeight: 180, focusOpacity: .2, focusScale: .98 },
-        table: { mediaPosition: "center 38%", mediaScale: 1.15, focusBottom: 166, focusHeight: 148, focusOpacity: .38, focusScale: 1 },
-        reveal: { mediaPosition: "center 33%", mediaScale: 1.13, focusBottom: 188, focusHeight: 118, focusOpacity: .44, focusScale: 1.02 }
+        dealer: { mediaPosition: "center 18%", mediaScale: 1, videoPosition: "center 42%", videoScale: .96, videoFilter: "saturate(1.02) contrast(1.03) brightness(.96)", focusBottom: 228, focusHeight: 136, focusOpacity: .04, focusScale: .98 },
+        table: { mediaPosition: "center 44%", mediaScale: 1.06, videoPosition: "center 58%", videoScale: .86, videoFilter: "saturate(1.03) contrast(1.03) brightness(.99)", focusBottom: 170, focusHeight: 124, focusOpacity: .06, focusScale: 1 },
+        reveal: { mediaPosition: "center 42%", mediaScale: 1.04, videoPosition: "center 60%", videoScale: .82, videoFilter: "saturate(1.04) contrast(1.04) brightness(1.01)", focusBottom: 186, focusHeight: 102, focusOpacity: .08, focusScale: 1.02 }
       },
       lilit: {
         dealer: { mediaPosition: "center 15%", mediaScale: 1.03, focusBottom: 246, focusHeight: 180, focusOpacity: .18, focusScale: .98 },
@@ -6723,8 +7534,17 @@
         floor: "European floor",
         hook: "Wheel-first discovery",
         glance: "Discovery card tuned for clean roulette read, VIP tone and a fast operator handoff.",
-        feedPosition: "center 22%",
-        profilePosition: "center 18%",
+        feedPosition: "58.5% 34%",
+        feedScale: 1.28,
+        feedFilter: "saturate(1.02) contrast(1.04) brightness(.9)",
+        profilePosition: "56% 28%",
+        watchPosition: "58% 41%",
+        watchScale: 1.34,
+        watchFilter: "saturate(1.02) contrast(1.04) brightness(.92)",
+        neutralGameplayStage: true,
+        gameplayVideoPosition: "57% 42%",
+        gameplayVideoScale: 1.3,
+        gameplayVideoFilter: "saturate(1.03) contrast(1.05) brightness(.93)",
         overlay: {
           dealer: ["Dealer arc", "Open map", "VIP wheel"],
           table: ["Wheel lane", "Ball track", "Bet map"],
@@ -6735,8 +7555,17 @@
         floor: "VIP felt",
         hook: "Readable deal path",
         glance: "Blackjack entry built around dealer presence, seat mood and a visible deal flow.",
-        feedPosition: "center 22%",
-        profilePosition: "center 16%",
+        feedPosition: "56% 33%",
+        feedScale: 1.26,
+        feedFilter: "saturate(1.02) contrast(1.04) brightness(.9)",
+        profilePosition: "55% 27%",
+        watchPosition: "56% 39%",
+        watchScale: 1.3,
+        watchFilter: "saturate(1.02) contrast(1.04) brightness(.92)",
+        gameplayVideoPosition: "55% 49%",
+        gameplayVideoScale: 1.36,
+        neutralGameplayStage: true,
+        gameplayVideoFilter: "saturate(1.03) contrast(1.05) brightness(.93)",
         overlay: {
           dealer: ["Seat open", "Dealer box", "Decision ready"],
           table: ["Deal lane", "Player box", "Hit / Stand"],
@@ -6747,8 +7576,17 @@
         floor: "Shoe rhythm",
         hook: "Squeeze-led baccarat",
         glance: "Baccarat card paced around side selection, shoe tension and road readability.",
-        feedPosition: "center 23%",
-        profilePosition: "center 16%",
+        feedPosition: "55% 34%",
+        feedScale: 1.24,
+        feedFilter: "saturate(1.02) contrast(1.04) brightness(.9)",
+        profilePosition: "54% 26%",
+        watchPosition: "55% 37%",
+        watchScale: 1.28,
+        watchFilter: "saturate(1.02) contrast(1.04) brightness(.92)",
+        gameplayVideoPosition: "54% 45%",
+        gameplayVideoScale: 1.32,
+        neutralGameplayStage: true,
+        gameplayVideoFilter: "saturate(1.03) contrast(1.05) brightness(.93)",
         overlay: {
           dealer: ["Shoe open", "Side pick", "Calm table"],
           table: ["Player rail", "Tie center", "Banker rail"],
@@ -6761,6 +7599,12 @@
         glance: "Poker card tuned around readable board cards, clear pot context and a lighter action layer.",
         feedPosition: "center 24%",
         profilePosition: "center 20%",
+        watchPosition: "center 42%",
+        watchScale: 1.08,
+        watchFilter: "saturate(1.05) contrast(1.04) brightness(.94)",
+        gameplayVideoPosition: "center 52%",
+        gameplayVideoScale: .9,
+        gameplayVideoFilter: "saturate(1.04) contrast(1.05) brightness(.95)",
         overlay: {
           dealer: ["Night room", "Button seat", "Dealer read"],
           table: ["Board lane", "Heads-up pot", "Action row"],
@@ -6864,6 +7708,9 @@
     };
 
     const screen = document.getElementById("screen");
+    const appTop = document.getElementById("appTop");
+    const homeView = document.getElementById("homeView");
+    const accountPage = document.getElementById("accountPage");
     const feed = document.getElementById("feed");
     const stories = document.getElementById("stories");
     const homeStories = document.getElementById("homeStories");
@@ -7173,6 +8020,7 @@
     const cameraCutByCard = {};
     const lastCameraKeyByCard = {};
     let currentSheetType = null;
+    let currentView = "home";
     let active = 0;
     let liveRoundTimer = 0;
     let signalTimer = 0;
@@ -7320,21 +8168,174 @@
       screen.classList.remove("clean-view");
     }
 
+    function homeTopMarkup() {
+      return `
+        <div class="home-topbar">
+          <div class="home-top-copy">
+            <span class="home-top-kicker">Live now</span>
+            <div class="home-top-title">
+              <div class="wordmark top-wordmark" aria-label="LC App"><b>LC</b></div>
+              <strong>Live rooms</strong>
+            </div>
+          </div>
+          <div class="home-top-actions">
+            <button class="icon-btn" type="button" data-home-menu aria-label="Quick actions">${icon("menu")}</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function accountTopMarkup() {
+      const card = item();
+      return `
+        <div class="account-topbar">
+          <div class="account-top-copy">
+            <span class="account-avatar"><img src="${card.image}" alt="Player profile" style="${profileImageStyle(card)}" /></span>
+            <div class="account-top-meta">
+              <span>Player account</span>
+              <strong>Narek · VIP 2</strong>
+              <p>Wallet, rooms and limits in one place.</p>
+            </div>
+          </div>
+          <div class="account-top-actions">
+            <button class="icon-btn text" type="button" data-sheet="alerts" aria-label="Unread alerts">3</button>
+            <button class="icon-btn" type="button" data-sheet="wallet" aria-label="Cashier">${icon("wallet")}</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function accountPageMarkup() {
+      const card = item();
+      const gameIconLabel = gameIconName(card);
+      const roomMode = roomModeLabel(card);
+      const savedRooms = cards.slice(0, 3).map((room, index) => `
+        <button class="account-room-card ${room.id === card.id ? "active" : ""}" type="button" data-account-room="${index}">
+          <div class="account-room-top">
+            <div class="account-room-meta">
+              <strong>${room.table}</strong>
+              <span>${room.dealer} · ${room.game} · ${room.language}</span>
+            </div>
+            <span class="account-room-chip">${room.seat} open</span>
+          </div>
+          <div class="quick-link-row compact">
+            <span class="quick-link">${icon("watch")}${room.watching}</span>
+            <span class="quick-link">${icon("trend")}${room.state}</span>
+          </div>
+        </button>
+      `).join("");
+      return `
+        <div class="account-page-stack">
+          <div class="account-hub">
+            <div class="account-hub-top">
+              <span class="pill gold">VIP 2</span>
+              <span class="account-hub-tag">${icon("shield")}Verified · LC-2481</span>
+            </div>
+            <div class="account-hub-balance">
+              <strong>$2.4K</strong>
+              <span>Ready across live rooms, cashier and off-table tips.</span>
+            </div>
+            <div class="account-hub-strip">
+              <span class="account-hub-tag">${icon("wallet")}USDT · Visa</span>
+              <span class="account-hub-tag">${icon("watch")}3 saved rooms</span>
+              <span class="account-hub-tag">${icon("history")}126 hands</span>
+            </div>
+          </div>
+          <div class="account-balance-row">
+            <div class="account-balance-card primary"><strong>$2.1K</strong><span>ready to play</span></div>
+            <div class="account-balance-card"><strong>$380</strong><span>pending cashout</span></div>
+            <div class="account-balance-card"><strong>$85</strong><span>tip balance</span></div>
+          </div>
+          <div class="account-quick-actions">
+            <button class="btn" type="button" data-sheet="wallet">Cashier</button>
+            <button class="btn secondary" type="button" data-sheet="history">History</button>
+            <button class="btn secondary" type="button" data-sheet="saved">Saved rooms</button>
+          </div>
+          <div class="account-page-section">
+            <div class="sheet-section-head"><strong>Current room</strong><span>live</span></div>
+            <button class="account-room-card active" type="button" data-account-room="${active}">
+              <div class="account-room-top">
+                <div class="account-room-meta">
+                  <strong>${card.table}</strong>
+                  <span>${card.dealer} · ${card.game} · ${card.stakes}</span>
+                </div>
+                <span class="account-room-chip">${roomMode}</span>
+              </div>
+              <div class="quick-link-row compact">
+                <span class="quick-link">${icon(gameIconLabel)}${card.state}</span>
+                <span class="quick-link">${icon("seat")}${card.seat} open</span>
+                <span class="quick-link">${icon("watch")}${card.watching}</span>
+              </div>
+            </button>
+            <div class="sheet-actions flush">
+              <button class="btn" type="button" data-sheet="watch">Open live room</button>
+              <button class="btn secondary" type="button" data-sheet="gameplay">Go to table</button>
+            </div>
+          </div>
+          <div class="account-page-section">
+            <div class="sheet-section-head"><strong>Saved rooms</strong><span>return loop</span></div>
+            <div class="account-room-list">${savedRooms}</div>
+          </div>
+          <div class="account-page-section">
+            <div class="sheet-section-head"><strong>Account tools</strong><span>core</span></div>
+            <div class="module-grid compact-modules">
+              ${moduleTile("wallet", "Cashier", { sheet: "wallet" })}
+              ${moduleTile("history", "History", { sheet: "history" })}
+              ${moduleTile("watch", "Saved rooms", { sheet: "saved" })}
+              ${moduleTile("watch", "Alerts", { sheet: "alerts" })}
+            </div>
+          </div>
+          <div class="account-page-section">
+            <div class="sheet-section-head"><strong>Safety and messaging</strong><span>control</span></div>
+            <div class="module-grid compact-modules">
+              ${moduleTile("chat", "Messages", { sheet: "message" })}
+              ${moduleTile("tip", "Tips", { sheet: "tips" })}
+              ${moduleTile("shield", "Limits", { sheet: "compliance" })}
+              ${moduleTile("profile", "Dealer profile", { sheet: "profile" })}
+            </div>
+          </div>
+          <div class="list account-setting-list">
+            ${compactListRow("profile", "player id", "LC-2481")}
+            ${compactListRow("wallet", "wallet rails", "USDT · Visa")}
+            ${compactListRow("history", "cashout", "$380 pending")}
+            ${compactListRow(gameIconLabel, "active room", `${card.dealer} · ${card.table}`)}
+          </div>
+        </div>
+      `;
+    }
+
+    function syncNavState() {
+      document.querySelectorAll(".nav").forEach((button) => {
+        const isViewActive = button.dataset.nav && button.dataset.nav === currentView && currentSheetType !== "watch";
+        const isWatchActive = button.dataset.sheet === "watch" && currentSheetType === "watch";
+        button.classList.toggle("active", Boolean(isViewActive || isWatchActive));
+      });
+    }
+
+    function renderViewShell() {
+      if (appTop) appTop.innerHTML = currentView === "account" ? accountTopMarkup() : homeTopMarkup();
+      if (accountPage) accountPage.innerHTML = accountPageMarkup();
+    }
+
+    function setView(view) {
+      currentView = view === "account" ? "account" : "home";
+      homeMenuOpen = false;
+      renderViewShell();
+      renderChromeState();
+    }
+
     function homeMenuMarkup() {
       const items = [
         { iconName: "play", label: "Play", sheet: "gameplay", className: "primary" },
         { iconName: "watch", label: "Watch", sheet: "watch" },
         { iconName: "profile", label: "Dealer", sheet: "profile" },
-        { iconName: "wallet", label: "Account", sheet: "account" },
+        { iconName: "watch", label: "Saved", sheet: "saved" },
         { iconName: "wallet", label: "Wallet", sheet: "wallet" },
         { iconName: "history", label: "History", sheet: "history" },
         { iconName: "chat", label: "Message", sheet: "message" },
         { iconName: "tip", label: "Tips", sheet: "tips" },
-        { iconName: "stats", label: "Stats", sheet: "stats" },
         { iconName: "watch", label: "Alerts", sheet: "alerts" },
-        { iconName: "info", label: "Proof", sheet: "insights" },
-        { iconName: "profile", label: "Roles", sheet: "roles" },
-        { iconName: "shield", label: "Access", sheet: "compliance" },
+        { iconName: "shield", label: "Limits", sheet: "compliance" },
         { iconName: "search", label: "Explore", sheet: "search" }
       ];
       return items.map((entry) => (
@@ -7465,9 +8466,9 @@
           reveal: { mediaPosition: "center 38%", mediaScale: 1.22, mediaFilter: "saturate(1.08) contrast(1.06) brightness(.98)", focusBottom: 180, focusHeight: 122, focusOpacity: .46, focusScale: 1.02 }
         },
         Blackjack: {
-          dealer: { mediaPosition: "center 15%", mediaScale: 1.03, mediaFilter: "saturate(1.06) contrast(1.05)", focusBottom: 250, focusHeight: 184, focusOpacity: .18, focusScale: .97 },
-          table: { mediaPosition: "center 40%", mediaScale: 1.19, mediaFilter: "saturate(1.08) contrast(1.06) brightness(.93)", focusBottom: 162, focusHeight: 146, focusOpacity: .42, focusScale: 1 },
-          reveal: { mediaPosition: "center 35%", mediaScale: 1.16, mediaFilter: "saturate(1.08) contrast(1.08) brightness(.98)", focusBottom: 188, focusHeight: 110, focusOpacity: .48, focusScale: 1.02 }
+          dealer: { mediaPosition: "center 15%", mediaScale: 1.03, mediaFilter: "saturate(1.06) contrast(1.05)", videoPosition: "center 50%", videoScale: .94, focusBottom: 250, focusHeight: 184, focusOpacity: .18, focusScale: .97 },
+          table: { mediaPosition: "center 40%", mediaScale: 1.19, mediaFilter: "saturate(1.08) contrast(1.06) brightness(.93)", videoPosition: "center 68%", videoScale: .78, focusBottom: 150, focusHeight: 160, focusOpacity: .42, focusScale: 1 },
+          reveal: { mediaPosition: "center 35%", mediaScale: 1.16, mediaFilter: "saturate(1.08) contrast(1.08) brightness(.98)", videoPosition: "center 72%", videoScale: .7, focusBottom: 168, focusHeight: 124, focusOpacity: .5, focusScale: 1.03 }
         },
         Baccarat: {
           dealer: { mediaPosition: "center 15%", mediaScale: 1.03, mediaFilter: "saturate(1.06) contrast(1.05)", focusBottom: 250, focusHeight: 184, focusOpacity: .18, focusScale: .97 },
@@ -7492,11 +8493,15 @@
 
     function mediaStyle(card, frame) {
       const viewportFactor = window.innerWidth <= 480 ? 0.98 : 1;
+      const preset = dealerFeedPreset(card);
+      const useNeutralStage = Boolean(preset.neutralGameplayStage) || (frame.videoFit || preset.gameplayVideoFit) === "contain";
       return [
-        `background-image:url('${card.image}')`,
+        useNeutralStage
+          ? "background:radial-gradient(circle at 50% 18%, rgba(255,255,255,.06), transparent 24%), linear-gradient(180deg, rgba(16, 12, 16, .74), rgba(5, 6, 9, .94) 58%, rgba(2, 3, 5, .98))"
+          : `background-image:url('${card.image}')`,
         `background-position:${frame.mediaPosition}`,
-        `transform:scale(${Math.max(1, frame.mediaScale * viewportFactor)})`,
-        `filter:${frame.mediaFilter || "saturate(1.06) contrast(1.05)"}`
+        `transform:scale(${useNeutralStage ? 1 : Math.max(1, frame.mediaScale * viewportFactor)})`,
+        `filter:${useNeutralStage ? "none" : (frame.mediaFilter || "saturate(1.06) contrast(1.05)")}`
       ].join(";");
     }
 
@@ -7533,11 +8538,11 @@
 
     function signalState(card) {
       const signals = [
-        { label: "Live", text: `${card.dealer} on ${card.table}` },
-        { label: "Seat", text: `${card.seat} seats open · ${card.language}` },
-        { label: "Join", text: `${card.join} join rate · ${card.watching} watching` },
-        { label: "Handoff", text: `${card.operator} entry path ready` },
-        { label: "Return", text: `${card.trend} room lift signal` }
+        { label: "Live", text: `${card.table} now live` },
+        { label: "Seats", text: `${card.seat} seats open · ${card.language}` },
+        { label: "Limits", text: `${card.stakes} table limits` },
+        { label: "Players", text: `${card.watching} watching right now` },
+        { label: "Status", text: `${card.state}` }
       ];
       const index = Math.floor(Date.now() / 4200) % signals.length;
       return signals[index];
@@ -7615,43 +8620,10 @@
     }
 
     function gameplayStatusMarkup(card, state, camera) {
-      let metrics = [];
-
-      if (card.game === "Blackjack") {
-        const playerTotal = (state.playerNote || "You: -").replace("You: ", "").split(" · ")[0];
-        metrics = [
-          { icon: "play", value: state.action || "-", label: "Action" },
-          { icon: "tip", value: state.stats?.[0]?.value || "$0", label: "Stake" },
-          { icon: "profile", value: playerTotal, label: "Player" }
-        ];
-      } else if (card.game === "Poker") {
-        metrics = [
-          { icon: "play", value: state.action || "-", label: "Action" },
-          { icon: "tip", value: state.stats?.[0]?.value || "$0", label: "Stake" },
-          { icon: "cards", value: state.pot || "$0", label: "Pot" }
-        ];
-      } else if (card.game === "Baccarat") {
-        const side = state.selectedBet ? state.selectedBet.charAt(0).toUpperCase() + state.selectedBet.slice(1) : "-";
-        const score = `${state.scores?.player || "-"}:${state.scores?.banker || "-"}`;
-        metrics = [
-          { icon: "play", value: side, label: "Side" },
-          { icon: "tip", value: state.stats?.[0]?.value || "$0", label: "Stake" },
-          { icon: "stats", value: score, label: "Score" }
-        ];
-      } else {
-        const picks = (state.selectedNumbers?.length || 0) + (state.selectedOutside?.length || 0);
-        metrics = [
-          { icon: "stats", value: picks ? `${picks}` : "0", label: "Map" },
-          { icon: "tip", value: state.stats?.[0]?.value || "$0", label: "Stake" },
-          { icon: "trend", value: state.stats?.[1]?.value || "$0", label: state.stats?.[1]?.label || "Potential" }
-        ];
-      }
-
       return `
-        <div class="gameplay-status-card ${state.tone}">
-          <span class="gameplay-status-chip">${state.name}</span>
+        <div class="gameplay-status-card compact ${state.tone}">
+          <span class="gameplay-status-chip">${card.game}</span>
           <b class="gameplay-status-badge">${state.badge}</b>
-          ${metrics.map((metric) => `<span class="gameplay-status-metric" title="${metric.label}">${icon(metric.icon)}<strong>${metric.value}</strong></span>`).join("")}
         </div>
       `;
     }
@@ -7725,6 +8697,11 @@
         if (state.name === "Win") return 1;
         return 2;
       }
+      if (card.game === "Blackjack") {
+        if (gameplayEntry(card) || roomIntro(card)) return 0;
+        if (state.name === "Betting") return 1;
+        return 2;
+      }
       if (state.name === "Betting") return 0;
       if (state.name === "Win") return 1;
       return 2;
@@ -7740,6 +8717,7 @@
         activeIndex,
         activeShot,
         className: `camera-${activeShot.key}`,
+        frame,
         mediaStyle: mediaStyle(card, frame),
         focusStyle: focusStyle(frame)
       };
@@ -7856,12 +8834,18 @@
       return "Wheel read";
     }
 
+    function suitToneClass(entry) {
+      if (!entry || entry.back || !entry.suit) return "";
+      return /[♥♦]/.test(entry.suit) ? "suit-red" : "suit-black";
+    }
+
     function miniCardMarkup(entry, className = "", delayMs = 0) {
       const inlineStyle = delayMs ? ` style="animation-delay:${delayMs}ms"` : "";
       if (entry.back) {
         return `<div class="stream-mini-card back ${className}"${inlineStyle}>?</div>`;
       }
-      return `<div class="stream-mini-card ${className}"${inlineStyle}>${entry.rank}<small>${entry.suit}</small></div>`;
+      const tone = suitToneClass(entry);
+      return `<div class="stream-mini-card ${className} ${tone}"${inlineStyle}>${entry.rank}<small>${entry.suit}</small></div>`;
     }
 
     function cinematicPreset(card) {
@@ -7909,7 +8893,11 @@
 
     function feedImageStyle(card) {
       const preset = dealerFeedPreset(card);
-      return `object-position:${preset.feedPosition || "center 16%"}`;
+      return [
+        `object-position:${preset.feedPosition || "center 16%"}`,
+        `transform:scale(${preset.feedScale || 1})`,
+        `filter:${preset.feedFilter || "contrast(1.03) saturate(1.02)"}`
+      ].join(";");
     }
 
     function profileImageStyle(card) {
@@ -7922,16 +8910,91 @@
       return `background-image:url('${card.image}');background-position:${preset.profilePosition || preset.feedPosition || "center 18%"}`;
     }
 
+    function watchVideoStyle(card) {
+      const preset = dealerFeedPreset(card);
+      return [
+        `object-position:${preset.watchPosition || preset.profilePosition || preset.feedPosition || "center 18%"}`,
+        `transform:scale(${preset.watchScale || 1.04})`,
+        `filter:${preset.watchFilter || "saturate(1.06) contrast(1.04) brightness(.92)"}`
+      ].join(";");
+    }
+
+    function gameplayVideoStyle(card, camera) {
+      const preset = dealerFeedPreset(card);
+      const frame = camera.frame || {};
+      return [
+        `object-fit:${frame.videoFit || preset.gameplayVideoFit || "cover"}`,
+        `object-position:${frame.videoPosition || preset.gameplayVideoPosition || frame.mediaPosition || preset.feedPosition || "center 20%"}` ,
+        `transform:scale(${frame.videoScale || preset.gameplayVideoScale || 1.02})`,
+        `filter:${frame.videoFilter || preset.gameplayVideoFilter || frame.mediaFilter || "saturate(1.06) contrast(1.04) brightness(.95)"}`
+      ].join(";");
+    }
+
+    function safeVideoPlay(video) {
+      if (!video) return;
+      video.muted = true;
+      video.defaultMuted = true;
+      const playAttempt = video.play();
+      if (playAttempt && typeof playAttempt.catch === "function") playAttempt.catch(() => {});
+    }
+
+    function providerCaptureMatteMarkup(mode) {
+      return `<div class="provider-capture-matte ${mode}" aria-hidden="true"></div>`;
+    }
+
+    function feedVideoMarkup(card) {
+      if (!card.feedVideo) return "";
+      return `<video data-live-feed-video autoplay muted loop playsinline preload="metadata" poster="${card.image}" style="${feedImageStyle(card)}" aria-hidden="true"><source src="${card.feedVideo}" type="video/mp4" /></video>`;
+    }
+
+    function watchHeroMediaMarkup(card) {
+      const fallback = `<img src="${card.image}" alt="${card.dealer} table preview" style="${profileImageStyle(card)}" />`;
+      const streamSrc = card.watchVideo || card.tableVideo || card.feedVideo;
+      if (!streamSrc) return fallback;
+      return `${fallback}<video data-sheet-stream-video autoplay muted loop playsinline preload="metadata" poster="${card.image}" style="${watchVideoStyle(card)}" aria-hidden="true"><source src="${streamSrc}" type="video/mp4" /></video>`;
+    }
+
+    function gameplayVideoMarkup(card, camera) {
+      const streamSrc = card.gameplayVideo || card.tableVideo || card.watchVideo;
+      if (!streamSrc) return "";
+      return `<video data-sheet-stream-video autoplay muted loop playsinline preload="metadata" poster="${card.image}" style="${gameplayVideoStyle(card, camera)}" aria-hidden="true"><source src="${streamSrc}" type="video/mp4" /></video>`;
+    }
+
+    function syncStreamPlayback() {
+      const sheetStreamActive = Boolean(currentSheetType && ["watch", "gameplay"].includes(currentSheetType));
+      document.querySelectorAll('[data-live-feed-video]').forEach((video) => {
+        const cardNode = video.closest('.live-card');
+        const isActiveCard = cardNode && Number(cardNode.dataset.index) === active;
+        if (!sheetStreamActive && isActiveCard) safeVideoPlay(video);
+        else video.pause();
+      });
+      document.querySelectorAll('[data-sheet-stream-video]').forEach((video) => {
+        if (sheet.contains(video)) safeVideoPlay(video);
+        else video.pause();
+      });
+    }
+
     function renderChromeState() {
-      if (dealerRailDrawer) dealerRailDrawer.classList.toggle("open", dealerRailOpen);
+      if (screen) {
+        screen.classList.toggle("sheet-active", Boolean(currentSheetType));
+        screen.classList.toggle("watch-active", currentSheetType === "watch");
+        screen.classList.toggle("gameplay-active", currentSheetType === "gameplay");
+        screen.classList.toggle("view-home", currentView === "home");
+        screen.classList.toggle("view-account", currentView === "account");
+      }
+      if (homeView) homeView.setAttribute("aria-hidden", currentView === "account" ? "true" : "false");
+      if (accountPage) accountPage.setAttribute("aria-hidden", currentView === "account" ? "false" : "true");
+      if (dealerRailDrawer) dealerRailDrawer.classList.toggle("open", dealerRailOpen && currentView === "home");
       if (homeDrawer) {
-        homeDrawer.classList.toggle("open", homeMenuOpen);
-        homeDrawer.setAttribute("aria-hidden", homeMenuOpen ? "false" : "true");
+        const visible = homeMenuOpen && currentView === "home";
+        homeDrawer.classList.toggle("open", visible);
+        homeDrawer.setAttribute("aria-hidden", visible ? "false" : "true");
       }
       const card = item();
       if (homeDrawerGrid) homeDrawerGrid.innerHTML = homeMenuMarkup();
       if (homeDrawerTitle) homeDrawerTitle.textContent = `${card.dealer} · ${card.table}`;
       if (homeDrawerMeta) homeDrawerMeta.textContent = `${card.operator} · ${card.game} · ${card.stakes}`;
+      syncNavState();
     }
 
     function closeHomeMenu() {
@@ -7940,6 +9003,7 @@
     }
 
     function toggleHomeMenu() {
+      if (currentView !== "home") return;
       homeMenuOpen = !homeMenuOpen;
       renderChromeState();
     }
@@ -8038,18 +9102,7 @@
     }
 
     function tableOverlayMarkup(card, state, camera) {
-      const preset = dealerFeedPreset(card);
-      const labels = preset.overlay?.[camera.activeShot.key] || preset.overlay?.dealer || [];
-      const activeIndex = camera.activeShot.key === "reveal" ? 2 : camera.activeShot.key === "table" ? 1 : 0;
-      const activeLabel = labels[activeIndex] || labels[0] || preset.floor;
-      return `
-        <div class="gameplay-table-overlay ${camera.activeShot.key}">
-          <div class="gameplay-table-kicker">${preset.floor}</div>
-          <div class="gameplay-table-rail compact">
-            <span class="active">${activeLabel}</span>
-          </div>
-        </div>
-      `;
+      return "";
     }
 
     function rouletteStreamOverlay(card, state, camera) {
@@ -8223,10 +9276,7 @@
     function streamOverlayMarkup(card, state, camera) {
       const intro = roomIntro(card);
       if (intro) return roomIntroStreamOverlay(card, camera, intro);
-      if (card.game === "Blackjack") return blackjackStreamOverlay(card, state, camera);
-      if (card.game === "Poker") return pokerStreamOverlay(card, state, camera);
-      if (card.game === "Baccarat") return baccaratStreamOverlay(card, state, camera);
-      return rouletteStreamOverlay(card, state, camera);
+      return "";
     }
 
     function gameChipMarkup(items) {
@@ -8502,8 +9552,8 @@
       const gameClass = `game-${card.game.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
       const phaseClass = `phase-${state.name.toLowerCase()}`;
       return `
-        <div class="gameplay-stage motion-live state-${state.tone} ${phaseClass} ${gameClass} motion-${card.id} ${camera.className} ${entry ? `entry-active entry-from-${entry.source}` : ""} ${cut ? "camera-cutting" : ""}" style="${stageMotionStyle(card)}">
-          <div class="gameplay-stage-media" style="${camera.mediaStyle}"></div>
+        <div class="gameplay-stage motion-live state-${state.tone} ${phaseClass} ${gameClass} ${card.providerCapture ? "provider-capture" : ""} motion-${card.id} ${camera.className} ${entry ? `entry-active entry-from-${entry.source}` : ""} ${cut ? "camera-cutting" : ""}" style="${stageMotionStyle(card)}">
+          <div class="gameplay-stage-media" style="${camera.mediaStyle}">${gameplayVideoMarkup(card, camera)}${card.providerCapture ? providerCaptureMatteMarkup("gameplay") : ""}</div>
           <div class="gameplay-stage-focus" style="${camera.focusStyle}"></div>
           ${tableOverlayMarkup(card, state, camera)}
           ${streamOverlayMarkup(card, state, camera)}
@@ -8511,20 +9561,16 @@
           <div class="gameplay-stage-top">
             <div class="gameplay-stage-pill-row">
               <div class="gameplay-stage-meta">
-                <span class="session-meta-pill">${icon("play")}${card.game} · ${card.dealer}</span>
-                <span class="session-meta-pill">${icon("trend")}${phases[phaseIndex].title}</span>
+                <span class="session-meta-pill">${icon("watch")}Live</span>
+                <span class="session-meta-pill">${card.table}</span>
               </div>
               <div class="gameplay-stage-actions">
-                <button class="gameplay-icon-btn" type="button" data-game-chat data-tap-feedback aria-label="Live chat">${icon("chat")}</button>
-                <button class="gameplay-icon-btn" type="button" data-game-menu data-tap-feedback aria-label="Table menu">${icon("menu")}</button>
                 ${closeButton()}
               </div>
             </div>
           </div>
-          ${chatOpen ? gameplayChatMarkup(card, state) : ""}
           ${overlayMarkup}
           <div class="gameplay-stage-bottom">
-            ${gameplayStatusMarkup(card, state, camera)}
             ${coreMarkup}
           </div>
           ${menuOpen ? menuMarkup : ""}
@@ -8569,6 +9615,7 @@
     function refreshSheet() {
       if (currentSheetType) {
         sheetPanel.innerHTML = sheetMarkup(currentSheetType);
+        syncStreamPlayback();
       }
     }
 
@@ -8686,13 +9733,6 @@
             <div class="gameplay-action-tray">
               ${betChipRailMarkup([5, 10, 25, 100], memory.betChip)}
             </div>
-          <div class="gameplay-utility-rail">
-            ${gameChipMarkup([
-              { iconName: "play", label: "Board", dataset: { sheet: "roulette-board" } },
-              { iconName: "stats", label: "Stats", dataset: { sheet: "stats" } },
-              { iconName: "info", label: "Info", dataset: { sheet: "info" } }
-            ])}
-          </div>
         </div>
       `;
       return gameplayStageLayout(card, state, coreMarkup, menuMarkup);
@@ -8712,9 +9752,10 @@
           if (index === 1) classes.push("reveal");
           if (index >= 2) classes.push("drawn");
         }
+        if (!entry.back) classes.push(suitToneClass(entry));
         return `<div class="${classes.join(" ")}" data-tap-feedback>${entry.back ? "?" : `${entry.rank}<small>${entry.suit}</small>`}</div>`;
       }).join("");
-      const playerCards = (state.playerHand || []).map((entry) => `<div class="playing-card player-card" data-tap-feedback>${entry.rank}<small>${entry.suit}</small></div>`).join("");
+      const playerCards = (state.playerHand || []).map((entry) => `<div class="playing-card player-card ${suitToneClass(entry)}" data-tap-feedback>${entry.rank}<small>${entry.suit}</small></div>`).join("");
       const menuMarkup = `
         <div class="gameplay-menu-drawer">
           <div class="gameplay-menu-header">
@@ -8760,35 +9801,29 @@
           </div>
         </div>
       `;
+      const bettingPhase = state.name === "Betting";
+      const seatValue = bettingPhase ? `${money(memory.stake)} live` : state.badge;
       const coreMarkup = `
-        <div class="gameplay-core-card gameplay-overlay-hud compact">
+        <div class="gameplay-core-card gameplay-overlay-hud compact blackjack-hud shot-${camera.activeShot.key} state-${state.name.toLowerCase()}">
           <div class="gameplay-seat-line">
             <span>Seat 1</span>
-            <span>${money(memory.stake)} live</span>
+            <span>${seatValue}</span>
           </div>
           <div class="gameplay-overlay-hands">
-            <div class="gameplay-hand-block">
+            <div class="gameplay-hand-block dealer-block">
               <div class="hand-meta"><b>Dealer</b><span>${dealerMeta}</span></div>
               <div class="playing-hand dealer-hand">${dealerCards}</div>
             </div>
-            <div class="gameplay-hand-block">
+            <div class="gameplay-hand-block player-block">
               <div class="hand-meta"><b>You</b><span>${playerMeta}</span></div>
               <div class="playing-hand player-hand">${playerCards}</div>
             </div>
           </div>
-          <div class="decision-row">
+          ${bettingPhase ? `<div class="decision-row">
             <button class="decision-pill ${memory.action === "Hit" ? "active locked" : ""}" type="button" data-blackjack-action="Hit" data-tap-feedback>Hit</button>
             <button class="decision-pill ${memory.action === "Stand" ? "active locked" : ""}" type="button" data-blackjack-action="Stand" data-tap-feedback>Stand</button>
-          </div>
-          <div class="gameplay-action-tray">
-            ${betChipRailMarkup([25, 50, 75, 100], memory.stake)}
-            </div>
-          <div class="gameplay-utility-rail">
-            ${gameChipMarkup([
-              { iconName: "stats", label: "Stats", dataset: { sheet: "stats" } },
-              { iconName: "info", label: "Info", dataset: { sheet: "info" } }
-            ])}
-          </div>
+          </div>` : ""}
+          ${bettingPhase ? `<div class="gameplay-action-tray">${betChipRailMarkup([25, 50, 75, 100], memory.stake)}</div>` : ""}
         </div>
       `;
       return gameplayStageLayout(card, state, coreMarkup, menuMarkup);
@@ -8865,12 +9900,6 @@
           <div class="gameplay-action-tray">
             ${betChipRailMarkup([25, 100, 250], memory.stake)}
           </div>
-          <div class="gameplay-utility-rail">
-            ${gameChipMarkup([
-              { iconName: "stats", label: "Stats", dataset: { sheet: "stats" } },
-              { iconName: "info", label: "Info", dataset: { sheet: "info" } }
-            ])}
-          </div>
         </div>
       `;
       return gameplayStageLayout(card, state, coreMarkup, menuMarkup);
@@ -8882,17 +9911,23 @@
       const camera = cameraDirector(card, state);
       const heroToneClass = state.tone === "win" ? "poker-live" : state.tone === "loss" ? "poker-dim" : "";
       const villainToneClass = state.tone === "loss" ? "poker-live" : state.tone === "win" ? "poker-dim" : "";
-      const heroCards = (state.heroHand || []).map((entry) => `<div class="playing-card player-card" data-tap-feedback>${entry.rank}<small>${entry.suit}</small></div>`).join("");
+      const heroCards = (state.heroHand || []).map((entry) => `<div class="playing-card player-card ${suitToneClass(entry)}" data-tap-feedback>${entry.rank}<small>${entry.suit}</small></div>`).join("");
       const villainCards = (state.villainHand || []).map((entry, index) => {
         const classes = ["playing-card", "dealer-card"];
         if (entry.back) classes.push("back", "waiting");
-        else if (state.name !== "Betting") classes.push(index === 1 ? "reveal" : "drawn");
+        else {
+          classes.push(suitToneClass(entry));
+          if (state.name !== "Betting") classes.push(index === 1 ? "reveal" : "drawn");
+        }
         return `<div class="${classes.join(" ")}" data-tap-feedback>${entry.back ? "?" : `${entry.rank}<small>${entry.suit}</small>`}</div>`;
       }).join("");
       const boardCards = (state.board || []).map((entry, index) => {
         const classes = ["playing-card"];
         if (entry.back) classes.push("back");
-        else if (state.name !== "Betting") classes.push(index >= 3 ? "reveal" : "drawn");
+        else {
+          classes.push(suitToneClass(entry));
+          if (state.name !== "Betting") classes.push(index >= 3 ? "reveal" : "drawn");
+        }
         return `<div class="${classes.join(" ")}" data-tap-feedback>${entry.back ? "?" : `${entry.rank}<small>${entry.suit}</small>`}</div>`;
       }).join("");
       const menuMarkup = `
@@ -8972,12 +10007,6 @@
           <div class="gameplay-action-tray">
             ${betChipRailMarkup([25, 50, 100, 250], memory.stake)}
           </div>
-          <div class="gameplay-utility-rail">
-            ${gameChipMarkup([
-              { iconName: "stats", label: "Stats", dataset: { sheet: "stats" } },
-              { iconName: "info", label: "Info", dataset: { sheet: "info" } }
-            ])}
-          </div>
         </div>
       `;
       return gameplayStageLayout(card, state, coreMarkup, menuMarkup);
@@ -9003,8 +10032,10 @@
       progress.innerHTML = cards.map((_, index) => `<i class="${index === active ? "active" : ""}"></i>`).join("");
 
       feed.innerHTML = cards.map((card, index) => `
-        <article class="live-card feed-${card.id}" data-index="${index}" style="${feedMotionStyle(card)}">
+        <article class="live-card feed-${card.id} ${card.feedVideo ? "has-stream" : ""} ${card.providerCapture ? "provider-capture" : ""}" data-index="${index}" style="${feedMotionStyle(card)}">
           <img src="${card.image}" alt="${card.dealer} live dealer screen" style="${feedImageStyle(card)}" />
+          ${feedVideoMarkup(card)}
+          ${card.providerCapture ? providerCaptureMatteMarkup("home") : ""}
           <div class="live-card-parallax"></div>
           <div class="casino-ambience"><span></span></div>
           <button class="live-badge" type="button" data-reveal-rail aria-label="Live dealers"><i></i></button>
@@ -9012,13 +10043,14 @@
           <div class="copy">
             <div class="copy-topline">
               <span class="pill">${icon(card.game === "Poker" ? "cards" : "play")}${card.game}</span>
-              <span class="pill">${icon("trend")}${card.trend}</span>
+              <span class="pill">${icon("trend")}${card.state}</span>
             </div>
-            <h2>${card.dealer}</h2>
+            <h2>${card.table}</h2>
+            <div class="copy-subtitle">${card.dealer} live · ${card.operator}</div>
             <p>${card.read}</p>
             <div class="copy-room-line">
-              <span>${card.table}</span>
-              <span>${card.operator}</span>
+              <span>${card.game}</span>
+              <span>${card.language}</span>
             </div>
             <div class="entry-strip">
               ${entryChip("lang", card.language)}
@@ -9033,8 +10065,10 @@
         </article>
       `).join("");
 
+      renderViewShell();
       syncSide();
       renderChromeState();
+      syncStreamPlayback();
     }
 
     function syncSide() {
@@ -9049,7 +10083,9 @@
         container.querySelectorAll(".story").forEach((story, index) => story.classList.toggle("active", index === active));
       });
       progress.querySelectorAll("i").forEach((dot, index) => dot.classList.toggle("active", index === active));
+      renderViewShell();
       renderChromeState();
+      syncStreamPlayback();
     }
 
     function goTo(index) {
@@ -9983,52 +11019,70 @@
       }
 
       return `
-        <div class="sheet-head">
-          <div class="sheet-title"><span class="pill teal">Watch</span><h3>${card.table}</h3></div>
+        <div class="sheet-head watch-sheet-head">
+          <div class="sheet-title"><span class="pill teal">${card.game}</span><h3>Live room</h3></div>
           ${closeButton()}
         </div>
-        <div class="hero-preview watch-hero">
-          <img src="${card.image}" alt="${card.dealer} table preview" style="${profileImageStyle(card)}" />
+        <div class="hero-preview watch-hero ${(card.feedVideo || card.tableVideo) ? "has-stream" : ""} ${card.providerCapture ? "provider-capture" : ""}">
+          ${watchHeroMediaMarkup(card)}
+          ${card.providerCapture ? providerCaptureMatteMarkup("watch") : ""}
           <div class="watch-hero-copy">
             <div class="watch-hero-top">
               <span class="dealer-live-chip">Live</span>
-              <span class="watch-hero-pill">${icon("lang")}${card.language}</span>
-              <span class="watch-hero-pill">${icon(gameIconLabel)}${roomMode}</span>
+              <span class="watch-hero-pill">${icon("limit")}${card.stakes}</span>
             </div>
-            <div class="watch-hero-body">
-              <h4>${card.dealer}</h4>
-              <p>${card.read}</p>
-            </div>
-            <div class="watch-hero-tags">
-              <span>${icon("watch")}${card.watching}</span>
-              <span>${icon("limit")}${card.stakes}</span>
-              <span>${icon("seat")}${card.seat}</span>
-              <span>${icon("trend")}${card.join}</span>
+            <div class="watch-hero-bottom">
+              <div class="watch-room-caption">
+                <strong>${card.table}</strong>
+                <span>${card.dealer} live · ${card.operator} · ${card.language}</span>
+              </div>
+              <span class="watch-room-pill">${card.seat} open</span>
             </div>
           </div>
         </div>
-        <div class="sheet-actions flush">
-          <button class="btn" type="button" data-sheet="gameplay">Play</button>
-          <button class="btn secondary" type="button" data-sheet="message">Message</button>
-          <button class="btn secondary" type="button" data-sheet="tips">Tip</button>
-        </div>
-        <div class="module-grid compact-modules" aria-label="Table actions">
-          ${moduleTile("play", "Gameplay", { sheet: "gameplay" }, "primary")}
-          ${moduleTile("profile", "Dealer", { sheet: "profile" })}
-          ${moduleTile("stats", "Stats", { sheet: "stats" })}
-          ${moduleTile("info", "Info", { sheet: "info" })}
-        </div>
-        <div class="list">
-            ${compactListRow("profile", "dealer", card.dealer)}
-            ${compactListRow("play", "game", card.game)}
-            ${compactListRow("trend", "join signal", card.join)}
-            ${compactListRow("watch", "watching", card.watching)}
-            ${compactListRow("tip", "tips", "dealer-first")}
+        <div class="watch-room-summary">
+          <div class="watch-room-shell">
+            <div class="watch-dealer-row">
+              <span class="watch-dealer-avatar"><img src="${card.image}" alt="${card.dealer} dealer portrait" style="${profileImageStyle(card)}" /></span>
+              <div class="watch-dealer-copy">
+                <strong>${card.dealer}</strong>
+                <p>${card.read}</p>
+              </div>
+              <button class="watch-action-chip" type="button" data-sheet="profile">${icon("profile")}Profile</button>
+            </div>
+            <div class="quick-link-row">
+              <span class="quick-link">${icon("trend")}${card.state}</span>
+              <span class="quick-link">${icon("seat")}${card.seat} seats open</span>
+              <span class="quick-link">${icon("limit")}${card.stakes}</span>
+            </div>
+            <div class="watch-room-stats">
+              <div class="watch-room-stat"><b>${card.watching}</b><span>Watching</span></div>
+              <div class="watch-room-stat"><b>${card.state}</b><span>Table status</span></div>
+              <div class="watch-room-stat"><b>${card.trend}</b><span>Room signal</span></div>
+            </div>
+            <div class="watch-cta-grid">
+              <button class="btn" type="button" data-sheet="gameplay">Open live room</button>
+              <button class="btn secondary" type="button" data-sheet="saved">Save</button>
+              <button class="btn secondary" type="button" data-sheet="message">Message</button>
+            </div>
+          </div>
+          <div class="watch-meta-list">
+            <div class="watch-meta-card"><strong>${card.operator}</strong><span>Operator</span></div>
+            <div class="watch-meta-card"><strong>${card.stakes}</strong><span>Limits</span></div>
+            <div class="watch-meta-card"><strong>${card.language}</strong><span>Language</span></div>
+            <div class="watch-meta-card"><strong>${card.follows}</strong><span>Followers</span></div>
+          </div>
         </div>
       `;
     }
 
     function openSheet(type) {
+      if (type === "account") {
+        closeSheet();
+        setView("account");
+        showToast("Account");
+        return;
+      }
       const previousType = currentSheetType;
       const card = item();
       setCleanView(false);
@@ -10047,8 +11101,11 @@
       currentSheetType = type;
       sheetPanel.innerHTML = sheetMarkup(type);
       sheet.classList.add("open");
+      sheet.classList.toggle("watch-open", type === "watch");
       sheet.classList.toggle("gameplay-open", type === "gameplay");
       sheet.setAttribute("aria-hidden", "false");
+      renderChromeState();
+      syncStreamPlayback();
       if (["watch", "gameplay"].includes(type)) startLiveRoundTimer();
     }
 
@@ -10056,9 +11113,11 @@
       window.clearTimeout(liveRoundTimer);
       currentSheetType = null;
       sheet.classList.remove("open");
+      sheet.classList.remove("watch-open");
       sheet.classList.remove("gameplay-open");
       sheet.setAttribute("aria-hidden", "true");
       renderChromeState();
+      syncStreamPlayback();
     }
 
     render();
@@ -10096,6 +11155,7 @@
       const gameMenu = event.target.closest("[data-game-menu]");
       const gameChat = event.target.closest("[data-game-chat]");
       const homeMenuToggle = event.target.closest("[data-home-menu]");
+      const accountRoom = event.target.closest("[data-account-room]");
       const railToggle = event.target.closest("[data-reveal-rail]");
       const liveToggle = event.target.closest("[data-live-toggle]");
       const liveStep = event.target.closest("[data-live-step]");
@@ -10120,7 +11180,11 @@
         tapFeedback._tapTimer = window.setTimeout(() => tapFeedback.classList.remove("pressed"), 180);
       }
       if (introStart || introClose) hideIntro(Boolean(introStart));
-      if (railToggle && !currentSheetType) revealDealerRail();
+      if (accountRoom) {
+        goTo(Number(accountRoom.dataset.accountRoom));
+        showToast("Room updated");
+      }
+      if (railToggle && !currentSheetType && currentView === "home") revealDealerRail();
       if (homeMenuToggle) {
         toggleHomeMenu();
       }
@@ -10243,13 +11307,10 @@
         syncCameraState(item(), currentSheetType === "gameplay");
         refreshSheet();
       }
-      if (nav) {
-        document.querySelectorAll(".nav").forEach((item) => item.classList.remove("active"));
-        nav.classList.add("active");
-        if (nav.dataset.nav === "home") {
-          closeSheet();
-          showToast("Home feed");
-        }
+      if (nav && nav.dataset.nav) {
+        closeSheet();
+        setView(nav.dataset.nav);
+        showToast(nav.dataset.nav === "account" ? "Account" : "Home feed");
       }
       if (tab) {
         document.querySelectorAll(".tab").forEach((item) => item.classList.remove("active"));
