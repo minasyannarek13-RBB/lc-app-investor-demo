@@ -9,6 +9,7 @@
   <meta name="apple-mobile-web-app-title" content="LC App" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="format-detection" content="telephone=no" />
+  <link rel="icon" href="app-icon.svg" type="image/svg+xml" />
   <title>LC App Investor Demo</title>
   <script>
     (() => {
@@ -7246,12 +7247,12 @@
       sofia: "app_prototype_assets/dealers/dealer_sofia_avatar_v1.jpg",
       marcus: "app_prototype_assets/dealers/dealer_marcus_avatar_v1.jpg",
       lilit: "app_prototype_assets/dealers/dealer_lilit_avatar_v1.jpg",
-      streamFeed: "app_prototype_assets/streams/feed_live_loop_v1.mp4",
-      streamOverlay: "app_prototype_assets/streams/dealer_stream_overlay_v1.mp4",
-      streamDealer: "app_prototype_assets/streams/dealer_blackjack_loop_v1.mp4",
-      streamRealBlackjack: localFileHref("../../../../../ScreenRecording_05-06-2026 16-10-33_1.MP4"),
-      streamRealRoulette: localFileHref("../../../../../ScreenRecording_05-06-2026 16-13-56_1.MP4"),
-      streamRealBaccarat: localFileHref("../../../../../ScreenRecording_05-06-2026 16-14-49_1.MP4")
+      streamFeed: "",
+      streamOverlay: "",
+      streamDealer: "",
+      streamRealBlackjack: "",
+      streamRealRoulette: "",
+      streamRealBaccarat: ""
     };
 
     const cards = [
@@ -8250,6 +8251,9 @@
             <button class="btn" type="button" data-sheet="wallet">Cashier</button>
             <button class="btn secondary" type="button" data-sheet="history">History</button>
             <button class="btn secondary" type="button" data-sheet="saved">Saved rooms</button>
+            <button class="btn secondary" type="button" data-sheet="message">Messages</button>
+            <button class="btn secondary" type="button" data-sheet="tips">Tips</button>
+            <button class="btn secondary" type="button" data-sheet="compliance">Limits</button>
           </div>
           <div class="account-page-section">
             <div class="sheet-section-head"><strong>Current room</strong><span>live</span></div>
@@ -8329,6 +8333,8 @@
         { iconName: "play", label: "Play", sheet: "gameplay", className: "primary" },
         { iconName: "watch", label: "Watch", sheet: "watch" },
         { iconName: "profile", label: "Dealer", sheet: "profile" },
+        { iconName: "play", label: "Handoff", sheet: "handoff" },
+        { iconName: "trend", label: "Proof", sheet: "insights" },
         { iconName: "watch", label: "Saved", sheet: "saved" },
         { iconName: "wallet", label: "Wallet", sheet: "wallet" },
         { iconName: "history", label: "History", sheet: "history" },
