@@ -21,6 +21,7 @@
         const standalone = params.get("app") === "1"
           || window.matchMedia("(display-mode: standalone)").matches
           || window.navigator.standalone === true;
+        root.classList.add("lc-auth-booting");
         if (standalone) root.classList.add("standalone-mode");
         if (isIPhone) root.classList.add("iphone-edge-mode");
       } catch (error) {}
@@ -11349,5 +11350,7 @@
       });
     }
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./auth.js"></script>
 </body>
 </html>

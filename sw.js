@@ -1,8 +1,9 @@
-const CACHE_NAME = "lc-app-investor-demo-v35";
+const CACHE_NAME = "lc-app-investor-demo-v51";
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
+  "./auth.js",
   "./?app=1",
   "./02_OPEN_STATIC_PREVIEW.html",
   "./manifest.webmanifest",
@@ -45,6 +46,8 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
+  const url = new URL(event.request.url);
+  if (url.origin !== self.location.origin) return;
 
   event.respondWith(
     caches.match(event.request).then((cached) => {
