@@ -165,6 +165,10 @@
     return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
   }
 
+  function delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   function renderTests() {
     els.tests.innerHTML = testDefs.map(([id, label]) => {
       const current = statuses[id];
@@ -634,6 +638,7 @@
       setDiag({ auth: "RUNNING", lastError: "None" });
       setStatus("connectivity", "RUNNING", "Signing in...");
       try {
+        await delay(250);
         await login();
         setDiag({ auth: "SUCCESS", session: "SIGNED IN" });
         setNotice("success", `Signed in as ${state.user?.email || "user"}. UID: ${state.user?.id || "-"}`);
