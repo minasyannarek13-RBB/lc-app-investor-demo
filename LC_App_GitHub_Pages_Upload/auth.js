@@ -103,9 +103,10 @@
 
   function config() {
     const provided = window.LC_APP_CONFIG || window.__LC_APP_CONFIG__ || {};
+    const publishableKey = provided.SUPABASE_PUBLISHABLE_KEY || provided.supabasePublishableKey;
     return {
       url: provided.SUPABASE_URL || provided.supabaseUrl || window.LC_APP_SUPABASE_URL || localStorage.getItem("lc-app:supabase-url") || LIVE_SUPABASE_URL,
-      anon: provided.SUPABASE_ANON_KEY || provided.supabaseAnonKey || window.LC_APP_SUPABASE_ANON_KEY || localStorage.getItem("lc-app:supabase-anon-key") || ""
+      anon: publishableKey || provided.SUPABASE_ANON_KEY || provided.supabaseAnonKey || window.LC_APP_SUPABASE_ANON_KEY || localStorage.getItem("lc-app:supabase-anon-key") || ""
     };
   }
 
@@ -200,7 +201,7 @@
     card(
       "Supabase is not configured",
       "Add the public publishable key through runtime configuration before using real accounts.",
-      `<div class="lc-auth-alert error">Required runtime config: SUPABASE_ANON_KEY. Project URL is set to ${LIVE_SUPABASE_URL}. Do not use service_role keys in the browser.</div>`,
+      `<div class="lc-auth-alert error">Required runtime config: SUPABASE_PUBLISHABLE_KEY. Project URL is set to ${LIVE_SUPABASE_URL}. Do not use service_role keys in the browser.</div>`,
       `${link("Privacy", "privacy")}${link("Terms", "terms")}`
     );
   }
@@ -650,10 +651,12 @@
       }
       if (type === "login") {
         const email = String(formData.get("email") || "").trim();
+        const password = String(formData.get("password") || "");
+        if (!validateEmail(email) || !password) throw new Error("VALIDATION_LOGIN");
         setPendingEmail(email);
         const { error } = await STATE.client.auth.signInWithPassword({
           email,
-          password: String(formData.get("password") || "")
+          password
         });
         if (error) {
           const code = authErrorCode(error);
@@ -720,6 +723,7 @@
       const raw = error?.message || "";
       let code = raw.startsWith("AUTH_") || raw === "USERNAME_TAKEN" || raw === "RATE_LIMITED" ? raw : authErrorCode(error);
       if (raw === "VALIDATION_EMAIL") code = "VALIDATION_ERROR";
+      if (raw === "VALIDATION_LOGIN") code = "AUTH_INVALID_CREDENTIALS";
       if (raw === "PASSWORD_MISMATCH") {
         showMessage("Passwords do not match.", "error");
       } else if (raw === "VALIDATION_AVATAR_TYPE" || raw === "VALIDATION_AVATAR_SIZE") {
@@ -766,6 +770,7 @@
     if (STATE.client) await STATE.client.auth.signOut();
     STATE.session = null;
     STATE.profile = null;
+    if (window.LCAppSocial?.clear) window.LCAppSocial.clear();
     setRoute("login");
     if (message) window.setTimeout(() => showMessage(message, "error"), 0);
   }
@@ -801,6 +806,7 @@
       return;
     }
     setLocked(false);
+    if (window.LCAppSocial?.mount) window.LCAppSocial.mount({ client: STATE.client, profile: STATE.profile });
     markDemoContent();
     installAccountObserver();
     if (target === "profile") {
@@ -821,7 +827,7 @@
     if (!screen || q(".lc-preview-pill", screen)) return;
     const pill = document.createElement("span");
     pill.className = "lc-preview-pill";
-    pill.textContent = "Preview";
+    pill.textContent = "Real + Preview";
     screen.appendChild(pill);
     const signal = q("#signalStrip");
     if (signal) signal.innerHTML = "<b>Preview</b><span>Demo discovery content only</span>";

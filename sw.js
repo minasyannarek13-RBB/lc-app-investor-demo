@@ -1,9 +1,10 @@
-const CACHE_NAME = "lc-app-investor-demo-v51";
+const CACHE_NAME = "lc-app-investor-demo-v52";
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./auth.js",
+  "./social.js",
   "./?app=1",
   "./02_OPEN_STATIC_PREVIEW.html",
   "./manifest.webmanifest",
@@ -48,6 +49,21 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
+
+  const acceptsHtml = event.request.headers.get("accept")?.includes("text/html");
+  const currentAsset = acceptsHtml || /\.(?:html|js|css)$/i.test(url.pathname);
+  if (currentAsset) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
 
   event.respondWith(
     caches.match(event.request).then((cached) => {
