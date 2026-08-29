@@ -638,7 +638,7 @@
       setDiag({ auth: "RUNNING", lastError: "None" });
       setStatus("connectivity", "RUNNING", "Signing in...");
       try {
-        await delay(250);
+        await delay(1500);
         await login();
         setDiag({ auth: "SUCCESS", session: "SIGNED IN" });
         setNotice("success", `Signed in as ${state.user?.email || "user"}. UID: ${state.user?.id || "-"}`);
