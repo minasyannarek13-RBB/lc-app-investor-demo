@@ -847,6 +847,7 @@
     });
     renderDiagnostics();
     setPendingRows();
+    renderUsers();
     if (!window.supabase?.createClient) {
       setDiag({ client: "FAILED", lastError: "Supabase JS library did not load." });
       setNotice("error", "Supabase JS library did not load. Login cannot run until the SDK is available.");
