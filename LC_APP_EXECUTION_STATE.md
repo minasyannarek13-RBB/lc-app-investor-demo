@@ -16,6 +16,7 @@ Current status: NOT READY
 - Public profile view shows profile data, follower/following counts, recent posts, follow/block/report actions.
 - Profile reporting added for user-behavior review surface.
 - Empty login validation now stays client-side and shows safe copy.
+- Production GitHub Pages entry/social/config fixes deployed in commit `40a852c`.
 - Root and nested `LC_App_GitHub_Pages_Upload/` copies are synchronized for `index.html`, `auth.js`, `social.js`, and `sw.js`.
 
 ## Verified Tests
@@ -32,11 +33,13 @@ Current status: NOT READY
 - Auth route smoke passed for login, signup, forgot password, reset invalid, verification, privacy, terms.
 - Empty login validation returns safe message: `Invalid email or password.`
 - Active browser-file security scan found no service-role key, JWT anon token, database URL, or private secret.
+- Live GitHub Pages root loads the LC App auth shell.
+- Live GitHub Pages `social.js` returns HTTP 200.
+- Live browser smoke confirms `auth.js`, `social.js`, and Supabase JS CDN load successfully.
 
 ## Known Failures
-- Current live GitHub Pages root serves app HTML but does not serve `social.js` successfully: `/social.js` returned 404 before this patch.
-- Current local checkout root previously redirected to `/showcase/`; patched locally but not deployed yet.
-- Live deployed build does not yet match the locally tested patched build.
+- Live Supabase authenticated E2E is still unverified because the Supabase project host does not resolve from this environment.
+- Current local checkout root previously redirected to `/showcase/`; patched and deployed in commit `40a852c`.
 
 ## External Blockers
 - Live Supabase host `aspbwgsfkebduvviyeuo.supabase.co` could not be resolved from this environment by Node fetch or curl, even after escalation.
@@ -48,10 +51,11 @@ Current status: NOT READY
 2. Execute live auth flow with confirmed email or known test credentials.
 3. Execute two-user social E2E: discover, follow, post, like, comment, reply, notifications, block/unblock.
 4. Execute authenticated RLS checks for blocked pairs and direct insert denial into `notifications` and `activity_events`.
-5. Deploy/push only after live E2E and security gates pass, or explicitly accept a staged deployment for the entry/config/social fixes.
+5. After Supabase E2E passes, perform final public URL refresh/reopen, mobile, desktop, console, and service-worker freshness checks.
 
 ## Current Deployment / Commit
 - Local branch: `lc-app-industry-demo-v2`.
-- Last observed commit: `3ef44d5 Fix LC App V2 desktop showcase layout`.
+- Last deployed commit: `40a852c Prepare LC App review build entry`.
 - Production URL checked: `https://minasyannarek13-rbb.github.io/lc-app-investor-demo/`.
-- Production is not yet verified as matching this patched local state.
+- Production currently matches the patched entry/social/config build for unauthenticated review entry.
+- Production readiness is still blocked by unexecuted live Supabase authenticated/social/RLS E2E.
