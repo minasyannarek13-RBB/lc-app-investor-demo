@@ -19,14 +19,10 @@
     passwordA: $("passwordAInput"),
     emailB: $("emailBInput"),
     passwordB: $("passwordBInput"),
-    userAId: $("userAId"),
-    userAUsername: $("userAUsername"),
-    userAAccount: $("userAAccount"),
-    userAOnboarding: $("userAOnboarding"),
-    userBId: $("userBId"),
-    userBUsername: $("userBUsername"),
-    userBAccount: $("userBAccount"),
-    userBOnboarding: $("userBOnboarding"),
+    userADetail: $("userAOnboardingDetail"),
+    userAAction: $("userAOnboardingAction"),
+    userBDetail: $("userBOnboardingDetail"),
+    userBAction: $("userBOnboardingAction"),
     diagClient: $("diagClient"),
     diagConfig: $("diagConfig"),
     diagUrl: $("diagUrl"),
@@ -243,15 +239,62 @@
     renderResults();
   }
 
+  function yesNo(value) {
+    if (value === null || value === undefined) return "-";
+    return value ? "YES" : "NO";
+  }
+
+  function timestampStatus(value) {
+    return value ? "YES" : "NO";
+  }
+
+  function fieldStatus(value) {
+    return value ? String(value) : "MISSING";
+  }
+
+  function renderUserDetail(slot, user, profileRow) {
+    const detail = slot === "A" ? els.userADetail : els.userBDetail;
+    const action = slot === "A" ? els.userAAction : els.userBAction;
+    if (!detail || !action) return;
+    const missing = profileRow ? onboardingMissing(profileRow) : [];
+    const complete = profileRow ? missing.length === 0 && Boolean(profileRow.onboarding_completed) : false;
+    detail.innerHTML = [
+      ["AUTH", user ? "SIGNED IN" : "SIGNED OUT"],
+      ["PROFILE EXISTS", yesNo(Boolean(profileRow))],
+      ["UID", user?.id || "-"],
+      ["USERNAME", fieldStatus(profileRow?.username)],
+      ["DISPLAY NAME", fieldStatus(profileRow?.display_name)],
+      ["AGE CONFIRMED", yesNo(profileRow?.age_confirmed)],
+      ["TERMS ACCEPTED", timestampStatus(profileRow?.terms_accepted_at)],
+      ["PRIVACY ACCEPTED", timestampStatus(profileRow?.privacy_accepted_at)],
+      ["ACCOUNT STATUS", profileRow?.account_status || "-"],
+      ["ONBOARDING COMPLETE", yesNo(complete)]
+    ].map(([label, value]) => `<span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong>`).join("");
+    action.classList.toggle("show", Boolean(user && profileRow && !complete));
+  }
+
   function renderUsers() {
-    els.userAId.textContent = state.userA?.id || "-";
-    els.userAUsername.textContent = state.profileA?.username || "-";
-    els.userAAccount.textContent = state.profileA?.account_status || "-";
-    els.userAOnboarding.textContent = state.profileA ? String(Boolean(state.profileA.onboarding_completed)) : "-";
-    els.userBId.textContent = state.userB?.id || "-";
-    els.userBUsername.textContent = state.profileB?.username || "-";
-    els.userBAccount.textContent = state.profileB?.account_status || "-";
-    els.userBOnboarding.textContent = state.profileB ? String(Boolean(state.profileB.onboarding_completed)) : "-";
+    renderUserDetail("A", state.userA, state.profileA);
+    renderUserDetail("B", state.userB, state.profileB);
+  }
+
+  function userReport(label, user, profileRow) {
+    const missing = profileRow ? onboardingMissing(profileRow) : [];
+    const complete = profileRow ? missing.length === 0 && Boolean(profileRow.onboarding_completed) : false;
+    return [
+      `${label}:`,
+      `Auth: ${user ? "SIGNED IN" : "SIGNED OUT"}`,
+      `Profile: ${profileRow ? "EXISTS" : "MISSING"}`,
+      `UID: ${user?.id || "not authenticated"}`,
+      `Username: ${profileRow?.username || "MISSING"}`,
+      `Display name: ${profileRow?.display_name || "MISSING"}`,
+      `Age confirmed: ${yesNo(profileRow?.age_confirmed)}`,
+      `Terms accepted: ${timestampStatus(profileRow?.terms_accepted_at)}`,
+      `Privacy accepted: ${timestampStatus(profileRow?.privacy_accepted_at)}`,
+      `Account status: ${profileRow?.account_status || "-"}`,
+      `Onboarding complete: ${yesNo(complete)}`,
+      `Missing onboarding fields: ${missing.length ? missing.join(", ") : "None"}`
+    ];
   }
 
   function addResult(id, user, action, expected, actual, result, detail = "") {
@@ -735,6 +778,10 @@
       `Run ID: ${RUN_ID}`,
       `User A UID: ${state.userA?.id || "not authenticated"}`,
       `User B UID: ${state.userB?.id || "not authenticated"}`,
+      "",
+      ...userReport("USER A", state.userA, state.profileA),
+      "",
+      ...userReport("USER B", state.userB, state.profileB),
       "",
       "Preflight results:",
       `Supabase client: ${diag.client}`,

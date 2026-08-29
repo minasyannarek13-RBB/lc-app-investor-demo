@@ -77,6 +77,15 @@
     .diag { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid rgba(255,255,255,.07); padding: 7px 0; font-size: 13px; }
     .diag span:first-child { color: var(--muted); }
     .diag strong { text-align: right; overflow-wrap: anywhere; }
+    .qa-user-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .qa-user-card { border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.035); border-radius: 7px; padding: 12px; }
+    .qa-user-card h3 { margin: 0 0 10px; font-size: 14px; }
+    .qa-user-status { display: grid; grid-template-columns: 150px 1fr; gap: 7px 10px; font-size: 12px; }
+    .qa-user-status span:nth-child(odd) { color: var(--muted); }
+    .qa-user-status strong { overflow-wrap: anywhere; }
+    .qa-user-action { margin-top: 12px; display: none; }
+    .qa-user-action.show { display: block; }
+    .qa-user-action a { display: inline-flex; align-items: center; justify-content: center; border: 1px solid rgba(98,242,181,.38); background: rgba(98,242,181,.1); color: var(--text); border-radius: 6px; padding: 10px 12px; font-size: 12px; font-weight: 850; text-decoration: none; }
     .results-wrap { overflow-x: auto; }
     table.results { width: 100%; border-collapse: collapse; min-width: 980px; }
     .results th, .results td { border-bottom: 1px solid rgba(255,255,255,.08); padding: 10px 8px; text-align: left; vertical-align: top; font-size: 12px; line-height: 1.35; }
@@ -114,6 +123,8 @@
       .kv { grid-template-columns: 1fr; }
       .badge { white-space: normal; }
       .diagnostics { grid-template-columns: 1fr; }
+      .qa-user-grid { grid-template-columns: 1fr; }
+      .qa-user-status { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -152,15 +163,21 @@
           <button id="copyReportButtonTop" class="secondary" type="button">COPY QA REPORT</button>
         </div>
         <div id="authNotice" class="notice">JS initializing...</div>
-        <div class="kv">
-          <span>User A UID</span><strong id="userAId">-</strong>
-          <span>User A username</span><strong id="userAUsername">-</strong>
-          <span>User A account</span><strong id="userAAccount">-</strong>
-          <span>User A onboarding</span><strong id="userAOnboarding">-</strong>
-          <span>User B UID</span><strong id="userBId">-</strong>
-          <span>User B username</span><strong id="userBUsername">-</strong>
-          <span>User B account</span><strong id="userBAccount">-</strong>
-          <span>User B onboarding</span><strong id="userBOnboarding">-</strong>
+        <div class="qa-user-grid">
+          <div class="qa-user-card">
+            <h3>User A onboarding state</h3>
+            <div class="qa-user-status" id="userAOnboardingDetail"></div>
+            <div class="qa-user-action" id="userAOnboardingAction">
+              <a href="./index.html#/feed" target="_blank" rel="noopener">COMPLETE ONBOARDING IN LC APP</a>
+            </div>
+          </div>
+          <div class="qa-user-card">
+            <h3>User B onboarding state</h3>
+            <div class="qa-user-status" id="userBOnboardingDetail"></div>
+            <div class="qa-user-action" id="userBOnboardingAction">
+              <a href="./index.html#/feed" target="_blank" rel="noopener">COMPLETE ONBOARDING IN LC APP</a>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -234,6 +251,6 @@
     };
   </script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="./qa-live.js?v=20260830-two-user-e2e-a5da17e"></script>
+  <script src="./qa-live.js?v=20260830-onboarding-detail"></script>
 </body>
 </html>
