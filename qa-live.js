@@ -270,12 +270,19 @@
     renderResults();
   }
 
+  function isAutomatedTestRow(row) {
+    return tests.some(([id]) => id === row.id);
+  }
+
   function renderResults() {
+    const countableRows = state.results.some(isAutomatedTestRow)
+      ? state.results.filter(isAutomatedTestRow)
+      : state.results;
     const counts = { PASS: 0, FAIL: 0, BLOCKED: 0, SKIPPED: 0 };
-    state.results.forEach((row) => {
+    countableRows.forEach((row) => {
       if (counts[row.result] !== undefined) counts[row.result] += 1;
     });
-    els.total.textContent = String(state.results.length);
+    els.total.textContent = String(countableRows.length);
     els.passed.textContent = String(counts.PASS);
     els.failed.textContent = String(counts.FAIL);
     els.blocked.textContent = String(counts.BLOCKED);
@@ -690,21 +697,23 @@
       });
     }
 
-    const cleanupDetail = await cleanupRun().catch((error) => {
-      const message = humanError(error);
-      state.errors.push(`CLEANUP: ${message}`);
-      log("CLEANUP FAIL", error?.cause || error);
-      return `Cleanup failed: ${message}`;
-    });
-    state.results.push({
-      id: "CLEANUP",
-      user: "A+B",
-      action: "Cleanup run-created data",
-      expected: "remove only run_id data where RLS allows",
-      actual: cleanupDetail,
-      result: cleanupDetail.startsWith("Cleanup failed") ? "FAIL" : "PASS",
-      detail: cleanupDetail
-    });
+    if (preflightPassed) {
+      const cleanupDetail = await cleanupRun().catch((error) => {
+        const message = humanError(error);
+        state.errors.push(`CLEANUP: ${message}`);
+        log("CLEANUP FAIL", error?.cause || error);
+        return `Cleanup failed: ${message}`;
+      });
+      state.results.push({
+        id: "CLEANUP",
+        user: "A+B",
+        action: "Cleanup run-created data",
+        expected: "remove only run_id data where RLS allows",
+        actual: cleanupDetail,
+        result: cleanupDetail.startsWith("Cleanup failed") ? "FAIL" : "PASS",
+        detail: cleanupDetail
+      });
+    }
 
     const hasFail = state.results.some((row) => row.result === "FAIL" || row.result === "BLOCKED");
     state.final = hasFail ? "SOCIAL MVP LIVE E2E: FAIL" : "SOCIAL MVP LIVE E2E: PASS";
