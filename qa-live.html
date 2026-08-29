@@ -58,10 +58,25 @@
       cursor: pointer;
     }
     button:hover { border-color: var(--mint); background: rgba(98, 242, 181, .16); }
+    button:disabled { opacity: .55; cursor: wait; }
     button.secondary { border-color: var(--line); background: rgba(255,255,255,.04); color: var(--muted); }
     button.danger { border-color: rgba(255,111,125,.42); background: rgba(255,111,125,.1); }
+    .notice {
+      border: 1px solid var(--line);
+      background: rgba(98, 242, 181, .08);
+      border-radius: 7px;
+      padding: 12px 14px;
+      color: var(--text);
+      font-weight: 750;
+    }
+    .notice.error { border-color: rgba(255,111,125,.5); background: rgba(255,111,125,.1); color: #ffd5da; }
+    .notice.success { border-color: rgba(98,242,181,.5); background: rgba(98,242,181,.12); color: var(--mint); }
     .kv { display: grid; grid-template-columns: 150px 1fr; gap: 8px 12px; font-size: 14px; }
     .kv span:nth-child(odd) { color: var(--muted); }
+    .diagnostics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; }
+    .diag { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid rgba(255,255,255,.07); padding: 7px 0; font-size: 13px; }
+    .diag span:first-child { color: var(--muted); }
+    .diag strong { text-align: right; overflow-wrap: anywhere; }
     .tests { display: grid; gap: 8px; }
     .test {
       display: grid;
@@ -116,10 +131,12 @@
         </div>
         <div class="row">
           <button id="loginButton" type="button">Login</button>
+          <button id="testConnectionButton" class="secondary" type="button">TEST SUPABASE CONNECTION</button>
           <button id="refreshButton" class="secondary" type="button">Refresh Session</button>
           <button id="logoutButton" class="danger" type="button">Logout</button>
-          <button id="copyUidButton" class="secondary" type="button">Copy My UID</button>
+          <button id="copyUidButton" class="secondary" type="button" disabled>Copy My UID</button>
         </div>
+        <div id="authNotice" class="notice">JS initializing...</div>
         <div class="kv">
           <span>Email</span><strong id="userEmail">Not signed in</strong>
           <span>UID</span><strong id="userId">-</strong>
@@ -127,6 +144,21 @@
           <span>Account</span><strong id="accountStatus">-</strong>
           <span>Onboarding</span><strong id="onboardingStatus">-</strong>
         </div>
+      </div>
+
+      <div class="card stack">
+        <h2>QA diagnostics</h2>
+        <div class="diagnostics">
+          <div class="diag"><span>Supabase client</span><strong id="diagClient">FAILED</strong></div>
+          <div class="diag"><span>Runtime config</span><strong id="diagConfig">FAILED</strong></div>
+          <div class="diag"><span>Supabase URL</span><strong id="diagUrl">missing</strong></div>
+          <div class="diag"><span>Publishable key</span><strong id="diagKey">missing</strong></div>
+          <div class="diag"><span>JS initialized</span><strong id="diagJs">NO</strong></div>
+          <div class="diag"><span>Auth request</span><strong id="diagAuth">NOT RUN</strong></div>
+          <div class="diag"><span>Session</span><strong id="diagSession">SIGNED OUT</strong></div>
+          <div class="diag"><span>Supabase connection</span><strong id="diagConnection">NOT RUN</strong></div>
+        </div>
+        <div class="diag"><span>Last error</span><strong id="diagLastError">None</strong></div>
       </div>
 
       <div class="card stack manual">

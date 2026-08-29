@@ -17,9 +17,11 @@
     email: $("emailInput"),
     password: $("passwordInput"),
     login: $("loginButton"),
+    testConnection: $("testConnectionButton"),
     refresh: $("refreshButton"),
     logout: $("logoutButton"),
     copyUid: $("copyUidButton"),
+    notice: $("authNotice"),
     userEmail: $("userEmail"),
     userId: $("userId"),
     username: $("username"),
@@ -32,7 +34,16 @@
     tests: $("tests"),
     debug: $("debugLog"),
     report: $("reportOutput"),
-    copyReport: $("copyReportButton")
+    copyReport: $("copyReportButton"),
+    diagClient: $("diagClient"),
+    diagConfig: $("diagConfig"),
+    diagUrl: $("diagUrl"),
+    diagKey: $("diagKey"),
+    diagJs: $("diagJs"),
+    diagAuth: $("diagAuth"),
+    diagSession: $("diagSession"),
+    diagConnection: $("diagConnection"),
+    diagLastError: $("diagLastError")
   };
 
   const testDefs = [
@@ -64,6 +75,17 @@
     currentReplyId: localStorage.getItem("lc-app-live-qa:reply-id") || "",
     currentReportId: localStorage.getItem("lc-app-live-qa:report-id") || ""
   };
+  const diag = {
+    client: "FAILED",
+    config: "FAILED",
+    url: SUPABASE_URL ? "configured" : "missing",
+    key: SUPABASE_KEY ? "configured" : "missing",
+    js: "NO",
+    auth: "NOT RUN",
+    session: "SIGNED OUT",
+    connection: "NOT RUN",
+    lastError: "None"
+  };
 
   function scrub(value) {
     const text = typeof value === "string" ? value : JSON.stringify(value, null, 2);
@@ -77,6 +99,28 @@
   function log(label, payload) {
     const line = `[${new Date().toISOString()}] ${label}\n${scrub(payload)}\n`;
     els.debug.textContent = `${line}\n${els.debug.textContent}`.slice(0, 60000);
+  }
+
+  function setNotice(type, message) {
+    els.notice.textContent = message;
+    els.notice.className = `notice ${type || ""}`.trim();
+  }
+
+  function setDiag(patch) {
+    Object.assign(diag, patch);
+    renderDiagnostics();
+  }
+
+  function renderDiagnostics() {
+    els.diagClient.textContent = diag.client;
+    els.diagConfig.textContent = diag.config;
+    els.diagUrl.textContent = diag.url;
+    els.diagKey.textContent = diag.key;
+    els.diagJs.textContent = diag.js;
+    els.diagAuth.textContent = diag.auth;
+    els.diagSession.textContent = diag.session;
+    els.diagConnection.textContent = diag.connection;
+    els.diagLastError.textContent = scrub(diag.lastError || "None");
   }
 
   function failMessage(error) {
@@ -107,9 +151,18 @@
     } catch (error) {
       const detail = error?.message || String(error);
       state.errors.push(`${id}: ${detail}`);
+      setDiag({ lastError: detail });
       log(`FAIL ${id}`, error?.cause || error);
       setStatus(id, "FAIL", detail);
     }
+  }
+
+  function withTimeout(promise, timeoutMs, label) {
+    let timer;
+    const timeout = new Promise((_, reject) => {
+      timer = setTimeout(() => reject(new Error(`${label} timed out after ${Math.round(timeoutMs / 1000)} seconds.`)), timeoutMs);
+    });
+    return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
   }
 
   function renderTests() {
@@ -133,7 +186,7 @@
 
   async function refreshSession() {
     assertClient();
-    const { data, error } = await state.client.auth.getSession();
+    const { data, error } = await withTimeout(state.client.auth.getSession(), 12000, "Session refresh");
     if (error) throw error;
     state.session = data.session || null;
     state.user = state.session?.user || null;
@@ -148,6 +201,7 @@
       state.profile = null;
     }
     renderUser();
+    setDiag({ session: state.user ? "SIGNED IN" : "SIGNED OUT" });
     renderReport();
   }
 
@@ -159,6 +213,7 @@
     els.username.textContent = profile?.username || "-";
     els.accountStatus.textContent = profile?.account_status || "-";
     els.onboardingStatus.textContent = profile ? String(Boolean(profile.onboarding_completed)) : "-";
+    els.copyUid.disabled = !user?.id;
   }
 
   function assertClient() {
@@ -188,8 +243,10 @@
 
   async function testConnectivity() {
     assertClient();
-    const settings = await fetch(`${SUPABASE_URL}/auth/v1/settings`, { headers: { apikey: SUPABASE_KEY } });
+    setDiag({ connection: "RUNNING" });
+    const settings = await withTimeout(fetch(`${SUPABASE_URL}/auth/v1/settings`, { headers: { apikey: SUPABASE_KEY } }), 12000, "Supabase connection");
     if (!settings.ok) throw new Error(`Supabase auth endpoint failed: HTTP ${settings.status}`);
+    setDiag({ connection: "PASS" });
     const session = await state.client.auth.getSession();
     if (session.error) throw session.error;
     const profileProbe = await state.client.from("profiles").select("id,username").limit(1);
@@ -198,6 +255,26 @@
     if (settingsProbe.error) throw settingsProbe.error;
     await refreshSession();
     return "Endpoint reachable; auth.getSession, profiles query and user_settings query returned without raw runtime failure.";
+  }
+
+  async function testSupabaseConnectionButton(event) {
+    event?.preventDefault();
+    setNotice("", "Testing Supabase connection...");
+    try {
+      assertClient();
+      setDiag({ connection: "RUNNING", lastError: "None" });
+      const response = await withTimeout(fetch(`${SUPABASE_URL}/auth/v1/settings`, { headers: { apikey: SUPABASE_KEY } }), 12000, "Supabase connection");
+      if (!response.ok) throw new Error(`Supabase endpoint returned HTTP ${response.status}.`);
+      setDiag({ connection: "PASS" });
+      setNotice("success", "Supabase connection PASS.");
+      setStatus("connectivity", "PASS", "Supabase endpoint reachable from this browser.");
+    } catch (error) {
+      const message = humanError(error);
+      setDiag({ connection: "FAIL", lastError: message });
+      setNotice("error", message);
+      setStatus("connectivity", "FAIL", message);
+      log("Supabase connection failed", error);
+    }
   }
 
   async function testP0() {
@@ -506,10 +583,19 @@
     const email = els.email.value.trim();
     const password = els.password.value;
     if (!email || !password) throw new Error("Email and password are required.");
-    const result = await state.client.auth.signInWithPassword({ email, password });
+    const result = await withTimeout(state.client.auth.signInWithPassword({ email, password }), 18000, "Login request");
     if (result.error) throw result.error;
     els.password.value = "";
     await refreshSession();
+  }
+
+  function humanError(error) {
+    const raw = failMessage(error) || "Unknown error.";
+    if (/failed to fetch|networkerror|load failed/i.test(raw)) return "Supabase request failed from this browser. Check network, browser privacy blocking, CORS/origin settings, or Supabase availability.";
+    if (/invalid login credentials/i.test(raw)) return "Login failed: email or password is incorrect.";
+    if (/email not confirmed/i.test(raw)) return "Login failed: email is not confirmed.";
+    if (/timed out/i.test(raw)) return raw;
+    return raw;
   }
 
   async function copy(text) {
@@ -540,12 +626,35 @@
         if (map[id]) await run(id, map[id]);
       }
     });
-    els.login.addEventListener("click", () => run("connectivity", async () => {
-      await login();
-      return testConnectivity();
-    }));
+    els.login.addEventListener("click", async (event) => {
+      event.preventDefault();
+      els.login.disabled = true;
+      els.login.textContent = "Signing in...";
+      setNotice("", "Signing in...");
+      setDiag({ auth: "RUNNING", lastError: "None" });
+      setStatus("connectivity", "RUNNING", "Signing in...");
+      try {
+        await login();
+        setDiag({ auth: "SUCCESS", session: "SIGNED IN" });
+        setNotice("success", `Signed in as ${state.user?.email || "user"}. UID: ${state.user?.id || "-"}`);
+        setStatus("connectivity", "PASS", "Login succeeded and session rendered.");
+      } catch (error) {
+        const message = humanError(error);
+        state.errors.push(`login: ${message}`);
+        setDiag({ auth: "FAILED", session: "SIGNED OUT", lastError: message });
+        setNotice("error", message);
+        setStatus("connectivity", "FAIL", message);
+        log("login failed", error?.cause || error);
+      } finally {
+        els.login.disabled = false;
+        els.login.textContent = "Login";
+      }
+    });
+    els.testConnection.addEventListener("click", testSupabaseConnectionButton);
     els.refresh.addEventListener("click", () => refreshSession().catch((error) => {
       state.errors.push(`refresh: ${error.message}`);
+      setDiag({ lastError: humanError(error) });
+      setNotice("error", humanError(error));
       log("refresh failed", error);
     }));
     els.logout.addEventListener("click", async () => {
@@ -561,33 +670,54 @@
   }
 
   async function init() {
+    setDiag({
+      js: "YES",
+      config: SUPABASE_URL && SUPABASE_KEY ? "READY" : "FAILED",
+      url: SUPABASE_URL ? "configured" : "missing",
+      key: SUPABASE_KEY ? "configured" : "missing"
+    });
     els.commit.textContent = PRODUCTION_COMMIT;
     els.runId.value = runId;
     renderTests();
+    renderDiagnostics();
     renderReport();
+    bind();
     if (!window.supabase?.createClient) {
+      setDiag({ client: "FAILED", lastError: "Supabase JS library did not load." });
+      setNotice("error", "Supabase JS library did not load. Login cannot run until the SDK is available.");
       setStatus("connectivity", "FAIL", "Supabase JS library did not load.");
       return;
     }
     state.client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
       auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
     });
-    bind();
-    await refreshSession();
+    setDiag({ client: "READY" });
+    setNotice("", "Ready. Enter email and password, then click Login.");
+    await refreshSession().catch((error) => {
+      const message = humanError(error);
+      setDiag({ lastError: message });
+      log("initial session refresh failed", error);
+    });
   }
 
   window.addEventListener("error", (event) => {
     state.errors.push(`runtime: ${event.message}`);
+    setDiag({ lastError: event.message });
+    setNotice("error", event.message);
     log("runtime error", { message: event.message, filename: event.filename, lineno: event.lineno });
     renderReport();
   });
   window.addEventListener("unhandledrejection", (event) => {
     state.errors.push(`promise: ${event.reason?.message || event.reason}`);
+    setDiag({ lastError: humanError(event.reason) });
+    setNotice("error", humanError(event.reason));
     log("unhandled rejection", event.reason);
     renderReport();
   });
   init().catch((error) => {
     state.errors.push(`init: ${error.message}`);
+    setDiag({ lastError: humanError(error) });
+    setNotice("error", humanError(error));
     log("init failed", error);
     renderReport();
   });
