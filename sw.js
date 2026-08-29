@@ -1,4 +1,4 @@
-const CACHE_NAME = "lc-app-investor-demo-v52";
+const CACHE_NAME = "lc-app-investor-demo-v53";
 
 const FILES_TO_CACHE = [
   "./",
@@ -49,6 +49,10 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
+  if (url.pathname.endsWith("/qa-live.html") || url.pathname.endsWith("/qa-live.js")) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
 
   const acceptsHtml = event.request.headers.get("accept")?.includes("text/html");
   const currentAsset = acceptsHtml || /\.(?:html|js|css)$/i.test(url.pathname);

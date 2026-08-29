@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LC APP - LIVE QA</title>
+  <meta name="robots" content="noindex,nofollow">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #06110f;
+      --panel: #0d1c18;
+      --panel-2: #10251f;
+      --line: rgba(183, 255, 218, .16);
+      --text: #eefbf6;
+      --muted: #a8c9bd;
+      --mint: #62f2b5;
+      --teal: #25b99f;
+      --danger: #ff6f7d;
+      --warn: #ffc66d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, rgba(98, 242, 181, .14), transparent 34rem), var(--bg);
+      color: var(--text);
+    }
+    main { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0 56px; }
+    header { display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; margin-bottom: 24px; }
+    h1 { margin: 0; font-size: clamp(30px, 4vw, 54px); letter-spacing: 0; line-height: .95; }
+    h2 { margin: 0 0 12px; font-size: 18px; }
+    p { margin: 0; color: var(--muted); line-height: 1.5; }
+    code { color: var(--mint); }
+    .badge { border: 1px solid var(--line); border-radius: 999px; padding: 8px 12px; color: var(--muted); white-space: nowrap; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .card { background: linear-gradient(180deg, rgba(16, 37, 31, .94), rgba(10, 24, 20, .94)); border: 1px solid var(--line); border-radius: 8px; padding: 18px; box-shadow: 0 18px 60px rgba(0,0,0,.22); }
+    label { display: grid; gap: 7px; color: var(--muted); font-size: 13px; }
+    input, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.26);
+      color: var(--text);
+      border-radius: 6px;
+      padding: 11px 12px;
+      font: inherit;
+    }
+    textarea { min-height: 230px; resize: vertical; }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .stack { display: grid; gap: 12px; }
+    button {
+      border: 1px solid rgba(98, 242, 181, .38);
+      background: rgba(98, 242, 181, .1);
+      color: var(--text);
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+    button:hover { border-color: var(--mint); background: rgba(98, 242, 181, .16); }
+    button.secondary { border-color: var(--line); background: rgba(255,255,255,.04); color: var(--muted); }
+    button.danger { border-color: rgba(255,111,125,.42); background: rgba(255,111,125,.1); }
+    .kv { display: grid; grid-template-columns: 150px 1fr; gap: 8px 12px; font-size: 14px; }
+    .kv span:nth-child(odd) { color: var(--muted); }
+    .tests { display: grid; gap: 8px; }
+    .test {
+      display: grid;
+      grid-template-columns: 190px 96px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px;
+      background: rgba(255,255,255,.035);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 7px;
+    }
+    .status { font-size: 12px; font-weight: 900; letter-spacing: 0; }
+    .status.not-run { color: var(--muted); }
+    .status.running { color: var(--warn); }
+    .status.pass { color: var(--mint); }
+    .status.fail { color: var(--danger); }
+    .detail { color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+    details { border-top: 1px solid var(--line); padding-top: 14px; }
+    summary { cursor: pointer; color: var(--mint); font-weight: 800; }
+    pre { white-space: pre-wrap; overflow-wrap: anywhere; color: #cdeee3; font-size: 12px; line-height: 1.45; }
+    .manual ol { margin: 8px 0 0; padding-left: 22px; color: var(--muted); line-height: 1.65; }
+    .full { grid-column: 1 / -1; }
+    @media (max-width: 840px) {
+      main { width: min(100% - 20px, 1180px); padding-top: 20px; }
+      header, .grid { grid-template-columns: 1fr; display: grid; }
+      .test { grid-template-columns: 1fr; align-items: start; }
+      .kv { grid-template-columns: 1fr; }
+      .badge { white-space: normal; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>LC APP - LIVE QA</h1>
+        <p>Temporary browser harness for live Supabase E2E validation. Not linked from the product.</p>
+      </div>
+      <div class="badge">Production commit: <code id="commitLabel">71fd452</code></div>
+    </header>
+
+    <section class="grid">
+      <div class="card stack">
+        <h2>Session</h2>
+        <div class="row">
+          <label style="flex:1 1 260px">Email
+            <input id="emailInput" autocomplete="username" placeholder="user@example.com">
+          </label>
+          <label style="flex:1 1 220px">Password
+            <input id="passwordInput" type="password" autocomplete="current-password" placeholder="Password">
+          </label>
+        </div>
+        <div class="row">
+          <button id="loginButton" type="button">Login</button>
+          <button id="refreshButton" class="secondary" type="button">Refresh Session</button>
+          <button id="logoutButton" class="danger" type="button">Logout</button>
+          <button id="copyUidButton" class="secondary" type="button">Copy My UID</button>
+        </div>
+        <div class="kv">
+          <span>Email</span><strong id="userEmail">Not signed in</strong>
+          <span>UID</span><strong id="userId">-</strong>
+          <span>Username</span><strong id="username">-</strong>
+          <span>Account</span><strong id="accountStatus">-</strong>
+          <span>Onboarding</span><strong id="onboardingStatus">-</strong>
+        </div>
+      </div>
+
+      <div class="card stack manual">
+        <h2>Manual two-user flow</h2>
+        <ol>
+          <li>Open qa-live.html in Browser A.</li>
+          <li>Login as User A.</li>
+          <li>Copy A UID.</li>
+          <li>Open Incognito or another browser.</li>
+          <li>Login as User B.</li>
+          <li>Copy B UID.</li>
+          <li>Enter the other user's UID in each QA page.</li>
+          <li>Run tests in the displayed order.</li>
+        </ol>
+      </div>
+
+      <div class="card stack full">
+        <h2>Test inputs</h2>
+        <div class="grid">
+          <label>Other user UID
+            <input id="otherUidInput" placeholder="Paste the UID from the other browser">
+          </label>
+          <label>Target post ID (optional; otherwise latest [LC_QA_TEMP] post by other user)
+            <input id="targetPostInput" placeholder="Optional post UUID">
+          </label>
+          <label>Target comment ID (optional; otherwise latest QA comment by other user)
+            <input id="targetCommentInput" placeholder="Optional comment UUID">
+          </label>
+          <label>Run ID
+            <input id="runIdInput" readonly>
+          </label>
+        </div>
+      </div>
+
+      <div class="card stack full">
+        <h2>Live tests</h2>
+        <div class="row">
+          <button data-run="connectivity" type="button">Run Connectivity</button>
+          <button data-run="p0" type="button">Run Current User P0</button>
+          <button data-run="logout" class="danger" type="button">Run Logout Protection</button>
+          <button data-run="follow" type="button">Run Follow</button>
+          <button data-run="notification" type="button">Run Notification Check</button>
+          <button data-run="post" type="button">Run Post</button>
+          <button data-run="like" type="button">Run Like / Unlike</button>
+          <button data-run="comment" type="button">Run Comment</button>
+          <button data-run="reply" type="button">Run Reply Depth</button>
+          <button data-run="block" type="button">Run Block</button>
+          <button data-run="direct-security" type="button">Run Direct Security</button>
+          <button data-run="unblock" type="button">Run Unblock</button>
+          <button data-run="report" type="button">Run Report</button>
+          <button data-run="cleanup" class="danger" type="button">Cleanup Test Data</button>
+          <button id="copyReportButton" class="secondary" type="button">Copy QA Report</button>
+        </div>
+        <div id="tests" class="tests"></div>
+      </div>
+
+      <div class="card stack full">
+        <h2>QA report</h2>
+        <textarea id="reportOutput" readonly></textarea>
+      </div>
+
+      <div class="card stack full">
+        <details open>
+          <summary>Debug details</summary>
+          <pre id="debugLog"></pre>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    window.LC_APP_CONFIG = window.LC_APP_CONFIG || {
+      SUPABASE_URL: "https://aspbwgsfkebduvviyeuo.supabase.co",
+      SUPABASE_PUBLISHABLE_KEY: "sb_publishable_0li-aucVGeUwp82kTd5XWA_6NqDFeNN",
+      PRODUCTION_COMMIT: "71fd452"
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./qa-live.js"></script>
+</body>
+</html>
