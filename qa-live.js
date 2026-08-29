@@ -3,38 +3,30 @@
   const SUPABASE_URL = cfg.SUPABASE_URL || "https://aspbwgsfkebduvviyeuo.supabase.co";
   const SUPABASE_KEY = cfg.SUPABASE_PUBLISHABLE_KEY || cfg.SUPABASE_ANON_KEY || "";
   const PRODUCTION_COMMIT = cfg.PRODUCTION_COMMIT || "71fd452";
-  const RUN_KEY = "lc-app-live-qa:run-id";
-  const POST_PREFIX = "[LC_QA_TEMP]";
-  const COMMENT_PREFIX = "[LC_QA_TEMP_COMMENT]";
-  const REPLY_PREFIX = "[LC_QA_TEMP_REPLY]";
-
-  const runId = localStorage.getItem(RUN_KEY) || crypto.randomUUID();
-  localStorage.setItem(RUN_KEY, runId);
+  const SUPABASE_REF = "aspbwgsfkebduvviyeuo";
+  const RUN_ID = crypto.randomUUID();
+  const TEMP_PREFIX = `[LC_QA_TEMP:${RUN_ID}]`;
 
   const $ = (id) => document.getElementById(id);
   const els = {
-    commit: $("commitLabel"),
-    email: $("emailInput"),
-    password: $("passwordInput"),
-    login: $("loginButton"),
+    run: $("runFullButton"),
     testConnection: $("testConnectionButton"),
-    refresh: $("refreshButton"),
-    logout: $("logoutButton"),
-    copyUid: $("copyUidButton"),
-    notice: $("authNotice"),
-    userEmail: $("userEmail"),
-    userId: $("userId"),
-    username: $("username"),
-    accountStatus: $("accountStatus"),
-    onboardingStatus: $("onboardingStatus"),
-    otherUid: $("otherUidInput"),
-    targetPost: $("targetPostInput"),
-    targetComment: $("targetCommentInput"),
-    runId: $("runIdInput"),
-    tests: $("tests"),
-    debug: $("debugLog"),
-    report: $("reportOutput"),
+    copyTop: $("copyReportButtonTop"),
     copyReport: $("copyReportButton"),
+    notice: $("authNotice"),
+    commit: $("commitLabel"),
+    emailA: $("emailAInput"),
+    passwordA: $("passwordAInput"),
+    emailB: $("emailBInput"),
+    passwordB: $("passwordBInput"),
+    userAId: $("userAId"),
+    userAUsername: $("userAUsername"),
+    userAAccount: $("userAAccount"),
+    userAOnboarding: $("userAOnboarding"),
+    userBId: $("userBId"),
+    userBUsername: $("userBUsername"),
+    userBAccount: $("userBAccount"),
+    userBOnboarding: $("userBOnboarding"),
     diagClient: $("diagClient"),
     diagConfig: $("diagConfig"),
     diagUrl: $("diagUrl"),
@@ -43,38 +35,38 @@
     diagAuth: $("diagAuth"),
     diagSession: $("diagSession"),
     diagConnection: $("diagConnection"),
-    diagLastError: $("diagLastError")
+    diagLastError: $("diagLastError"),
+    total: $("totalCount"),
+    passed: $("passedCount"),
+    failed: $("failedCount"),
+    blocked: $("blockedCount"),
+    skipped: $("skippedCount"),
+    finalStatus: $("finalStatus"),
+    resultsBody: $("resultsBody"),
+    report: $("reportOutput"),
+    debug: $("debugLog")
   };
 
-  const testDefs = [
-    ["connectivity", "Connectivity"],
-    ["p0", "Current User P0"],
-    ["logout", "Logout Protection"],
-    ["follow", "Follow"],
-    ["notification", "Notification Trigger"],
-    ["post", "Post"],
-    ["like", "Like / Unlike"],
-    ["comment", "Comment"],
-    ["reply", "Reply Depth"],
-    ["block", "Block"],
-    ["direct-security", "Direct Security"],
-    ["unblock", "Unblock"],
-    ["report", "Report"],
-    ["cleanup", "Cleanup"]
-  ];
-
-  const statuses = Object.fromEntries(testDefs.map(([id]) => [id, { status: "NOT RUN", detail: "" }]));
   const state = {
-    client: null,
-    session: null,
-    user: null,
-    profile: null,
-    errors: [],
-    currentPostId: localStorage.getItem("lc-app-live-qa:post-id") || "",
-    currentCommentId: localStorage.getItem("lc-app-live-qa:comment-id") || "",
-    currentReplyId: localStorage.getItem("lc-app-live-qa:reply-id") || "",
-    currentReportId: localStorage.getItem("lc-app-live-qa:report-id") || ""
+    clientA: null,
+    clientB: null,
+    userA: null,
+    userB: null,
+    profileA: null,
+    profileB: null,
+    postAId: null,
+    postBId: null,
+    commentAId: null,
+    replyBId: null,
+    reportAId: null,
+    cleanup: [],
+    results: [],
+    qaCommit: "not fetched",
+    running: false,
+    final: "SOCIAL MVP LIVE E2E: NOT RUN",
+    errors: []
   };
+
   const diag = {
     client: "FAILED",
     config: "FAILED",
@@ -87,18 +79,56 @@
     lastError: "None"
   };
 
+  const tests = [
+    ["01", "User A", "Follow User B", "follows row exists"],
+    ["02", "User B", "Follower notification", "notification exists"],
+    ["03", "User B", "Create temp post", "post UUID captured"],
+    ["04", "User A", "Read User B post", "post visible"],
+    ["05", "User A", "Like User B post", "post_likes row exists"],
+    ["06", "User B", "Like notification", "notification exists"],
+    ["07", "User A", "Unlike User B post", "post_likes row removed"],
+    ["08", "User A", "Comment on User B post", "comment UUID captured"],
+    ["09", "User B", "Comment notification", "notification exists"],
+    ["10", "User B", "Reply to User A comment", "reply UUID captured"],
+    ["11", "User A", "Attempt reply-to-reply", "database denies nested reply"],
+    ["12", "User A", "Block User B", "user_blocks row exists"],
+    ["13", "Both", "Follow cleanup after block", "A/B follows removed"],
+    ["14", "Both", "Blocked RLS visibility", "blocked content hidden by DB/RLS"],
+    ["15", "Both", "Attempt follow while blocked", "database denies both directions"],
+    ["16", "Both", "Blocked notification interaction", "no forbidden notification generated"],
+    ["17", "User A", "Direct notifications INSERT", "database denies client insert"],
+    ["18", "User A", "Direct activity_events INSERT", "database denies client insert"],
+    ["19", "User A", "Unblock User B", "block row removed"],
+    ["20", "Both", "Visibility after unblock", "content visible again"],
+    ["21", "User A", "Report User B post", "report insert allowed, moderator update denied"]
+  ];
+
+  class BlockedError extends Error {
+    constructor(message) {
+      super(message);
+      this.name = "BlockedError";
+    }
+  }
+
+  class SkippedError extends Error {
+    constructor(message) {
+      super(message);
+      this.name = "SkippedError";
+    }
+  }
+
   function scrub(value) {
     const text = typeof value === "string" ? value : JSON.stringify(value, null, 2);
     return (text || "")
       .replace(/eyJ[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+/g, "[JWT_REDACTED]")
       .replace(/sb_secret_[a-zA-Z0-9_-]+/g, "[SECRET_REDACTED]")
       .replace(/access_token["']?\s*[:=]\s*["'][^"']+["']/gi, "access_token: [REDACTED]")
-      .replace(/refresh_token["']?\s*[:=]\s*["'][^"']+["']/gi, "refresh_token: [REDACTED]");
+      .replace(/refresh_token["']?\s*[:=]\s*["'][^"']+["']/gi, "refresh_token: [REDACTED]")
+      .replace(/password[A-Za-z0-9_ -]*["']?\s*[:=]\s*["'][^"']+["']/gi, "password: [REDACTED]");
   }
 
   function log(label, payload) {
-    const line = `[${new Date().toISOString()}] ${label}\n${scrub(payload)}\n`;
-    els.debug.textContent = `${line}\n${els.debug.textContent}`.slice(0, 60000);
+    els.debug.textContent = `[${new Date().toISOString()}] ${label}\n${scrub(payload)}\n\n${els.debug.textContent}`.slice(0, 80000);
   }
 
   function setNotice(type, message) {
@@ -123,38 +153,24 @@
     els.diagLastError.textContent = scrub(diag.lastError || "None");
   }
 
+  function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[char]));
+  }
+
   function failMessage(error) {
     if (!error) return "";
     return error.message || error.error_description || error.details || String(error);
   }
 
-  function assertOk(result, label) {
-    if (result?.error) {
-      const err = new Error(`${label}: ${failMessage(result.error)}`);
-      err.cause = result.error;
-      throw err;
-    }
-    return result;
-  }
-
-  function setStatus(id, status, detail = "") {
-    statuses[id] = { status, detail: scrub(detail) };
-    renderTests();
-    renderReport();
-  }
-
-  async function run(id, fn) {
-    setStatus(id, "RUNNING", "");
-    try {
-      const detail = await fn();
-      setStatus(id, "PASS", detail || "Passed.");
-    } catch (error) {
-      const detail = error?.message || String(error);
-      state.errors.push(`${id}: ${detail}`);
-      setDiag({ lastError: detail });
-      log(`FAIL ${id}`, error?.cause || error);
-      setStatus(id, "FAIL", detail);
-    }
+  function humanError(error) {
+    const raw = failMessage(error) || "Unknown error.";
+    if (/failed to fetch|networkerror|load failed/i.test(raw)) return "Supabase request failed from this browser. Check network, browser privacy blocking, CORS/origin settings, or Supabase availability.";
+    if (/invalid login credentials/i.test(raw)) return "Login failed: email or password is incorrect.";
+    if (/email not confirmed/i.test(raw)) return "Login failed: email is not confirmed.";
+    if (/timed out/i.test(raw)) return raw;
+    return raw;
   }
 
   function withTimeout(promise, timeoutMs, label) {
@@ -169,561 +185,642 @@
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  function renderTests() {
-    els.tests.innerHTML = testDefs.map(([id, label]) => {
-      const current = statuses[id];
-      const cls = current.status.toLowerCase().replace(/\s+/g, "-");
-      return `<div class="test">
-        <strong>${label}</strong>
-        <span class="status ${cls}">${current.status}</span>
-        <span class="detail">${escapeHtml(current.detail || "")}</span>
-        <button class="secondary" type="button" data-run="${id}">Run</button>
-      </div>`;
-    }).join("");
-  }
-
-  function escapeHtml(value) {
-    return String(value).replace(/[&<>"']/g, (char) => ({
-      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-    }[char]));
-  }
-
-  async function refreshSession() {
-    assertClient();
-    const { data, error } = await withTimeout(state.client.auth.getSession(), 12000, "Session refresh");
-    if (error) throw error;
-    state.session = data.session || null;
-    state.user = state.session?.user || null;
-    if (state.user) {
-      const profile = await state.client.from("profiles")
-        .select("id,username,display_name,avatar_url,bio,country,languages,onboarding_completed,terms_accepted_at,privacy_accepted_at,age_confirmed,account_status,role")
-        .eq("id", state.user.id)
-        .maybeSingle();
-      if (!profile.error) state.profile = profile.data || null;
-      else log("profile refresh failed", profile.error);
-    } else {
-      state.profile = null;
+  function assertOk(result, label) {
+    if (result?.error) {
+      const err = new Error(`${label}: ${failMessage(result.error)}`);
+      err.cause = result.error;
+      throw err;
     }
-    renderUser();
-    setDiag({ session: state.user ? "SIGNED IN" : "SIGNED OUT" });
+    return result;
+  }
+
+  function expectDenied(result, label) {
+    if (!result?.error) throw new Error(`${label}: request succeeded but expected denial`);
+    return result.error;
+  }
+
+  function memoryStorage() {
+    const store = new Map();
+    return {
+      getItem: (key) => store.get(key) || null,
+      setItem: (key, value) => {
+        store.set(key, value);
+      },
+      removeItem: (key) => {
+        store.delete(key);
+      }
+    };
+  }
+
+  function makeClient(label) {
+    return window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: false,
+        detectSessionInUrl: false,
+        storageKey: `lc-live-qa-${label}-${RUN_ID}`,
+        storage: memoryStorage()
+      }
+    });
+  }
+
+  function resetRunState() {
+    state.userA = null;
+    state.userB = null;
+    state.profileA = null;
+    state.profileB = null;
+    state.postAId = null;
+    state.postBId = null;
+    state.commentAId = null;
+    state.replyBId = null;
+    state.reportAId = null;
+    state.cleanup = [];
+    state.results = [];
+    state.errors = [];
+    state.final = "SOCIAL MVP LIVE E2E: RUNNING";
+    els.debug.textContent = "";
+    renderUsers();
+    renderResults();
+  }
+
+  function renderUsers() {
+    els.userAId.textContent = state.userA?.id || "-";
+    els.userAUsername.textContent = state.profileA?.username || "-";
+    els.userAAccount.textContent = state.profileA?.account_status || "-";
+    els.userAOnboarding.textContent = state.profileA ? String(Boolean(state.profileA.onboarding_completed)) : "-";
+    els.userBId.textContent = state.userB?.id || "-";
+    els.userBUsername.textContent = state.profileB?.username || "-";
+    els.userBAccount.textContent = state.profileB?.account_status || "-";
+    els.userBOnboarding.textContent = state.profileB ? String(Boolean(state.profileB.onboarding_completed)) : "-";
+  }
+
+  function addResult(id, user, action, expected, actual, result, detail = "") {
+    const row = { id, user, action, expected, actual, result, detail: scrub(detail) };
+    const existing = state.results.findIndex((item) => item.id === id);
+    if (existing >= 0) state.results[existing] = row;
+    else state.results.push(row);
+    renderResults();
+    return row;
+  }
+
+  function setPendingRows() {
+    state.results = tests.map(([id, user, action, expected]) => ({
+      id, user, action, expected, actual: "Not run", result: "SKIPPED", detail: "Waiting for run."
+    }));
+    renderResults();
+  }
+
+  function renderResults() {
+    const counts = { PASS: 0, FAIL: 0, BLOCKED: 0, SKIPPED: 0 };
+    state.results.forEach((row) => {
+      if (counts[row.result] !== undefined) counts[row.result] += 1;
+    });
+    els.total.textContent = String(state.results.length);
+    els.passed.textContent = String(counts.PASS);
+    els.failed.textContent = String(counts.FAIL);
+    els.blocked.textContent = String(counts.BLOCKED);
+    els.skipped.textContent = String(counts.SKIPPED);
+    els.finalStatus.textContent = state.final;
+    els.resultsBody.innerHTML = state.results.map((row) => `
+      <tr>
+        <td>${escapeHtml(row.id)}</td>
+        <td>${escapeHtml(row.user)}</td>
+        <td>${escapeHtml(row.action)}</td>
+        <td>${escapeHtml(row.expected)}</td>
+        <td>${escapeHtml(row.actual)}</td>
+        <td class="result-${escapeHtml(row.result.toLowerCase())}">${escapeHtml(row.result)}</td>
+        <td>${escapeHtml(row.detail)}</td>
+      </tr>
+    `).join("");
     renderReport();
   }
 
-  function renderUser() {
-    const user = state.user;
-    const profile = state.profile;
-    els.userEmail.textContent = user?.email || "Not signed in";
-    els.userId.textContent = user?.id || "-";
-    els.username.textContent = profile?.username || "-";
-    els.accountStatus.textContent = profile?.account_status || "-";
-    els.onboardingStatus.textContent = profile ? String(Boolean(profile.onboarding_completed)) : "-";
-    els.copyUid.disabled = !user?.id;
+  async function runStep(id, fn) {
+    const meta = tests.find((test) => test[0] === id);
+    addResult(id, meta[1], meta[2], meta[3], "Running", "SKIPPED", "Running...");
+    try {
+      const actual = await fn();
+      addResult(id, meta[1], meta[2], meta[3], actual || "Verified", "PASS", "");
+      return true;
+    } catch (error) {
+      const status = error instanceof BlockedError ? "BLOCKED" : error instanceof SkippedError ? "SKIPPED" : "FAIL";
+      const message = humanError(error);
+      state.errors.push(`TEST ${id}: ${message}`);
+      setDiag({ lastError: message });
+      log(`TEST ${id} ${status}`, error?.cause || error);
+      addResult(id, meta[1], meta[2], meta[3], "Not verified", status, message);
+      return false;
+    }
   }
 
-  function assertClient() {
-    if (!state.client) throw new Error("Supabase client is not initialized.");
-    if (!SUPABASE_KEY) throw new Error("SUPABASE_PUBLISHABLE_KEY is missing.");
-  }
-
-  async function requireUser() {
-    await refreshSession();
-    if (!state.user) throw new Error("Login required.");
-    return state.user;
-  }
-
-  function otherUid() {
-    const value = els.otherUid.value.trim();
-    if (!value) throw new Error("Paste the other user's UID first.");
-    return value;
-  }
-
-  function targetPostInput() {
-    return els.targetPost.value.trim();
-  }
-
-  function targetCommentInput() {
-    return els.targetComment.value.trim();
-  }
-
-  async function testConnectivity() {
-    assertClient();
-    setDiag({ connection: "RUNNING" });
-    const settings = await withTimeout(fetch(`${SUPABASE_URL}/auth/v1/settings`, { headers: { apikey: SUPABASE_KEY } }), 12000, "Supabase connection");
-    if (!settings.ok) throw new Error(`Supabase auth endpoint failed: HTTP ${settings.status}`);
+  async function testSupabaseConnection() {
+    setDiag({ connection: "RUNNING", lastError: "None" });
+    const response = await withTimeout(fetch(`${SUPABASE_URL}/auth/v1/settings`, {
+      headers: { apikey: SUPABASE_KEY }
+    }), 12000, "Supabase connection");
+    if (!response.ok) throw new Error(`Supabase endpoint returned HTTP ${response.status}.`);
     setDiag({ connection: "PASS" });
-    const session = await state.client.auth.getSession();
-    if (session.error) throw session.error;
-    const profileProbe = await state.client.from("profiles").select("id,username").limit(1);
-    if (profileProbe.error) throw profileProbe.error;
-    const settingsProbe = await state.client.from("user_settings").select("user_id").limit(1);
-    if (settingsProbe.error) throw settingsProbe.error;
-    await refreshSession();
-    return "Endpoint reachable; auth.getSession, profiles query and user_settings query returned without raw runtime failure.";
+    return "Supabase endpoint reachable";
   }
 
-  async function testSupabaseConnectionButton(event) {
+  async function fetchQaCommit() {
+    try {
+      const response = await withTimeout(fetch("https://api.github.com/repos/minasyannarek13-RBB/lc-app-investor-demo/commits/main", {
+        headers: { Accept: "application/vnd.github+json" }
+      }), 10000, "QA commit lookup");
+      if (!response.ok) throw new Error(`GitHub returned HTTP ${response.status}`);
+      const data = await response.json();
+      state.qaCommit = data?.sha ? data.sha.slice(0, 7) : "not available";
+    } catch (error) {
+      state.qaCommit = "not available";
+      log("QA commit lookup skipped", error);
+    }
+    renderReport();
+  }
+
+  async function signIn(client, email, password, label) {
+    const result = await withTimeout(client.auth.signInWithPassword({ email, password }), 18000, `${label} login`);
+    if (result.error) throw result.error;
+    if (!result.data?.user?.id) throw new Error(`${label} login did not return a user id.`);
+    return result.data.user;
+  }
+
+  async function profile(client, uid, label) {
+    return assertOk(await client.from("profiles")
+      .select("id,username,display_name,onboarding_completed,terms_accepted_at,privacy_accepted_at,age_confirmed,account_status,role")
+      .eq("id", uid)
+      .single(), `${label} profile`).data;
+  }
+
+  async function userSettings(client, uid, label) {
+    return assertOk(await client.from("user_settings").select("*").eq("user_id", uid).single(), `${label} user_settings`).data;
+  }
+
+  function onboardingMissing(profileRow) {
+    return ["username", "display_name", "age_confirmed", "terms_accepted_at", "privacy_accepted_at"]
+      .filter((field) => !profileRow?.[field]);
+  }
+
+  async function preflight() {
+    setNotice("", "Preflight running...");
+    setDiag({ auth: "RUNNING", session: "SIGNED OUT", lastError: "None" });
+    state.clientA = makeClient("a");
+    state.clientB = makeClient("b");
+    setDiag({ client: "READY" });
+    await testSupabaseConnection();
+
+    const emailA = els.emailA.value.trim();
+    const emailB = els.emailB.value.trim();
+    const passwordA = els.passwordA.value;
+    const passwordB = els.passwordB.value;
+    els.passwordA.value = "";
+    els.passwordB.value = "";
+    if (!emailA || !passwordA || !emailB || !passwordB) throw new BlockedError("Enter email and password for both User A and User B.");
+
+    state.userA = await signIn(state.clientA, emailA, passwordA, "User A");
+    state.userB = await signIn(state.clientB, emailB, passwordB, "User B");
+    if (state.userA.id === state.userB.id) throw new BlockedError("User A and User B must be different accounts.");
+
+    state.profileA = await profile(state.clientA, state.userA.id, "User A");
+    state.profileB = await profile(state.clientB, state.userB.id, "User B");
+    await userSettings(state.clientA, state.userA.id, "User A");
+    await userSettings(state.clientB, state.userB.id, "User B");
+    renderUsers();
+
+    const blockers = [];
+    if (state.profileA.account_status !== "active") blockers.push(`User A account_status=${state.profileA.account_status}`);
+    if (state.profileB.account_status !== "active") blockers.push(`User B account_status=${state.profileB.account_status}`);
+    const missingA = onboardingMissing(state.profileA);
+    const missingB = onboardingMissing(state.profileB);
+    if (missingA.length) blockers.push(`User A missing onboarding fields: ${missingA.join(", ")}`);
+    if (missingB.length) blockers.push(`User B missing onboarding fields: ${missingB.join(", ")}`);
+
+    const followAToB = await state.clientA.from("follows").select("*").eq("follower_id", state.userA.id).eq("following_id", state.userB.id);
+    const followBToA = await state.clientB.from("follows").select("*").eq("follower_id", state.userB.id).eq("following_id", state.userA.id);
+    if (followAToB.error) throw followAToB.error;
+    if (followBToA.error) throw followBToA.error;
+    if (followAToB.data?.length || followBToA.data?.length) blockers.push("Existing follow relationship between User A and User B would make cleanup unsafe.");
+
+    const existingBlocksA = await state.clientA.from("user_blocks").select("*").eq("blocker_id", state.userA.id).eq("blocked_id", state.userB.id);
+    const existingBlocksB = await state.clientB.from("user_blocks").select("*").eq("blocker_id", state.userB.id).eq("blocked_id", state.userA.id);
+    if (existingBlocksA.error && existingBlocksB.error) throw existingBlocksA.error;
+    if ((existingBlocksA.data || []).length || (existingBlocksB.data || []).length) blockers.push("Existing block relationship between User A and User B would invalidate block tests.");
+    if (blockers.length) throw new BlockedError(blockers.join(" | "));
+
+    setDiag({ auth: "SUCCESS", session: "SIGNED IN" });
+    return "Preflight PASS";
+  }
+
+  async function waitForNotification(client, recipientId, actorId, type, targetType, targetId) {
+    for (let i = 0; i < 8; i += 1) {
+      const query = client.from("notifications")
+        .select("id,type,target_type,target_id,actor_id,recipient_id,created_at")
+        .eq("recipient_id", recipientId)
+        .eq("actor_id", actorId)
+        .eq("type", type)
+        .eq("target_type", targetType)
+        .order("created_at", { ascending: false })
+        .limit(10);
+      if (targetId) query.eq("target_id", targetId);
+      const result = assertOk(await query, `${type} notification`);
+      const row = (result.data || []).find((item) => !targetId || item.target_id === targetId);
+      if (row) return row;
+      await delay(500);
+    }
+    throw new Error(`No ${type} notification found for recipient.`);
+  }
+
+  async function notificationCount(client, recipientId, actorId) {
+    const result = assertOk(await client.from("notifications")
+      .select("id", { count: "exact" })
+      .eq("recipient_id", recipientId)
+      .eq("actor_id", actorId), "notification count");
+    return result.count ?? (result.data || []).length;
+  }
+
+  async function visiblePost(client, postId, label) {
+    const result = assertOk(await client.from("posts").select("id,author_id,body,deleted_at,status").eq("id", postId).maybeSingle(), label);
+    return result.data;
+  }
+
+  async function visibleComment(client, commentId, label) {
+    const result = assertOk(await client.from("comments").select("id,author_id,body,parent_comment_id,deleted_at,status").eq("id", commentId).maybeSingle(), label);
+    return result.data;
+  }
+
+  async function cleanupRun() {
+    const cleanupNotes = [];
+    if (state.clientA && state.userA && state.userB) {
+      await state.clientA.from("user_blocks").delete().eq("blocker_id", state.userA.id).eq("blocked_id", state.userB.id);
+      await state.clientA.from("follows").delete().eq("follower_id", state.userA.id).eq("following_id", state.userB.id);
+      if (state.postBId) await state.clientA.from("post_likes").delete().eq("post_id", state.postBId).eq("user_id", state.userA.id);
+      if (state.commentAId) await state.clientA.from("comments").update({ deleted_at: new Date().toISOString(), body: "[deleted]" }).eq("id", state.commentAId);
+      if (state.postAId) await state.clientA.from("posts").update({ deleted_at: new Date().toISOString() }).eq("id", state.postAId);
+    }
+    if (state.clientB && state.userB && state.userA) {
+      await state.clientB.from("follows").delete().eq("follower_id", state.userB.id).eq("following_id", state.userA.id);
+      if (state.replyBId) await state.clientB.from("comments").update({ deleted_at: new Date().toISOString(), body: "[deleted]" }).eq("id", state.replyBId);
+      if (state.postBId) await state.clientB.from("posts").update({ deleted_at: new Date().toISOString() }).eq("id", state.postBId);
+    }
+    if (state.reportAId) cleanupNotes.push(`Report ${state.reportAId} retained: reports have no client DELETE policy.`);
+    cleanupNotes.push("Notifications/activity_events retained by database policy.");
+    state.cleanup = cleanupNotes;
+    return cleanupNotes.join(" ");
+  }
+
+  async function runFullE2E(event) {
+    event?.preventDefault();
+    if (state.running) return;
+    state.running = true;
+    els.run.disabled = true;
+    els.run.textContent = "RUNNING...";
+    resetRunState();
+    setPendingRows();
+    setNotice("", "Running preflight...");
+
+    let preflightPassed = false;
+    try {
+      await preflight();
+      preflightPassed = true;
+      setNotice("", "Running social E2E tests...");
+    } catch (error) {
+      const message = humanError(error);
+      const status = error instanceof BlockedError ? "BLOCKED" : "FAIL";
+      state.errors.push(`PREFLIGHT: ${message}`);
+      state.final = "SOCIAL MVP LIVE E2E: FAIL";
+      setDiag({ auth: status === "BLOCKED" ? "BLOCKED" : "FAILED", lastError: message });
+      setNotice("error", message);
+      log(`PREFLIGHT ${status}`, error?.cause || error);
+      state.results = [];
+      addResult("PREFLIGHT", "A+B", "Connectivity, auth, profiles, settings, account/onboarding", "ready to test", "not ready", status, message);
+    }
+
+    if (preflightPassed) {
+      await runStep("01", async () => {
+        assertOk(await state.clientA.from("follows").insert({ follower_id: state.userA.id, following_id: state.userB.id }), "A follows B");
+        const row = assertOk(await state.clientA.from("follows").select("*").eq("follower_id", state.userA.id).eq("following_id", state.userB.id).maybeSingle(), "follow visible");
+        if (!row.data) throw new Error("Follow row missing after insert.");
+        return "A->B follow row visible";
+      });
+
+      await runStep("02", async () => {
+        const note = await waitForNotification(state.clientB, state.userB.id, state.userA.id, "new_follower", "profile", state.userB.id);
+        return `notification ${note.id}; activity_events are intentionally not client-readable`;
+      });
+
+      await runStep("03", async () => {
+        const post = assertOk(await state.clientB.from("posts").insert({
+          author_id: state.userB.id,
+          body: `${TEMP_PREFIX} User B post ${new Date().toISOString()}`,
+          status: "active"
+        }).select("id").single(), "B creates post").data;
+        state.postBId = post.id;
+        return `post ${state.postBId}`;
+      });
+
+      await runStep("04", async () => {
+        if (!state.postBId) throw new SkippedError("No User B post id.");
+        const row = await visiblePost(state.clientA, state.postBId, "A reads B post");
+        if (!row) throw new Error("User A cannot read User B post.");
+        return "B post visible to A";
+      });
+
+      await runStep("05", async () => {
+        if (!state.postBId) throw new SkippedError("No User B post id.");
+        assertOk(await state.clientA.from("post_likes").insert({ post_id: state.postBId, user_id: state.userA.id }), "A likes B post");
+        const row = assertOk(await state.clientA.from("post_likes").select("*").eq("post_id", state.postBId).eq("user_id", state.userA.id).maybeSingle(), "like visible");
+        if (!row.data) throw new Error("Like row missing after insert.");
+        return "post_likes row exists";
+      });
+
+      await runStep("06", async () => {
+        if (!state.postBId) throw new SkippedError("No User B post id.");
+        const note = await waitForNotification(state.clientB, state.userB.id, state.userA.id, "post_like", "post", state.postBId);
+        return `like notification ${note.id}`;
+      });
+
+      await runStep("07", async () => {
+        assertOk(await state.clientA.from("post_likes").delete().eq("post_id", state.postBId).eq("user_id", state.userA.id), "A unlikes");
+        const row = assertOk(await state.clientA.from("post_likes").select("*").eq("post_id", state.postBId).eq("user_id", state.userA.id).maybeSingle(), "unlike verify");
+        if (row.data) throw new Error("Like row remained after unlike.");
+        return "like removed";
+      });
+
+      await runStep("08", async () => {
+        if (!state.postBId) throw new SkippedError("No User B post id.");
+        const comment = assertOk(await state.clientA.from("comments").insert({
+          post_id: state.postBId,
+          author_id: state.userA.id,
+          body: `${TEMP_PREFIX} User A comment ${new Date().toISOString()}`
+        }).select("id").single(), "A comments").data;
+        state.commentAId = comment.id;
+        return `comment ${state.commentAId}`;
+      });
+
+      await runStep("09", async () => {
+        if (!state.postBId) throw new SkippedError("No User B post id.");
+        const note = await waitForNotification(state.clientB, state.userB.id, state.userA.id, "comment", "post", state.postBId);
+        return `comment notification ${note.id}`;
+      });
+
+      await runStep("10", async () => {
+        if (!state.commentAId) throw new SkippedError("No User A comment id.");
+        const reply = assertOk(await state.clientB.from("comments").insert({
+          post_id: state.postBId,
+          author_id: state.userB.id,
+          parent_comment_id: state.commentAId,
+          body: `${TEMP_PREFIX} User B reply ${new Date().toISOString()}`
+        }).select("id").single(), "B replies").data;
+        state.replyBId = reply.id;
+        return `reply ${state.replyBId}`;
+      });
+
+      await runStep("11", async () => {
+        if (!state.replyBId) throw new SkippedError("No User B reply id.");
+        const nested = await state.clientA.from("comments").insert({
+          post_id: state.postBId,
+          author_id: state.userA.id,
+          parent_comment_id: state.replyBId,
+          body: `${TEMP_PREFIX} nested reply should fail`
+        }).select("id").maybeSingle();
+        expectDenied(nested, "reply-to-reply");
+        return "nested reply denied";
+      });
+
+      await runStep("12", async () => {
+        assertOk(await state.clientA.from("user_blocks").insert({ blocker_id: state.userA.id, blocked_id: state.userB.id }), "A blocks B");
+        const row = assertOk(await state.clientA.from("user_blocks").select("*").eq("blocker_id", state.userA.id).eq("blocked_id", state.userB.id).maybeSingle(), "block visible");
+        if (!row.data) throw new Error("Block row missing after insert.");
+        return "A->B block row exists";
+      });
+
+      await runStep("13", async () => {
+        const rows = assertOk(await state.clientA.from("follows")
+          .select("*")
+          .or(`and(follower_id.eq.${state.userA.id},following_id.eq.${state.userB.id}),and(follower_id.eq.${state.userB.id},following_id.eq.${state.userA.id})`), "follow cleanup").data;
+        if (rows.length) throw new Error("Follow relationship still exists after block.");
+        return "A/B follows removed";
+      });
+
+      await runStep("14", async () => {
+        const postA = assertOk(await state.clientA.from("posts").insert({
+          author_id: state.userA.id,
+          body: `${TEMP_PREFIX} User A visibility post ${new Date().toISOString()}`,
+          status: "active"
+        }).select("id").single(), "A creates visibility post").data;
+        state.postAId = postA.id;
+        const aReadsBPost = await visiblePost(state.clientA, state.postBId, "A reads blocked B post");
+        const aReadsBReply = state.replyBId ? await visibleComment(state.clientA, state.replyBId, "A reads blocked B reply") : null;
+        const bReadsAPost = await visiblePost(state.clientB, state.postAId, "B reads blocked A post");
+        const bReadsAComment = state.commentAId ? await visibleComment(state.clientB, state.commentAId, "B reads blocked A comment") : null;
+        if (aReadsBPost || aReadsBReply || bReadsAPost || bReadsAComment) {
+          throw new Error("Blocked content remained visible through direct Supabase queries.");
+        }
+        return "blocked posts/comments hidden both directions";
+      });
+
+      await runStep("15", async () => {
+        const aFollow = await state.clientA.from("follows").insert({ follower_id: state.userA.id, following_id: state.userB.id });
+        const bFollow = await state.clientB.from("follows").insert({ follower_id: state.userB.id, following_id: state.userA.id });
+        expectDenied(aFollow, "A follow while blocked");
+        expectDenied(bFollow, "B follow while blocked");
+        return "both follow attempts denied";
+      });
+
+      await runStep("16", async () => {
+        const before = await notificationCount(state.clientB, state.userB.id, state.userA.id);
+        const like = await state.clientA.from("post_likes").insert({ post_id: state.postBId, user_id: state.userA.id });
+        expectDenied(like, "A likes B post while blocked");
+        await delay(700);
+        const after = await notificationCount(state.clientB, state.userB.id, state.userA.id);
+        if (after !== before) throw new Error(`Blocked interaction changed notification count: ${before} -> ${after}`);
+        return "blocked like denied; no new B notification";
+      });
+
+      await runStep("17", async () => {
+        const insert = await state.clientA.from("notifications").insert({
+          recipient_id: state.userA.id,
+          actor_id: state.userB.id,
+          type: "new_follower",
+          target_type: "profile",
+          target_id: state.userA.id
+        });
+        expectDenied(insert, "direct notification insert");
+        return "direct notifications insert denied";
+      });
+
+      await runStep("18", async () => {
+        const insert = await state.clientA.from("activity_events").insert({
+          actor_id: state.userA.id,
+          recipient_id: state.userB.id,
+          verb: "followed",
+          target_type: "profile",
+          target_id: state.userB.id
+        });
+        expectDenied(insert, "direct activity_events insert");
+        return "direct activity_events insert denied";
+      });
+
+      await runStep("19", async () => {
+        assertOk(await state.clientA.from("user_blocks").delete().eq("blocker_id", state.userA.id).eq("blocked_id", state.userB.id), "A unblocks B");
+        const row = assertOk(await state.clientA.from("user_blocks").select("*").eq("blocker_id", state.userA.id).eq("blocked_id", state.userB.id).maybeSingle(), "unblock verify");
+        if (row.data) throw new Error("Block row still exists after unblock.");
+        return "block removed";
+      });
+
+      await runStep("20", async () => {
+        const bPost = await visiblePost(state.clientA, state.postBId, "A reads B post after unblock");
+        const aPost = await visiblePost(state.clientB, state.postAId, "B reads A post after unblock");
+        if (!bPost || !aPost) throw new Error("Visibility did not return after unblock.");
+        return "A/B temp posts visible again";
+      });
+
+      await runStep("21", async () => {
+        const report = assertOk(await state.clientA.from("reports").insert({
+          reporter_id: state.userA.id,
+          target_type: "post",
+          target_id: state.postBId,
+          reason: "other",
+          description: `${TEMP_PREFIX} report`
+        }).select("id,status").single(), "A reports B post").data;
+        state.reportAId = report.id;
+        const update = await state.clientA.from("reports").update({ status: "reviewing" }).eq("id", state.reportAId);
+        expectDenied(update, "regular user moderator update");
+        return `report ${state.reportAId}; moderator update denied`;
+      });
+    }
+
+    const cleanupDetail = await cleanupRun().catch((error) => {
+      const message = humanError(error);
+      state.errors.push(`CLEANUP: ${message}`);
+      log("CLEANUP FAIL", error?.cause || error);
+      return `Cleanup failed: ${message}`;
+    });
+    state.results.push({
+      id: "CLEANUP",
+      user: "A+B",
+      action: "Cleanup run-created data",
+      expected: "remove only run_id data where RLS allows",
+      actual: cleanupDetail,
+      result: cleanupDetail.startsWith("Cleanup failed") ? "FAIL" : "PASS",
+      detail: cleanupDetail
+    });
+
+    const hasFail = state.results.some((row) => row.result === "FAIL" || row.result === "BLOCKED");
+    state.final = hasFail ? "SOCIAL MVP LIVE E2E: FAIL" : "SOCIAL MVP LIVE E2E: PASS";
+    setNotice(hasFail ? "error" : "success", state.final);
+    renderResults();
+    state.running = false;
+    els.run.disabled = false;
+    els.run.textContent = "RUN FULL SOCIAL E2E";
+  }
+
+  function renderReport() {
+    const rows = state.results.map((row) => `TEST ${row.id} | ${row.user} | ${row.action} | ${row.result} | ${row.actual}${row.detail ? ` | ${row.detail}` : ""}`);
+    els.report.value = [
+      "LC APP LIVE QA REPORT",
+      `Production commit: ${PRODUCTION_COMMIT}`,
+      `QA commit: ${state.qaCommit}`,
+      `Timestamp: ${new Date().toISOString()}`,
+      `Supabase project reference: ${SUPABASE_REF}`,
+      `Run ID: ${RUN_ID}`,
+      `User A UID: ${state.userA?.id || "not authenticated"}`,
+      `User B UID: ${state.userB?.id || "not authenticated"}`,
+      "",
+      "Preflight results:",
+      `Supabase client: ${diag.client}`,
+      `Runtime config: ${diag.config}`,
+      `Supabase URL: ${diag.url}`,
+      `Publishable key: ${diag.key}`,
+      `Auth request: ${diag.auth}`,
+      `Session: ${diag.session}`,
+      `Supabase connection: ${diag.connection}`,
+      "",
+      "Each test result:",
+      ...(rows.length ? rows : ["No tests run."]),
+      "",
+      "RLS/security results:",
+      state.results.filter((row) => /RLS|Direct|blocked|Block|notification|activity/i.test(`${row.action} ${row.expected}`)).map((row) => `TEST ${row.id}: ${row.result} - ${row.actual}`),
+      "",
+      "Cleanup results:",
+      ...(state.cleanup.length ? state.cleanup : ["Cleanup not run yet."]),
+      "",
+      "Remaining failures/blockers:",
+      ...(state.errors.length ? state.errors.map(scrub) : ["None."]),
+      "",
+      `Final verdict: ${state.final}`
+    ].flat().join("\n");
+  }
+
+  async function copyReport() {
+    await navigator.clipboard.writeText(els.report.value);
+    setNotice("success", "QA report copied.");
+  }
+
+  async function handleConnectionClick(event) {
     event?.preventDefault();
     setNotice("", "Testing Supabase connection...");
     try {
-      assertClient();
-      setDiag({ connection: "RUNNING", lastError: "None" });
-      const response = await withTimeout(fetch(`${SUPABASE_URL}/auth/v1/settings`, { headers: { apikey: SUPABASE_KEY } }), 12000, "Supabase connection");
-      if (!response.ok) throw new Error(`Supabase endpoint returned HTTP ${response.status}.`);
-      setDiag({ connection: "PASS" });
-      setNotice("success", "Supabase connection PASS.");
-      setStatus("connectivity", "PASS", "Supabase endpoint reachable from this browser.");
+      const actual = await testSupabaseConnection();
+      setNotice("success", "Supabase connectivity PASS.");
+      setDiag({ lastError: "None" });
+      state.results = [{ id: "CONNECTION", user: "Browser", action: "Reach Supabase endpoint", expected: "PASS", actual, result: "PASS", detail: "" }];
     } catch (error) {
       const message = humanError(error);
       setDiag({ connection: "FAIL", lastError: message });
       setNotice("error", message);
-      setStatus("connectivity", "FAIL", message);
-      log("Supabase connection failed", error);
+      state.results = [{ id: "CONNECTION", user: "Browser", action: "Reach Supabase endpoint", expected: "PASS", actual: "FAIL", result: "FAIL", detail: message }];
     }
-  }
-
-  async function testP0() {
-    const user = await requireUser();
-    const profileResult = assertOk(await state.client.from("profiles").select("*").eq("id", user.id).single(), "own profile readable");
-    const settingsResult = assertOk(await state.client.from("user_settings").select("*").eq("user_id", user.id).single(), "own user_settings readable");
-    const profile = profileResult.data;
-    const onboardingFields = ["display_name", "username", "age_confirmed", "terms_accepted_at", "privacy_accepted_at"];
-    const missing = onboardingFields.filter((field) => !profile[field]);
-    if (missing.length) throw new Error(`Required onboarding fields missing/read false: ${missing.join(", ")}`);
-    const originalBio = profile.bio || null;
-    const tempBio = `${POST_PREFIX} reversible profile edit ${runId}`;
-    try {
-      assertOk(await state.client.from("profiles").update({ bio: tempBio }).eq("id", user.id), "profile edit test");
-      const changed = assertOk(await state.client.from("profiles").select("bio").eq("id", user.id).single(), "profile edit verification");
-      if (changed.data.bio !== tempBio) throw new Error("Profile edit did not persist.");
-    } finally {
-      await state.client.from("profiles").update({ bio: originalBio }).eq("id", user.id);
-    }
-    const avatarList = await state.client.storage.from("avatars").list(user.id, { limit: 1 });
-    if (avatarList.error) throw avatarList.error;
-    state.profile = profile;
-    renderUser();
-    return `Profile, user_settings and onboarding readable. Reversible profile edit restored. Settings rows: ${settingsResult.data ? "yes" : "no"}. Avatar bucket readable.`;
-  }
-
-  async function testLogoutProtection() {
-    await requireUser();
-    await state.client.auth.signOut();
-    await refreshSession();
-    const probe = await state.client.from("profiles").select("*").limit(1);
-    if (!probe.error && (probe.data || []).some((row) => row.id === state.user?.id)) {
-      throw new Error("Protected data remained readable after logout.");
-    }
-    return "Signed out; protected authenticated session unavailable. Login again before continuing other tests.";
-  }
-
-  async function testFollow() {
-    const user = await requireUser();
-    const target = otherUid();
-    if (target === user.id) throw new Error("Other UID must be different from current UID.");
-    const insert = await state.client.from("follows").insert({ follower_id: user.id, following_id: target });
-    if (insert.error && !/duplicate key|already exists/i.test(failMessage(insert.error))) throw insert.error;
-    const row = assertOk(await state.client.from("follows").select("*").eq("follower_id", user.id).eq("following_id", target).maybeSingle(), "follow verification");
-    if (!row.data) throw new Error("Follow row was not found after insert.");
-    return "Current user follows other UID. Run Notification Check in the other browser to verify the generated follower notification.";
-  }
-
-  async function testNotification() {
-    const user = await requireUser();
-    const actor = otherUid();
-    const notes = assertOk(await state.client.from("notifications")
-      .select("id,type,target_type,target_id,actor_id,recipient_id,created_at")
-      .eq("recipient_id", user.id)
-      .eq("actor_id", actor)
-      .in("type", ["new_follower", "post_like", "comment", "comment_reply"])
-      .order("created_at", { ascending: false })
-      .limit(10), "notification query");
-    if (!notes.data?.length) throw new Error("No notification found from the other UID. Run the source action in the other browser first.");
-    return `Found ${notes.data.length} notification(s) generated by trigger for this recipient.`;
-  }
-
-  async function testPost() {
-    const user = await requireUser();
-    const body = `${POST_PREFIX} ${runId} ${user.email || user.id} ${new Date().toISOString()}`;
-    const created = assertOk(await state.client.from("posts").insert({ author_id: user.id, body, status: "active" }).select("id,body,created_at").single(), "post insert");
-    state.currentPostId = created.data.id;
-    localStorage.setItem("lc-app-live-qa:post-id", state.currentPostId);
-    els.targetPost.value = state.currentPostId;
-    const feed = assertOk(await state.client.from("posts").select("id,author_id,body,created_at").ilike("body", `${POST_PREFIX}%`).order("created_at", { ascending: false }).limit(10), "chronological feed query");
-    if (!feed.data.some((row) => row.id === state.currentPostId)) throw new Error("Created QA post is not visible in chronological feed query.");
-    return `Created QA post ${state.currentPostId}; chronological feed includes it.`;
-  }
-
-  async function findTargetPost() {
-    const direct = targetPostInput();
-    if (direct) return direct;
-    const target = otherUid();
-    const result = assertOk(await state.client.from("posts")
-      .select("id,author_id,body,created_at")
-      .eq("author_id", target)
-      .ilike("body", `${POST_PREFIX}%`)
-      .order("created_at", { ascending: false })
-      .limit(1), "target QA post lookup");
-    if (!result.data?.[0]) throw new Error("No target QA post found. Create a post in the other browser or paste target post ID.");
-    els.targetPost.value = result.data[0].id;
-    return result.data[0].id;
-  }
-
-  async function testLike() {
-    const user = await requireUser();
-    const postId = await findTargetPost();
-    const insert = await state.client.from("post_likes").insert({ post_id: postId, user_id: user.id });
-    if (insert.error && !/duplicate key|already exists/i.test(failMessage(insert.error))) throw insert.error;
-    const row = assertOk(await state.client.from("post_likes").select("*").eq("post_id", postId).eq("user_id", user.id).maybeSingle(), "like verification");
-    if (!row.data) throw new Error("Like row was not found after insert.");
-    const count = assertOk(await state.client.from("post_likes").select("post_id", { count: "exact", head: true }).eq("post_id", postId), "like count");
-    assertOk(await state.client.from("post_likes").delete().eq("post_id", postId).eq("user_id", user.id), "unlike");
-    const removed = assertOk(await state.client.from("post_likes").select("*").eq("post_id", postId).eq("user_id", user.id).maybeSingle(), "unlike verification");
-    if (removed.data) throw new Error("Like row still exists after unlike.");
-    return `Like row/count verified and unlike removed it. Count before unlike: ${count.count ?? "available"}. Run Notification Check as post owner.`;
-  }
-
-  async function testComment() {
-    const user = await requireUser();
-    const postId = await findTargetPost();
-    const body = `${COMMENT_PREFIX} ${runId} ${user.email || user.id} ${new Date().toISOString()}`;
-    const created = assertOk(await state.client.from("comments").insert({ post_id: postId, author_id: user.id, body }).select("id,post_id,body").single(), "comment insert");
-    state.currentCommentId = created.data.id;
-    localStorage.setItem("lc-app-live-qa:comment-id", state.currentCommentId);
-    els.targetComment.value = state.currentCommentId;
-    const row = assertOk(await state.client.from("comments").select("id,body").eq("id", state.currentCommentId).single(), "comment verification");
-    if (!row.data?.body?.startsWith(COMMENT_PREFIX)) throw new Error("Created QA comment was not readable.");
-    return `Created QA comment ${state.currentCommentId}. Run Notification Check as post owner.`;
-  }
-
-  async function findTargetComment() {
-    const direct = targetCommentInput();
-    if (direct) return direct;
-    const postId = await findTargetPost();
-    const actor = otherUid();
-    const result = assertOk(await state.client.from("comments")
-      .select("id,post_id,author_id,parent_comment_id,body,created_at")
-      .eq("post_id", postId)
-      .eq("author_id", actor)
-      .is("parent_comment_id", null)
-      .ilike("body", `${COMMENT_PREFIX}%`)
-      .order("created_at", { ascending: false })
-      .limit(1), "target QA comment lookup");
-    if (!result.data?.[0]) throw new Error("No target QA top-level comment found. Create a comment in the other browser or paste target comment ID.");
-    els.targetComment.value = result.data[0].id;
-    return result.data[0].id;
-  }
-
-  async function testReplyDepth() {
-    const user = await requireUser();
-    const postId = await findTargetPost();
-    const commentId = await findTargetComment();
-    const reply = assertOk(await state.client.from("comments").insert({
-      post_id: postId,
-      author_id: user.id,
-      parent_comment_id: commentId,
-      body: `${REPLY_PREFIX} ${runId} ${new Date().toISOString()}`
-    }).select("id,parent_comment_id").single(), "top-level reply insert");
-    state.currentReplyId = reply.data.id;
-    localStorage.setItem("lc-app-live-qa:reply-id", state.currentReplyId);
-    const nested = await state.client.from("comments").insert({
-      post_id: postId,
-      author_id: user.id,
-      parent_comment_id: state.currentReplyId,
-      body: `${REPLY_PREFIX} nested should be denied ${runId}`
-    }).select("id").maybeSingle();
-    if (!nested.error) {
-      if (nested.data?.id) await state.client.from("comments").update({ deleted_at: new Date().toISOString(), body: "[deleted]" }).eq("id", nested.data.id);
-      throw new Error("Reply-to-reply was allowed; expected denial.");
-    }
-    return `One reply created (${state.currentReplyId}); reply-to-reply denied by database.`;
-  }
-
-  async function testBlock() {
-    const user = await requireUser();
-    const target = otherUid();
-    const insert = await state.client.from("user_blocks").insert({ blocker_id: user.id, blocked_id: target });
-    if (insert.error && !/duplicate key|already exists/i.test(failMessage(insert.error))) throw insert.error;
-    const block = assertOk(await state.client.from("user_blocks").select("*").eq("blocker_id", user.id).eq("blocked_id", target).maybeSingle(), "block verification");
-    if (!block.data) throw new Error("Block row was not found after insert.");
-    const followRows = assertOk(await state.client.from("follows")
-      .select("*")
-      .or(`and(follower_id.eq.${user.id},following_id.eq.${target}),and(follower_id.eq.${target},following_id.eq.${user.id})`), "follow cleanup after block");
-    if (followRows.data?.length) throw new Error("Follow rows still visible after block cleanup.");
-    const blockedFollow = await state.client.from("follows").insert({ follower_id: user.id, following_id: target });
-    if (!blockedFollow.error) {
-      await state.client.from("follows").delete().eq("follower_id", user.id).eq("following_id", target);
-      throw new Error("Follow insert succeeded after block; expected denial.");
-    }
-    const posts = assertOk(await state.client.from("posts").select("id,author_id").eq("author_id", target).limit(5), "blocked posts visibility");
-    if (posts.data?.length) throw new Error("Blocked user's posts are still visible.");
-    const comments = assertOk(await state.client.from("comments").select("id,author_id").eq("author_id", target).limit(5), "blocked comments visibility");
-    if (comments.data?.length) throw new Error("Blocked user's comments are still visible.");
-    return "Block inserted; mutual follows removed; follow retry denied; blocked posts/comments hidden. Run same block-prohibited check in other browser if needed.";
-  }
-
-  async function testDirectSecurity() {
-    const user = await requireUser();
-    const target = otherUid();
-    const note = await state.client.from("notifications").insert({
-      recipient_id: user.id,
-      actor_id: target,
-      type: "new_follower",
-      target_type: "profile",
-      target_id: user.id
-    });
-    if (!note.error) throw new Error("Direct notifications INSERT succeeded; expected denial.");
-    const event = await state.client.from("activity_events").insert({
-      actor_id: user.id,
-      recipient_id: target,
-      verb: "followed",
-      target_type: "profile",
-      target_id: target
-    });
-    if (!event.error) throw new Error("Direct activity_events INSERT succeeded; expected denial.");
-    return "Direct INSERT into notifications and activity_events denied for normal client.";
-  }
-
-  async function testUnblock() {
-    const user = await requireUser();
-    const target = otherUid();
-    assertOk(await state.client.from("user_blocks").delete().eq("blocker_id", user.id).eq("blocked_id", target), "unblock delete");
-    const block = assertOk(await state.client.from("user_blocks").select("*").eq("blocker_id", user.id).eq("blocked_id", target).maybeSingle(), "unblock verification");
-    if (block.data) throw new Error("Block row still exists after unblock.");
-    const follows = assertOk(await state.client.from("follows")
-      .select("*")
-      .or(`and(follower_id.eq.${user.id},following_id.eq.${target}),and(follower_id.eq.${target},following_id.eq.${user.id})`), "old follows not restored");
-    if (follows.data?.length) throw new Error("Old follows were restored after unblock.");
-    return "Unblocked; old follows were not restored.";
-  }
-
-  async function testReport() {
-    const user = await requireUser();
-    const targetType = "post";
-    const created = assertOk(await state.client.from("posts").insert({
-      author_id: user.id,
-      body: `${POST_PREFIX} report target ${runId} ${crypto.randomUUID()} ${new Date().toISOString()}`,
-      status: "active"
-    }).select("id").single(), "report target post create");
-    const targetId = created.data.id;
-    state.currentPostId = targetId;
-    localStorage.setItem("lc-app-live-qa:post-id", targetId);
-    els.targetPost.value = targetId;
-    const createdReport = await state.client.from("reports").insert({
-      reporter_id: user.id,
-      target_type: targetType,
-      target_id: targetId,
-      reason: "other",
-      description: `${POST_PREFIX} report ${runId}`
-    }).select("id,status").single();
-    if (createdReport.error && /duplicate key|already exists/i.test(failMessage(createdReport.error))) {
-      const existing = assertOk(await state.client.from("reports")
-        .select("id,status")
-        .eq("reporter_id", user.id)
-        .eq("target_type", targetType)
-        .eq("target_id", targetId)
-        .single(), "existing report lookup");
-      state.currentReportId = existing.data.id;
-    } else {
-      assertOk(createdReport, "report insert");
-      state.currentReportId = createdReport.data.id;
-    }
-    localStorage.setItem("lc-app-live-qa:report-id", state.currentReportId);
-    const update = await state.client.from("reports").update({
-      status: "reviewing",
-      reviewed_at: new Date().toISOString()
-    }).eq("id", state.currentReportId);
-    if (!update.error) throw new Error("Normal user modified moderator review fields; expected denial.");
-    return `Report readable/created with id ${state.currentReportId}; moderator review field update denied. Reports are retained by policy.`;
-  }
-
-  async function testCleanup() {
-    const user = await requireUser();
-    const now = new Date().toISOString();
-    const ownPosts = await state.client.from("posts")
-      .update({ deleted_at: now })
-      .eq("author_id", user.id)
-      .ilike("body", `${POST_PREFIX}%`);
-    if (ownPosts.error) log("cleanup own posts warning", ownPosts.error);
-    const ownComments = await state.client.from("comments")
-      .update({ deleted_at: now, body: "[deleted]" })
-      .eq("author_id", user.id)
-      .or(`body.ilike.${COMMENT_PREFIX}%,body.ilike.${REPLY_PREFIX}%`);
-    if (ownComments.error) log("cleanup own comments warning", ownComments.error);
-    if (targetPostInput()) await state.client.from("post_likes").delete().eq("post_id", targetPostInput()).eq("user_id", user.id);
-    if (els.otherUid.value.trim()) {
-      await state.client.from("follows").delete().eq("follower_id", user.id).eq("following_id", els.otherUid.value.trim());
-      await state.client.from("user_blocks").delete().eq("blocker_id", user.id).eq("blocked_id", els.otherUid.value.trim());
-    }
-    return "Current user's QA posts/comments were soft-deleted where RLS permits; own likes/follows/blocks cleaned. Reports/notifications remain as audit trails.";
-  }
-
-  function renderReport() {
-    const line = (id) => `${statuses[id].status}${statuses[id].detail ? ` - ${statuses[id].detail}` : ""}`;
-    els.report.value = [
-      "LC APP LIVE QA REPORT",
-      `Timestamp: ${new Date().toISOString()}`,
-      `Production commit: ${PRODUCTION_COMMIT}`,
-      `Current user: ${state.user?.email || "not signed in"}`,
-      `Current UID: ${state.user?.id || "not signed in"}`,
-      `Other UID: ${els.otherUid.value.trim() || "not set"}`,
-      `P0: ${line("p0")}`,
-      `Follow: ${line("follow")}`,
-      `Post: ${line("post")}`,
-      `Like: ${line("like")}`,
-      `Comment: ${line("comment")}`,
-      `Reply-depth: ${line("reply")}`,
-      `Block cleanup: ${line("block")}`,
-      `Blocked RLS visibility: ${line("block")}`,
-      `Notification trigger: ${line("notification")}`,
-      `Direct notification INSERT denied: ${line("direct-security")}`,
-      `Direct activity INSERT denied: ${line("direct-security")}`,
-      `Report: ${line("report")}`,
-      `Console/runtime errors: ${state.errors.length ? scrub(state.errors.join(" | ")) : "None captured by harness"}`
-    ].join("\n");
-  }
-
-  async function login() {
-    assertClient();
-    const email = els.email.value.trim();
-    const password = els.password.value;
-    if (!email || !password) throw new Error("Email and password are required.");
-    const result = await withTimeout(state.client.auth.signInWithPassword({ email, password }), 18000, "Login request");
-    if (result.error) throw result.error;
-    els.password.value = "";
-    await refreshSession();
-  }
-
-  function humanError(error) {
-    const raw = failMessage(error) || "Unknown error.";
-    if (/failed to fetch|networkerror|load failed/i.test(raw)) return "Supabase request failed from this browser. Check network, browser privacy blocking, CORS/origin settings, or Supabase availability.";
-    if (/invalid login credentials/i.test(raw)) return "Login failed: email or password is incorrect.";
-    if (/email not confirmed/i.test(raw)) return "Login failed: email is not confirmed.";
-    if (/timed out/i.test(raw)) return raw;
-    return raw;
-  }
-
-  async function copy(text) {
-    await navigator.clipboard.writeText(text);
+    renderResults();
   }
 
   function bind() {
-    document.addEventListener("click", async (event) => {
-      const runButton = event.target.closest("[data-run]");
-      if (runButton) {
-        const id = runButton.dataset.run;
-        const map = {
-          connectivity: testConnectivity,
-          p0: testP0,
-          logout: testLogoutProtection,
-          follow: testFollow,
-          notification: testNotification,
-          post: testPost,
-          like: testLike,
-          comment: testComment,
-          reply: testReplyDepth,
-          block: testBlock,
-          "direct-security": testDirectSecurity,
-          unblock: testUnblock,
-          report: testReport,
-          cleanup: testCleanup
-        };
-        if (map[id]) await run(id, map[id]);
-      }
-    });
-    els.login.addEventListener("click", async (event) => {
-      event.preventDefault();
-      els.login.disabled = true;
-      els.login.textContent = "Signing in...";
-      setNotice("", "Signing in...");
-      setDiag({ auth: "RUNNING", lastError: "None" });
-      setStatus("connectivity", "RUNNING", "Signing in...");
-      try {
-        await delay(1500);
-        await login();
-        setDiag({ auth: "SUCCESS", session: "SIGNED IN" });
-        setNotice("success", `Signed in as ${state.user?.email || "user"}. UID: ${state.user?.id || "-"}`);
-        setStatus("connectivity", "PASS", "Login succeeded and session rendered.");
-      } catch (error) {
-        const message = humanError(error);
-        state.errors.push(`login: ${message}`);
-        setDiag({ auth: "FAILED", session: "SIGNED OUT", lastError: message });
-        setNotice("error", message);
-        setStatus("connectivity", "FAIL", message);
-        log("login failed", error?.cause || error);
-      } finally {
-        els.login.disabled = false;
-        els.login.textContent = "Login";
-      }
-    });
-    els.testConnection.addEventListener("click", testSupabaseConnectionButton);
-    els.refresh.addEventListener("click", () => refreshSession().catch((error) => {
-      state.errors.push(`refresh: ${error.message}`);
-      setDiag({ lastError: humanError(error) });
-      setNotice("error", humanError(error));
-      log("refresh failed", error);
-    }));
-    els.logout.addEventListener("click", async () => {
-      await state.client.auth.signOut();
-      await refreshSession();
-    });
-    els.copyUid.addEventListener("click", () => {
-      if (!state.user?.id) return;
-      copy(state.user.id);
-    });
-    els.copyReport.addEventListener("click", () => copy(els.report.value));
-    [els.otherUid, els.targetPost, els.targetComment].forEach((input) => input.addEventListener("input", renderReport));
+    els.run.addEventListener("click", runFullE2E);
+    els.testConnection.addEventListener("click", handleConnectionClick);
+    els.copyTop.addEventListener("click", copyReport);
+    els.copyReport.addEventListener("click", copyReport);
   }
 
-  async function init() {
+  function init() {
+    els.commit.textContent = PRODUCTION_COMMIT;
     setDiag({
       js: "YES",
       config: SUPABASE_URL && SUPABASE_KEY ? "READY" : "FAILED",
       url: SUPABASE_URL ? "configured" : "missing",
       key: SUPABASE_KEY ? "configured" : "missing"
     });
-    els.commit.textContent = PRODUCTION_COMMIT;
-    els.runId.value = runId;
-    renderTests();
     renderDiagnostics();
-    renderReport();
-    bind();
+    setPendingRows();
     if (!window.supabase?.createClient) {
       setDiag({ client: "FAILED", lastError: "Supabase JS library did not load." });
       setNotice("error", "Supabase JS library did not load. Login cannot run until the SDK is available.");
-      setStatus("connectivity", "FAIL", "Supabase JS library did not load.");
       return;
     }
-    state.client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
-      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
-    });
+    state.clientA = makeClient("a-init");
+    state.clientB = makeClient("b-init");
     setDiag({ client: "READY" });
-    setNotice("", "Ready. Enter email and password, then click Login.");
-    await refreshSession().catch((error) => {
-      const message = humanError(error);
-      setDiag({ lastError: message });
-      log("initial session refresh failed", error);
-    });
+    setNotice("", "Ready. Enter both test users and click RUN FULL SOCIAL E2E.");
+    bind();
+    fetchQaCommit();
   }
 
   window.addEventListener("error", (event) => {
-    state.errors.push(`runtime: ${event.message}`);
-    setDiag({ lastError: event.message });
-    setNotice("error", event.message);
-    log("runtime error", { message: event.message, filename: event.filename, lineno: event.lineno });
+    const message = event.message || "Runtime error.";
+    state.errors.push(`runtime: ${message}`);
+    setDiag({ lastError: message });
+    setNotice("error", message);
+    log("runtime error", { message, filename: event.filename, lineno: event.lineno });
     renderReport();
   });
+
   window.addEventListener("unhandledrejection", (event) => {
-    state.errors.push(`promise: ${event.reason?.message || event.reason}`);
-    setDiag({ lastError: humanError(event.reason) });
-    setNotice("error", humanError(event.reason));
+    const message = humanError(event.reason);
+    state.errors.push(`promise: ${message}`);
+    setDiag({ lastError: message });
+    setNotice("error", message);
     log("unhandled rejection", event.reason);
     renderReport();
   });
-  init().catch((error) => {
-    state.errors.push(`init: ${error.message}`);
-    setDiag({ lastError: humanError(error) });
-    setNotice("error", humanError(error));
-    log("init failed", error);
-    renderReport();
-  });
+
+  init();
 })();

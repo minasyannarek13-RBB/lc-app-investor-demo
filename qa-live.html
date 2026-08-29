@@ -77,6 +77,14 @@
     .diag { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid rgba(255,255,255,.07); padding: 7px 0; font-size: 13px; }
     .diag span:first-child { color: var(--muted); }
     .diag strong { text-align: right; overflow-wrap: anywhere; }
+    .results-wrap { overflow-x: auto; }
+    table.results { width: 100%; border-collapse: collapse; min-width: 980px; }
+    .results th, .results td { border-bottom: 1px solid rgba(255,255,255,.08); padding: 10px 8px; text-align: left; vertical-align: top; font-size: 12px; line-height: 1.35; }
+    .results th { color: var(--muted); font-size: 11px; }
+    .result-pass { color: var(--mint); font-weight: 900; }
+    .result-fail { color: var(--danger); font-weight: 900; }
+    .result-blocked { color: var(--warn); font-weight: 900; }
+    .result-skipped { color: var(--muted); font-weight: 900; }
     .tests { display: grid; gap: 8px; }
     .test {
       display: grid;
@@ -105,6 +113,7 @@
       .test { grid-template-columns: 1fr; align-items: start; }
       .kv { grid-template-columns: 1fr; }
       .badge { white-space: normal; }
+      .diagnostics { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -112,37 +121,46 @@
   <main>
     <header>
       <div>
-        <h1>LC APP - LIVE QA</h1>
-        <p>Temporary browser harness for live Supabase E2E validation. Not linked from the product.</p>
+        <h1>LC APP &mdash; LIVE QA</h1>
+        <p>Temporary one-click two-user Supabase E2E runner. Not linked from the product.</p>
       </div>
       <div class="badge">Production commit: <code id="commitLabel">71fd452</code></div>
     </header>
 
     <section class="grid">
       <div class="card stack">
-        <h2>Session</h2>
+        <h2>Two-user login</h2>
         <div class="row">
-          <label style="flex:1 1 260px">Email
-            <input id="emailInput" autocomplete="username" placeholder="user@example.com">
+          <label style="flex:1 1 260px">User A email
+            <input id="emailAInput" autocomplete="username" placeholder="user-a@example.com">
           </label>
-          <label style="flex:1 1 220px">Password
-            <input id="passwordInput" type="password" autocomplete="current-password" placeholder="Password">
+          <label style="flex:1 1 220px">User A password
+            <input id="passwordAInput" type="password" autocomplete="current-password" placeholder="Password">
           </label>
         </div>
         <div class="row">
-          <button id="loginButton" type="button">Login</button>
+          <label style="flex:1 1 260px">User B email
+            <input id="emailBInput" autocomplete="username" placeholder="user-b@example.com">
+          </label>
+          <label style="flex:1 1 220px">User B password
+            <input id="passwordBInput" type="password" autocomplete="current-password" placeholder="Password">
+          </label>
+        </div>
+        <div class="row">
+          <button id="runFullButton" type="button">RUN FULL SOCIAL E2E</button>
           <button id="testConnectionButton" class="secondary" type="button">TEST SUPABASE CONNECTION</button>
-          <button id="refreshButton" class="secondary" type="button">Refresh Session</button>
-          <button id="logoutButton" class="danger" type="button">Logout</button>
-          <button id="copyUidButton" class="secondary" type="button" disabled>Copy My UID</button>
+          <button id="copyReportButtonTop" class="secondary" type="button">COPY QA REPORT</button>
         </div>
         <div id="authNotice" class="notice">JS initializing...</div>
         <div class="kv">
-          <span>Email</span><strong id="userEmail">Not signed in</strong>
-          <span>UID</span><strong id="userId">-</strong>
-          <span>Username</span><strong id="username">-</strong>
-          <span>Account</span><strong id="accountStatus">-</strong>
-          <span>Onboarding</span><strong id="onboardingStatus">-</strong>
+          <span>User A UID</span><strong id="userAId">-</strong>
+          <span>User A username</span><strong id="userAUsername">-</strong>
+          <span>User A account</span><strong id="userAAccount">-</strong>
+          <span>User A onboarding</span><strong id="userAOnboarding">-</strong>
+          <span>User B UID</span><strong id="userBId">-</strong>
+          <span>User B username</span><strong id="userBUsername">-</strong>
+          <span>User B account</span><strong id="userBAccount">-</strong>
+          <span>User B onboarding</span><strong id="userBOnboarding">-</strong>
         </div>
       </div>
 
@@ -161,62 +179,41 @@
         <div class="diag"><span>Last error</span><strong id="diagLastError">None</strong></div>
       </div>
 
-      <div class="card stack manual">
-        <h2>Manual two-user flow</h2>
-        <ol>
-          <li>Open qa-live.html in Browser A.</li>
-          <li>Login as User A.</li>
-          <li>Copy A UID.</li>
-          <li>Open Incognito or another browser.</li>
-          <li>Login as User B.</li>
-          <li>Copy B UID.</li>
-          <li>Enter the other user's UID in each QA page.</li>
-          <li>Run tests in the displayed order.</li>
-        </ol>
-      </div>
-
       <div class="card stack full">
-        <h2>Test inputs</h2>
-        <div class="grid">
-          <label>Other user UID
-            <input id="otherUidInput" placeholder="Paste the UID from the other browser">
-          </label>
-          <label>Target post ID (optional; otherwise latest [LC_QA_TEMP] post by other user)
-            <input id="targetPostInput" placeholder="Optional post UUID">
-          </label>
-          <label>Target comment ID (optional; otherwise latest QA comment by other user)
-            <input id="targetCommentInput" placeholder="Optional comment UUID">
-          </label>
-          <label>Run ID
-            <input id="runIdInput" readonly>
-          </label>
+        <h2>Run summary</h2>
+        <div class="kv">
+          <span>Total</span><strong id="totalCount">0</strong>
+          <span>Passed</span><strong id="passedCount">0</strong>
+          <span>Failed</span><strong id="failedCount">0</strong>
+          <span>Blocked</span><strong id="blockedCount">0</strong>
+          <span>Skipped</span><strong id="skippedCount">0</strong>
+          <span>Final status</span><strong id="finalStatus">SOCIAL MVP LIVE E2E: NOT RUN</strong>
         </div>
       </div>
 
       <div class="card stack full">
-        <h2>Live tests</h2>
-        <div class="row">
-          <button data-run="connectivity" type="button">Run Connectivity</button>
-          <button data-run="p0" type="button">Run Current User P0</button>
-          <button data-run="logout" class="danger" type="button">Run Logout Protection</button>
-          <button data-run="follow" type="button">Run Follow</button>
-          <button data-run="notification" type="button">Run Notification Check</button>
-          <button data-run="post" type="button">Run Post</button>
-          <button data-run="like" type="button">Run Like / Unlike</button>
-          <button data-run="comment" type="button">Run Comment</button>
-          <button data-run="reply" type="button">Run Reply Depth</button>
-          <button data-run="block" type="button">Run Block</button>
-          <button data-run="direct-security" type="button">Run Direct Security</button>
-          <button data-run="unblock" type="button">Run Unblock</button>
-          <button data-run="report" type="button">Run Report</button>
-          <button data-run="cleanup" class="danger" type="button">Cleanup Test Data</button>
-          <button id="copyReportButton" class="secondary" type="button">Copy QA Report</button>
+        <h2>Automated test results</h2>
+        <div class="results-wrap">
+          <table class="results">
+            <thead>
+              <tr>
+                <th>TEST</th>
+                <th>USER</th>
+                <th>ACTION</th>
+                <th>EXPECTED</th>
+                <th>ACTUAL</th>
+                <th>RESULT</th>
+                <th>DETAIL</th>
+              </tr>
+            </thead>
+            <tbody id="resultsBody"></tbody>
+          </table>
         </div>
-        <div id="tests" class="tests"></div>
       </div>
 
       <div class="card stack full">
         <h2>QA report</h2>
+        <button id="copyReportButton" class="secondary" type="button">COPY QA REPORT</button>
         <textarea id="reportOutput" readonly></textarea>
       </div>
 
@@ -237,6 +234,6 @@
     };
   </script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="./qa-live.js?v=20260830-login-fix-3"></script>
+  <script src="./qa-live.js?v=20260830-two-user-e2e"></script>
 </body>
 </html>
