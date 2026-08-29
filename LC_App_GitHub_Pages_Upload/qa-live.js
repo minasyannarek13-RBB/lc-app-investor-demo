@@ -96,7 +96,7 @@
     ["18", "User A", "Direct activity_events INSERT", "database denies client insert"],
     ["19", "User A", "Unblock User B", "block row removed"],
     ["20", "Both", "Visibility after unblock", "content visible again"],
-    ["21", "User A", "Report User B post", "report insert allowed, moderator update denied"]
+    ["21", "User A", "Report post + authorization guards", "report insert allowed; privileged updates do not mutate"]
   ];
 
   class BlockedError extends Error {
@@ -193,6 +193,59 @@
   function expectDenied(result, label) {
     if (!result?.error) throw new Error(`${label}: request succeeded but expected denial`);
     return result.error;
+  }
+
+  async function verifyReportReviewDenied() {
+    const before = assertOk(await state.clientA.from("reports")
+      .select("id,status,reviewed_by,reviewed_at")
+      .eq("id", state.reportAId)
+      .single(), "report before moderator update").data;
+    const attempted = await state.clientA.from("reports")
+      .update({ status: "reviewing" })
+      .eq("id", state.reportAId)
+      .select("id,status,reviewed_by,reviewed_at");
+    const after = assertOk(await state.clientA.from("reports")
+      .select("id,status,reviewed_by,reviewed_at")
+      .eq("id", state.reportAId)
+      .single(), "report after moderator update").data;
+    if (after.status !== before.status || after.reviewed_by !== before.reviewed_by || after.reviewed_at !== before.reviewed_at) {
+      throw new Error(`regular user changed report review fields: ${JSON.stringify({ before, after, attempted })}`);
+    }
+    if (!attempted.error && Array.isArray(attempted.data) && attempted.data.length > 0) {
+      throw new Error(`regular user update returned affected report rows: ${JSON.stringify(attempted.data)}`);
+    }
+    return attempted.error ? "report review update rejected" : "report review update affected 0 rows; report unchanged";
+  }
+
+  async function verifyOwnProfileSystemFieldLocked(field, attemptedValue) {
+    const before = await profile(state.clientA, state.userA.id, "User A before profile guard");
+    const attempted = await state.clientA.from("profiles")
+      .update({ [field]: attemptedValue })
+      .eq("id", state.userA.id)
+      .select("id,role,account_status")
+      .maybeSingle();
+    const after = await profile(state.clientA, state.userA.id, "User A after profile guard");
+    if (after[field] !== before[field]) {
+      await state.clientA.from("profiles").update({ [field]: before[field] }).eq("id", state.userA.id);
+      throw new Error(`regular user changed own profiles.${field}: ${before[field]} -> ${after[field]}`);
+    }
+    return attempted.error ? `profiles.${field} update rejected` : `profiles.${field} unchanged after update attempt`;
+  }
+
+  async function verifyCrossUserProfileUpdateDenied() {
+    const before = await profile(state.clientB, state.userB.id, "User B before cross-profile guard");
+    const attemptedBio = `${TEMP_PREFIX} cross-user profile mutation should fail`;
+    const attempted = await state.clientA.from("profiles")
+      .update({ bio: attemptedBio })
+      .eq("id", state.userB.id)
+      .select("id,bio")
+      .maybeSingle();
+    const after = await profile(state.clientB, state.userB.id, "User B after cross-profile guard");
+    if (after.bio !== before.bio) {
+      await state.clientB.from("profiles").update({ bio: before.bio }).eq("id", state.userB.id);
+      throw new Error("regular user changed another user's profile.");
+    }
+    return attempted.error ? "cross-user profile update rejected" : "cross-user profile update affected 0 rows; profile unchanged";
   }
 
   function memoryStorage() {
@@ -734,9 +787,11 @@
           description: `${TEMP_PREFIX} report`
         }).select("id,status").single(), "A reports B post").data;
         state.reportAId = report.id;
-        const update = await state.clientA.from("reports").update({ status: "reviewing" }).eq("id", state.reportAId);
-        expectDenied(update, "regular user moderator update");
-        return `report ${state.reportAId}; moderator update denied`;
+        const reportGuard = await verifyReportReviewDenied();
+        const roleGuard = await verifyOwnProfileSystemFieldLocked("role", "moderator");
+        const statusGuard = await verifyOwnProfileSystemFieldLocked("account_status", "suspended");
+        const crossProfileGuard = await verifyCrossUserProfileUpdateDenied();
+        return `report ${state.reportAId}; ${reportGuard}; ${roleGuard}; ${statusGuard}; ${crossProfileGuard}; moderator/admin report review policy is present via reports_update_moderation/public.is_moderator`;
       });
     }
 
