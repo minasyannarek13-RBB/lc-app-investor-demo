@@ -1,8 +1,8 @@
 # LC App Execution State
 
-Date: 2026-08-30
-Milestone: LC App Final Quick-Win Product Pass
-Current status: PRODUCT PRESENTATION RELEASE READY ON GITHUB PAGES FALLBACK / CUSTOM DOMAIN BLOCKED
+Date: 2026-08-31
+Milestone: LC App Product Maturity Pass v0.9
+Current status: PRODUCT MATURITY v0.9 READY ON GITHUB PAGES FALLBACK / CUSTOM DOMAIN BLOCKED
 
 ## Locked Baseline
 - Social MVP live E2E confirmed by founder report: 21/21 PASS, 0 failures/blockers.
@@ -86,6 +86,17 @@ Current status: PRODUCT PRESENTATION RELEASE READY ON GITHUB PAGES FALLBACK / CU
 - Production quick-win interaction QA passed: How It Works, Explore Live, Discover filters, Search, dealer deep link reload, Share/Copy, Follow, Live Table, operator/provider handoff and Product Info.
 - Quick-win analytics verified as unique local demo events only; no email, token, password or key fields stored.
 - Service worker cache bumped to `lc-app-investor-demo-v58`.
+- Product maturity pass completed on 2026-08-31.
+- Shared UI tokens added for spacing, touch targets, control radius and card radius; key buttons/tabs/icon actions normalized for mobile use.
+- Product loop strengthened in `/showcase-v2/`: Discover status strip, saved schedule/return cues, notification read state, content detail sheet, recent search continuation and calendar reminder download.
+- Dealer profile schedule now supports save state, return reminder and lightweight `.ics` calendar export using illustrative demo data only.
+- Following now shows followed creators, saved return cues and notification state to make the return loop explicit.
+- Global preload warning removed for direct-route entry; welcome image still uses `fetchpriority="high"` on the actual welcome image.
+- Service worker cache bumped to `lc-app-investor-demo-v59`.
+- Local maturity QA passed on 360x800, 375x812, 390x844, 393x852, 430x932, 768x1024, 1024x768, 1440x900 and 1920x1080.
+- Production maturity QA passed on the same viewport set with no console errors, no failed requests, no horizontal overflow and no broken loaded images.
+- Production maturity interaction QA passed: browser back, Discover, dealer profile, schedule save, return save, calendar download, Following, notifications read state, Search recent, content detail, Live, chat, operator/provider handoff and image fallback.
+- Public QA harness remains removed: `/qa-live.html` and `/qa-live.js` return HTTP 404.
 
 ## Known Failures
 - None currently confirmed after Social MVP live E2E pass.
@@ -106,4 +117,5 @@ Current status: PRODUCT PRESENTATION RELEASE READY ON GITHUB PAGES FALLBACK / CU
 - Current production commit after CNAME rollback: `80007d0 Keep GitHub Pages URL active before custom domain`.
 - Final release/performance implementation commit: `d15693d`.
 - Final quick-win product implementation commit: `17f13f8`.
+- Product maturity implementation commit: `1bd3fdc`.
 - Public QA harness is removed/disabled in the external review build.
