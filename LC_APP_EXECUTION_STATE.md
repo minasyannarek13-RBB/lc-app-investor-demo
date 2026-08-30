@@ -2,7 +2,7 @@
 
 Date: 2026-08-30
 Milestone: LC App External Review MVP
-Current status: IN PROGRESS
+Current status: READY FOR EXTERNAL REVIEW
 
 ## Locked Baseline
 - Social MVP live E2E confirmed by founder report: 21/21 PASS, 0 failures/blockers.
@@ -43,6 +43,13 @@ Current status: IN PROGRESS
 - Live GitHub Pages root loads the LC App auth shell.
 - Live GitHub Pages `social.js` returns HTTP 200.
 - Live browser smoke confirms `auth.js`, `social.js`, and Supabase JS CDN load successfully.
+- External review `/showcase-v2/` live smoke passed on mobile 390x844 and desktop 1440x900.
+- External review journey verified live: Discover, Dealer/Profile, Live Table, social chat surface, operator/provider handoff, Following and Return.
+- Operator/provider handoff is labeled as concept vision and confirms LC App does not process gambling transactions.
+- External review UI scan passed: no wallet, balance, deposit, withdrawal, cashier, KYC, AML, settlement, wager or betting layer shown inside LC App.
+- Public QA harness removed from deployed review build: `/qa-live.html` and `/qa-live.js` return HTTP 404.
+- Service worker cache bumped to `lc-app-investor-demo-v54`.
+- Root/auth shell live smoke passed after review changes without console errors or QA controls.
 
 ## Known Failures
 - None currently confirmed after Social MVP live E2E pass.
@@ -51,13 +58,12 @@ Current status: IN PROGRESS
 - None currently confirmed.
 
 ## Next Executable Tasks
-1. Harden `/showcase-v2/` as the public external review URL.
-2. Remove public QA harness from the review build.
-3. Run mobile, desktop, console, asset and service-worker smoke checks.
-4. Deploy only confirmed review-surface fixes.
+1. Send the external review URL only to selected Live Casino management / strategic review contacts.
+2. Collect founder and industry feedback before making new product-scope changes.
 
 ## Current Deployment / Commit
 - Local branch: `main`.
 - Last deployed QA/security commit: `f2c641c Add profiles privileged field guard`.
-- External review URL target: `https://minasyannarek13-rbb.github.io/lc-app-investor-demo/showcase-v2/`.
-- Public QA harness must remain removed/disabled in the external review build.
+- External review URL: `https://minasyannarek13-rbb.github.io/lc-app-investor-demo/showcase-v2/`.
+- External review production commit: `6dfe4da Prepare external review MVP`.
+- Public QA harness is removed/disabled in the external review build.
