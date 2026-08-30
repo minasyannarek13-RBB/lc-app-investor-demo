@@ -561,6 +561,28 @@
     .value-grid { display: grid; gap: 10px; }
     .value-card { padding: 14px; border-radius: 16px; }
     .value-card p { margin-top: 5px; }
+    .core-line {
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(150,255,215,.2);
+      background: rgba(32,218,201,.09);
+    }
+    .role-grid { display: grid; gap: 10px; }
+    .role-card {
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.09);
+      background: rgba(255,255,255,.045);
+      display: grid;
+      gap: 6px;
+    }
+    .role-card strong {
+      color: var(--mint);
+      font-size: 10px;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+    .role-card b { font-size: 16px; }
 
     .side {
       justify-self: start;
@@ -700,9 +722,9 @@
       .screen p, .screen h1, .screen h2, .screen h3, .screen span, .screen strong, .screen b { max-width: 100%; overflow-wrap: anywhere; word-break: normal; white-space: normal; }
       .top-actions { gap: 4px; }
       .icon-btn, .avatar-mini { width: 30px; height: 30px; border-radius: 10px; }
-      .welcome-visual { min-height: 372px; height: min(54svh, 470px); }
-      .welcome-copy h1 { font-size: 39px; max-width: 12ch; }
-      .welcome-copy p { font-size: 14px; max-width: 31ch; }
+      .welcome-visual { min-height: 270px; height: min(38svh, 380px); }
+      .welcome-copy h1 { font-size: 32px; line-height: .98; max-width: 100%; }
+      .welcome-copy p { font-size: 13px; max-width: 34ch; }
       .welcome-copy .btn { width: 100%; }
       .hero-live { min-height: 350px; }
       .profile-hero { min-height: 398px; }
@@ -716,7 +738,7 @@
       .screen { padding-left: 12px; padding-right: 12px; }
       h1 { font-size: 38px; }
       h2 { font-size: 24px; }
-      .welcome-visual { min-height: 348px; }
+      .welcome-visual { min-height: 258px; }
       .profile-hero { min-height: 382px; }
       .room-stage { min-height: 382px; }
       .profile-actions { gap: 6px; }
@@ -755,7 +777,7 @@
       <p id="side-copy">Live Casino through people.</p>
       <div class="side-actions">
         <button class="btn" type="button" data-go="discover">Explore LC App</button>
-        <button class="text-link" type="button" data-go="industry">Industry View</button>
+        <button class="text-link" type="button" data-go="industry">How it works</button>
       </div>
     </aside>
   </main>
@@ -825,7 +847,7 @@
     }
     function route() {
       const raw = location.hash.replace(/^#\/?/, "");
-      return raw && screens[raw] ? raw : state.route || "welcome";
+      return raw && screens[raw] ? raw : "welcome";
     }
     function toast(text) {
       const node = $("toast");
@@ -863,7 +885,7 @@
       return `<div class="activity-row"><img src="${d.avatar}" alt="${d.name} avatar" loading="lazy"><div><b>${title}</b><span>${meta}</span></div>${action === "watch" ? '<button class="btn slim" type="button" data-go="live">Watch</button>' : action === "save" ? '<button class="chip" type="button" data-save="p4">Save</button>' : '<button class="round-action" type="button" data-profile="' + d.id + '">' + icons.user + '</button>'}</div>`;
     }
     function welcome() {
-      $("welcome").innerHTML = `<div class="welcome"><div class="topbar"><div class="brand"><span class="logo">LC</span><div><strong>LC App</strong><span>LIVE CASINO. SOCIAL EXPERIENCE.</span></div></div></div><div class="welcome-visual"><img src="${assets.sofiaPortrait}" alt="Premium Live Casino dealer creator"></div><div class="welcome-copy"><span class="label">LIVE CASINO. SOCIAL EXPERIENCE.</span><h1>Live Casino, through people.</h1><p>Follow dealers. Watch them live. Return when they do.</p><button class="btn" type="button" data-go="discover">EXPLORE LC APP</button><button class="text-link" type="button" data-go="industry">Industry View</button><span class="demo-note">Interactive product concept. Demo personas/content are illustrative. No operator or provider integration is implied.</span></div></div>`;
+      $("welcome").innerHTML = `<div class="welcome"><div class="topbar"><div class="brand"><span class="logo">LC</span><div><strong>LC App</strong><span>LIVE CASINO. SOCIAL EXPERIENCE.</span></div></div></div><div class="welcome-visual"><img src="${assets.sofiaPortrait}" alt="Premium Live Casino dealer creator"></div><div class="welcome-copy"><span class="label">LIVE CASINO. SOCIAL EXPERIENCE.</span><h1>Discover dealers. Follow creators. Join live tables.</h1><p>LC App connects players, live dealers, casino operators and game providers through a social discovery layer.</p><button class="btn" type="button" data-go="discover">EXPLORE LIVE</button><button class="text-link" type="button" data-go="industry">HOW IT WORKS</button><span class="demo-note">Interactive product concept. Demo personas/content are illustrative. No operator or provider integration is implied.</span></div></div>`;
     }
     function discover() {
       const sofia = dealer("sofia");
@@ -898,16 +920,16 @@
       $("following").innerHTML = `${topbar()}<div class="section" style="margin-top:0"><h2>Following</h2><div class="following-list"><div class="feed-unit"><span class="feed-label">LIVE NOW</span>${activityRow(sofia, "Sofia is live", "Blackjack Royale", "watch")}</div><div class="feed-unit"><span class="feed-label">STARTING SOON</span>${activityRow(alex, "Alex starts Baccarat", "In 20 min", "save")}</div><div class="feed-unit"><span class="feed-label">FROM SOFIA</span>${imagePost(posts[1])}</div><div class="feed-unit"><span class="feed-label">COMMUNITY</span>${activityRow(marcus, "Blackjack Strategy", "Table pace and player questions", "profile")}</div><div class="notification-box"><div><h3>Sofia is live now</h3><p>Blackjack Royale is open.</p></div><button class="btn slim" type="button" data-go="live">Watch</button></div></div></div>`;
     }
     function industry() {
-      $("industry").innerHTML = `<div class="industry-top">${simpleTopbar()}<button class="chip" type="button" data-go="discover">Back to LC App</button></div><div class="section industry-intro" style="margin-top:0"><h1>Dealer as Creator</h1><p>What if dealer affinity became an ongoing player relationship?</p><span class="label">BUSINESS HYPOTHESIS — TO BE VALIDATED</span></div><div class="section"><div class="flow-grid"><article class="flow-card"><span>Today</span><div class="flow-steps"><div class="flow-step"><i>1</i><b>Player</b><em>→</em></div><div class="flow-step"><i>2</i><b>Table</b><em>→</em></div><div class="flow-step"><i>3</i><b>Session ends</b><em>→</em></div></div></article><article class="flow-card hypothesis"><span>LC App hypothesis</span><div class="flow-steps"><div class="flow-step"><i>1</i><b>Discover</b><em>→</em></div><div class="flow-step"><i>2</i><b>Dealer / Creator</b><em>→</em></div><div class="flow-step"><i>3</i><b>Live Table</b><em>→</em></div><div class="flow-step"><i>4</i><b>Social Interaction</b><em>→</em></div><div class="flow-step"><i>5</i><b>Operator / Provider Handoff</b><em>→</em></div><div class="flow-step"><i>6</i><b>Follow / Return</b><em>→</em></div></div></article></div></div><div class="section"><div class="value-grid"><article class="card value-card"><h3>RE-ENGAGEMENT</h3><p>Create additional reasons to return between sessions.</p></article><article class="card value-card"><h3>RETENTION</h3><p>Turn dealer affinity into an ongoing relationship layer.</p></article><article class="card value-card"><h3>ACQUISITION ECONOMICS</h3><p>Dealer-led content could create a more durable discovery and re-engagement channel.</p></article></div><span class="demo-note">Concept vision. Business outcomes, integrations and commercial impact are to be validated.</span><button class="btn" type="button" data-go="discover">Back to LC App</button></div>`;
+      $("industry").innerHTML = `<div class="industry-top">${simpleTopbar()}<button class="chip" type="button" data-go="discover">Explore Live</button></div><div class="section industry-intro" style="margin-top:0"><h1>How it works</h1><p>LC App adds the missing social and creator layer to Live Casino.</p><span class="label">CONCEPT VISION — TO BE VALIDATED</span></div><div class="section"><div class="flow-grid"><article class="flow-card"><span>Today</span><div class="flow-steps"><div class="flow-step"><i>1</i><b>Casino</b><em>→</em></div><div class="flow-step"><i>2</i><b>Lobby</b><em>→</em></div><div class="flow-step"><i>3</i><b>Game</b><em>→</em></div><div class="flow-step"><i>4</i><b>Table</b><em>→</em></div></div></article><article class="flow-card hypothesis"><span>With LC App</span><div class="flow-steps"><div class="flow-step"><i>1</i><b>Discover</b><em>→</em></div><div class="flow-step"><i>2</i><b>Dealer</b><em>→</em></div><div class="flow-step"><i>3</i><b>Content</b><em>→</em></div><div class="flow-step"><i>4</i><b>Follow</b><em>→</em></div><div class="flow-step"><i>5</i><b>Live</b><em>→</em></div><div class="flow-step"><i>6</i><b>Play</b><em>→</em></div></div></article></div></div><div class="section"><article class="core-line"><h3>One social layer around Live Casino</h3><p>Players discover people, follow creators and return to live tables through identity and content.</p></article><div class="role-grid"><article class="role-card"><strong>Player</strong><b>Find who you want to play with, not only what you want to play.</b></article><article class="role-card"><strong>Dealer</strong><b>From dealer to creator.</b><p>Profile, followers, content, schedule, audience and return visits.</p></article><article class="role-card"><strong>Operator</strong><b>Turn live casino traffic into relationships and repeat visits.</b><p>Potential acquisition, engagement, retention and attribution layer.</p></article><article class="role-card"><strong>Provider</strong><b>From game distribution to audience distribution.</b><p>Discovery for dealers, games and live tables without replacing provider infrastructure.</p></article></div><span class="demo-note">Illustrative concept demo. No confirmed integrations, partnerships, revenue or validated business outcomes.</span><button class="btn" type="button" data-go="discover">EXPLORE LIVE</button></div>`;
     }
     const screens = { welcome, discover, dealer: dealerProfile, live: liveRoom, following, industry };
     const sideCopy = {
-      welcome: ["LIVE CASINO. SOCIAL EXPERIENCE.", "Follow the people\nbehind the tables.", "Discover, follow and return to the dealer personalities you care about."],
-      discover: ["LIVE CASINO. SOCIAL EXPERIENCE.", "Follow the people\nbehind the tables.", "Discover, follow and return to the dealer personalities you care about."],
+      welcome: ["LIVE CASINO. SOCIAL EXPERIENCE.", "Discover dealers.\nFollow creators.\nJoin live tables.", "A social discovery layer connecting players, dealers, operators and providers."],
+      discover: ["LIVE CASINO. SOCIAL EXPERIENCE.", "Discover dealers.\nFollow creators.\nJoin live tables.", "A social discovery layer connecting players, dealers, operators and providers."],
       dealer: ["PROFILE", "Dealer Profile", "Follow. Watch. Return."],
       live: ["LIVE", "Live Room", "Social layer before operator handoff."],
       following: ["FOLLOWING", "Following", "A reason to come back."],
-      industry: ["INDUSTRY", "Industry View", "Business hypothesis in one place."]
+      industry: ["HOW IT WORKS", "Social layer for\nLive Casino", "Players, dealers, operators and providers each get a clear reason to use it."]
     };
     function sheet(type) {
       const content = {

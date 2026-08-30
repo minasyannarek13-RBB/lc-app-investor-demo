@@ -2,7 +2,7 @@
 
 Date: 2026-08-30
 Milestone: LC App External Review MVP
-Current status: READY FOR EXTERNAL REVIEW
+Current status: SELF-EXPLANATORY REVIEW MVP READY
 
 ## Locked Baseline
 - Social MVP live E2E confirmed by founder report: 21/21 PASS, 0 failures/blockers.
@@ -48,8 +48,12 @@ Current status: READY FOR EXTERNAL REVIEW
 - Operator/provider handoff is labeled as concept vision and confirms LC App does not process gambling transactions.
 - External review UI scan passed: no wallet, balance, deposit, withdrawal, cashier, KYC, AML, settlement, wager or betting layer shown inside LC App.
 - Public QA harness removed from deployed review build: `/qa-live.html` and `/qa-live.js` return HTTP 404.
-- Service worker cache bumped to `lc-app-investor-demo-v54`.
+- Service worker cache bumped to `lc-app-investor-demo-v55`.
 - Root/auth shell live smoke passed after review changes without console errors or QA controls.
+- Self-explanatory mobile UX pass added to `/showcase-v2/`: first screen explains what LC App is and How It Works explains player, dealer, operator and provider value.
+- Local smoke passed on 390x844, 430x844 and 1440x900 for welcome, how-it-works, discover, dealer, live and following routes.
+- Core journey regression passed locally: How It Works, Explore Live, Dealer/Profile to Live, operator/provider handoff.
+- Auth regression smoke passed locally after showcase changes; social/auth/RLS files were not modified.
 
 ## Known Failures
 - None currently confirmed after Social MVP live E2E pass.
@@ -58,12 +62,12 @@ Current status: READY FOR EXTERNAL REVIEW
 - None currently confirmed.
 
 ## Next Executable Tasks
-1. Send the external review URL only to selected Live Casino management / strategic review contacts.
-2. Collect founder and industry feedback before making new product-scope changes.
+1. Use the public review URL for selected senior Live Casino management / strategic review contacts.
+2. Collect external feedback before adding new product scope.
 
 ## Current Deployment / Commit
 - Local branch: `main`.
 - Last deployed QA/security commit: `f2c641c Add profiles privileged field guard`.
 - External review URL: `https://minasyannarek13-rbb.github.io/lc-app-investor-demo/showcase-v2/`.
-- External review production commit: `6dfe4da Prepare external review MVP`.
+- External review production commit: pending self-explanatory UX deployment.
 - Public QA harness is removed/disabled in the external review build.
