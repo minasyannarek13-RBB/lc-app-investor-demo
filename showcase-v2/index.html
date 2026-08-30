@@ -24,6 +24,17 @@
       --red: #ff4d5a;
       --radius: 8px;
       --radius-lg: 18px;
+      --space-1: 4px;
+      --space-2: 6px;
+      --space-3: 8px;
+      --space-4: 10px;
+      --space-5: 12px;
+      --space-6: 14px;
+      --space-7: 18px;
+      --touch: 44px;
+      --touch-sm: 40px;
+      --control-radius: 12px;
+      --card-radius: 18px;
       --bottom-nav-height: 70px;
       --safe-bottom: env(safe-area-inset-bottom);
       --page-bottom-padding: calc(var(--bottom-nav-height) + var(--safe-bottom) + 30px);
@@ -125,13 +136,13 @@
     .app[data-route="industry"] .screen { padding-bottom: 30px; }
     @keyframes enter { from { opacity: .45; transform: translateY(7px); } to { opacity: 1; transform: none; } }
     .screen * { min-width: 0; }
-    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 18px; }
-    .brand { display: flex; align-items: center; gap: 9px; min-width: 0; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-7); }
+    .brand { display: flex; align-items: center; gap: var(--space-3); min-width: 0; }
     .logo {
-      width: 34px;
-      height: 34px;
+      width: var(--touch-sm);
+      height: var(--touch-sm);
       flex: 0 0 auto;
-      border-radius: 10px;
+      border-radius: var(--control-radius);
       display: grid;
       place-items: center;
       background: linear-gradient(145deg, var(--mint), var(--teal));
@@ -141,18 +152,18 @@
     }
     .brand strong { display: block; font-size: 14px; line-height: 1.05; white-space: nowrap; }
     .brand span { display: none; color: var(--muted); font-size: 7.5px; font-weight: 850; text-transform: uppercase; white-space: nowrap; }
-    .top-actions { display: flex; align-items: center; gap: 5px; flex: 0 0 auto; }
+    .top-actions { display: flex; align-items: center; gap: var(--space-2); flex: 0 0 auto; }
     .icon-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: 11px;
+      width: var(--touch);
+      height: var(--touch);
+      border-radius: var(--control-radius);
       border: 1px solid rgba(255,255,255,.09);
       background: rgba(255,255,255,.045);
       color: var(--soft);
       display: grid;
       place-items: center;
     }
-    .avatar-mini { width: 32px; height: 32px; border-radius: 11px; object-fit: cover; border: 1px solid rgba(255,255,255,.12); }
+    .avatar-mini { width: var(--touch); height: var(--touch); border-radius: var(--control-radius); object-fit: cover; border: 1px solid rgba(255,255,255,.12); }
     .label, .pill {
       display: inline-flex;
       align-items: center;
@@ -172,9 +183,9 @@
     .pill.soft { color: var(--soft); background: rgba(255,255,255,.055); border-color: rgba(255,255,255,.1); }
     .demo-note { color: var(--muted); font-size: 9.5px; line-height: 1.35; }
     .btn {
-      min-height: 43px;
+      min-height: var(--touch);
       border: 0;
-      border-radius: var(--radius);
+      border-radius: var(--control-radius);
       padding: 0 14px;
       display: inline-flex;
       align-items: center;
@@ -194,18 +205,18 @@
       box-shadow: none;
     }
     .btn.following { color: var(--mint); border-color: rgba(150,255,215,.35); background: rgba(7,61,50,.5); }
-    .btn.slim { min-height: 34px; padding: 0 11px; font-size: 10.5px; }
-    .cta-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .btn.slim { min-height: var(--touch-sm); padding: 0 12px; font-size: 10.5px; }
+    .cta-row { display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center; }
     .filter-row {
       display: flex;
-      gap: 7px;
+      gap: var(--space-2);
       overflow-x: auto;
       padding-bottom: 2px;
       scrollbar-width: none;
     }
     .filter-row::-webkit-scrollbar { display: none; }
     .chip {
-      min-height: 31px;
+      min-height: 36px;
       border: 1px solid rgba(255,255,255,.1);
       border-radius: 999px;
       background: rgba(255,255,255,.045);
@@ -219,8 +230,8 @@
     }
     .chip.active, .btn.active { color: var(--mint); border-color: rgba(32,218,201,.45); background: rgba(32,218,201,.12); }
     .icon { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round; flex: 0 0 auto; }
-    .section { display: grid; gap: 12px; margin-top: 22px; }
-    .section.subtle { gap: 10px; }
+    .section { display: grid; gap: var(--space-5); margin-top: 22px; }
+    .section.subtle { gap: var(--space-4); }
     .section-head { display: flex; align-items: end; justify-content: space-between; gap: 10px; }
     .section-head span { color: var(--muted); font-size: 9px; font-weight: 850; }
     .card {
@@ -286,7 +297,7 @@
     .welcome-copy { display: grid; gap: 9px; }
     .welcome-copy h1 { margin-top: 4px; }
     .welcome-copy p { color: var(--text); font-size: 15px; max-width: 34ch; }
-    .text-link { color: var(--muted); border: 0; background: none; padding: 0; font-size: 11px; justify-self: start; }
+    .text-link { min-height: var(--touch-sm); color: var(--muted); border: 0; background: none; padding: 0 2px; font-size: 11px; justify-self: start; }
 
     .hero-live {
       position: relative;
@@ -322,7 +333,7 @@
       position: relative;
       aspect-ratio: 3 / 4;
       height: auto;
-      border-radius: 18px;
+      border-radius: var(--card-radius);
       overflow: hidden;
       box-shadow: inset 0 0 0 1px rgba(255,255,255,.1);
       background: #07100e;
@@ -367,8 +378,8 @@
     .activity-row span { color: var(--muted); font-size: 11px; }
     .action-icons { display: flex; gap: 6px; align-items: center; }
     .round-action {
-      width: 32px;
-      height: 32px;
+      width: var(--touch-sm);
+      height: var(--touch-sm);
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,.1);
       background: rgba(255,255,255,.045);
@@ -422,7 +433,7 @@
       border: 1px solid rgba(255,255,255,.08);
     }
     .tab {
-      min-height: 34px;
+      min-height: var(--touch-sm);
       border: 0;
       border-radius: 8px;
       background: transparent;
@@ -465,7 +476,7 @@
     .room-overlay h2 { font-size: 35px; max-width: 9ch; }
     .room-host {
       border: 0;
-      border-radius: 16px;
+      border-radius: var(--control-radius);
       color: var(--text);
       background: rgba(3,10,9,.72);
       display: flex;
@@ -533,6 +544,60 @@
       justify-content: space-between;
       gap: 12px;
       align-items: center;
+    }
+    .status-strip { display: flex; gap: var(--space-2); overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+    .status-strip::-webkit-scrollbar { display: none; }
+    .status-card {
+      min-width: 132px;
+      padding: 12px;
+      border-radius: var(--card-radius);
+      border: 1px solid rgba(150,255,215,.14);
+      background: rgba(255,255,255,.045);
+      color: var(--text);
+      display: grid;
+      gap: 5px;
+      text-align: left;
+    }
+    .status-card b { font-size: 13px; }
+    .status-card span { color: var(--muted); font-size: 10px; line-height: 1.25; }
+    .notif-dot { position: relative; }
+    .notif-dot::after {
+      content: "";
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--red);
+      box-shadow: 0 0 0 2px #020706;
+    }
+    .notification-card {
+      display: grid;
+      grid-template-columns: 8px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      min-height: 52px;
+      padding: 10px 0;
+      border-left: 0;
+      border-right: 0;
+      border-bottom: 0;
+      background: transparent;
+      color: var(--text);
+      text-align: left;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .notification-card:first-of-type { border-top: 0; }
+    .notification-card i { width: 8px; height: 8px; border-radius: 999px; background: var(--mint); opacity: .9; }
+    .notification-card.read i { background: rgba(255,255,255,.18); }
+    .notification-card b { display: block; font-size: 12px; }
+    .notification-card span { color: var(--muted); font-size: 11px; }
+    .empty-card {
+      padding: 14px;
+      border-radius: var(--card-radius);
+      border: 1px dashed rgba(150,255,215,.18);
+      color: var(--muted);
+      background: rgba(255,255,255,.035);
     }
 
     .industry-intro h1 { font-size: 40px; }
@@ -774,7 +839,7 @@
       .screen { width: 100%; max-width: none; padding-left: 14px; padding-right: 14px; }
       .screen p, .screen h1, .screen h2, .screen h3, .screen span, .screen strong, .screen b { max-width: 100%; overflow-wrap: anywhere; word-break: normal; white-space: normal; }
       .top-actions { gap: 4px; }
-      .icon-btn, .avatar-mini { width: 30px; height: 30px; border-radius: 10px; }
+      .icon-btn, .avatar-mini { width: 40px; height: 40px; border-radius: 12px; }
       .welcome-visual { min-height: 270px; height: min(38svh, 380px); }
       .welcome-copy h1 { font-size: 32px; line-height: .98; max-width: 100%; }
       .welcome-copy p { font-size: 13px; max-width: 34ch; }
@@ -799,7 +864,7 @@
       .nav { font-size: 6.4px; }
       .nav svg { width: 14px; height: 14px; }
       .top-actions { gap: 3px; }
-      .icon-btn, .avatar-mini { width: 28px; height: 28px; }
+      .icon-btn, .avatar-mini { width: 38px; height: 38px; }
       .room-stage { min-height: 382px; }
       .sticky-top { font-size: 8px; }
     }
@@ -867,10 +932,10 @@
       marcusContent: "../app_prototype_assets/dealers/v2_polish/marcus_community.jpg"
     };
     const dealers = [
-      { id: "sofia", name: "Sofia Laurent", short: "Sofia", role: "Live Blackjack Host", game: "Blackjack", language: "English / French", room: "Blackjack Royale", status: "LIVE NOW", portrait: assets.sofiaProfile, live: assets.sofiaLive, discover: assets.sofiaDiscover, content: assets.sofiaContent, avatar: assets.sofiaAvatar, thumb: assets.sofiaThumb, roomImage: assets.sofiaRoom, style: "Blackjack • Strategy • Community", bio: "Strategy-driven Blackjack host." },
-      { id: "mia", name: "Mia Rossi", short: "Mia", role: "Live Roulette Host", game: "Roulette", language: "English / Italian", room: "Roulette Studio", status: "New post", portrait: assets.miaPortrait, live: assets.miaLive, content: assets.miaContent, avatar: assets.miaPortrait, style: "Roulette • Social tables", bio: "Warm roulette host with sharp room energy." },
-      { id: "alex", name: "Alex Morgan", short: "Alex", role: "Live Baccarat Host", game: "Baccarat", language: "English", room: "Baccarat Lounge", status: "Starts in 20 min", portrait: assets.alexPortrait, live: assets.alexLive, content: assets.alexLive, avatar: assets.alexPortrait, style: "Baccarat • Calm rooms", bio: "Baccarat host focused on atmosphere and pace." },
-      { id: "marcus", name: "Marcus Lee", short: "Marcus", role: "Blackjack Creator / Host", game: "Blackjack", language: "English", room: "Strategy Table", status: "Community", portrait: assets.marcusPortrait, live: assets.marcusContent, content: assets.marcusContent, avatar: assets.marcusPortrait, style: "Blackjack • Table notes", bio: "Creator-host explaining table rhythm." }
+      { id: "sofia", name: "Sofia Laurent", short: "Sofia", role: "Live Blackjack Host", game: "Blackjack", language: "English / French", room: "Blackjack Royale", status: "LIVE NOW", next: "Tonight 20:00", portrait: assets.sofiaProfile, live: assets.sofiaLive, discover: assets.sofiaDiscover, content: assets.sofiaContent, avatar: assets.sofiaAvatar, thumb: assets.sofiaThumb, roomImage: assets.sofiaRoom, style: "Blackjack • Strategy • Community", bio: "Strategy-driven Blackjack host." },
+      { id: "mia", name: "Mia Rossi", short: "Mia", role: "Live Roulette Host", game: "Roulette", language: "English / Italian", room: "Roulette Studio", status: "New post", next: "Tomorrow 19:30", portrait: assets.miaPortrait, live: assets.miaLive, content: assets.miaContent, avatar: assets.miaPortrait, style: "Roulette • Social tables", bio: "Warm roulette host with sharp room energy." },
+      { id: "alex", name: "Alex Morgan", short: "Alex", role: "Live Baccarat Host", game: "Baccarat", language: "English", room: "Baccarat Lounge", status: "Starts in 20 min", next: "Starts in 20 min", portrait: assets.alexPortrait, live: assets.alexLive, content: assets.alexLive, avatar: assets.alexPortrait, style: "Baccarat • Calm rooms", bio: "Baccarat host focused on atmosphere and pace." },
+      { id: "marcus", name: "Marcus Lee", short: "Marcus", role: "Blackjack Creator / Host", game: "Blackjack", language: "English", room: "Strategy Table", status: "Community", next: "Friday 21:00", portrait: assets.marcusPortrait, live: assets.marcusContent, content: assets.marcusContent, avatar: assets.marcusPortrait, style: "Blackjack • Table notes", bio: "Creator-host explaining table rhythm." }
     ];
     const posts = [
       { id: "p1", dealer: "sofia", section: "FROM SOFIA", title: "Back at the Blackjack table tonight. Who's joining?", image: assets.sofiaContent, action: "WATCH" },
@@ -879,7 +944,7 @@
       { id: "p4", dealer: "alex", section: "STARTING SOON", title: "Baccarat starts in 20 minutes.", image: assets.alexLive, action: "SAVE" },
       { id: "p5", dealer: "marcus", section: "COMMUNITY", title: "New discussion: table pace and player questions.", image: assets.marcusContent, action: "OPEN" }
     ];
-    const defaultState = { followed: ["sofia"], liked: [], saved: ["p2"], comments: [], route: "welcome", tab: "profile", selectedDealer: "sofia", discoverFilter: "all" };
+    const defaultState = { followed: ["sofia"], liked: [], saved: ["p2"], comments: [], recentSearches: [], notificationsRead: false, route: "welcome", tab: "profile", selectedDealer: "sofia", discoverFilter: "all" };
     let state = load();
     function load() {
       try { return { ...defaultState, ...JSON.parse(localStorage.getItem("lc-industry-v2") || "{}") }; }
@@ -888,8 +953,15 @@
     function persist() { localStorage.setItem("lc-industry-v2", JSON.stringify(state)); }
     const $ = (id) => document.getElementById(id);
     const dealer = (id) => dealers.find((d) => d.id === id) || dealers[0];
+    const isSaved = (id) => state.saved.includes(id);
+    const saveLabel = (id, label = "Save") => isSaved(id) ? "Saved" : label;
+    function rememberDealer(id) {
+      state.recentSearches = [id, ...state.recentSearches.filter(item => item !== id)].slice(0, 3);
+      state.selectedDealer = id;
+      persist();
+    }
     function topbar() {
-      return `<div class="topbar"><div class="brand"><span class="logo">LC</span><div><strong>LC App</strong><span>Play. Chat. Connect.</span></div></div><div class="top-actions"><button class="icon-btn" type="button" data-sheet="info" aria-label="Product info">${icons.info}</button><button class="icon-btn" type="button" data-sheet="search" aria-label="Search">${icons.search}</button><button class="icon-btn" type="button" data-sheet="notify" aria-label="Notifications">${icons.bell}</button><img class="avatar-mini" src="${assets.sofiaAvatar}" alt="Profile"></div></div>`;
+      return `<div class="topbar"><div class="brand"><span class="logo">LC</span><div><strong>LC App</strong><span>Play. Chat. Connect.</span></div></div><div class="top-actions"><button class="icon-btn" type="button" data-sheet="info" aria-label="Product info">${icons.info}</button><button class="icon-btn" type="button" data-sheet="search" aria-label="Search">${icons.search}</button><button class="icon-btn ${state.notificationsRead ? "" : "notif-dot"}" type="button" data-sheet="notify" aria-label="Notifications">${icons.bell}</button><img class="avatar-mini" src="${assets.sofiaAvatar}" alt="Profile"></div></div>`;
     }
     function simpleTopbar() {
       return `<div class="topbar"><div class="brand"><span class="logo">LC</span><div><strong>LC App</strong><span>Play. Chat. Connect.</span></div></div></div>`;
@@ -929,7 +1001,7 @@
       clearTimeout(toast.timer);
       toast.timer = setTimeout(() => node.classList.remove("show"), 1400);
     }
-    const analyticsEvents = new Set(["demo_open", "explore_click", "how_it_works_open", "dealer_profile_view", "follow_attempt", "follow_success", "live_open", "operator_handoff_click", "industry_view_open", "dealer_value_view", "operator_value_view", "provider_value_view", "profile_share", "discover_filter", "search_open"]);
+    const analyticsEvents = new Set(["demo_open", "explore_click", "how_it_works_open", "dealer_profile_view", "follow_attempt", "follow_success", "live_open", "operator_handoff_click", "industry_view_open", "dealer_value_view", "operator_value_view", "provider_value_view", "profile_share", "discover_filter", "search_open", "calendar_save", "notification_open", "content_open"]);
     function track(event) {
       if (!analyticsEvents.has(event)) return;
       try {
@@ -991,6 +1063,33 @@
         }
       }
     }
+    function saveCalendar(id) {
+      const d = dealer(id);
+      track("calendar_save");
+      const body = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//LC App Demo//Schedule//EN",
+        "BEGIN:VEVENT",
+        `UID:lc-app-${d.id}@demo`,
+        "DTSTAMP:20260831T120000Z",
+        "DTSTART:20260901T160000Z",
+        "DTEND:20260901T170000Z",
+        `SUMMARY:LC App demo: ${d.name} live`,
+        "DESCRIPTION:Illustrative LC App demo reminder. No operator or provider integration is implied.",
+        "END:VEVENT",
+        "END:VCALENDAR"
+      ].join("\r\n");
+      const url = URL.createObjectURL(new Blob([body], { type: "text/calendar" }));
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `lc-app-${d.id}-live-demo.ics`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 500);
+      toast("Calendar reminder ready");
+    }
     function actionIcon(type, id) {
       const active = type === "like" ? state.liked.includes(id) : type === "save" ? state.saved.includes(id) : false;
       const attr = type === "like" ? "data-like" : type === "save" ? "data-save" : "data-profile";
@@ -1003,10 +1102,11 @@
     }
     function imagePost(post) {
       const d = dealer(post.dealer);
-      return `<article class="image-post"><img src="${post.image}" alt="${d.name} update" loading="lazy" decoding="async"><div class="post-body"><div class="post-top"><img src="${d.avatar}" alt="${d.name} avatar" loading="lazy" decoding="async"><div><span class="label">${post.section}</span><h3>${d.short}</h3></div></div><p>${post.title}</p><div class="action-icons">${post.action === "WATCH" ? '<button class="btn slim" type="button" data-go="live">Watch live</button>' : ""}${actionIcon("like", post.id)}${actionIcon("save", post.id)}<button class="round-action" type="button" data-sheet="message" aria-label="comment">${icons.msg}</button></div></div></article>`;
+      return `<article class="image-post"><img src="${post.image}" alt="${d.name} update" loading="lazy" decoding="async"><div class="post-body"><div class="post-top"><img src="${d.avatar}" alt="${d.name} avatar" loading="lazy" decoding="async"><div><span class="label">${post.section}</span><h3>${d.short}</h3></div></div><p>${post.title}</p><div class="action-icons">${post.action === "WATCH" ? '<button class="btn slim" type="button" data-go="live">Watch live</button>' : '<button class="btn slim secondary" type="button" data-post="' + post.id + '">Open</button>'}${actionIcon("like", post.id)}${actionIcon("save", post.id)}<button class="round-action" type="button" data-sheet="message" aria-label="comment">${icons.msg}</button></div></div></article>`;
     }
-    function activityRow(d, title, meta, action = "profile") {
-      return `<div class="activity-row"><img src="${d.avatar}" alt="${d.name} avatar" loading="lazy" decoding="async"><div><b>${title}</b><span>${meta}</span></div>${action === "watch" ? '<button class="btn slim" type="button" data-go="live">Watch</button>' : action === "save" ? '<button class="chip" type="button" data-save="p4">Save</button>' : '<button class="round-action" type="button" data-profile="' + d.id + '">' + icons.user + '</button>'}</div>`;
+    function activityRow(d, title, meta, action = "profile", value = "p4") {
+      const saveAction = `<button class="chip ${isSaved(value) ? "active" : ""}" type="button" data-save="${value}">${saveLabel(value)}</button>`;
+      return `<div class="activity-row"><img src="${d.avatar}" alt="${d.name} avatar" loading="lazy" decoding="async"><div><b>${title}</b><span>${meta}</span></div>${action === "watch" ? '<button class="btn slim" type="button" data-go="live">Watch</button>' : action === "calendar" ? '<button class="chip" type="button" data-calendar="' + d.id + '">Calendar</button>' : action === "save" ? saveAction : '<button class="round-action" type="button" data-profile="' + d.id + '">' + icons.user + '</button>'}</div>`;
     }
     function welcome() {
       $("welcome").innerHTML = `<div class="welcome"><div class="topbar"><div class="brand"><span class="logo">LC</span><div><strong>LC App</strong><span>LIVE CASINO. SOCIAL EXPERIENCE.</span></div></div><button class="icon-btn" type="button" data-sheet="info" aria-label="Product info">${icons.info}</button></div><div class="welcome-visual"><img src="${assets.sofiaPortrait}" alt="Premium Live Casino dealer creator" fetchpriority="high" decoding="async"></div><div class="welcome-copy"><span class="label">LIVE CASINO. SOCIAL EXPERIENCE.</span><h1>The social discovery layer for Live Casino.</h1><p>Live Casino through people. Discover dealers, follow creators and join live tables.</p><button class="btn" type="button" data-go="discover">EXPLORE LIVE</button><button class="text-link" type="button" data-go="industry">HOW IT WORKS</button><span class="trust-line">18+ · Demo environment · No real-money wagering in LC App.</span><span class="demo-note">Interactive product demo · Illustrative content. No operator or provider integration is implied.</span></div></div>`;
@@ -1017,7 +1117,7 @@
       const filter = state.discoverFilter || "all";
       const filtered = dealers.filter(d => filter === "all" || (filter === "live" && d.status === "LIVE NOW") || (filter === "following" && state.followed.includes(d.id)) || d.game.toLowerCase() === filter);
       const filterButton = (id, label) => `<button class="chip ${filter === id ? "active" : ""}" type="button" data-filter="${id}">${label}</button>`;
-      $("discover").innerHTML = `${topbar()}<div class="section" style="margin-top:0"><h2>Discover</h2><p>Find who you want to play with, not only what you want to play.</p><div class="filter-row">${filterButton("all","All")}${filterButton("live","Live Now")}${filterButton("following","Following")}${filterButton("blackjack","Blackjack")}${filterButton("roulette","Roulette")}</div><article class="hero-live"><img src="${sofia.discover}" alt="${sofia.name} live at table"><div class="hero-content"><span class="label live pulse">LIVE NOW</span><h2>${sofia.name}</h2><p>${sofia.role}<br>${sofia.room}</p><div class="cta-row"><button class="btn" type="button" data-go="live">WATCH LIVE</button>${followBtn("sofia", "btn slim")}</div></div></article></div><div class="section"><div class="section-head"><h2>${filter === "all" ? "Live personalities" : "Filtered creators"}</h2><span>${filtered.length} shown</span></div><div class="creator-strip">${filtered.map(portraitTile).join("") || '<p>No matching creators yet.</p>'}</div></div><div class="section subtle"><div class="section-head"><h2>From people you follow</h2></div><div class="content-stack">${posts.filter(p => ["p1","p3"].includes(p.id)).map(imagePost).join("")}</div></div><div class="section subtle"><div class="section-head"><h2>Starting soon</h2></div>${activityRow(alex, "Alex Morgan", "Baccarat starts in 20 min", "save")}</div>`;
+      $("discover").innerHTML = `${topbar()}<div class="section" style="margin-top:0"><h2>Discover</h2><p>Find who you want to play with, not only what you want to play.</p><div class="filter-row">${filterButton("all","All")}${filterButton("live","Live Now")}${filterButton("following","Following")}${filterButton("blackjack","Blackjack")}${filterButton("roulette","Roulette")}</div><div class="status-strip"><button class="status-card" type="button" data-go="live"><b>Live now</b><span>Sofia at Blackjack Royale</span></button><button class="status-card" type="button" data-profile="alex"><b>Starting soon</b><span>Alex in 20 min</span></button><button class="status-card" type="button" data-go="following"><b>Your return loop</b><span>${state.followed.length} followed creator${state.followed.length === 1 ? "" : "s"}</span></button></div><article class="hero-live"><img src="${sofia.discover}" alt="${sofia.name} live at table"><div class="hero-content"><span class="label live pulse">LIVE NOW</span><h2>${sofia.name}</h2><p>${sofia.role}<br>${sofia.room}</p><div class="cta-row"><button class="btn" type="button" data-go="live">WATCH LIVE</button>${followBtn("sofia", "btn slim")}</div></div></article></div><div class="section"><div class="section-head"><h2>${filter === "all" ? "Live personalities" : "Filtered creators"}</h2><span>${filtered.length} shown</span></div><div class="creator-strip">${filtered.map(portraitTile).join("") || '<div class="empty-card">No matching creators yet.</div>'}</div></div><div class="section subtle"><div class="section-head"><h2>From people you follow</h2></div><div class="content-stack">${posts.filter(p => state.followed.includes(p.dealer) || ["p1","p3"].includes(p.id)).slice(0, 3).map(imagePost).join("")}</div></div><div class="section subtle"><div class="section-head"><h2>Starting soon</h2></div>${activityRow(alex, "Alex Morgan", "Baccarat starts in 20 min", "save", "schedule-alex")}</div>`;
     }
     function tabButton(id, label) {
       return `<button class="tab ${state.tab === id ? "active" : ""}" type="button" data-tab="${id}">${label}</button>`;
@@ -1029,7 +1129,7 @@
       }
       if (state.tab === "schedule") {
         const live = d.status === "LIVE NOW";
-        return `<div class="profile-panel"><div class="profile-summary"><b>${live ? "LIVE NOW" : "Upcoming"}</b><p>Following turns dealer affinity into a reason to return.</p></div><div class="activity-row"><img src="${d.avatar}" alt="${d.name} avatar" loading="lazy" decoding="async"><div><b>${live ? "Tonight 20:00" : d.status}</b><span>${d.room}</span></div><button class="${live ? "btn slim" : "chip"}" type="button" ${live ? 'data-go="live"' : 'data-save="schedule-' + d.id + '"'}>${live ? "Watch" : "Save"}</button></div><div class="activity-row"><img src="${d.avatar}" alt="${d.name} avatar" loading="lazy" decoding="async"><div><b>Next live reminder</b><span>Return when ${d.short} is live.</span></div><button class="chip" type="button" data-save="return-${d.id}">Save</button></div></div>`;
+        return `<div class="profile-panel"><div class="profile-summary"><b>${live ? "LIVE NOW" : "Upcoming"}</b><p>Following turns dealer affinity into a reason to return.</p></div><div class="status-strip"><div class="status-card"><b>${d.next}</b><span>${d.room}</span></div><div class="status-card"><b>${state.followed.includes(d.id) ? "Following" : "Not following"}</b><span>Personal return signal</span></div></div><div class="activity-row"><img src="${d.avatar}" alt="${d.name} avatar" loading="lazy" decoding="async"><div><b>${live ? "Join live session" : "Save next session"}</b><span>${d.room}</span></div><button class="${live ? "btn slim" : "chip"}" type="button" ${live ? 'data-go="live"' : 'data-save="schedule-' + d.id + '"'}>${live ? "Watch" : saveLabel("schedule-" + d.id)}</button></div>${activityRow(d, "Add to calendar", "Download a demo reminder for " + d.short, "calendar")}<div class="activity-row"><img src="${d.avatar}" alt="${d.name} avatar" loading="lazy" decoding="async"><div><b>Next live reminder</b><span>Return when ${d.short} is live.</span></div><button class="chip ${isSaved("return-" + d.id) ? "active" : ""}" type="button" data-save="return-${d.id}">${saveLabel("return-" + d.id)}</button></div></div>`;
       }
       return `<div class="profile-panel"><div class="profile-summary"><b>From dealer to creator.</b><p>Profile, content, schedule and live table in one place.</p></div><article class="profile-room"><img src="${d.roomImage || d.live || d.content}" alt="${d.room} room"><div class="post-body"><span class="label ${d.status === "LIVE NOW" ? "live pulse" : ""}">${d.status === "LIVE NOW" ? "LIVE" : "CREATOR"}</span><h3>${d.room}</h3><p>${d.short} ${d.status === "LIVE NOW" ? "is live now." : "can be followed before the next session."}</p><button class="btn" type="button" ${d.status === "LIVE NOW" ? 'data-go="live"' : 'data-tab="schedule"'}>${d.status === "LIVE NOW" ? "WATCH LIVE" : "VIEW SCHEDULE"}</button></div></article><div class="activity-row"><img src="${d.thumb || d.avatar}" alt="${d.name} room" loading="lazy" decoding="async"><div><b>Favorite format</b><span>${d.style}</span></div><button class="round-action" type="button" data-share="${d.id}" aria-label="Share profile">${icons.share}</button></div></div>`;
     }
@@ -1046,7 +1146,9 @@
       const sofia = dealer("sofia");
       const alex = dealer("alex");
       const marcus = dealer("marcus");
-      $("following").innerHTML = `${topbar()}<div class="section" style="margin-top:0"><h2>Following</h2><p>Return to the people you already follow.</p><div class="following-list"><div class="feed-unit"><span class="feed-label">LIVE NOW</span>${activityRow(sofia, "Sofia is live", "Blackjack Royale", "watch")}</div><div class="feed-unit"><span class="feed-label">STARTING SOON</span>${activityRow(alex, "Alex starts Baccarat", "In 20 min", "save")}</div><div class="feed-unit"><span class="feed-label">FROM SOFIA</span>${imagePost(posts[1])}</div><div class="feed-unit"><span class="feed-label">COMMUNITY</span>${activityRow(marcus, "Blackjack Strategy", "Table pace and player questions", "profile")}</div><div class="notification-box"><div><h3>Sofia is live now</h3><p>Return when your dealer is live.</p></div><button class="btn slim" type="button" data-go="live">Watch</button></div></div></div>`;
+      const followedDealers = dealers.filter(d => state.followed.includes(d.id));
+      const savedReminders = state.saved.filter(id => id.startsWith("schedule-") || id.startsWith("return-")).map(id => dealer(id.replace("schedule-", "").replace("return-", "")));
+      $("following").innerHTML = `${topbar()}<div class="section" style="margin-top:0"><h2>Following</h2><p>Return to the people you already follow.</p><div class="status-strip"><div class="status-card"><b>${followedDealers.length}</b><span>Followed creators</span></div><div class="status-card"><b>${savedReminders.length}</b><span>Saved return cues</span></div><button class="status-card" type="button" data-sheet="notify"><b>${state.notificationsRead ? "Read" : "New"}</b><span>Live notifications</span></button></div><div class="following-list"><div class="feed-unit"><span class="feed-label">LIVE NOW</span>${activityRow(sofia, "Sofia is live", "Blackjack Royale", "watch")}</div><div class="feed-unit"><span class="feed-label">YOUR CREATORS</span>${followedDealers.map(d => activityRow(d, d.name, d.next || d.status, d.status === "LIVE NOW" ? "watch" : "profile")).join("") || '<div class="empty-card">Follow a dealer to build your return feed.</div>'}</div><div class="feed-unit"><span class="feed-label">SAVED RETURN CUES</span>${savedReminders.map(d => activityRow(d, d.short + " reminder", d.next || d.room, "profile")).join("") || '<div class="empty-card">Save schedules from dealer profiles.</div>'}</div><div class="feed-unit"><span class="feed-label">FROM SOFIA</span>${imagePost(posts[1])}</div><div class="feed-unit"><span class="feed-label">COMMUNITY</span>${activityRow(marcus, "Blackjack Strategy", "Table pace and player questions", "profile")}</div><div class="notification-box"><div><h3>Sofia is live now</h3><p>Return when your dealer is live.</p></div><button class="btn slim" type="button" data-go="live">Watch</button></div></div></div>`;
     }
     function industry() {
       $("industry").innerHTML = `<div class="industry-top">${simpleTopbar()}<button class="chip" type="button" data-go="discover">Explore Live</button></div><div class="section industry-intro" style="margin-top:0"><h1>Why LC App</h1><p>LC App adds the missing social and creator layer to Live Casino.</p><span class="label">CONCEPT VISION — TO BE VALIDATED</span></div><div class="section"><div class="flow-grid"><article class="flow-card"><span>Today</span><div class="flow-steps"><div class="flow-step"><i>1</i><b>Casino</b><em>→</em></div><div class="flow-step"><i>2</i><b>Lobby</b><em>→</em></div><div class="flow-step"><i>3</i><b>Game</b><em>→</em></div><div class="flow-step"><i>4</i><b>Table</b><em>→</em></div></div></article><article class="flow-card hypothesis"><span>With LC App</span><div class="flow-steps"><div class="flow-step"><i>1</i><b>Discover</b><em>→</em></div><div class="flow-step"><i>2</i><b>Dealer</b><em>→</em></div><div class="flow-step"><i>3</i><b>Content</b><em>→</em></div><div class="flow-step"><i>4</i><b>Follow</b><em>→</em></div><div class="flow-step"><i>5</i><b>Live</b><em>→</em></div><div class="flow-step"><i>6</i><b>Play</b><em>→</em></div></div></article></div></div><div class="section"><article class="core-line"><h3>Live Casino through people</h3><p>Players discover people, follow creators and return to live tables through identity and content.</p></article><div class="role-grid"><article class="role-card"><strong>For players</strong><b>Find who you want to play with, not only what you want to play.</b><div class="mini-flow"><span>Discover</span><span>Follow</span><span>Live</span><span>Return</span></div></article><article class="role-card"><strong>For dealers</strong><b>From dealer to creator.</b><p>Profile, content, schedule, audience and repeat visits.</p><div class="mini-flow"><span>Table</span><span>Creator profile</span><span>Audience</span></div></article><article class="role-card"><strong>For operators</strong><b>Turn live casino traffic into relationships and repeat visits.</b><p>Potential discovery, acquisition, engagement, retention and attribution layer.</p><div class="mini-flow"><span>Player</span><span>Follow</span><span>Live</span><span>Handoff</span><span>Return</span></div></article><article class="role-card"><strong>For providers</strong><b>Providers distribute games. LC App adds distribution through people.</b><p>Discovery for dealers, games and live tables without replacing provider infrastructure.</p><div class="mini-flow"><span>Dealer</span><span>Audience</span><span>Live Table</span><span>Provider</span></div></article></div><span class="demo-note">Illustrative concept demo. No confirmed integrations, partnerships, revenue or validated business outcomes.</span><button class="btn" type="button" data-go="discover">EXPLORE LIVE</button></div>`;
@@ -1061,13 +1163,22 @@
       industry: ["WHY LC APP", "Social layer for\nLive Casino", "Players, dealers, operators and providers each get a clear reason to use it."]
     };
     function sheet(type) {
+      if (type === "notify") {
+        state.notificationsRead = true;
+        persist();
+        track("notification_open");
+      }
+      const activePost = posts.find(p => p.id === state.selectedPost) || posts[0];
+      const activePostDealer = dealer(activePost.dealer);
+      const recentDealers = state.recentSearches.map(dealer).filter(Boolean);
       const content = {
         message: `<div class="sheet-head"><h3>Sofia Laurent</h3><button class="chip" type="button" data-close>Close</button></div><span class="pill soft">Demo conversation</span><div class="chat-list"><div class="chat-line"><b>You</b><span>Are you live tomorrow?</span></div><div class="chat-line"><b>Sofia</b><span>Yes — 20:00. See you at the table.</span></div></div><div class="input-row">Message Sofia...</div>`,
         chat: `<div class="sheet-head"><h3>Chat</h3><button class="chip" type="button" data-close>Close</button></div><p>Add one controlled demo message to the room.</p><button class="btn" type="button" data-comment="See you at 20:00.">Add message</button>`,
+        content: `<div class="sheet-head"><h3>${activePostDealer.short}'s update</h3><button class="chip" type="button" data-close>Close</button></div><span class="pill soft">Illustrative content</span><p>${activePost.title}</p><div class="cta-row"><button class="btn slim" type="button" data-profile="${activePostDealer.id}">Profile</button>${activePostDealer.status === "LIVE NOW" ? '<button class="btn slim secondary" type="button" data-go="live">Watch live</button>' : '<button class="btn slim secondary" type="button" data-tab="schedule" data-profile="' + activePostDealer.id + '">Schedule</button>'}<button class="chip ${isSaved(activePost.id) ? "active" : ""}" type="button" data-save="${activePost.id}">${saveLabel(activePost.id)}</button></div>`,
         operator: `<div class="sheet-head"><h3>Operator / provider handoff</h3><button class="chip" type="button" data-close>Close</button></div><span class="label">CONCEPT VISION</span><p>LC App does not process gambling transactions. Gambling-account and transaction controls remain outside LC App with the licensed operator/provider.</p><button class="btn" type="button" data-close>External operator step</button>`,
         info: `<div class="sheet-head"><h3>Product info</h3><button class="chip" type="button" data-close>Close</button></div><p>LC App is a social discovery and engagement layer for Live Casino. Real-money gaming, player funds, KYC/AML, responsible gaming controls and game settlement remain with licensed operators/providers.</p><span class="trust-line">18+ · Demo environment · No real-money wagering in LC App.</span>`,
-        notify: `<div class="sheet-head"><h3>Notifications</h3><button class="chip" type="button" data-close>Close</button></div><div class="chat-list"><div class="chat-line"><b>Sofia</b><span>is live now.</span></div><div class="chat-line"><b>Alex</b><span>starts in 20 min.</span></div><div class="chat-line"><b>Mia</b><span>replied to your comment.</span></div></div>`,
-        search: `<div class="sheet-head"><h3>Search</h3><button class="chip" type="button" data-close>Close</button></div><p>Find dealers, rooms and communities.</p><div class="search-list">${dealers.map(d => `<button class="activity-row" type="button" data-profile="${d.id}"><img src="${d.avatar}" alt="${d.name} avatar"><div><b>${d.name}</b><span>${d.game} · ${d.status}</span></div></button>`).join("")}</div>`
+        notify: `<div class="sheet-head"><h3>Notifications</h3><button class="chip" type="button" data-close>Close</button></div><div><button class="notification-card" type="button" data-go="live"><i></i><div><b>Sofia is live now</b><span>Blackjack Royale is open</span></div><span>${icons.live}</span></button><button class="notification-card" type="button" data-profile="alex"><i></i><div><b>Alex starts soon</b><span>Baccarat in 20 min</span></div><span>${icons.user}</span></button><button class="notification-card read" type="button" data-post="p3"><i></i><div><b>Mia posted</b><span>New roulette room tonight</span></div><span>${icons.msg}</span></button></div>`,
+        search: `<div class="sheet-head"><h3>Search</h3><button class="chip" type="button" data-close>Close</button></div><p>Find dealers, rooms and communities.</p>${recentDealers.length ? '<span class="feed-label">Recent</span><div class="search-list">' + recentDealers.map(d => `<button class="activity-row" type="button" data-profile="${d.id}"><img src="${d.avatar}" alt="${d.name} avatar"><div><b>${d.name}</b><span>${d.game} · ${d.status}</span></div></button>`).join("") + '</div>' : ''}<span class="feed-label">All creators</span><div class="search-list">${dealers.map(d => `<button class="activity-row" type="button" data-profile="${d.id}"><img src="${d.avatar}" alt="${d.name} avatar"><div><b>${d.name}</b><span>${d.game} · ${d.status}</span></div></button>`).join("")}</div>`
       }[type];
       $("sheet").innerHTML = content || "";
       $("sheet").classList.add("open");
@@ -1099,7 +1210,9 @@
       const p = e.target.closest("[data-profile]");
       const filter = e.target.closest("[data-filter]");
       const share = e.target.closest("[data-share]");
+      const post = e.target.closest("[data-post]");
       const sh = e.target.closest("[data-sheet]");
+      const calendar = e.target.closest("[data-calendar]");
       const c = e.target.closest("[data-comment]");
       const t = e.target.closest("[data-tab]");
       const close = e.target.closest("[data-close]");
@@ -1109,10 +1222,12 @@
       if (f) { track("follow_attempt"); toggle("followed", f.dataset.follow); track("follow_success"); toast(state.followed.includes(f.dataset.follow) ? "Following" : "Unfollowed"); }
       if (l) { toggle("liked", l.dataset.like); toast(state.liked.includes(l.dataset.like) ? "Liked" : "Like removed"); }
       if (s) { toggle("saved", s.dataset.save); toast(state.saved.includes(s.dataset.save) ? "Saved" : "Removed from saved"); }
-      if (p) { state.selectedDealer = p.dataset.profile; persist(); go("dealer/" + p.dataset.profile); }
+      if (p) { rememberDealer(p.dataset.profile); go("dealer/" + p.dataset.profile); }
       if (filter) { state.discoverFilter = filter.dataset.filter; persist(); track("discover_filter"); render(); }
       if (share) shareProfile(share.dataset.share);
+      if (post) { state.selectedPost = post.dataset.post; persist(); track("content_open"); sheet("content"); }
       if (sh) { if (sh.dataset.sheet === "operator") track("operator_handoff_click"); if (sh.dataset.sheet === "search") track("search_open"); sheet(sh.dataset.sheet); }
+      if (calendar) saveCalendar(calendar.dataset.calendar);
       if (c) { state.comments.push(c.dataset.comment); persist(); closeSheet(); render(); toast("Message added"); }
       if (t) { state.tab = t.dataset.tab; persist(); render(); }
       if (close) closeSheet();
