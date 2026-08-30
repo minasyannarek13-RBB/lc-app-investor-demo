@@ -1,8 +1,8 @@
 # LC App Execution State
 
 Date: 2026-08-30
-Milestone: LC App Presentation Release Pass
-Current status: PRESENTATION RELEASE READY ON GITHUB PAGES FALLBACK / CUSTOM DOMAIN BLOCKED
+Milestone: LC App Final Quick-Win Product Pass
+Current status: PRODUCT PRESENTATION RELEASE READY ON GITHUB PAGES FALLBACK / CUSTOM DOMAIN BLOCKED
 
 ## Locked Baseline
 - Social MVP live E2E confirmed by founder report: 21/21 PASS, 0 failures/blockers.
@@ -77,6 +77,15 @@ Current status: PRESENTATION RELEASE READY ON GITHUB PAGES FALLBACK / CUSTOM DOM
 - Production release interaction QA passed: How It Works, Explore Live, Dealer/Profile, Follow, Live Table, operator/provider handoff and Product Info.
 - Production QA harness remains removed: `/qa-live.html` and `/qa-live.js` return HTTP 404.
 - Production optimized Live Room JPEG returns HTTP 200.
+- Final quick-win product pass completed on 2026-08-30.
+- Quick wins implemented in `/showcase-v2/`: dealer profile Share/Copy link, public dealer deep links, Discover filters, real Search results, stronger dealer schedule/return loop and fixed Live Room profile routing.
+- Direct dealer links verified for Sofia, Mia, Alex and Marcus: `#/dealer/sofia`, `#/dealer/mia`, `#/dealer/alex`, `#/dealer/marcus`.
+- Search sheet verified with real dealer/profile results and mobile-readable solid overlay.
+- Discover filters verified: All, Live Now, Following, Blackjack and Roulette.
+- Production quick-win QA passed on 360x800, 390x844, 430x932 and 1440x900.
+- Production quick-win interaction QA passed: How It Works, Explore Live, Discover filters, Search, dealer deep link reload, Share/Copy, Follow, Live Table, operator/provider handoff and Product Info.
+- Quick-win analytics verified as unique local demo events only; no email, token, password or key fields stored.
+- Service worker cache bumped to `lc-app-investor-demo-v58`.
 
 ## Known Failures
 - None currently confirmed after Social MVP live E2E pass.
@@ -96,4 +105,5 @@ Current status: PRESENTATION RELEASE READY ON GITHUB PAGES FALLBACK / CUSTOM DOM
 - Presentation quality implementation commit: `b89fe60 Polish presentation quality showcase`.
 - Current production commit after CNAME rollback: `80007d0 Keep GitHub Pages URL active before custom domain`.
 - Final release/performance implementation commit: `d15693d`.
+- Final quick-win product implementation commit: `17f13f8`.
 - Public QA harness is removed/disabled in the external review build.
