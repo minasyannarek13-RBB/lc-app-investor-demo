@@ -48,7 +48,7 @@ Current status: PRESENTATION MVP READY ON GITHUB PAGES / CUSTOM DOMAIN BLOCKED
 - Operator/provider handoff is labeled as concept vision and confirms LC App does not process gambling transactions.
 - External review UI scan passed: no wallet, balance, deposit, withdrawal, cashier, KYC, AML, settlement, wager or betting layer shown inside LC App.
 - Public QA harness removed from deployed review build: `/qa-live.html` and `/qa-live.js` return HTTP 404.
-- Service worker cache bumped to `lc-app-investor-demo-v55`.
+- Service worker cache bumped to `lc-app-investor-demo-v56`.
 - Root/auth shell live smoke passed after review changes without console errors or QA controls.
 - Self-explanatory mobile UX pass added to `/showcase-v2/`: first screen explains what LC App is and How It Works explains player, dealer, operator and provider value.
 - Local smoke passed on 390x844, 430x844 and 1440x900 for welcome, how-it-works, discover, dealer, live and following routes.
@@ -63,12 +63,16 @@ Current status: PRESENTATION MVP READY ON GITHUB PAGES / CUSTOM DOMAIN BLOCKED
 - Lightweight privacy-safe local demo analytics added for presentation funnel events; no external analytics dependency.
 - Image fallback handler added to avoid blank visual states if an image fails.
 - Custom-domain CNAME was tested but removed before final deploy because GitHub Pages redirected the current working URL before DNS/HTTPS was verified.
+- Current GitHub Pages review URL restored and verified after CNAME removal.
+- Final production presentation QA passed on 360x800, 375x812, 390x844, 393x852, 430x932 and 1440x900.
+- Final production interaction QA passed: Product Info, Why LC App, Explore Live, Dealer/Profile to Live and operator/provider handoff.
+- Final production root/auth shell regression passed; QA harness remains removed.
 
 ## Known Failures
 - None currently confirmed after Social MVP live E2E pass.
 
 ## External Blockers
-- None currently confirmed.
+- Custom domain `demo.open-gamer.com` is not live/resolving from this environment yet; DNS/GitHub Pages custom-domain setup is required before replacing the current GitHub Pages URL.
 
 ## Next Executable Tasks
 1. Configure `demo.open-gamer.com` DNS and GitHub Pages custom domain in one controlled step, then add `CNAME` after verification.
@@ -79,5 +83,7 @@ Current status: PRESENTATION MVP READY ON GITHUB PAGES / CUSTOM DOMAIN BLOCKED
 - Last deployed QA/security commit: `f2c641c Add profiles privileged field guard`.
 - External review URL: `https://minasyannarek13-rbb.github.io/lc-app-investor-demo/showcase-v2/`.
 - Self-explanatory review implementation commit: `82f0ffd Make showcase self explanatory`.
-- Presentation quality implementation commit: `b89fe60 Polish presentation quality showcase`; CNAME rollback commit pending.
+- Presentation quality implementation commit: `b89fe60 Polish presentation quality showcase`.
+- Current production commit after CNAME rollback: `80007d0 Keep GitHub Pages URL active before custom domain`.
+- Final production validation state commit: pending.
 - Public QA harness is removed/disabled in the external review build.
