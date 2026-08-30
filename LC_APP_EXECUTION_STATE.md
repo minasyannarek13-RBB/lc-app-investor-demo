@@ -1,8 +1,8 @@
 # LC App Execution State
 
 Date: 2026-08-30
-Milestone: LC App External Review MVP
-Current status: PRESENTATION MVP READY ON GITHUB PAGES / CUSTOM DOMAIN BLOCKED
+Milestone: LC App Presentation Release Pass
+Current status: PRESENTATION RELEASE READY ON GITHUB PAGES FALLBACK / CUSTOM DOMAIN BLOCKED
 
 ## Locked Baseline
 - Social MVP live E2E confirmed by founder report: 21/21 PASS, 0 failures/blockers.
@@ -67,12 +67,22 @@ Current status: PRESENTATION MVP READY ON GITHUB PAGES / CUSTOM DOMAIN BLOCKED
 - Final production presentation QA passed on 360x800, 375x812, 390x844, 393x852, 430x932 and 1440x900.
 - Final production interaction QA passed: Product Info, Why LC App, Explore Live, Dealer/Profile to Live and operator/provider handoff.
 - Final production root/auth shell regression passed; QA harness remains removed.
+- Final release/performance pass completed on 2026-08-30.
+- Live Room now uses optimized `sofia_live_table_public.jpg` instead of the 2.0 MB PNG; production asset is 348,427 bytes.
+- First-screen hero image is preloaded and marked high priority.
+- Demo analytics are privacy-safe local events and now fire once per event per session; no email, token, password or key fields are stored.
+- Service worker cache bumped to `lc-app-investor-demo-v57`.
+- Local release QA passed on 360x800, 375x812, 390x844, 430x932, 1024x768, 1440x900 and 1920x1080.
+- Production release QA passed on 360x800, 375x812, 390x844, 430x932, 1024x768, 1440x900 and 1920x1080.
+- Production release interaction QA passed: How It Works, Explore Live, Dealer/Profile, Follow, Live Table, operator/provider handoff and Product Info.
+- Production QA harness remains removed: `/qa-live.html` and `/qa-live.js` return HTTP 404.
+- Production optimized Live Room JPEG returns HTTP 200.
 
 ## Known Failures
 - None currently confirmed after Social MVP live E2E pass.
 
 ## External Blockers
-- Custom domain `demo.open-gamer.com` is not live/resolving from this environment yet; DNS/GitHub Pages custom-domain setup is required before replacing the current GitHub Pages URL.
+- Custom domain `demo.open-gamer.com` is not live/resolving from this environment yet (`curl` DNS/resolve failure, exit code 6); DNS/GitHub Pages custom-domain setup is required before replacing the current GitHub Pages URL.
 
 ## Next Executable Tasks
 1. Configure `demo.open-gamer.com` DNS and GitHub Pages custom domain in one controlled step, then add `CNAME` after verification.
@@ -85,5 +95,5 @@ Current status: PRESENTATION MVP READY ON GITHUB PAGES / CUSTOM DOMAIN BLOCKED
 - Self-explanatory review implementation commit: `82f0ffd Make showcase self explanatory`.
 - Presentation quality implementation commit: `b89fe60 Polish presentation quality showcase`.
 - Current production commit after CNAME rollback: `80007d0 Keep GitHub Pages URL active before custom domain`.
-- Final production validation state commit: pending.
+- Final release/performance implementation commit: `d15693d`.
 - Public QA harness is removed/disabled in the external review build.
