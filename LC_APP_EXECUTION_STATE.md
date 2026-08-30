@@ -2,7 +2,7 @@
 
 Date: 2026-08-30
 Milestone: LC App External Review MVP
-Current status: SELF-EXPLANATORY REVIEW MVP READY
+Current status: PRESENTATION MVP READY ON GITHUB PAGES / CUSTOM DOMAIN PENDING
 
 ## Locked Baseline
 - Social MVP live E2E confirmed by founder report: 21/21 PASS, 0 failures/blockers.
@@ -57,6 +57,12 @@ Current status: SELF-EXPLANATORY REVIEW MVP READY
 - Production smoke passed on 390x844, 430x844 and 1440x900 for the same review routes.
 - Production core journey regression passed: How It Works, Explore Live, Dealer/Profile to Live and operator/provider handoff.
 - Production root/auth shell smoke passed without QA controls.
+- Presentation quality pass added: first screen states LC App as the social discovery layer for Live Casino and keeps Live Casino through people as the emotional frame.
+- Why LC App view now separates player, dealer, operator and provider value with short mechanism flows.
+- Product Info sheet added with real-money, funds, KYC/AML, responsible-gaming and settlement boundary.
+- Lightweight privacy-safe local demo analytics added for presentation funnel events; no external analytics dependency.
+- Image fallback handler added to avoid blank visual states if an image fails.
+- `CNAME` prepared for `demo.open-gamer.com`; DNS/HTTPS custom-domain verification remains external.
 
 ## Known Failures
 - None currently confirmed after Social MVP live E2E pass.
@@ -65,12 +71,13 @@ Current status: SELF-EXPLANATORY REVIEW MVP READY
 - None currently confirmed.
 
 ## Next Executable Tasks
-1. Use the public review URL for selected senior Live Casino management / strategic review contacts.
-2. Collect external feedback before adding new product scope.
+1. Verify and enable `demo.open-gamer.com` DNS/HTTPS before using it as the final branded public URL.
+2. Use the current GitHub Pages URL only as an interim verified fallback.
 
 ## Current Deployment / Commit
 - Local branch: `main`.
 - Last deployed QA/security commit: `f2c641c Add profiles privileged field guard`.
 - External review URL: `https://minasyannarek13-rbb.github.io/lc-app-investor-demo/showcase-v2/`.
 - Self-explanatory review implementation commit: `82f0ffd Make showcase self explanatory`.
+- Presentation quality implementation commit: pending deployment.
 - Public QA harness is removed/disabled in the external review build.
