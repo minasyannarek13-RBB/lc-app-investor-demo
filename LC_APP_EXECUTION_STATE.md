@@ -119,3 +119,9 @@ Current status: PRODUCT MATURITY v0.9 READY ON GITHUB PAGES FALLBACK / CUSTOM DO
 - Final quick-win product implementation commit: `17f13f8`.
 - Product maturity implementation commit: `1bd3fdc`.
 - Public QA harness is removed/disabled in the external review build.
+- v1.0 candidate engagement/creator loop completed on 2026-08-31.
+- Lightweight Creator View added to `/showcase-v2/` as a demo-only consumer-adjacent creator surface: public profile preview, profile sharing, table note, saved session and creator content.
+- Return loop now verifies Discover → Dealer → Schedule/Save → Following → Notification → Live → Operator/Provider handoff → Creator content.
+- Local v1.0 candidate QA passed on 360x800, 375x812, 390x844, 430x932, 768x1024, 1024x768, 1440x900 and 1920x1080.
+- Local v1.0 interaction QA passed: Discover filters, schedule save, return cue save, calendar export, notification read state, search recent, content detail, Live chat, operator/provider handoff, Creator View, creator table note, creator session save, profile share and image fallback.
+- Service worker cache bumped to `lc-app-investor-demo-v60`.
