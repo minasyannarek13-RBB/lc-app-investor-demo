@@ -196,6 +196,14 @@
     .btn.following { color: var(--mint); border-color: rgba(150,255,215,.35); background: rgba(7,61,50,.5); }
     .btn.slim { min-height: 34px; padding: 0 11px; font-size: 10.5px; }
     .cta-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .filter-row {
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+    .filter-row::-webkit-scrollbar { display: none; }
     .chip {
       min-height: 31px;
       border: 1px solid rgba(255,255,255,.1);
@@ -380,17 +388,28 @@
       box-shadow: 0 24px 60px rgba(0,0,0,.34), inset 0 0 0 1px rgba(150,255,215,.14);
     }
     .profile-hero img { object-position: center 31%; filter: saturate(1.06) contrast(1.04) brightness(.84); }
+    .profile-share {
+      position: absolute;
+      top: 13px;
+      right: 13px;
+      z-index: 4;
+      background: rgba(2,7,6,.74);
+      backdrop-filter: blur(14px);
+    }
     .profile-overlay {
       position: absolute;
-      inset: auto 14px 14px;
+      left: 14px;
+      right: 14px;
+      bottom: 14px;
       z-index: 3;
       display: grid;
       justify-items: start;
       gap: 9px;
     }
     .profile-overlay h1 { font-size: 44px; }
-    .profile-actions { display: grid; grid-template-columns: 1.35fr 1fr 44px; gap: 8px; align-items: stretch; width: 100%; }
-    .profile-actions .icon-btn { width: 44px; height: 43px; border-radius: var(--radius); }
+    .profile-actions { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); gap: 7px; align-items: stretch; align-self: stretch; width: 100%; }
+    .profile-actions .btn { min-width: 0; padding-left: 8px; padding-right: 8px; }
+    .profile-actions .icon-btn { width: 40px; height: 43px; border-radius: var(--radius); }
     .profile-tags { display: flex; gap: 8px; flex-wrap: wrap; color: var(--soft); font-size: 12px; }
     .tabbar {
       display: grid;
@@ -587,6 +606,15 @@
       text-transform: uppercase;
     }
     .role-card b { font-size: 16px; }
+    .search-list { display: grid; gap: 9px; margin-top: 12px; }
+    .sheet .activity-row {
+      width: 100%;
+      border: 1px solid rgba(150,255,215,.12);
+      border-radius: 14px;
+      background: rgba(6, 20, 17, .96);
+      color: var(--text);
+      text-align: left;
+    }
     .mini-flow {
       display: flex;
       gap: 6px;
@@ -666,12 +694,11 @@
       padding: 14px;
       border-radius: 20px;
       border: 1px solid rgba(150,255,215,.18);
-      background: rgba(3,9,8,.96);
+      background: #020706;
       box-shadow: 0 28px 80px rgba(0,0,0,.5);
-      backdrop-filter: blur(22px);
     }
     .sheet.open { display: grid; animation: sheetIn .18s ease-out; }
-    @keyframes sheetIn { from { opacity: .4; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    @keyframes sheetIn { from { opacity: .96; transform: translateY(10px); } to { opacity: 1; transform: none; } }
     .sheet-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
     .input-row { min-height: 42px; border-radius: 999px; border: 1px solid rgba(255,255,255,.1); color: var(--muted); display: flex; align-items: center; padding: 0 13px; font-size: 12px; }
     .toast {
@@ -753,9 +780,10 @@
       .welcome-copy p { font-size: 13px; max-width: 34ch; }
       .welcome-copy .btn { width: 100%; }
       .hero-live { min-height: 350px; }
-      .profile-hero { min-height: 398px; }
+      .profile-hero { width: 100%; max-width: 100%; aspect-ratio: auto; min-height: 398px; }
       .room-stage { min-height: 400px; }
       .profile-actions .btn { padding-left: 8px; padding-right: 8px; font-size: 10px; }
+      .profile-actions { grid-template-columns: minmax(0, 1fr) minmax(0, .85fr); gap: 6px; }
       .section-head span { display: none; }
       .pill, .label { white-space: normal; height: auto; padding-top: 5px; padding-bottom: 5px; line-height: 1.15; }
       .bottom-nav { left: 14px; right: 14px; }
@@ -818,7 +846,8 @@
       msg: '<svg class="icon" viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path></svg>',
       save: '<svg class="icon" viewBox="0 0 24 24"><path d="M19 21 12 17 5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>',
       ext: '<svg class="icon" viewBox="0 0 24 24"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"></path></svg>'
-      ,info: '<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5"></path><path d="M12 8h.01"></path></svg>'
+      ,info: '<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5"></path><path d="M12 8h.01"></path></svg>',
+      share: '<svg class="icon" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.7 6.8-4.4"></path><path d="m8.6 13.3 6.8 4.4"></path></svg>'
     };
     const assets = {
       sofiaPortrait: "../app_prototype_assets/dealers/v2_polish/sofia_welcome_public.jpg",
@@ -850,7 +879,7 @@
       { id: "p4", dealer: "alex", section: "STARTING SOON", title: "Baccarat starts in 20 minutes.", image: assets.alexLive, action: "SAVE" },
       { id: "p5", dealer: "marcus", section: "COMMUNITY", title: "New discussion: table pace and player questions.", image: assets.marcusContent, action: "OPEN" }
     ];
-    const defaultState = { followed: ["sofia"], liked: [], saved: ["p2"], comments: [], route: "welcome", tab: "profile" };
+    const defaultState = { followed: ["sofia"], liked: [], saved: ["p2"], comments: [], route: "welcome", tab: "profile", selectedDealer: "sofia", discoverFilter: "all" };
     let state = load();
     function load() {
       try { return { ...defaultState, ...JSON.parse(localStorage.getItem("lc-industry-v2") || "{}") }; }
@@ -865,14 +894,19 @@
     function simpleTopbar() {
       return `<div class="topbar"><div class="brand"><span class="logo">LC</span><div><strong>LC App</strong><span>Play. Chat. Connect.</span></div></div></div>`;
     }
+    function routeParts() {
+      return location.hash.replace(/^#\/?/, "").split("/").filter(Boolean);
+    }
     function go(route) {
       closeSheet();
-      state.route = route;
+      const [base, id] = route.split("/");
+      state.route = base;
+      if (base === "dealer" && id) state.selectedDealer = id;
       persist();
       location.hash = "#/" + route;
-      if (route === "dealer") track("dealer_profile_view");
-      if (route === "live") track("live_open");
-      if (route === "industry") {
+      if (base === "dealer") track("dealer_profile_view");
+      if (base === "live") track("live_open");
+      if (base === "industry") {
         track("industry_view_open");
         track("dealer_value_view");
         track("operator_value_view");
@@ -881,8 +915,12 @@
       render();
     }
     function route() {
-      const raw = location.hash.replace(/^#\/?/, "");
+      const raw = routeParts()[0] || "";
       return raw && screens[raw] ? raw : "welcome";
+    }
+    function activeDealer() {
+      const id = routeParts()[1] || state.selectedDealer || "sofia";
+      return dealer(id);
     }
     function toast(text) {
       const node = $("toast");
@@ -891,7 +929,7 @@
       clearTimeout(toast.timer);
       toast.timer = setTimeout(() => node.classList.remove("show"), 1400);
     }
-    const analyticsEvents = new Set(["demo_open", "explore_click", "how_it_works_open", "dealer_profile_view", "follow_attempt", "follow_success", "live_open", "operator_handoff_click", "industry_view_open", "dealer_value_view", "operator_value_view", "provider_value_view"]);
+    const analyticsEvents = new Set(["demo_open", "explore_click", "how_it_works_open", "dealer_profile_view", "follow_attempt", "follow_success", "live_open", "operator_handoff_click", "industry_view_open", "dealer_value_view", "operator_value_view", "provider_value_view", "profile_share", "discover_filter", "search_open"]);
     function track(event) {
       if (!analyticsEvents.has(event)) return;
       try {
@@ -918,6 +956,41 @@
       const on = state.followed.includes(id);
       return `<button class="${cls} ${on ? "following active" : "secondary"}" type="button" data-follow="${id}">${on ? "Following" : "Follow"}</button>`;
     }
+    function shareLink(id) {
+      const url = new URL(location.href);
+      url.hash = "#/dealer/" + id;
+      return url.toString();
+    }
+    async function shareProfile(id) {
+      const d = dealer(id);
+      const url = shareLink(id);
+      track("profile_share");
+      try {
+        if (navigator.share) {
+          await navigator.share({ title: `${d.name} on LC App`, text: `Follow ${d.name} on LC App.`, url });
+          toast("Share sheet opened");
+          return;
+        }
+        await navigator.clipboard.writeText(url);
+        toast("Profile link copied");
+      } catch {
+        try {
+          const field = document.createElement("textarea");
+          field.value = url;
+          field.setAttribute("readonly", "");
+          field.style.position = "fixed";
+          field.style.opacity = "0";
+          document.body.appendChild(field);
+          field.select();
+          document.execCommand("copy");
+          field.remove();
+          toast("Profile link copied");
+        } catch {
+          $("sheet").innerHTML = `<div class="sheet-head"><h3>Share profile</h3><button class="chip" type="button" data-close>Close</button></div><p>Copy this public dealer profile link.</p><div class="input-row">${url}</div>`;
+          $("sheet").classList.add("open");
+        }
+      }
+    }
     function actionIcon(type, id) {
       const active = type === "like" ? state.liked.includes(id) : type === "save" ? state.saved.includes(id) : false;
       const attr = type === "like" ? "data-like" : type === "save" ? "data-save" : "data-profile";
@@ -941,28 +1014,33 @@
     function discover() {
       const sofia = dealer("sofia");
       const alex = dealer("alex");
-      $("discover").innerHTML = `${topbar()}<div class="section" style="margin-top:0"><h2>Discover</h2><p>Find who you want to play with, not only what you want to play.</p><article class="hero-live"><img src="${sofia.discover}" alt="${sofia.name} live at table"><div class="hero-content"><span class="label live pulse">LIVE NOW</span><h2>${sofia.name}</h2><p>${sofia.role}<br>${sofia.room}</p><div class="cta-row"><button class="btn" type="button" data-go="live">WATCH LIVE</button>${followBtn("sofia", "btn slim")}</div></div></article></div><div class="section"><div class="section-head"><h2>Live personalities</h2></div><div class="creator-strip">${dealers.map(portraitTile).join("")}</div></div><div class="section subtle"><div class="section-head"><h2>From people you follow</h2></div><div class="content-stack">${posts.filter(p => ["p1","p3"].includes(p.id)).map(imagePost).join("")}</div></div><div class="section subtle"><div class="section-head"><h2>Starting soon</h2></div>${activityRow(alex, "Alex Morgan", "Baccarat starts in 20 min", "save")}</div>`;
+      const filter = state.discoverFilter || "all";
+      const filtered = dealers.filter(d => filter === "all" || (filter === "live" && d.status === "LIVE NOW") || (filter === "following" && state.followed.includes(d.id)) || d.game.toLowerCase() === filter);
+      const filterButton = (id, label) => `<button class="chip ${filter === id ? "active" : ""}" type="button" data-filter="${id}">${label}</button>`;
+      $("discover").innerHTML = `${topbar()}<div class="section" style="margin-top:0"><h2>Discover</h2><p>Find who you want to play with, not only what you want to play.</p><div class="filter-row">${filterButton("all","All")}${filterButton("live","Live Now")}${filterButton("following","Following")}${filterButton("blackjack","Blackjack")}${filterButton("roulette","Roulette")}</div><article class="hero-live"><img src="${sofia.discover}" alt="${sofia.name} live at table"><div class="hero-content"><span class="label live pulse">LIVE NOW</span><h2>${sofia.name}</h2><p>${sofia.role}<br>${sofia.room}</p><div class="cta-row"><button class="btn" type="button" data-go="live">WATCH LIVE</button>${followBtn("sofia", "btn slim")}</div></div></article></div><div class="section"><div class="section-head"><h2>${filter === "all" ? "Live personalities" : "Filtered creators"}</h2><span>${filtered.length} shown</span></div><div class="creator-strip">${filtered.map(portraitTile).join("") || '<p>No matching creators yet.</p>'}</div></div><div class="section subtle"><div class="section-head"><h2>From people you follow</h2></div><div class="content-stack">${posts.filter(p => ["p1","p3"].includes(p.id)).map(imagePost).join("")}</div></div><div class="section subtle"><div class="section-head"><h2>Starting soon</h2></div>${activityRow(alex, "Alex Morgan", "Baccarat starts in 20 min", "save")}</div>`;
     }
     function tabButton(id, label) {
       return `<button class="tab ${state.tab === id ? "active" : ""}" type="button" data-tab="${id}">${label}</button>`;
     }
-    function profilePanel() {
-      const sofia = dealer("sofia");
+    function profilePanel(d) {
+      const dealerPosts = posts.filter(p => p.dealer === d.id);
       if (state.tab === "content") {
-        return `<div class="profile-panel"><div class="content-stack">${posts.filter(p => p.dealer === "sofia").map(imagePost).join("")}</div></div>`;
+        return `<div class="profile-panel"><div class="content-stack">${dealerPosts.map(imagePost).join("") || `<div class="profile-summary"><b>Creator content</b><p>Future posts and table notes from ${d.short} would appear here.</p></div>`}</div></div>`;
       }
       if (state.tab === "schedule") {
-        return `<div class="profile-panel"><div class="activity-row"><img src="${sofia.avatar}" alt="Sofia avatar"><div><b>Tonight 20:00</b><span>Blackjack Royale</span></div><button class="btn slim" type="button" data-go="live">Watch</button></div><div class="activity-row"><img src="${sofia.avatar}" alt="Sofia avatar"><div><b>Friday 19:00</b><span>Premium Blackjack</span></div><button class="chip" type="button" data-save="schedule-friday">Save</button></div></div>`;
+        const live = d.status === "LIVE NOW";
+        return `<div class="profile-panel"><div class="profile-summary"><b>${live ? "LIVE NOW" : "Upcoming"}</b><p>Following turns dealer affinity into a reason to return.</p></div><div class="activity-row"><img src="${d.avatar}" alt="${d.name} avatar" loading="lazy" decoding="async"><div><b>${live ? "Tonight 20:00" : d.status}</b><span>${d.room}</span></div><button class="${live ? "btn slim" : "chip"}" type="button" ${live ? 'data-go="live"' : 'data-save="schedule-' + d.id + '"'}>${live ? "Watch" : "Save"}</button></div><div class="activity-row"><img src="${d.avatar}" alt="${d.name} avatar" loading="lazy" decoding="async"><div><b>Next live reminder</b><span>Return when ${d.short} is live.</span></div><button class="chip" type="button" data-save="return-${d.id}">Save</button></div></div>`;
       }
-      return `<div class="profile-panel"><div class="profile-summary"><b>From dealer to creator.</b><p>Profile, content, schedule and live table in one place.</p></div><article class="profile-room"><img src="${sofia.roomImage}" alt="Blackjack Royale room"><div class="post-body"><span class="label live pulse">LIVE</span><h3>Blackjack Royale</h3><p>Sofia is live now.</p><button class="btn" type="button" data-go="live">WATCH LIVE</button></div></article><div class="activity-row"><img src="${sofia.thumb}" alt="Sofia room"><div><b>Favorite format</b><span>Social Blackjack tables</span></div><button class="round-action" type="button" data-go="live">${icons.live}</button></div></div>`;
+      return `<div class="profile-panel"><div class="profile-summary"><b>From dealer to creator.</b><p>Profile, content, schedule and live table in one place.</p></div><article class="profile-room"><img src="${d.roomImage || d.live || d.content}" alt="${d.room} room"><div class="post-body"><span class="label ${d.status === "LIVE NOW" ? "live pulse" : ""}">${d.status === "LIVE NOW" ? "LIVE" : "CREATOR"}</span><h3>${d.room}</h3><p>${d.short} ${d.status === "LIVE NOW" ? "is live now." : "can be followed before the next session."}</p><button class="btn" type="button" ${d.status === "LIVE NOW" ? 'data-go="live"' : 'data-tab="schedule"'}>${d.status === "LIVE NOW" ? "WATCH LIVE" : "VIEW SCHEDULE"}</button></div></article><div class="activity-row"><img src="${d.thumb || d.avatar}" alt="${d.name} room" loading="lazy" decoding="async"><div><b>Favorite format</b><span>${d.style}</span></div><button class="round-action" type="button" data-share="${d.id}" aria-label="Share profile">${icons.share}</button></div></div>`;
     }
     function dealerProfile() {
-      const d = dealer("sofia");
-      $("dealer").innerHTML = `${topbar()}<div class="profile-hero"><img src="${d.portrait}" alt="${d.name} creator profile"><div class="profile-overlay"><span class="label live pulse">LIVE NOW</span><h1>${d.name}</h1><p>${d.role}</p><div class="profile-tags"><span>English • French</span><span>${d.style}</span></div><div class="profile-actions"><button class="btn" type="button" data-go="live">Watch Live</button>${followBtn(d.id, "btn")}<button class="icon-btn" type="button" data-sheet="message" aria-label="Message">${icons.msg}</button></div></div></div><div class="tabbar">${tabButton("profile", "PROFILE")}${tabButton("content", "CONTENT")}${tabButton("schedule", "SCHEDULE")}</div>${profilePanel()}`;
+      const d = activeDealer();
+      state.selectedDealer = d.id;
+      $("dealer").innerHTML = `${topbar()}<div class="profile-hero"><img src="${d.portrait}" alt="${d.name} creator profile"><button class="icon-btn profile-share" type="button" data-share="${d.id}" aria-label="Share profile">${icons.share}</button><div class="profile-overlay"><span class="label ${d.status === "LIVE NOW" ? "live pulse" : ""}">${d.status}</span><h1>${d.name}</h1><p>${d.role}</p><div class="profile-tags"><span>${d.language}</span><span>${d.style}</span></div><div class="profile-actions"><button class="btn" type="button" ${d.status === "LIVE NOW" ? 'data-go="live"' : 'data-tab="schedule"'}>${d.status === "LIVE NOW" ? "Watch Live" : "Schedule"}</button>${followBtn(d.id, "btn")}</div></div></div><div class="tabbar">${tabButton("profile", "PROFILE")}${tabButton("content", "CONTENT")}${tabButton("schedule", "SCHEDULE")}</div>${profilePanel(d)}`;
     }
     function liveRoom() {
       const d = dealer("sofia");
-      $("live").innerHTML = `${topbar()}<div class="room-stage"><img src="${d.roomImage}" alt="${d.name} live Blackjack table"><div class="room-overlay"><span class="label live pulse">LIVE</span><h2>Blackjack Royale</h2><p>Live table with Sofia</p><button class="room-host" type="button" data-go="dealer"><img src="${d.avatar}" alt="${d.name} avatar"><div><h3>${d.name}</h3><p>${state.followed.includes("sofia") ? "Following" : "Follow"}</p></div></button></div></div><div class="section subtle"><div class="section-head"><h2>Table chat</h2></div><div class="chat-list"><div class="chat-line"><b>James</b><span>Same table tomorrow?</span></div><div class="chat-line"><b>Sofia</b><span>Yes — 20:00.</span></div><div class="chat-line"><b>MiaFan</b><span>Good session tonight.</span></div>${state.comments.map(c => `<div class="chat-line"><b>You</b><span>${c}</span></div>`).join("")}</div></div><div class="room-sticky"><div class="sticky-top"><span>Watching Sofia</span><span>Blackjack Royale</span></div><div class="sticky-actions"><button class="btn" type="button" data-sheet="operator">CONTINUE VIA OPERATOR ${icons.ext}</button><button class="icon-btn" type="button" data-sheet="chat" aria-label="Chat">${icons.msg}</button><button class="icon-btn" type="button" data-go="dealer" aria-label="Profile">${icons.user}</button></div><span class="qualifier">Conceptual operator/provider handoff. No confirmed integration.</span></div>`;
+      $("live").innerHTML = `${topbar()}<div class="room-stage"><img src="${d.roomImage}" alt="${d.name} live Blackjack table"><div class="room-overlay"><span class="label live pulse">LIVE</span><h2>Blackjack Royale</h2><p>Live table with Sofia</p><button class="room-host" type="button" data-profile="sofia"><img src="${d.avatar}" alt="${d.name} avatar"><div><h3>${d.name}</h3><p>${state.followed.includes("sofia") ? "Following" : "Follow"}</p></div></button></div></div><div class="section subtle"><div class="section-head"><h2>Table chat</h2></div><div class="chat-list"><div class="chat-line"><b>James</b><span>Same table tomorrow?</span></div><div class="chat-line"><b>Sofia</b><span>Yes — 20:00.</span></div><div class="chat-line"><b>MiaFan</b><span>Good session tonight.</span></div>${state.comments.map(c => `<div class="chat-line"><b>You</b><span>${c}</span></div>`).join("")}</div></div><div class="room-sticky"><div class="sticky-top"><span>Watching Sofia</span><span>Blackjack Royale</span></div><div class="sticky-actions"><button class="btn" type="button" data-sheet="operator">CONTINUE VIA OPERATOR ${icons.ext}</button><button class="icon-btn" type="button" data-sheet="chat" aria-label="Chat">${icons.msg}</button><button class="icon-btn" type="button" data-profile="sofia" aria-label="Profile">${icons.user}</button></div><span class="qualifier">Conceptual operator/provider handoff. No confirmed integration.</span></div>`;
     }
     function following() {
       const sofia = dealer("sofia");
@@ -989,7 +1067,7 @@
         operator: `<div class="sheet-head"><h3>Operator / provider handoff</h3><button class="chip" type="button" data-close>Close</button></div><span class="label">CONCEPT VISION</span><p>LC App does not process gambling transactions. Gambling-account and transaction controls remain outside LC App with the licensed operator/provider.</p><button class="btn" type="button" data-close>External operator step</button>`,
         info: `<div class="sheet-head"><h3>Product info</h3><button class="chip" type="button" data-close>Close</button></div><p>LC App is a social discovery and engagement layer for Live Casino. Real-money gaming, player funds, KYC/AML, responsible gaming controls and game settlement remain with licensed operators/providers.</p><span class="trust-line">18+ · Demo environment · No real-money wagering in LC App.</span>`,
         notify: `<div class="sheet-head"><h3>Notifications</h3><button class="chip" type="button" data-close>Close</button></div><div class="chat-list"><div class="chat-line"><b>Sofia</b><span>is live now.</span></div><div class="chat-line"><b>Alex</b><span>starts in 20 min.</span></div><div class="chat-line"><b>Mia</b><span>replied to your comment.</span></div></div>`,
-        search: `<div class="sheet-head"><h3>Search</h3><button class="chip" type="button" data-close>Close</button></div><p>Find dealers, rooms and communities.</p><button class="btn secondary" type="button" data-go="discover">Explore people</button>`
+        search: `<div class="sheet-head"><h3>Search</h3><button class="chip" type="button" data-close>Close</button></div><p>Find dealers, rooms and communities.</p><div class="search-list">${dealers.map(d => `<button class="activity-row" type="button" data-profile="${d.id}"><img src="${d.avatar}" alt="${d.name} avatar"><div><b>${d.name}</b><span>${d.game} · ${d.status}</span></div></button>`).join("")}</div>`
       }[type];
       $("sheet").innerHTML = content || "";
       $("sheet").classList.add("open");
@@ -1019,6 +1097,8 @@
       const l = e.target.closest("[data-like]");
       const s = e.target.closest("[data-save]");
       const p = e.target.closest("[data-profile]");
+      const filter = e.target.closest("[data-filter]");
+      const share = e.target.closest("[data-share]");
       const sh = e.target.closest("[data-sheet]");
       const c = e.target.closest("[data-comment]");
       const t = e.target.closest("[data-tab]");
@@ -1029,8 +1109,10 @@
       if (f) { track("follow_attempt"); toggle("followed", f.dataset.follow); track("follow_success"); toast(state.followed.includes(f.dataset.follow) ? "Following" : "Unfollowed"); }
       if (l) { toggle("liked", l.dataset.like); toast(state.liked.includes(l.dataset.like) ? "Liked" : "Like removed"); }
       if (s) { toggle("saved", s.dataset.save); toast(state.saved.includes(s.dataset.save) ? "Saved" : "Removed from saved"); }
-      if (p) go("dealer");
-      if (sh) { if (sh.dataset.sheet === "operator") track("operator_handoff_click"); sheet(sh.dataset.sheet); }
+      if (p) { state.selectedDealer = p.dataset.profile; persist(); go("dealer/" + p.dataset.profile); }
+      if (filter) { state.discoverFilter = filter.dataset.filter; persist(); track("discover_filter"); render(); }
+      if (share) shareProfile(share.dataset.share);
+      if (sh) { if (sh.dataset.sheet === "operator") track("operator_handoff_click"); if (sh.dataset.sheet === "search") track("search_open"); sheet(sh.dataset.sheet); }
       if (c) { state.comments.push(c.dataset.comment); persist(); closeSheet(); render(); toast("Message added"); }
       if (t) { state.tab = t.dataset.tab; persist(); render(); }
       if (close) closeSheet();
