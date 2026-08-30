@@ -54,6 +54,9 @@ Current status: SELF-EXPLANATORY REVIEW MVP READY
 - Local smoke passed on 390x844, 430x844 and 1440x900 for welcome, how-it-works, discover, dealer, live and following routes.
 - Core journey regression passed locally: How It Works, Explore Live, Dealer/Profile to Live, operator/provider handoff.
 - Auth regression smoke passed locally after showcase changes; social/auth/RLS files were not modified.
+- Production smoke passed on 390x844, 430x844 and 1440x900 for the same review routes.
+- Production core journey regression passed: How It Works, Explore Live, Dealer/Profile to Live and operator/provider handoff.
+- Production root/auth shell smoke passed without QA controls.
 
 ## Known Failures
 - None currently confirmed after Social MVP live E2E pass.
@@ -69,5 +72,5 @@ Current status: SELF-EXPLANATORY REVIEW MVP READY
 - Local branch: `main`.
 - Last deployed QA/security commit: `f2c641c Add profiles privileged field guard`.
 - External review URL: `https://minasyannarek13-rbb.github.io/lc-app-investor-demo/showcase-v2/`.
-- External review production commit: pending self-explanatory UX deployment.
+- Self-explanatory review implementation commit: `82f0ffd Make showcase self explanatory`.
 - Public QA harness is removed/disabled in the external review build.
