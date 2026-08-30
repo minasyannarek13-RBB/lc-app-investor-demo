@@ -219,8 +219,11 @@
 
   async function verifyOwnProfileSystemFieldLocked(field, attemptedValue) {
     const before = await profile(state.clientA, state.userA.id, "User A before profile guard");
+    const nextValue = attemptedValue === before[field]
+      ? (field === "role" ? "admin" : "disabled")
+      : attemptedValue;
     const attempted = await state.clientA.from("profiles")
-      .update({ [field]: attemptedValue })
+      .update({ [field]: nextValue })
       .eq("id", state.userA.id)
       .select("id,role,account_status")
       .maybeSingle();
@@ -493,6 +496,8 @@
     const blockers = [];
     if (state.profileA.account_status !== "active") blockers.push(`User A account_status=${state.profileA.account_status}`);
     if (state.profileB.account_status !== "active") blockers.push(`User B account_status=${state.profileB.account_status}`);
+    if (state.profileA.role !== "user") blockers.push(`User A role=${state.profileA.role}; expected user`);
+    if (state.profileB.role !== "user") blockers.push(`User B role=${state.profileB.role}; expected user`);
     const missingA = onboardingMissing(state.profileA);
     const missingB = onboardingMissing(state.profileB);
     if (missingA.length) blockers.push(`User A missing onboarding fields: ${missingA.join(", ")}`);
