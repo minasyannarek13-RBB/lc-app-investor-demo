@@ -124,4 +124,7 @@ Current status: PRODUCT MATURITY v0.9 READY ON GITHUB PAGES FALLBACK / CUSTOM DO
 - Return loop now verifies Discover → Dealer → Schedule/Save → Following → Notification → Live → Operator/Provider handoff → Creator content.
 - Local v1.0 candidate QA passed on 360x800, 375x812, 390x844, 430x932, 768x1024, 1024x768, 1440x900 and 1920x1080.
 - Local v1.0 interaction QA passed: Discover filters, schedule save, return cue save, calendar export, notification read state, search recent, content detail, Live chat, operator/provider handoff, Creator View, creator table note, creator session save, profile share and image fallback.
+- Production v1.0 candidate QA passed on the live GitHub Pages URL with the same viewport and interaction set.
+- Public QA harness remains removed: `/qa-live.html` and `/qa-live.js` return HTTP 404 in production.
+- v1.0 candidate implementation commit: `b4a11cb`.
 - Service worker cache bumped to `lc-app-investor-demo-v60`.
