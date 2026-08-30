@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#020504" />
   <meta name="format-detection" content="telephone=no" />
   <link rel="icon" href="../app-icon.svg" type="image/svg+xml" />
+  <link rel="preload" as="image" href="../app_prototype_assets/dealers/v2_polish/sofia_welcome_public.jpg" fetchpriority="high" />
   <title>LC App — Live Casino. Social Experience.</title>
   <style>
     :root {
@@ -467,8 +468,11 @@
     .chat-line b { color: var(--mint); font-size: 11px; }
     .chat-line span { color: var(--soft); font-size: 12px; line-height: 1.35; }
     .room-sticky {
+      position: sticky;
+      bottom: calc(var(--bottom-nav-height) + var(--safe-bottom) + 14px);
+      z-index: 9;
       margin-top: 16px;
-      margin-bottom: 8px;
+      margin-bottom: 18px;
       padding: 11px;
       border-radius: 18px;
       border: 1px solid rgba(150,255,215,.18);
@@ -819,12 +823,12 @@
     const assets = {
       sofiaPortrait: "../app_prototype_assets/dealers/v2_polish/sofia_welcome_public.jpg",
       sofiaProfile: "../app_prototype_assets/dealers/v2_polish/sofia_profile_public.jpg",
-      sofiaLive: "../app_prototype_assets/dealers/v2_polish/sofia_live_table_public.png",
+      sofiaLive: "../app_prototype_assets/dealers/v2_polish/sofia_live_table_public.jpg",
       sofiaDiscover: "../app_prototype_assets/dealers/v2_polish/sofia_discover_public.jpg",
       sofiaContent: "../app_prototype_assets/dealers/v2_polish/sofia_social_public.jpg",
       sofiaAvatar: "../app_prototype_assets/dealers/v2_polish/sofia_avatar_public.jpg",
       sofiaThumb: "../app_prototype_assets/dealers/v2_polish/sofia_social_public.jpg",
-      sofiaRoom: "../app_prototype_assets/dealers/v2_polish/sofia_live_table_public.png",
+      sofiaRoom: "../app_prototype_assets/dealers/v2_polish/sofia_live_table_public.jpg",
       miaPortrait: "../app_prototype_assets/dealers/v2_polish/mia_portrait.jpg",
       miaLive: "../app_prototype_assets/dealers/v2_polish/mia_roulette.jpg",
       miaContent: "../app_prototype_assets/dealers/v2_polish/mia_content.jpg",
@@ -890,8 +894,13 @@
     const analyticsEvents = new Set(["demo_open", "explore_click", "how_it_works_open", "dealer_profile_view", "follow_attempt", "follow_success", "live_open", "operator_handoff_click", "industry_view_open", "dealer_value_view", "operator_value_view", "provider_value_view"]);
     function track(event) {
       if (!analyticsEvents.has(event)) return;
-      const item = { event, route: route(), ts: new Date().toISOString(), viewport: `${innerWidth}x${innerHeight}` };
       try {
+        const seenKey = "lc-demo-analytics-seen";
+        const seen = JSON.parse(sessionStorage.getItem(seenKey) || "{}");
+        if (seen[event]) return;
+        seen[event] = true;
+        sessionStorage.setItem(seenKey, JSON.stringify(seen));
+        const item = { event, route: route(), ts: new Date().toISOString(), viewport: `${innerWidth}x${innerHeight}` };
         const key = "lc-demo-analytics";
         const list = JSON.parse(localStorage.getItem(key) || "[]");
         list.push(item);
@@ -917,17 +926,17 @@
       return `<button class="round-action ${active ? "active" : ""}" type="button" ${attr}="${value}" aria-label="${type}">${icon}</button>`;
     }
     function portraitTile(d) {
-      return `<button class="portrait-tile" type="button" data-profile="${d.id}"><span class="portrait-img"><img src="${d.portrait}" alt="${d.name} portrait" loading="lazy"></span><b>${d.short}</b><span>${d.game}<br>${d.status === "LIVE NOW" ? "Live" : d.status}</span></button>`;
+      return `<button class="portrait-tile" type="button" data-profile="${d.id}"><span class="portrait-img"><img src="${d.portrait}" alt="${d.name} portrait" loading="lazy" decoding="async"></span><b>${d.short}</b><span>${d.game}<br>${d.status === "LIVE NOW" ? "Live" : d.status}</span></button>`;
     }
     function imagePost(post) {
       const d = dealer(post.dealer);
-      return `<article class="image-post"><img src="${post.image}" alt="${d.name} update" loading="lazy"><div class="post-body"><div class="post-top"><img src="${d.avatar}" alt="${d.name} avatar"><div><span class="label">${post.section}</span><h3>${d.short}</h3></div></div><p>${post.title}</p><div class="action-icons">${post.action === "WATCH" ? '<button class="btn slim" type="button" data-go="live">Watch live</button>' : ""}${actionIcon("like", post.id)}${actionIcon("save", post.id)}<button class="round-action" type="button" data-sheet="message" aria-label="comment">${icons.msg}</button></div></div></article>`;
+      return `<article class="image-post"><img src="${post.image}" alt="${d.name} update" loading="lazy" decoding="async"><div class="post-body"><div class="post-top"><img src="${d.avatar}" alt="${d.name} avatar" loading="lazy" decoding="async"><div><span class="label">${post.section}</span><h3>${d.short}</h3></div></div><p>${post.title}</p><div class="action-icons">${post.action === "WATCH" ? '<button class="btn slim" type="button" data-go="live">Watch live</button>' : ""}${actionIcon("like", post.id)}${actionIcon("save", post.id)}<button class="round-action" type="button" data-sheet="message" aria-label="comment">${icons.msg}</button></div></div></article>`;
     }
     function activityRow(d, title, meta, action = "profile") {
-      return `<div class="activity-row"><img src="${d.avatar}" alt="${d.name} avatar" loading="lazy"><div><b>${title}</b><span>${meta}</span></div>${action === "watch" ? '<button class="btn slim" type="button" data-go="live">Watch</button>' : action === "save" ? '<button class="chip" type="button" data-save="p4">Save</button>' : '<button class="round-action" type="button" data-profile="' + d.id + '">' + icons.user + '</button>'}</div>`;
+      return `<div class="activity-row"><img src="${d.avatar}" alt="${d.name} avatar" loading="lazy" decoding="async"><div><b>${title}</b><span>${meta}</span></div>${action === "watch" ? '<button class="btn slim" type="button" data-go="live">Watch</button>' : action === "save" ? '<button class="chip" type="button" data-save="p4">Save</button>' : '<button class="round-action" type="button" data-profile="' + d.id + '">' + icons.user + '</button>'}</div>`;
     }
     function welcome() {
-      $("welcome").innerHTML = `<div class="welcome"><div class="topbar"><div class="brand"><span class="logo">LC</span><div><strong>LC App</strong><span>LIVE CASINO. SOCIAL EXPERIENCE.</span></div></div><button class="icon-btn" type="button" data-sheet="info" aria-label="Product info">${icons.info}</button></div><div class="welcome-visual"><img src="${assets.sofiaPortrait}" alt="Premium Live Casino dealer creator"></div><div class="welcome-copy"><span class="label">LIVE CASINO. SOCIAL EXPERIENCE.</span><h1>The social discovery layer for Live Casino.</h1><p>Live Casino through people. Discover dealers, follow creators and join live tables.</p><button class="btn" type="button" data-go="discover">EXPLORE LIVE</button><button class="text-link" type="button" data-go="industry">HOW IT WORKS</button><span class="trust-line">18+ · Demo environment · No real-money wagering in LC App.</span><span class="demo-note">Interactive product demo · Illustrative content. No operator or provider integration is implied.</span></div></div>`;
+      $("welcome").innerHTML = `<div class="welcome"><div class="topbar"><div class="brand"><span class="logo">LC</span><div><strong>LC App</strong><span>LIVE CASINO. SOCIAL EXPERIENCE.</span></div></div><button class="icon-btn" type="button" data-sheet="info" aria-label="Product info">${icons.info}</button></div><div class="welcome-visual"><img src="${assets.sofiaPortrait}" alt="Premium Live Casino dealer creator" fetchpriority="high" decoding="async"></div><div class="welcome-copy"><span class="label">LIVE CASINO. SOCIAL EXPERIENCE.</span><h1>The social discovery layer for Live Casino.</h1><p>Live Casino through people. Discover dealers, follow creators and join live tables.</p><button class="btn" type="button" data-go="discover">EXPLORE LIVE</button><button class="text-link" type="button" data-go="industry">HOW IT WORKS</button><span class="trust-line">18+ · Demo environment · No real-money wagering in LC App.</span><span class="demo-note">Interactive product demo · Illustrative content. No operator or provider integration is implied.</span></div></div>`;
     }
     function discover() {
       const sofia = dealer("sofia");
