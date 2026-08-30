@@ -1,8 +1,15 @@
 # LC App Execution State
 
-Date: 2026-08-29
-Milestone: External Live-Casino Management Review Readiness
-Current status: NOT READY
+Date: 2026-08-30
+Milestone: LC App External Review MVP
+Current status: IN PROGRESS
+
+## Locked Baseline
+- Social MVP live E2E confirmed by founder report: 21/21 PASS, 0 failures/blockers.
+- Production commit verified by QA: `71fd452`.
+- QA commit verified by QA: `f2c641c`.
+- Migration 007 verified live: regular users cannot persist `profiles.role` or `profiles.account_status` escalation.
+- Social/auth/RLS functionality is locked and must not be modified unless a confirmed regression requires it.
 
 ## Last Completed Work
 - Root `index.html` restored to the real LC App shell instead of redirect-only showcase entry.
@@ -38,24 +45,19 @@ Current status: NOT READY
 - Live browser smoke confirms `auth.js`, `social.js`, and Supabase JS CDN load successfully.
 
 ## Known Failures
-- Live Supabase authenticated E2E is still unverified because the Supabase project host does not resolve from this environment.
-- Current local checkout root previously redirected to `/showcase/`; patched and deployed in commit `40a852c`.
+- None currently confirmed after Social MVP live E2E pass.
 
 ## External Blockers
-- Live Supabase host `aspbwgsfkebduvviyeuo.supabase.co` could not be resolved from this environment by Node fetch or curl, even after escalation.
-- Because of the DNS blocker, live signup/login/onboarding/social/two-user/RLS tests could not be executed in this run.
-- Confirmed email inbox or existing two-user test credentials are still required to complete authenticated real-user E2E.
+- None currently confirmed.
 
 ## Next Executable Tasks
-1. Restore network/DNS access to Supabase or run from an environment that can resolve the Supabase host.
-2. Execute live auth flow with confirmed email or known test credentials.
-3. Execute two-user social E2E: discover, follow, post, like, comment, reply, notifications, block/unblock.
-4. Execute authenticated RLS checks for blocked pairs and direct insert denial into `notifications` and `activity_events`.
-5. After Supabase E2E passes, perform final public URL refresh/reopen, mobile, desktop, console, and service-worker freshness checks.
+1. Harden `/showcase-v2/` as the public external review URL.
+2. Remove public QA harness from the review build.
+3. Run mobile, desktop, console, asset and service-worker smoke checks.
+4. Deploy only confirmed review-surface fixes.
 
 ## Current Deployment / Commit
-- Local branch: `lc-app-industry-demo-v2`.
-- Last deployed commit: `40a852c Prepare LC App review build entry`.
-- Production URL checked: `https://minasyannarek13-rbb.github.io/lc-app-investor-demo/`.
-- Production currently matches the patched entry/social/config build for unauthenticated review entry.
-- Production readiness is still blocked by unexecuted live Supabase authenticated/social/RLS E2E.
+- Local branch: `main`.
+- Last deployed QA/security commit: `f2c641c Add profiles privileged field guard`.
+- External review URL target: `https://minasyannarek13-rbb.github.io/lc-app-investor-demo/showcase-v2/`.
+- Public QA harness must remain removed/disabled in the external review build.

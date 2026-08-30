@@ -1,10 +1,10 @@
-# LC App Investor Demo
+# LC App External Review MVP
 
-Static investor demo for LC App.
+Public review build for LC App.
 
 ## Open
 
-Open `index.html`.
+Open `showcase-v2/index.html` for the management review experience.
 
 ## GitHub Pages
 
@@ -20,13 +20,12 @@ Expected URL:
 
 ## Included
 
-- App-like investor demo
-- Live casino feed
-- Live gameplay flow for Roulette, Blackjack and Baccarat
-- Operator-safe handoff
+- Premium product showcase
+- Discover -> Dealer/Creator -> Live Table -> Social -> Operator/provider handoff -> Follow -> Return journey
+- Operator/provider-safe handoff concept
 - Static fallback preview
 - PWA manifest and service worker
 
 ## Important
 
-This is an investor demo only. It does not process real-money transactions. Account, KYC/AML, wallet and settlement remain with the licensed operator.
+This is a product concept review build. It does not process gambling transactions. Gambling-account and transaction controls remain outside LC App with the licensed operator/provider. Demo personas, content, activity and business outcomes are illustrative/to be validated.
