@@ -2,7 +2,7 @@
 
 Date: 2026-08-31
 Milestone: LC App v1.0 Product Depth + Full UI/UX Refinement Sprint
-Current status: v1.0 PRODUCT ACCEPTANCE READY LOCALLY / PRODUCTION QA PENDING / CUSTOM DOMAIN BLOCKED
+Current status: v1.0 PRODUCT ACCEPTANCE READY ON GITHUB PAGES FALLBACK / CUSTOM DOMAIN BLOCKED
 
 ## Locked Baseline
 - Social MVP live E2E confirmed by founder report: 21/21 PASS, 0 failures/blockers.
@@ -153,3 +153,6 @@ Current status: v1.0 PRODUCT ACCEPTANCE READY LOCALLY / PRODUCTION QA PENDING / 
 - Local sprint interaction QA passed: search input/results, follow to Following, create post, profile content propagation, creator schedule add, live handoff, Player Profile and QA harness 404.
 - Local sprint performance remained stable: DCL 58ms, load 58ms, transfer 126,494 bytes.
 - Service worker cache bumped to `lc-app-investor-demo-v62`.
+- Production sprint QA passed on 120 route/viewport checks with cache-busted commit `4eb2d64`: 360x800, 375x812, 390x844, 393x852, 412x915, 430x932, 768x1024, 1024x768, 1280x800, 1366x768, 1440x900 and 1920x1080.
+- Production sprint interaction QA passed: Search, Follow to Following, Create Post, profile content propagation, Creator schedule add, Live Room handoff, Player Profile and public QA harness 404.
+- Production sprint performance stayed in baseline range: DCL 132ms, load 219ms, transfer 125,927 bytes.
