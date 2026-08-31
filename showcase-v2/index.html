@@ -549,6 +549,48 @@
     .social-stat span { color: var(--muted); font-size: 9.5px; line-height: 1.25; }
     .reaction-row { display: flex; gap: 7px; flex-wrap: wrap; }
     .reaction-row .chip { min-height: 34px; }
+    .viewer-stack { display: flex; align-items: center; min-height: 32px; }
+    .viewer-stack img {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      object-fit: cover;
+      border: 2px solid #07100e;
+      margin-left: -8px;
+    }
+    .viewer-stack img:first-child { margin-left: 0; }
+    .live-events {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(150,255,215,.14);
+      background: rgba(255,255,255,.04);
+    }
+    .event-line { display: flex; justify-content: space-between; gap: 10px; align-items: center; color: var(--soft); font-size: 11px; }
+    .event-line span:last-child { color: var(--muted); font-size: 9px; white-space: nowrap; }
+    .chat-composer { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: end; }
+    .chat-composer .field { min-height: 44px; resize: none; }
+    .screen .chat-composer { margin-bottom: 84px; scroll-margin-bottom: 150px; }
+    .sheet .chat-composer { margin-bottom: 0; }
+    .continue-grid { display: grid; gap: 8px; }
+    .continue-card {
+      width: 100%;
+      min-height: 66px;
+      display: grid;
+      grid-template-columns: 48px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 9px;
+      border-radius: var(--card-radius);
+      border: 1px solid rgba(150,255,215,.14);
+      background: rgba(255,255,255,.045);
+      color: var(--text);
+      text-align: left;
+    }
+    .continue-card img { width: 48px; height: 48px; object-fit: cover; border-radius: 14px; }
+    .continue-card b { display: block; font-size: 13px; }
+    .continue-card span { display: block; color: var(--muted); font-size: 10px; line-height: 1.28; }
 
     .following-list { display: grid; gap: 18px; }
     .feed-unit { display: grid; gap: 8px; }
@@ -1114,7 +1156,7 @@
       { id: "p9", dealer: "emma", type: "TIP", section: "PLAYER NOTE", title: "Tonight's Blackjack table is beginner friendly.", image: assets.sofiaDiscover, action: "OPEN" },
       { id: "p10", dealer: "kenji", type: "HIGHLIGHT", section: "HIGHLIGHT", title: "A game show moment worth saving.", image: assets.marcusContent, action: "OPEN" }
     ];
-    const defaultState = { identityPreview: false, followed: [], liked: [], saved: [], comments: [], creatorNotes: [], customPosts: [], customSessions: [], recentSearches: [], notificationsRead: false, route: "welcome", tab: "profile", selectedDealer: "sofia", discoverFilter: "all", searchQuery: "" };
+    const defaultState = { identityPreview: false, followed: [], liked: [], saved: [], comments: [], creatorNotes: [], customPosts: [], customSessions: [], recentSearches: [], recentViews: [], liveEvents: [], reactions: {}, notificationsRead: false, route: "welcome", tab: "profile", selectedDealer: "sofia", discoverFilter: "all", searchQuery: "" };
     let state = load();
     function load() {
       try { return { ...defaultState, ...JSON.parse(localStorage.getItem("lc-industry-v2") || "{}") }; }
@@ -1125,6 +1167,7 @@
     const dealer = (id) => dealers.find((d) => d.id === id) || dealers[0];
     const isSaved = (id) => state.saved.includes(id);
     const saveLabel = (id, label = "Save") => isSaved(id) ? "Saved" : label;
+    const reactionOptions = ["Nice table", "Good pace", "Great host"];
     function escapeHtml(value) {
       return String(value).replace(/[&<>"]/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[char]));
     }
@@ -1145,6 +1188,56 @@
       state.selectedDealer = id;
       persist();
     }
+    function addRecent(type, id) {
+      const key = `${type}:${id}`;
+      const item = { type, id, ts: Date.now() };
+      state.recentViews = [item, ...(state.recentViews || []).filter(entry => `${entry.type}:${entry.id}` !== key)].slice(0, 6);
+      persist();
+    }
+    function recentItems(limit = 3) {
+      return (state.recentViews || []).map(entry => {
+        if (entry.type === "content") {
+          const post = visiblePosts().find(p => p.id === entry.id);
+          if (!post) return null;
+          const d = dealer(post.dealer);
+          return { title: d.name, meta: `${post.section} · ${activeSession(d).game}`, img: d.avatar, route: `dealer/${d.id}`, action: "Open" };
+        }
+        const d = dealer(entry.id);
+        const s = activeSession(d);
+        return { title: d.name, meta: entry.type === "live" ? `${s.game} · Live room` : `${s.game} · ${s.status === "LIVE NOW" ? "Live now" : s.day + " " + s.time}`, img: d.avatar, route: entry.type === "live" ? `live/${d.id}` : `dealer/${d.id}`, action: entry.type === "live" ? "Live" : "Open" };
+      }).filter(Boolean).slice(0, limit);
+    }
+    function continueSection(limit = 3) {
+      const items = recentItems(limit);
+      if (!items.length) return "";
+      return `<div class="section subtle"><div class="section-head"><h2>Continue exploring</h2><span>Recent</span></div><div class="continue-grid">${items.map(item => `<button class="continue-card" type="button" data-go="${item.route}"><img src="${item.img}" alt="${item.title}"><div><b>${item.title}</b><span>${item.meta}</span></div><span class="pill soft">${item.action}</span></button>`).join("")}</div></div>`;
+    }
+    function forYouDealers() {
+      const recentGames = recentItems(6).map(item => item.meta.split(" · ")[0]);
+      const followedGames = state.followed.map(id => dealer(id).game);
+      const savedGames = (state.saved || []).filter(id => id.startsWith("schedule-") || id.startsWith("return-")).map(id => dealer(id.replace("schedule-", "").replace("return-", "")).game);
+      const preferred = [...followedGames, ...savedGames, ...recentGames][0] || "Blackjack";
+      const picks = dealers.filter(d => d.game === preferred && !state.followed.includes(d.id)).slice(0, 3);
+      return { reason: preferred, picks: picks.length ? picks : dealers.filter(d => activeSession(d).status === "LIVE NOW").slice(0, 3) };
+    }
+    function forYouSection() {
+      const { reason, picks } = forYouDealers();
+      return `<div class="section subtle"><div class="section-head"><h2>For you</h2><span>Because ${reason}</span></div>${picks.map(d => activityRow(d, d.name, `${activeSession(d).game} · ${activeSession(d).operator} · ${activeSession(d).time}`, activeSession(d).status === "LIVE NOW" ? "watch" : "save", "schedule-" + d.id)).join("")}</div>`;
+    }
+    function viewerStack(d) {
+      const ids = [d.id, "mia", "alex", "marcus"].filter((id, index, arr) => arr.indexOf(id) === index).slice(0, 4);
+      return `<div class="viewer-stack">${ids.map(id => `<img src="${dealer(id).avatar}" alt="${dealer(id).short} viewer" loading="lazy" decoding="async">`).join("")}</div>`;
+    }
+    function liveEventLines(d) {
+      const base = [`James joined ${d.short}'s table`, `Anna followed ${d.short}`, `${d.short} posted a table update`];
+      const custom = (state.liveEvents || []).filter(event => event.dealer === d.id).map(event => event.text);
+      return [...custom, ...base].slice(0, 4).map((text, index) => `<div class="event-line"><span>${escapeHtml(text)}</span><span>${index ? "now" : "just now"}</span></div>`).join("");
+    }
+    function reactionButton(d, label) {
+      const key = `${d.id}:${label}`;
+      const count = Number((state.reactions || {})[key] || 0) + (label === "Nice table" ? 14 : label === "Good pace" ? 9 : 7);
+      return `<button class="chip" type="button" data-react="${key}">${label} · ${count}</button>`;
+    }
     function topbar() {
       return `<div class="topbar"><div class="brand"><span class="logo">LC</span><div><strong>LC App</strong><span>Play. Chat. Connect.</span></div></div><div class="top-actions"><button class="icon-btn" type="button" data-sheet="info" aria-label="Product info">${icons.info}</button><button class="icon-btn" type="button" data-sheet="search" aria-label="Search">${icons.search}</button><button class="icon-btn ${state.notificationsRead ? "" : "notif-dot"}" type="button" data-sheet="notify" aria-label="Notifications">${icons.bell}</button><button class="avatar-action" type="button" data-go="creator" aria-label="Creator view"><img class="avatar-mini" src="${assets.sofiaAvatar}" alt="Creator view"></button></div></div>`;
     }
@@ -1159,6 +1252,8 @@
       const [base, id] = route.split("/");
       state.route = base;
       if ((base === "dealer" || base === "live") && id) state.selectedDealer = id;
+      if (base === "dealer" && id) addRecent("dealer", id);
+      if (base === "live" && id) addRecent("live", id);
       persist();
       location.hash = "#/" + route;
       if (base === "dealer") track("dealer_profile_view");
@@ -1342,7 +1437,7 @@
       const liveDealers = dealers.filter(d => activeSession(d).status === "LIVE NOW");
       const soonDealers = dealers.filter(d => activeSession(d).status !== "LIVE NOW").slice(0, 4);
       const gameFilters = ["blackjack", "baccarat", "roulette", "game show"].map(g => filterButton(g, g.replace(/\b\w/g, m => m.toUpperCase()))).join("");
-      $("discover").innerHTML = `${topbar()}<div class="section" style="margin-top:0"><h2>Discover</h2><p>Find who you want to play with, not only what you want to play.</p><div class="filter-row">${filterButton("all","All")}${filterButton("live","Live Now")}${filterButton("following","Following")}${gameFilters}</div><div class="status-strip"><button class="status-card" type="button" data-go="live/sofia"><b>${liveDealers.length} live</b><span>Sofia, Lilit and live tables</span></button><button class="status-card" type="button" data-profile="alex"><b>Starting soon</b><span>Alex · ${alexSession.game} · ${alexSession.time}</span></button><button class="status-card" type="button" data-go="following"><b>For you</b><span>${state.followed.length} followed creators</span></button></div><article class="hero-live"><img src="${sofia.discover}" alt="${sofia.name} live at table"><div class="hero-content"><span class="label live pulse">LIVE NOW</span><h2>${sofia.name}</h2><p>${sofiaSession.game}<br>${sofiaSession.operator} · ${sofiaSession.time}</p><div class="cta-row"><button class="btn" type="button" data-go="live/sofia">PLAY WITH SOFIA</button>${followBtn("sofia", "btn slim")}</div></div></article></div><div class="section"><div class="section-head"><h2>${filter === "all" ? "Creators for you" : "Filtered creators"}</h2><span>${filtered.length} shown</span></div><div class="creator-strip">${filtered.map(portraitTile).join("") || '<div class="empty-card">No matching creators yet.</div>'}</div></div><div class="section subtle"><div class="section-head"><h2>Live now</h2><span>${liveDealers.length} rooms</span></div><div class="live-rail">${liveDealers.map(liveRoomCard).join("")}</div></div><div class="section subtle"><div class="section-head"><h2>Popular tonight</h2></div><div class="content-stack">${visiblePosts().filter(p => ["PRE-LIVE","LIVE CLIP","SCHEDULE","HIGHLIGHT"].includes(p.type)).slice(0, 4).map(imagePost).join("")}</div></div><div class="section subtle"><div class="section-head"><h2>Starting soon</h2></div>${soonDealers.map(d => activityRow(d, d.name, `${activeSession(d).game} · ${activeSession(d).operator} · ${activeSession(d).time}`, "save", "schedule-" + d.id)).join("")}</div><div class="section subtle"><div class="section-head"><h2>From people you follow</h2></div><div class="content-stack">${visiblePosts().filter(p => state.followed.includes(p.dealer)).slice(0, 3).map(imagePost).join("") || '<div class="empty-card">Follow creators to personalize Discover.</div>'}</div></div>`;
+      $("discover").innerHTML = `${topbar()}<div class="section" style="margin-top:0"><h2>Discover</h2><p>Find who you want to play with, not only what you want to play.</p><div class="filter-row">${filterButton("all","All")}${filterButton("live","Live Now")}${filterButton("following","Following")}${gameFilters}</div><div class="status-strip"><button class="status-card" type="button" data-go="live/sofia"><b>${liveDealers.length} live</b><span>Sofia, Lilit and live tables</span></button><button class="status-card" type="button" data-profile="alex"><b>Starting soon</b><span>Alex · ${alexSession.game} · ${alexSession.time}</span></button><button class="status-card" type="button" data-go="following"><b>For you</b><span>${state.followed.length} followed creators</span></button></div><article class="hero-live"><img src="${sofia.discover}" alt="${sofia.name} live at table"><div class="hero-content"><span class="label live pulse">LIVE NOW</span><h2>${sofia.name}</h2><p>${sofiaSession.game}<br>${sofiaSession.operator} · ${sofiaSession.time}</p><div class="cta-row"><button class="btn" type="button" data-go="live/sofia">PLAY WITH SOFIA</button>${followBtn("sofia", "btn slim")}</div></div></article></div>${continueSection(3)}<div class="section"><div class="section-head"><h2>${filter === "all" ? "Creators for you" : "Filtered creators"}</h2><span>${filtered.length} shown</span></div><div class="creator-strip">${filtered.map(portraitTile).join("") || '<div class="empty-card">No matching creators yet.</div>'}</div></div>${forYouSection()}<div class="section subtle"><div class="section-head"><h2>Live now</h2><span>${liveDealers.length} rooms</span></div><div class="live-rail">${liveDealers.map(liveRoomCard).join("")}</div></div><div class="section subtle"><div class="section-head"><h2>Popular tonight</h2></div><div class="content-stack">${visiblePosts().filter(p => ["PRE-LIVE","LIVE CLIP","SCHEDULE","HIGHLIGHT"].includes(p.type)).slice(0, 4).map(imagePost).join("")}</div></div><div class="section subtle"><div class="section-head"><h2>Starting soon</h2></div>${soonDealers.map(d => activityRow(d, d.name, `${activeSession(d).game} · ${activeSession(d).operator} · ${activeSession(d).time}`, "save", "schedule-" + d.id)).join("")}</div><div class="section subtle"><div class="section-head"><h2>From people you follow</h2></div><div class="content-stack">${visiblePosts().filter(p => state.followed.includes(p.dealer)).slice(0, 3).map(imagePost).join("") || '<div class="empty-card">Follow creators to personalize Discover.</div>'}</div></div>`;
     }
     function tabButton(id, label) {
       return `<button class="tab ${state.tab === id ? "active" : ""}" type="button" data-tab="${id}">${label}</button>`;
@@ -1368,19 +1463,19 @@
       const d = routeParts()[1] ? dealer(routeParts()[1]) : dealer(state.selectedDealer || "sofia");
       const s = activeSession(d);
       state.selectedDealer = d.id;
-      $("live").innerHTML = `${topbar()}<div class="room-stage"><img src="${d.roomImage || d.live}" alt="${d.name} live table"><div class="room-overlay"><span class="label ${s.status === "LIVE NOW" ? "live pulse" : ""}">${s.status === "LIVE NOW" ? "LIVE" : "PRE-LIVE"}</span><h2>${s.table}</h2><p>${s.game} · ${s.operator} · ${s.time}</p><button class="room-host" type="button" data-profile="${d.id}"><img src="${d.avatar}" alt="${d.name} avatar"><div><h3>${d.name}</h3><p>${state.followed.includes(d.id) ? "Following" : "Follow"}</p></div></button></div></div><div class="section subtle"><div class="room-social"><div class="social-stat"><b>${d.viewers}</b><span>watching now</span></div><div class="social-stat"><b>${d.audience}</b><span>followers</span></div><div class="social-stat"><b>${s.operator}</b><span>where to play</span></div></div><div class="reaction-row"><button class="chip" type="button" data-like="live-${d.id}">Good table</button><button class="chip" type="button" data-save="return-${d.id}">${saveLabel("return-" + d.id, "Return")}</button>${followBtn(d.id, "chip")}</div></div><div class="section subtle"><div class="section-head"><h2>Table chat</h2></div><div class="chat-list"><div class="chat-line"><b>James</b><span>Same table tomorrow?</span></div><div class="chat-line"><b>${d.short}</b><span>${s.status === "LIVE NOW" ? "Yes - follow for the next session." : "Starting soon - save the reminder."}</span></div><div class="chat-line"><b>LCFan</b><span>Saved this creator.</span></div>${state.comments.map(c => `<div class="chat-line"><b>You</b><span>${c}</span></div>`).join("")}</div></div><div class="room-sticky"><div class="sticky-top"><span>${d.short} · ${s.game}</span><span>${s.operator}</span></div><div class="sticky-actions"><button class="btn" type="button" data-sheet="operator">CONTINUE TO PLAY ${icons.ext}</button><button class="icon-btn" type="button" data-sheet="chat" aria-label="Chat">${icons.msg}</button><button class="icon-btn" type="button" data-profile="${d.id}" aria-label="Profile">${icons.user}</button></div><span class="qualifier">External operator/provider step. No real-money wagering in LC App.</span></div>`;
+      $("live").innerHTML = `${topbar()}<div class="room-stage"><img src="${d.roomImage || d.live}" alt="${d.name} live table"><div class="room-overlay"><span class="label ${s.status === "LIVE NOW" ? "live pulse" : ""}">${s.status === "LIVE NOW" ? "LIVE" : "PRE-LIVE"}</span><h2>${s.table}</h2><p>${s.game} · ${s.operator} · ${s.time}</p><button class="room-host" type="button" data-profile="${d.id}"><img src="${d.avatar}" alt="${d.name} avatar"><div><h3>${d.name}</h3><p>${state.followed.includes(d.id) ? "Following" : "Follow"}</p></div></button></div></div><div class="section subtle"><div class="room-social"><div class="social-stat"><b>${Number(String(d.viewers).replace(/\\D/g, "")) + (state.comments || []).length}</b><span>watching now</span></div><div class="social-stat"><b>${d.audience}</b><span>followers</span></div><div class="social-stat"><b>${s.operator}</b><span>where to play</span></div></div>${viewerStack(d)}<div class="reaction-row">${reactionOptions.map(label => reactionButton(d, label)).join("")}${followBtn(d.id, "chip")}<button class="chip" type="button" data-save="return-${d.id}">${saveLabel("return-" + d.id, "Return")}</button></div><div class="live-events">${liveEventLines(d)}</div></div><div class="section subtle"><div class="section-head"><h2>Table chat</h2></div><div class="chat-list"><div class="chat-line"><b>James</b><span>Same table tomorrow?</span></div><div class="chat-line"><b>${d.short}</b><span>${s.status === "LIVE NOW" ? "Yes - follow for the next session." : "Starting soon - save the reminder."}</span></div><div class="chat-line"><b>LCFan</b><span>Saved this creator.</span></div>${state.comments.map(c => `<div class="chat-line"><b>You</b><span>${c}</span></div>`).join("")}</div><div class="chat-composer"><textarea class="field" data-chat-input maxlength="90" placeholder="Message the room..."></textarea><button class="btn slim" type="button" data-send-chat>Send</button></div></div><div class="room-sticky"><div class="sticky-top"><span>${d.short} · ${s.game}</span><span>${s.operator}</span></div><div class="sticky-actions"><button class="btn" type="button" data-sheet="operator">CONTINUE TO PLAY ${icons.ext}</button><button class="icon-btn" type="button" data-sheet="chat" aria-label="Chat">${icons.msg}</button><button class="icon-btn" type="button" data-profile="${d.id}" aria-label="Profile">${icons.user}</button></div><span class="qualifier">External operator/provider step. No real-money wagering in LC App.</span></div>`;
     }
     function following() {
       const followedDealers = dealers.filter(d => state.followed.includes(d.id));
       const savedReminders = [...new Set(state.saved.filter(id => id.startsWith("schedule-") || id.startsWith("return-")).map(id => id.replace("schedule-", "").replace("return-", "")))].map(dealer);
       const rowMeta = (d) => { const s = activeSession(d); return `${s.game} · ${s.operator} · ${s.time}`; };
       const liveFollowed = followedDealers.filter(d => activeSession(d).status === "LIVE NOW");
-      $("following").innerHTML = `${topbar()}<div class="section" style="margin-top:0"><h2>Following</h2><p>Your live creators, saved sessions and latest table updates.</p><div class="status-strip"><div class="status-card"><b>${followedDealers.length}</b><span>Followed creators</span></div><div class="status-card"><b>${savedReminders.length}</b><span>Reminders set</span></div><button class="status-card" type="button" data-sheet="notify"><b>${state.notificationsRead ? "Read" : "New"}</b><span>Notifications</span></button></div><div class="following-list"><div class="feed-unit"><span class="feed-label">LIVE NOW</span>${liveFollowed.map(d => activityRow(d, d.short + " is live", rowMeta(d), "watch")).join("") || '<div class="empty-card">No followed creators are live right now.</div>'}</div><div class="feed-unit"><span class="feed-label">UPCOMING</span>${followedDealers.filter(d => activeSession(d).status !== "LIVE NOW").slice(0, 4).map(d => activityRow(d, d.name, rowMeta(d), "save", "schedule-" + d.id)).join("") || '<div class="empty-card">Follow more creators to fill your schedule.</div>'}</div><div class="feed-unit"><span class="feed-label">SAVED SESSIONS</span>${savedReminders.map(d => activityRow(d, d.short + " reminder", rowMeta(d), "profile")).join("") || '<div class="empty-card">Tap Remind me on a profile schedule.</div>'}</div><div class="feed-unit"><span class="feed-label">LATEST FROM FOLLOWING</span>${visiblePosts().filter(p => state.followed.includes(p.dealer)).slice(0, 4).map(imagePost).join("") || '<div class="empty-card">Follow creators to see their latest posts.</div>'}</div><div class="notification-box"><div><h3>${liveFollowed[0]?.short || "Sofia"} is ready</h3><p>${activeSession(liveFollowed[0] || dealer("sofia")).game} at ${activeSession(liveFollowed[0] || dealer("sofia")).operator}.</p></div><button class="btn slim" type="button" data-go="live/${(liveFollowed[0] || dealer("sofia")).id}">Watch</button></div></div></div>`;
+      $("following").innerHTML = `${topbar()}<div class="section" style="margin-top:0"><h2>Following</h2><p>Your live creators, saved sessions and latest table updates.</p><div class="status-strip"><div class="status-card"><b>${followedDealers.length}</b><span>Followed creators</span></div><div class="status-card"><b>${savedReminders.length}</b><span>Reminders set</span></div><button class="status-card" type="button" data-sheet="notify"><b>${state.notificationsRead ? "Read" : "New"}</b><span>Notifications</span></button></div>${continueSection(3)}<div class="following-list"><div class="feed-unit"><span class="feed-label">LIVE NOW</span>${liveFollowed.map(d => activityRow(d, d.short + " is live", rowMeta(d), "watch")).join("") || '<div class="empty-card">No followed creators are live right now.</div>'}</div><div class="feed-unit"><span class="feed-label">UPCOMING</span>${followedDealers.filter(d => activeSession(d).status !== "LIVE NOW").slice(0, 4).map(d => activityRow(d, d.name, rowMeta(d), "save", "schedule-" + d.id)).join("") || '<div class="empty-card">Follow more creators to fill your schedule.</div>'}</div><div class="feed-unit"><span class="feed-label">SAVED SESSIONS</span>${savedReminders.map(d => activityRow(d, d.short + " reminder", rowMeta(d), "profile")).join("") || '<div class="empty-card">Tap Remind me on a profile schedule.</div>'}</div><div class="feed-unit"><span class="feed-label">LATEST FROM FOLLOWING</span>${visiblePosts().filter(p => state.followed.includes(p.dealer)).slice(0, 4).map(imagePost).join("") || '<div class="empty-card">Follow creators to see their latest posts.</div>'}</div><div class="notification-box"><div><h3>${liveFollowed[0]?.short || "Sofia"} is ready</h3><p>${activeSession(liveFollowed[0] || dealer("sofia")).game} at ${activeSession(liveFollowed[0] || dealer("sofia")).operator}.</p></div><button class="btn slim" type="button" data-go="live/${(liveFollowed[0] || dealer("sofia")).id}">Watch</button></div></div></div>`;
     }
     function playerProfile() {
       const followedDealers = dealers.filter(d => state.followed.includes(d.id));
       const savedReminders = [...new Set(state.saved.filter(id => id.startsWith("schedule-") || id.startsWith("return-")).map(id => id.replace("schedule-", "").replace("return-", "")))].map(dealer);
-      $("player").innerHTML = `${topbar()}<div class="section" style="margin-top:0"><article class="creator-header"><div class="creator-row"><span class="logo">LC</span><div><span class="label">PLAYER PROFILE</span><h2>Your LC App</h2><p>Following, reminders and recent activity.</p></div></div></article><div class="creator-grid"><div class="creator-card"><b>${followedDealers.length}</b><span>Following</span></div><div class="creator-card"><b>${savedReminders.length}</b><span>Saved sessions</span></div><div class="creator-card"><b>${state.notificationsRead ? "On" : "New"}</b><span>Notifications</span></div><div class="creator-card"><b>${state.recentSearches.length}</b><span>Recent searches</span></div></div><div class="creator-actions"><button class="btn slim" type="button" data-go="following">Following</button><button class="btn slim secondary" type="button" data-go="creator">Switch to creator</button><button class="chip" type="button" data-sheet="notify">Notifications</button><button class="chip" type="button" data-sheet="info">Settings</button></div></div><div class="section subtle"><div class="section-head"><h2>Your creators</h2></div>${followedDealers.map(d => activityRow(d, d.name, `${activeSession(d).game} · ${activeSession(d).operator} · ${activeSession(d).time}`, activeSession(d).status === "LIVE NOW" ? "watch" : "profile")).join("") || '<div class="empty-card">Follow a creator to personalize LC App.</div>'}</div>`;
+      $("player").innerHTML = `${topbar()}<div class="section" style="margin-top:0"><article class="creator-header"><div class="creator-row"><span class="logo">LC</span><div><span class="label">PLAYER PROFILE</span><h2>Your LC App</h2><p>Following, reminders and recent activity.</p></div></div></article><div class="creator-grid"><div class="creator-card"><b>${followedDealers.length}</b><span>Following</span></div><div class="creator-card"><b>${savedReminders.length}</b><span>Saved sessions</span></div><div class="creator-card"><b>${state.notificationsRead ? "On" : "New"}</b><span>Notifications</span></div><div class="creator-card"><b>${(state.recentViews || []).length}</b><span>Recent views</span></div></div><div class="creator-actions"><button class="btn slim" type="button" data-go="following">Following</button><button class="btn slim secondary" type="button" data-go="creator">Switch to creator</button><button class="chip" type="button" data-sheet="notify">Notifications</button><button class="chip" type="button" data-sheet="info">Settings</button></div></div>${continueSection(4)}<div class="section subtle"><div class="section-head"><h2>Your creators</h2></div>${followedDealers.map(d => activityRow(d, d.name, `${activeSession(d).game} · ${activeSession(d).operator} · ${activeSession(d).time}`, activeSession(d).status === "LIVE NOW" ? "watch" : "profile")).join("") || '<div class="empty-card">Follow a creator to personalize LC App.</div>'}</div>`;
     }
     function creatorView() {
       const d = dealer("sofia");
@@ -1462,7 +1557,7 @@
       const handoffSession = activeSession(handoffDealer);
       const content = {
         message: `<div class="sheet-head"><h3>Sofia Laurent</h3><button class="chip" type="button" data-close>Close</button></div><span class="pill soft">Private message</span><div class="chat-list"><div class="chat-line"><b>You</b><span>Are you live tomorrow?</span></div><div class="chat-line"><b>Sofia</b><span>Yes — 20:00. See you at the table.</span></div></div><div class="input-row">Message Sofia...</div>`,
-        chat: `<div class="sheet-head"><h3>Chat</h3><button class="chip" type="button" data-close>Close</button></div><p>Send a quick table message.</p><button class="btn" type="button" data-comment="See you at 20:00.">Send message</button>`,
+        chat: `<div class="sheet-head"><h3>Chat</h3><button class="chip" type="button" data-close>Close</button></div><p>Send a quick table message.</p><div class="chat-composer"><textarea class="field" data-chat-input maxlength="90" placeholder="Message the room..."></textarea><button class="btn slim" type="button" data-send-chat>Send</button></div>`,
         content: `<div class="sheet-head"><h3>${activePostDealer.short}'s update</h3><button class="chip" type="button" data-close>Close</button></div><span class="pill soft">Illustrative content</span><p>${activePost.title}</p><p>${activeSessionInfo.game} · ${activeSessionInfo.operator} · ${activeSessionInfo.time}</p><div class="cta-row"><button class="btn slim" type="button" data-profile="${activePostDealer.id}">Dealer profile</button>${activeSessionInfo.status === "LIVE NOW" ? '<button class="btn slim secondary" type="button" data-go="live/' + activePostDealer.id + '">Watch live</button>' : '<button class="btn slim secondary" type="button" data-tab="schedule" data-profile="' + activePostDealer.id + '">View schedule</button>'}<button class="chip ${isSaved("schedule-" + activePostDealer.id) ? "active" : ""}" type="button" data-save="schedule-${activePostDealer.id}">${saveLabel("schedule-" + activePostDealer.id, "Remind me")}</button></div>`,
         operator: `<div class="sheet-head"><h3>Continue to Casino</h3><button class="chip" type="button" data-close>Close</button></div><span class="label">${handoffSession.game}</span><p><b>${handoffDealer.name}</b><br>${handoffSession.table} · ${handoffSession.operator}</p><button class="btn" type="button" data-close>Continue with operator</button><span class="demo-note">Illustrative operator/provider handoff. LC App does not process real-money wagering, player funds, KYC/AML or settlement. No confirmed integration is implied.</span>`,
         info: `<div class="sheet-head"><h3>Product info</h3><button class="chip" type="button" data-close>Close</button></div><p>LC App is a social discovery and engagement layer for Live Casino. Real-money gaming, player funds, KYC/AML, responsible gaming controls and game settlement remain with licensed operators/providers.</p><span class="trust-line">18+ · Demo environment · No real-money wagering in LC App.</span>`,
@@ -1503,6 +1598,7 @@
       const g = e.target.closest("[data-go]");
       const f = e.target.closest("[data-follow]");
       const l = e.target.closest("[data-like]");
+      const react = e.target.closest("[data-react]");
       const s = e.target.closest("[data-save]");
       const p = e.target.closest("[data-profile]");
       const filter = e.target.closest("[data-filter]");
@@ -1512,6 +1608,7 @@
       const publishPost = e.target.closest("[data-publish-post]");
       const sh = e.target.closest("[data-sheet]");
       const authPreview = e.target.closest("[data-auth-preview]");
+      const sendChat = e.target.closest("[data-send-chat]");
       const calendar = e.target.closest("[data-calendar]");
       const c = e.target.closest("[data-comment]");
       const t = e.target.closest("[data-tab]");
@@ -1544,11 +1641,26 @@
         toast(state.followed.includes(id) ? "Following · reminder ready" : "Unfollowed");
       }
       if (l) { if (requireIdentity()) return; toggle("liked", l.dataset.like); toast(state.liked.includes(l.dataset.like) ? "Liked" : "Like removed"); }
+      if (react) {
+        if (requireIdentity()) return;
+        const [dealerId, label] = react.dataset.react.split(":");
+        state.reactions = { ...(state.reactions || {}), [react.dataset.react]: Number((state.reactions || {})[react.dataset.react] || 0) + 1 };
+        state.liveEvents = [{ dealer: dealerId, text: `You reacted: ${label}` }, ...(state.liveEvents || [])].slice(0, 8);
+        persist();
+        render();
+        toast("Reaction added");
+      }
       if (s) { if (requireIdentity()) return; toggle("saved", s.dataset.save); toast(state.saved.includes(s.dataset.save) ? "Reminder saved" : "Removed from saved"); }
       if (p) { rememberDealer(p.dataset.profile); go("dealer/" + p.dataset.profile); }
       if (filter) { state.discoverFilter = filter.dataset.filter; persist(); track("discover_filter"); render(); }
       if (share) shareProfile(share.dataset.share);
-      if (post) { state.selectedPost = post.dataset.post; persist(); track("content_open"); sheet("content"); }
+      if (post) {
+        state.selectedPost = post.dataset.post;
+        addRecent("content", post.dataset.post);
+        persist();
+        track("content_open");
+        sheet("content");
+      }
       if (creatorAction) {
         if (requireIdentity()) return;
         const action = creatorAction.dataset.creator;
@@ -1575,8 +1687,24 @@
         sheet(sh.dataset.sheet);
       }
       if (calendar) { if (requireIdentity()) return; saveCalendar(calendar.dataset.calendar); }
-      if (c) { if (requireIdentity()) return; state.comments.push(c.dataset.comment); persist(); closeSheet(); render(); toast("Message added"); }
-      if (t) { state.tab = t.dataset.tab; persist(); render(); }
+      if (sendChat) {
+        if (requireIdentity()) return;
+        const input = document.querySelector("[data-chat-input]");
+        const msg = escapeHtml(input?.value?.trim() || "See you at 20:00.");
+        state.comments.push(msg);
+        state.liveEvents = [{ dealer: state.selectedDealer || "sofia", text: "You messaged the room" }, ...(state.liveEvents || [])].slice(0, 8);
+        persist();
+        closeSheet();
+        render();
+        toast("Message sent");
+      }
+      if (c) { if (requireIdentity()) return; state.comments.push(c.dataset.comment); persist(); closeSheet(); render(); toast("Message sent"); }
+      if (t) {
+        state.tab = t.dataset.tab;
+        if (state.tab === "schedule") addRecent("schedule", state.selectedDealer || "sofia");
+        persist();
+        render();
+      }
       if (close) closeSheet();
     });
     document.addEventListener("input", (e) => {

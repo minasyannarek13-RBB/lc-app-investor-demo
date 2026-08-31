@@ -2,7 +2,7 @@
 
 Date: 2026-08-31
 Milestone: LC App v1.0 Product Depth + Full UI/UX Refinement Sprint
-Current status: v1.0 RELEASE FREEZE READY ON GITHUB PAGES FALLBACK / CUSTOM DOMAIN BLOCKED
+Current status: v1.0 EXPERIENCE BOOST READY ON GITHUB PAGES FALLBACK / CUSTOM DOMAIN BLOCKED
 
 ## Locked Baseline
 - Social MVP live E2E confirmed by founder report: 21/21 PASS, 0 failures/blockers.
@@ -169,3 +169,14 @@ Current status: v1.0 RELEASE FREEZE READY ON GITHUB PAGES FALLBACK / CUSTOM DOMA
 - Local final release QA passed: 132 route/viewport checks across 360x800, 375x812, 390x844, 393x852, 412x915, 430x932, 768x1024, 1024x768, 1280x800, 1366x768, 1440x900 and 1920x1080.
 - Local final release interaction QA passed: Welcome, Discover, Search, Dealer, Follow auth gate, signed-in preview, Content CTA, Schedule, Reminder, calendar export, Live, Chat, Continue to Casino handoff, Following, Notifications, Creator View, Create Post, public profile propagation, Share fallback and anonymous direct profile auth gate.
 - Local final release QA result: 0 failures, average DCL 67ms, load 68ms.
+- Experience Boost sprint completed on 2026-08-31.
+- Live Room now includes lightweight viewer avatar stack, live activity events, quick reactions with visible feedback, and normal room-message composer.
+- Recently viewed / Continue exploring added using privacy-safe local state for creator, live room, content and schedule interactions.
+- Rules-based For You added using followed creators, saved sessions and recent game interest; no AI/model/backend dependency added.
+- Returning-user surfaces now show Continue exploring in Discover, Following and Player Profile.
+- Anonymous exploration remains open for public routes, while Follow, Save, Chat, Reactions, Notifications, Following, Player Profile and Creator View remain identity-gated in the showcase.
+- Live chat composer spacing fixed so the sticky handoff CTA and bottom nav do not block mobile send interaction.
+- Service worker cache bumped to `lc-app-investor-demo-v64`.
+- Local Experience Boost QA passed: 132 route/viewport checks across 360x800, 375x812, 390x844, 393x852, 412x915, 430x932, 768x1024, 1024x768, 1280x800, 1366x768, 1440x900 and 1920x1080.
+- Local Experience Boost interaction QA passed: Player, Creator, Returning User and Anonymous flows including reaction, chat, recently viewed, Continue exploring, For You, handoff and auth gate.
+- Local Experience Boost performance: average DCL 78ms, load 80ms, transfer 865 bytes in local static QA.
