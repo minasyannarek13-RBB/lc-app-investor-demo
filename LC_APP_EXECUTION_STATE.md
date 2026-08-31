@@ -2,7 +2,7 @@
 
 Date: 2026-08-31
 Milestone: LC App v1.0 Product Depth + Full UI/UX Refinement Sprint
-Current status: v1.0 PRODUCT ACCEPTANCE READY ON GITHUB PAGES FALLBACK / CUSTOM DOMAIN BLOCKED
+Current status: v1.0 RELEASE FREEZE READY ON GITHUB PAGES FALLBACK / CUSTOM DOMAIN BLOCKED
 
 ## Locked Baseline
 - Social MVP live E2E confirmed by founder report: 21/21 PASS, 0 failures/blockers.
@@ -156,3 +156,15 @@ Current status: v1.0 PRODUCT ACCEPTANCE READY ON GITHUB PAGES FALLBACK / CUSTOM 
 - Production sprint QA passed on 120 route/viewport checks with cache-busted commit `4eb2d64`: 360x800, 375x812, 390x844, 393x852, 412x915, 430x932, 768x1024, 1024x768, 1280x800, 1366x768, 1440x900 and 1920x1080.
 - Production sprint interaction QA passed: Search, Follow to Following, Create Post, profile content propagation, Creator schedule add, Live Room handoff, Player Profile and public QA harness 404.
 - Production sprint performance stayed in baseline range: DCL 132ms, load 219ms, transfer 125,927 bytes.
+- Final release freeze pass completed on 2026-08-31.
+- Consumer-facing developer/demo wording reduced in `/showcase-v2/`: removed controlled-demo chat language, demo-post publish wording, demo operator label and generic external operator step copy.
+- Operator/provider handoff now works as a product conversion moment: Continue to Casino, game, dealer, table and illustrative operator context, with secondary factual disclosure.
+- Anonymous exploration remains open for Welcome, Discover, Dealer, Live and Industry routes.
+- Identity/personalization actions now show a lightweight auth gate in the showcase before Follow, Save/Reminder, Notifications, Chat, Player Profile, Following and Creator View.
+- Direct protected showcase routes `#/following`, `#/player` and `#/creator` now show the auth gate instead of exposing personalized areas to anonymous users.
+- Share/deep-link fallback now opens a visible public profile link sheet after clipboard fallback; native share remains supported where available.
+- Route changes now close stale sheets to prevent overlay carryover after browser hash/back navigation.
+- Service worker cache bumped to `lc-app-investor-demo-v63`.
+- Local final release QA passed: 132 route/viewport checks across 360x800, 375x812, 390x844, 393x852, 412x915, 430x932, 768x1024, 1024x768, 1280x800, 1366x768, 1440x900 and 1920x1080.
+- Local final release interaction QA passed: Welcome, Discover, Search, Dealer, Follow auth gate, signed-in preview, Content CTA, Schedule, Reminder, calendar export, Live, Chat, Continue to Casino handoff, Following, Notifications, Creator View, Create Post, public profile propagation, Share fallback and anonymous direct profile auth gate.
+- Local final release QA result: 0 failures, average DCL 73ms, load 75ms.

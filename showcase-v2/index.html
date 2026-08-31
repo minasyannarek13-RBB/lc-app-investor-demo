@@ -1114,7 +1114,7 @@
       { id: "p9", dealer: "emma", type: "TIP", section: "PLAYER NOTE", title: "Tonight's Blackjack table is beginner friendly.", image: assets.sofiaDiscover, action: "OPEN" },
       { id: "p10", dealer: "kenji", type: "HIGHLIGHT", section: "HIGHLIGHT", title: "A game show moment worth saving.", image: assets.marcusContent, action: "OPEN" }
     ];
-    const defaultState = { followed: ["sofia", "mia"], liked: [], saved: ["p2", "schedule-sofia"], comments: [], creatorNotes: [], customPosts: [], customSessions: [], recentSearches: [], notificationsRead: false, route: "welcome", tab: "profile", selectedDealer: "sofia", discoverFilter: "all", searchQuery: "" };
+    const defaultState = { identityPreview: false, followed: [], liked: [], saved: [], comments: [], creatorNotes: [], customPosts: [], customSessions: [], recentSearches: [], notificationsRead: false, route: "welcome", tab: "profile", selectedDealer: "sofia", discoverFilter: "all", searchQuery: "" };
     let state = load();
     function load() {
       try { return { ...defaultState, ...JSON.parse(localStorage.getItem("lc-industry-v2") || "{}") }; }
@@ -1213,6 +1213,11 @@
     function addUnique(list, id) {
       if (!state[list].includes(id)) state[list].unshift(id);
     }
+    function requireIdentity() {
+      if (state.identityPreview) return false;
+      sheet("authGate");
+      return true;
+    }
     function followBtn(id, cls = "btn slim") {
       const on = state.followed.includes(id);
       return `<button class="${cls} ${on ? "following active" : "secondary"}" type="button" data-follow="${id}">${on ? "Following" : "Follow"}</button>`;
@@ -1221,6 +1226,10 @@
       const url = new URL(location.href);
       url.hash = "#/dealer/" + id;
       return url.toString();
+    }
+    function showShareLink(url) {
+      $("sheet").innerHTML = `<div class="sheet-head"><h3>Share profile</h3><button class="chip" type="button" data-close>Close</button></div><p>Copy this public dealer profile link.</p><div class="input-row">${url}</div>`;
+      $("sheet").classList.add("open");
     }
     async function shareProfile(id) {
       const d = dealer(id);
@@ -1233,6 +1242,7 @@
           return;
         }
         await navigator.clipboard.writeText(url);
+        showShareLink(url);
         toast("Profile link copied");
       } catch {
         try {
@@ -1245,10 +1255,10 @@
           field.select();
           document.execCommand("copy");
           field.remove();
+          showShareLink(url);
           toast("Profile link copied");
         } catch {
-          $("sheet").innerHTML = `<div class="sheet-head"><h3>Share profile</h3><button class="chip" type="button" data-close>Close</button></div><p>Copy this public dealer profile link.</p><div class="input-row">${url}</div>`;
-          $("sheet").classList.add("open");
+          showShareLink(url);
         }
       }
     }
@@ -1265,15 +1275,15 @@
         "DTSTAMP:20260831T120000Z",
         "DTSTART:20260901T160000Z",
         "DTEND:20260901T170000Z",
-        `SUMMARY:LC App demo: ${d.name} live`,
-        `DESCRIPTION:Illustrative LC App demo reminder: ${s.game} at ${s.operator}, ${s.table}, ${s.time}. No operator or provider integration is implied.`,
+        `SUMMARY:LC App: ${d.name} live`,
+        `DESCRIPTION:LC App reminder: ${s.game} at ${s.operator}, ${s.table}, ${s.time}. Illustrative schedule data; no operator or provider integration is implied.`,
         "END:VEVENT",
         "END:VCALENDAR"
       ].join("\r\n");
       const url = URL.createObjectURL(new Blob([body], { type: "text/calendar" }));
       const a = document.createElement("a");
       a.href = url;
-      a.download = `lc-app-${d.id}-live-demo.ics`;
+      a.download = `lc-app-${d.id}-live-reminder.ics`;
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -1344,7 +1354,7 @@
       }
       if (state.tab === "schedule") {
         const live = d.status === "LIVE NOW";
-        return `<div class="profile-panel"><div class="profile-summary"><b>${live ? "LIVE NOW" : "Upcoming"}</b><p>Save a session and return when ${d.short} is live.</p></div>${scheduleList(d)}${activityRow(d, "Add to calendar", "Download a demo reminder for " + d.short, "calendar")}<div class="activity-row"><img src="${d.avatar}" alt="${d.name} avatar" loading="lazy" decoding="async"><div><b>Next live reminder</b><span>Return when ${d.short} is live.</span></div><button class="chip ${isSaved("return-" + d.id) ? "active" : ""}" type="button" data-save="return-${d.id}">${saveLabel("return-" + d.id)}</button></div><span class="demo-note">Illustrative demo schedule. No operator integration is implied.</span></div>`;
+        return `<div class="profile-panel"><div class="profile-summary"><b>${live ? "LIVE NOW" : "Upcoming"}</b><p>Save a session and return when ${d.short} is live.</p></div>${scheduleList(d)}${activityRow(d, "Add to calendar", "Download a reminder for " + d.short, "calendar")}<div class="activity-row"><img src="${d.avatar}" alt="${d.name} avatar" loading="lazy" decoding="async"><div><b>Next live reminder</b><span>Return when ${d.short} is live.</span></div><button class="chip ${isSaved("return-" + d.id) ? "active" : ""}" type="button" data-save="return-${d.id}">${saveLabel("return-" + d.id, "Remind me")}</button></div><span class="demo-note">Illustrative schedule data. No operator integration is implied.</span></div>`;
       }
       return `<div class="profile-panel"><div class="profile-summary"><b>${d.role}</b><p>${d.bio}</p></div>${sessionCard(d)}<article class="profile-room"><img src="${d.roomImage || d.live || d.content}" alt="${d.room} room"><div class="post-body"><span class="label ${activeSession(d).status === "LIVE NOW" ? "live pulse" : ""}">${activeSession(d).status === "LIVE NOW" ? "LIVE" : "UPCOMING"}</span><h3>${d.room}</h3><p>${d.short} · ${d.style}</p><button class="btn" type="button" ${activeSession(d).status === "LIVE NOW" ? 'data-go="live/' + d.id + '"' : 'data-tab="schedule"'}>${activeSession(d).status === "LIVE NOW" ? "WATCH LIVE" : "VIEW SCHEDULE"}</button></div></article><div class="activity-row"><img src="${d.thumb || d.avatar}" alt="${d.name} room" loading="lazy" decoding="async"><div><b>${d.audience} followers</b><span>${d.language} · ${d.game}</span></div><button class="round-action" type="button" data-share="${d.id}" aria-label="Share profile">${icons.share}</button></div></div>`;
     }
@@ -1358,7 +1368,7 @@
       const d = routeParts()[1] ? dealer(routeParts()[1]) : dealer(state.selectedDealer || "sofia");
       const s = activeSession(d);
       state.selectedDealer = d.id;
-      $("live").innerHTML = `${topbar()}<div class="room-stage"><img src="${d.roomImage || d.live}" alt="${d.name} live table"><div class="room-overlay"><span class="label ${s.status === "LIVE NOW" ? "live pulse" : ""}">${s.status === "LIVE NOW" ? "LIVE" : "PRE-LIVE"}</span><h2>${s.table}</h2><p>${s.game} · ${s.operator} · ${s.time}</p><button class="room-host" type="button" data-profile="${d.id}"><img src="${d.avatar}" alt="${d.name} avatar"><div><h3>${d.name}</h3><p>${state.followed.includes(d.id) ? "Following" : "Follow"}</p></div></button></div></div><div class="section subtle"><div class="room-social"><div class="social-stat"><b>${d.viewers}</b><span>watching now</span></div><div class="social-stat"><b>${d.audience}</b><span>followers</span></div><div class="social-stat"><b>${s.operator}</b><span>demo operator</span></div></div><div class="reaction-row"><button class="chip" type="button" data-like="live-${d.id}">Good table</button><button class="chip" type="button" data-save="return-${d.id}">${saveLabel("return-" + d.id, "Return")}</button>${followBtn(d.id, "chip")}</div></div><div class="section subtle"><div class="section-head"><h2>Table chat</h2></div><div class="chat-list"><div class="chat-line"><b>James</b><span>Same table tomorrow?</span></div><div class="chat-line"><b>${d.short}</b><span>${s.status === "LIVE NOW" ? "Yes - follow for the next session." : "Starting soon - save the reminder."}</span></div><div class="chat-line"><b>LCFan</b><span>Saved this creator.</span></div>${state.comments.map(c => `<div class="chat-line"><b>You</b><span>${c}</span></div>`).join("")}</div></div><div class="room-sticky"><div class="sticky-top"><span>${d.short} · ${s.game}</span><span>${s.operator}</span></div><div class="sticky-actions"><button class="btn" type="button" data-sheet="operator">PLAY WITH ${d.short.toUpperCase()} ${icons.ext}</button><button class="icon-btn" type="button" data-sheet="chat" aria-label="Chat">${icons.msg}</button><button class="icon-btn" type="button" data-profile="${d.id}" aria-label="Profile">${icons.user}</button></div><span class="qualifier">Conceptual operator/provider handoff. No confirmed integration.</span></div>`;
+      $("live").innerHTML = `${topbar()}<div class="room-stage"><img src="${d.roomImage || d.live}" alt="${d.name} live table"><div class="room-overlay"><span class="label ${s.status === "LIVE NOW" ? "live pulse" : ""}">${s.status === "LIVE NOW" ? "LIVE" : "PRE-LIVE"}</span><h2>${s.table}</h2><p>${s.game} · ${s.operator} · ${s.time}</p><button class="room-host" type="button" data-profile="${d.id}"><img src="${d.avatar}" alt="${d.name} avatar"><div><h3>${d.name}</h3><p>${state.followed.includes(d.id) ? "Following" : "Follow"}</p></div></button></div></div><div class="section subtle"><div class="room-social"><div class="social-stat"><b>${d.viewers}</b><span>watching now</span></div><div class="social-stat"><b>${d.audience}</b><span>followers</span></div><div class="social-stat"><b>${s.operator}</b><span>where to play</span></div></div><div class="reaction-row"><button class="chip" type="button" data-like="live-${d.id}">Good table</button><button class="chip" type="button" data-save="return-${d.id}">${saveLabel("return-" + d.id, "Return")}</button>${followBtn(d.id, "chip")}</div></div><div class="section subtle"><div class="section-head"><h2>Table chat</h2></div><div class="chat-list"><div class="chat-line"><b>James</b><span>Same table tomorrow?</span></div><div class="chat-line"><b>${d.short}</b><span>${s.status === "LIVE NOW" ? "Yes - follow for the next session." : "Starting soon - save the reminder."}</span></div><div class="chat-line"><b>LCFan</b><span>Saved this creator.</span></div>${state.comments.map(c => `<div class="chat-line"><b>You</b><span>${c}</span></div>`).join("")}</div></div><div class="room-sticky"><div class="sticky-top"><span>${d.short} · ${s.game}</span><span>${s.operator}</span></div><div class="sticky-actions"><button class="btn" type="button" data-sheet="operator">CONTINUE TO PLAY ${icons.ext}</button><button class="icon-btn" type="button" data-sheet="chat" aria-label="Chat">${icons.msg}</button><button class="icon-btn" type="button" data-profile="${d.id}" aria-label="Profile">${icons.user}</button></div><span class="qualifier">External operator/provider step. No real-money wagering in LC App.</span></div>`;
     }
     function following() {
       const followedDealers = dealers.filter(d => state.followed.includes(d.id));
@@ -1377,7 +1387,7 @@
       const dealerPosts = visiblePosts().filter(p => p.dealer === d.id);
       const savedSession = state.saved.includes("schedule-sofia") || state.saved.includes("return-sofia");
       const s = activeSession(d);
-      $("creator").innerHTML = `${topbar()}<div class="section" style="margin-top:0"><article class="creator-header"><div class="creator-row"><img src="${d.avatar}" alt="${d.name} avatar"><div><span class="label">CREATOR VIEW · DEMO</span><h2>Today</h2><p>You go live at ${s.time} · ${s.table} · ${s.operator}</p></div></div><span class="demo-note">Illustrative creator tools. No earnings, payments or operator admin tools.</span></article><div class="creator-grid"><div class="creator-card"><b>${d.audience}</b><span>Illustrative followers</span></div><div class="creator-card"><b>${state.followed.includes(d.id) ? "Active" : "Preview"}</b><span>Public profile status</span></div><div class="creator-card"><b>${dealerPosts.length}</b><span>Content posts</span></div><div class="creator-card"><b>${savedSession ? "Set" : "Open"}</b><span>Session reminders</span></div></div><div class="creator-actions"><button class="btn slim" type="button" data-sheet="createPost">Create post</button><button class="btn slim secondary" type="button" data-creator="add-session">Add session</button><button class="chip" type="button" data-profile="${d.id}">Preview profile</button><button class="chip" type="button" data-share="${d.id}">Share profile</button><button class="chip" type="button" data-creator="note">Table note</button><button class="chip ${savedSession ? "active" : ""}" type="button" data-creator="schedule">${savedSession ? "Session saved" : "Save session"}</button></div></div><div class="section subtle"><div class="section-head"><h2>Schedule</h2><span>Demo state</span></div>${scheduleList(d)}</div><div class="section subtle"><div class="section-head"><h2>Creator content</h2><span>Visible to followers</span></div><div class="content-stack">${dealerPosts.slice(0, 4).map(imagePost).join("")}</div></div>`;
+      $("creator").innerHTML = `${topbar()}<div class="section" style="margin-top:0"><article class="creator-header"><div class="creator-row"><img src="${d.avatar}" alt="${d.name} avatar"><div><span class="label">CREATOR VIEW</span><h2>Today</h2><p>You go live at ${s.time} · ${s.table} · ${s.operator}</p></div></div><span class="demo-note">Illustrative creator tools. No earnings, payments or operator admin tools.</span></article><div class="creator-grid"><div class="creator-card"><b>${d.audience}</b><span>Illustrative followers</span></div><div class="creator-card"><b>${state.followed.includes(d.id) ? "Active" : "Preview"}</b><span>Public profile status</span></div><div class="creator-card"><b>${dealerPosts.length}</b><span>Content posts</span></div><div class="creator-card"><b>${savedSession ? "Set" : "Open"}</b><span>Session reminders</span></div></div><div class="creator-actions"><button class="btn slim" type="button" data-sheet="createPost">Create post</button><button class="btn slim secondary" type="button" data-creator="add-session">Add session</button><button class="chip" type="button" data-profile="${d.id}">Preview profile</button><button class="chip" type="button" data-share="${d.id}">Share profile</button><button class="chip" type="button" data-creator="note">Table note</button><button class="chip ${savedSession ? "active" : ""}" type="button" data-creator="schedule">${savedSession ? "Session saved" : "Save session"}</button></div></div><div class="section subtle"><div class="section-head"><h2>Schedule</h2><span>Today</span></div>${scheduleList(d)}</div><div class="section subtle"><div class="section-head"><h2>Creator content</h2><span>Visible to followers</span></div><div class="content-stack">${dealerPosts.slice(0, 4).map(imagePost).join("")}</div></div>`;
     }
     function industry() {
       $("industry").innerHTML = `<div class="industry-top">${simpleTopbar()}<button class="chip" type="button" data-go="discover">Explore Live</button></div><div class="section industry-intro" style="margin-top:0"><h1>Why LC App</h1><p>LC App adds the missing social and creator layer to Live Casino.</p><span class="label">CONCEPT VISION — TO BE VALIDATED</span></div><div class="section"><div class="flow-grid"><article class="flow-card"><span>Today</span><div class="flow-steps"><div class="flow-step"><i>1</i><b>Casino</b><em>→</em></div><div class="flow-step"><i>2</i><b>Lobby</b><em>→</em></div><div class="flow-step"><i>3</i><b>Game</b><em>→</em></div><div class="flow-step"><i>4</i><b>Table</b><em>→</em></div></div></article><article class="flow-card hypothesis"><span>With LC App</span><div class="flow-steps"><div class="flow-step"><i>1</i><b>Discover</b><em>→</em></div><div class="flow-step"><i>2</i><b>Dealer</b><em>→</em></div><div class="flow-step"><i>3</i><b>Content</b><em>→</em></div><div class="flow-step"><i>4</i><b>Follow</b><em>→</em></div><div class="flow-step"><i>5</i><b>Live</b><em>→</em></div><div class="flow-step"><i>6</i><b>Play</b><em>→</em></div></div></article></div></div><div class="section"><article class="core-line"><h3>Live Casino through people</h3><p>Players discover people, follow creators and return to live tables through identity and content.</p></article><div class="role-grid"><article class="role-card"><strong>For players</strong><b>Find who you want to play with, not only what you want to play.</b><div class="mini-flow"><span>Discover</span><span>Follow</span><span>Live</span><span>Return</span></div></article><article class="role-card"><strong>For dealers</strong><b>From dealer to creator.</b><p>Profile, content, schedule, audience and repeat visits.</p><div class="mini-flow"><span>Table</span><span>Creator profile</span><span>Audience</span></div></article><article class="role-card"><strong>For operators</strong><b>Turn live casino traffic into relationships and repeat visits.</b><p>Potential discovery, acquisition, engagement, retention and attribution layer.</p><div class="mini-flow"><span>Player</span><span>Follow</span><span>Live</span><span>Handoff</span><span>Return</span></div></article><article class="role-card"><strong>For providers</strong><b>Providers distribute games. LC App adds distribution through people.</b><p>Discovery for dealers, games and live tables without replacing provider infrastructure.</p><div class="mini-flow"><span>Dealer</span><span>Audience</span><span>Live Table</span><span>Provider</span></div></article></div><span class="demo-note">Illustrative concept demo. No confirmed integrations, partnerships, revenue or validated business outcomes.</span><button class="btn" type="button" data-go="discover">EXPLORE LIVE</button></div>`;
@@ -1409,7 +1419,7 @@
       return `<div class="sheet-head"><h3>Search</h3><button class="chip" type="button" data-close>Close</button></div><input class="search-input" data-search-input value="${escapeHtml(state.searchQuery || "")}" placeholder="Search dealers, games or live rooms" autocomplete="off"><div class="search-group">${recentDealers.length && !q ? '<span class="feed-label">Recent</span><div class="search-list">' + recentDealers.map(d => { const s = activeSession(d); return `<button class="activity-row" type="button" data-profile="${d.id}"><img src="${d.avatar}" alt="${d.name} avatar"><div><b>${d.name}</b><span>${s.game} · ${s.operator} · ${s.status}</span></div></button>`; }).join("") + '</div>' : ''}<span class="feed-label">Dealers</span><div class="search-list">${dealerRows || '<div class="empty-card">No dealer found.</div>'}</div><span class="feed-label">Games</span><div class="filter-row">${gameResults.map(g => `<button class="chip" type="button" data-filter="${g.toLowerCase()}" data-close>${g}</button>`).join("") || '<span class="empty-card">No game found.</span>'}</div><span class="feed-label">Live rooms</span><div class="search-list">${roomRows || '<div class="empty-card">No live room found.</div>'}</div></div>`;
     }
     function createPostSheet() {
-      return `<div class="sheet-head"><h3>Create post</h3><button class="chip" type="button" data-close>Close</button></div><div class="form-grid"><textarea class="field" id="creator-post-text" maxlength="120" placeholder="What should followers know before the session?">Back at Blackjack tonight. Save the 20:00 table.</textarea><select class="field" id="creator-post-type"><option>PRE-LIVE</option><option>TABLE NOTE</option><option>SCHEDULE</option><option>HIGHLIGHT</option></select><select class="field" id="creator-post-image"><option value="content">Sofia social crop</option><option value="live">Live table crop</option><option value="profile">Profile crop</option></select><button class="btn" type="button" data-publish-post>Publish demo post</button><span class="demo-note">Demo-only post. It updates Creator View, Sofia profile and Following.</span></div>`;
+      return `<div class="sheet-head"><h3>Create post</h3><button class="chip" type="button" data-close>Close</button></div><div class="form-grid"><textarea class="field" id="creator-post-text" maxlength="120" placeholder="What should followers know before the session?">Back at Blackjack tonight. Save the 20:00 table.</textarea><select class="field" id="creator-post-type"><option>PRE-LIVE</option><option>TABLE NOTE</option><option>SCHEDULE</option><option>HIGHLIGHT</option></select><select class="field" id="creator-post-image"><option value="content">Sofia social crop</option><option value="live">Live table crop</option><option value="profile">Profile crop</option></select><button class="btn" type="button" data-publish-post>Publish post</button><span class="demo-note">Illustrative post. It appears on the creator profile and follower surfaces.</span></div>`;
     }
     function publishCreatorPost() {
       const text = escapeHtml(document.getElementById("creator-post-text")?.value || "Sofia shared a table note for followers.");
@@ -1448,37 +1458,46 @@
       const activePost = visiblePosts().find(p => p.id === state.selectedPost) || visiblePosts()[0];
       const activePostDealer = dealer(activePost.dealer);
       const activeSessionInfo = activeSession(activePostDealer);
+      const handoffDealer = dealer(state.selectedDealer || activePost.dealer);
+      const handoffSession = activeSession(handoffDealer);
       const content = {
-        message: `<div class="sheet-head"><h3>Sofia Laurent</h3><button class="chip" type="button" data-close>Close</button></div><span class="pill soft">Demo conversation</span><div class="chat-list"><div class="chat-line"><b>You</b><span>Are you live tomorrow?</span></div><div class="chat-line"><b>Sofia</b><span>Yes — 20:00. See you at the table.</span></div></div><div class="input-row">Message Sofia...</div>`,
-        chat: `<div class="sheet-head"><h3>Chat</h3><button class="chip" type="button" data-close>Close</button></div><p>Add one controlled demo message to the room.</p><button class="btn" type="button" data-comment="See you at 20:00.">Add message</button>`,
-        content: `<div class="sheet-head"><h3>${activePostDealer.short}'s update</h3><button class="chip" type="button" data-close>Close</button></div><span class="pill soft">Illustrative content</span><p>${activePost.title}</p><p>${activeSessionInfo.game} · ${activeSessionInfo.operator} · ${activeSessionInfo.time}</p><div class="cta-row"><button class="btn slim" type="button" data-profile="${activePostDealer.id}">Profile</button>${activeSessionInfo.status === "LIVE NOW" ? '<button class="btn slim secondary" type="button" data-go="live/' + activePostDealer.id + '">Watch live</button>' : '<button class="btn slim secondary" type="button" data-tab="schedule" data-profile="' + activePostDealer.id + '">Schedule</button>'}<button class="chip ${isSaved(activePost.id) ? "active" : ""}" type="button" data-save="${activePost.id}">${saveLabel(activePost.id)}</button></div>`,
-        operator: `<div class="sheet-head"><h3>Operator / provider handoff</h3><button class="chip" type="button" data-close>Close</button></div><span class="label">CONCEPT VISION</span><p>LC App does not process gambling transactions. Gambling-account and transaction controls remain outside LC App with the licensed operator/provider.</p><span class="demo-note">No confirmed integration. This is an illustrative handoff state.</span><button class="btn" type="button" data-close>External operator step</button>`,
+        message: `<div class="sheet-head"><h3>Sofia Laurent</h3><button class="chip" type="button" data-close>Close</button></div><span class="pill soft">Private message</span><div class="chat-list"><div class="chat-line"><b>You</b><span>Are you live tomorrow?</span></div><div class="chat-line"><b>Sofia</b><span>Yes — 20:00. See you at the table.</span></div></div><div class="input-row">Message Sofia...</div>`,
+        chat: `<div class="sheet-head"><h3>Chat</h3><button class="chip" type="button" data-close>Close</button></div><p>Send a quick table message.</p><button class="btn" type="button" data-comment="See you at 20:00.">Send message</button>`,
+        content: `<div class="sheet-head"><h3>${activePostDealer.short}'s update</h3><button class="chip" type="button" data-close>Close</button></div><span class="pill soft">Illustrative content</span><p>${activePost.title}</p><p>${activeSessionInfo.game} · ${activeSessionInfo.operator} · ${activeSessionInfo.time}</p><div class="cta-row"><button class="btn slim" type="button" data-profile="${activePostDealer.id}">Dealer profile</button>${activeSessionInfo.status === "LIVE NOW" ? '<button class="btn slim secondary" type="button" data-go="live/' + activePostDealer.id + '">Watch live</button>' : '<button class="btn slim secondary" type="button" data-tab="schedule" data-profile="' + activePostDealer.id + '">View schedule</button>'}<button class="chip ${isSaved("schedule-" + activePostDealer.id) ? "active" : ""}" type="button" data-save="schedule-${activePostDealer.id}">${saveLabel("schedule-" + activePostDealer.id, "Remind me")}</button></div>`,
+        operator: `<div class="sheet-head"><h3>Continue to Casino</h3><button class="chip" type="button" data-close>Close</button></div><span class="label">${handoffSession.game}</span><p><b>${handoffDealer.name}</b><br>${handoffSession.table} · ${handoffSession.operator}</p><button class="btn" type="button" data-close>Continue with operator</button><span class="demo-note">Illustrative operator/provider handoff. LC App does not process real-money wagering, player funds, KYC/AML or settlement. No confirmed integration is implied.</span>`,
         info: `<div class="sheet-head"><h3>Product info</h3><button class="chip" type="button" data-close>Close</button></div><p>LC App is a social discovery and engagement layer for Live Casino. Real-money gaming, player funds, KYC/AML, responsible gaming controls and game settlement remain with licensed operators/providers.</p><span class="trust-line">18+ · Demo environment · No real-money wagering in LC App.</span>`,
         notify: `<div class="sheet-head"><h3>Notifications</h3><button class="chip" type="button" data-close>Close</button></div><span class="feed-label">Today</span><div><button class="notification-card" type="button" data-go="live/sofia"><i></i><div><b>Sofia is live now</b><span>${activeSession(dealer("sofia")).game} · ${activeSession(dealer("sofia")).operator}</span></div><span>${icons.live}</span></button><button class="notification-card" type="button" data-profile="alex"><i></i><div><b>Alex starts soon</b><span>${activeSession(dealer("alex")).game} · ${activeSession(dealer("alex")).time}</span></div><span>${icons.user}</span></button><button class="notification-card" type="button" data-post="${visiblePosts()[0].id}"><i></i><div><b>Sofia posted</b><span>Saved followers see the update</span></div><span>${icons.msg}</span></button></div><span class="feed-label">Earlier</span><div><button class="notification-card read" type="button" data-post="p3"><i></i><div><b>Mia posted</b><span>${activeSession(dealer("mia")).game} · ${activeSession(dealer("mia")).operator}</span></div><span>${icons.msg}</span></button></div>`,
         search: searchSheet(),
-        createPost: createPostSheet()
+        createPost: createPostSheet(),
+        authGate: `<div class="sheet-head"><h3>Sign in to personalize LC App</h3><button class="chip" type="button" data-close>Close</button></div><p>Follow creators, save reminders, chat and receive return notifications with your LC App profile.</p><button class="btn" type="button" data-auth-preview>Preview signed-in state</button><span class="demo-note">Review demo only. Real auth and social permissions remain handled by the live Supabase flow.</span>`
       }[type];
       $("sheet").innerHTML = content || "";
       $("sheet").classList.add("open");
     }
+    let lastRenderedRoute = "";
     function closeSheet() { $("sheet").classList.remove("open"); }
     function render() {
       const active = route();
-      $("app").dataset.route = active;
-      Object.keys(screens).forEach(id => $(id).classList.toggle("active", id === active));
-      screens[active]();
+      if (lastRenderedRoute && active !== lastRenderedRoute) closeSheet();
+      const protectedRoute = ["following", "player", "creator"].includes(active) && !state.identityPreview;
+      const visible = protectedRoute ? "welcome" : active;
+      $("app").dataset.route = visible;
+      Object.keys(screens).forEach(id => $(id).classList.toggle("active", id === visible));
+      screens[visible]();
+      if (protectedRoute) sheet("authGate");
       document.querySelectorAll(".nav").forEach(btn => {
         const r = btn.dataset.go;
-        btn.classList.toggle("active", r === active);
+        btn.classList.toggle("active", r === visible);
         btn.innerHTML = `${r === "discover" ? icons.discover : r === "live" ? icons.live : r === "following" ? icons.following : icons.user}<span>${r === "discover" ? "Discover" : r === "live" ? "Live" : r === "following" ? "Following" : "Profile"}</span>`;
       });
-      const side = sideCopy[active] || sideCopy.discover;
+      const side = sideCopy[visible] || sideCopy.discover;
       const kicker = document.getElementById("side-kicker");
       if (kicker) {
         kicker.textContent = side[0];
         document.getElementById("side-title").textContent = side[1];
         document.getElementById("side-copy").textContent = side[2];
       }
+      lastRenderedRoute = active;
     }
     document.addEventListener("click", (e) => {
       const g = e.target.closest("[data-go]");
@@ -1492,14 +1511,27 @@
       const creatorAction = e.target.closest("[data-creator]");
       const publishPost = e.target.closest("[data-publish-post]");
       const sh = e.target.closest("[data-sheet]");
+      const authPreview = e.target.closest("[data-auth-preview]");
       const calendar = e.target.closest("[data-calendar]");
       const c = e.target.closest("[data-comment]");
       const t = e.target.closest("[data-tab]");
       const close = e.target.closest("[data-close]");
-      if (g) go(g.dataset.go);
+      if (authPreview) {
+        state.identityPreview = true;
+        persist();
+        closeSheet();
+        render();
+        toast("Signed-in preview active");
+        return;
+      }
+      if (g) {
+        if (["following", "player", "creator"].includes(g.dataset.go) && requireIdentity()) return;
+        go(g.dataset.go);
+      }
       if (g?.dataset.go === "discover") track("explore_click");
       if (g?.dataset.go === "industry") track("how_it_works_open");
       if (f) {
+        if (requireIdentity()) return;
         track("follow_attempt");
         const id = f.dataset.follow;
         const set = new Set(state.followed);
@@ -1511,13 +1543,14 @@
         track("follow_success");
         toast(state.followed.includes(id) ? "Following · reminder ready" : "Unfollowed");
       }
-      if (l) { toggle("liked", l.dataset.like); toast(state.liked.includes(l.dataset.like) ? "Liked" : "Like removed"); }
-      if (s) { toggle("saved", s.dataset.save); toast(state.saved.includes(s.dataset.save) ? "Saved" : "Removed from saved"); }
+      if (l) { if (requireIdentity()) return; toggle("liked", l.dataset.like); toast(state.liked.includes(l.dataset.like) ? "Liked" : "Like removed"); }
+      if (s) { if (requireIdentity()) return; toggle("saved", s.dataset.save); toast(state.saved.includes(s.dataset.save) ? "Reminder saved" : "Removed from saved"); }
       if (p) { rememberDealer(p.dataset.profile); go("dealer/" + p.dataset.profile); }
       if (filter) { state.discoverFilter = filter.dataset.filter; persist(); track("discover_filter"); render(); }
       if (share) shareProfile(share.dataset.share);
       if (post) { state.selectedPost = post.dataset.post; persist(); track("content_open"); sheet("content"); }
       if (creatorAction) {
+        if (requireIdentity()) return;
         const action = creatorAction.dataset.creator;
         if (action === "note" && !state.creatorNotes.some(n => n.id === "creator-note-sofia-1")) {
           state.creatorNotes.unshift({ id: "creator-note-sofia-1", title: "Sofia shared a table note for followers before tonight's session." });
@@ -1534,10 +1567,15 @@
         }
         if (action === "add-session") addCreatorSession();
       }
-      if (publishPost) publishCreatorPost();
-      if (sh) { if (sh.dataset.sheet === "operator") track("operator_handoff_click"); if (sh.dataset.sheet === "search") track("search_open"); sheet(sh.dataset.sheet); }
-      if (calendar) saveCalendar(calendar.dataset.calendar);
-      if (c) { state.comments.push(c.dataset.comment); persist(); closeSheet(); render(); toast("Message added"); }
+      if (publishPost) { if (requireIdentity()) return; publishCreatorPost(); }
+      if (sh) {
+        if (["notify", "message", "chat", "createPost"].includes(sh.dataset.sheet) && requireIdentity()) return;
+        if (sh.dataset.sheet === "operator") track("operator_handoff_click");
+        if (sh.dataset.sheet === "search") track("search_open");
+        sheet(sh.dataset.sheet);
+      }
+      if (calendar) { if (requireIdentity()) return; saveCalendar(calendar.dataset.calendar); }
+      if (c) { if (requireIdentity()) return; state.comments.push(c.dataset.comment); persist(); closeSheet(); render(); toast("Message added"); }
       if (t) { state.tab = t.dataset.tab; persist(); render(); }
       if (close) closeSheet();
     });
