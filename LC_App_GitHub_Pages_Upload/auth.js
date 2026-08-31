@@ -929,6 +929,12 @@
       return;
     }
     if (!STATE.session) {
+      if (target === "product" && window.LCAppProduct?.mountDemoEntry) {
+        setLocked(false);
+        window.LCAppProduct.mountDemoEntry();
+        return;
+      }
+      if (window.LCAppProduct?.clear) window.LCAppProduct.clear();
       if (target === "signup") renderSignup();
       else if (target === "forgot-password") renderForgot();
       else if (target === "verification") renderVerification(REDIRECT_ERRORS ? "expired" : "waiting", REDIRECT_ERRORS?.message || "");
