@@ -163,8 +163,9 @@ Current status: v1.0 RELEASE FREEZE READY ON GITHUB PAGES FALLBACK / CUSTOM DOMA
 - Identity/personalization actions now show a lightweight auth gate in the showcase before Follow, Save/Reminder, Notifications, Chat, Player Profile, Following and Creator View.
 - Direct protected showcase routes `#/following`, `#/player` and `#/creator` now show the auth gate instead of exposing personalized areas to anonymous users.
 - Share/deep-link fallback now opens a visible public profile link sheet after clipboard fallback; native share remains supported where available.
+- Native share now shows immediate visible feedback before opening the platform share sheet.
 - Route changes now close stale sheets to prevent overlay carryover after browser hash/back navigation.
 - Service worker cache bumped to `lc-app-investor-demo-v63`.
 - Local final release QA passed: 132 route/viewport checks across 360x800, 375x812, 390x844, 393x852, 412x915, 430x932, 768x1024, 1024x768, 1280x800, 1366x768, 1440x900 and 1920x1080.
 - Local final release interaction QA passed: Welcome, Discover, Search, Dealer, Follow auth gate, signed-in preview, Content CTA, Schedule, Reminder, calendar export, Live, Chat, Continue to Casino handoff, Following, Notifications, Creator View, Create Post, public profile propagation, Share fallback and anonymous direct profile auth gate.
-- Local final release QA result: 0 failures, average DCL 73ms, load 75ms.
+- Local final release QA result: 0 failures, average DCL 67ms, load 68ms.

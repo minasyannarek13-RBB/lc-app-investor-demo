@@ -1237,8 +1237,8 @@
       track("profile_share");
       try {
         if (navigator.share) {
+          toast("Opening share sheet");
           await navigator.share({ title: `${d.name} on LC App`, text: `Follow ${d.name} on LC App.`, url });
-          toast("Share sheet opened");
           return;
         }
         await navigator.clipboard.writeText(url);
