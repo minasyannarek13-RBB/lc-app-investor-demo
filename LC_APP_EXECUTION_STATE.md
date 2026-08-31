@@ -128,3 +128,9 @@ Current status: PRODUCT MATURITY v0.9 READY ON GITHUB PAGES FALLBACK / CUSTOM DO
 - Public QA harness remains removed: `/qa-live.html` and `/qa-live.js` return HTTP 404 in production.
 - v1.0 candidate implementation commit: `b4a11cb`.
 - Service worker cache bumped to `lc-app-investor-demo-v60`.
+- Consumer-first/professional-depth guardrail accepted on 2026-08-31: LC App must stay simple for players and deep for professionals without becoming an operator dashboard or casino-management interface.
+- Dealer/session/schedule depth implemented through consumer-readable session cards and schedule rows: dealer, live/upcoming status, game, table/session, demo operator context, time, follow/play/save/share actions.
+- Cross-operator concept is shown only as illustrative demo schedule data using `Demo Casino`, `Demo Casino A` and `Demo Casino B`; no real integration or commercial relationship is implied.
+- Auth/Social/RLS remain locked and were not modified in this pass.
+- Service worker cache bumped to `lc-app-investor-demo-v61`.
+- Browser/device regression for this pass is pending because Codex usage limit blocked Chrome QA execution; static JS syntax and factuality/security scans passed.
