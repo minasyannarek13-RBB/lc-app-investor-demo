@@ -419,6 +419,11 @@
           </form>
         </div>
         <div class="account-page-section">
+          <div class="sheet-section-head"><strong>Product experience</strong><span>real Supabase</span></div>
+          <p class="lc-profile-note">Choose player, creator/dealer or industry mode without changing your security role.</p>
+          <div class="lc-auth-actions"><button class="lc-auth-btn" type="button" data-auth-route="product">Open product experience</button></div>
+        </div>
+        <div class="account-page-section">
           <div class="sheet-section-head"><strong>Security</strong><span>auth</span></div>
           <form class="lc-auth-form" data-auth-form="change-password" novalidate>
             ${field("New password", "password", "password", "", "autocomplete=\"new-password\" minlength=\"8\" required")}
@@ -771,6 +776,7 @@
     STATE.session = null;
     STATE.profile = null;
     if (window.LCAppSocial?.clear) window.LCAppSocial.clear();
+    if (window.LCAppProduct?.clear) window.LCAppProduct.clear();
     setRoute("login");
     if (message) window.setTimeout(() => showMessage(message, "error"), 0);
   }
@@ -806,6 +812,12 @@
       return;
     }
     setLocked(false);
+    if (target === "product" && window.LCAppProduct?.mount) {
+      window.LCAppProduct.mount({ client: STATE.client, profile: STATE.profile, target });
+      installAccountObserver();
+      return;
+    }
+    if (window.LCAppProduct?.clear) window.LCAppProduct.clear();
     if (window.LCAppSocial?.mount) window.LCAppSocial.mount({ client: STATE.client, profile: STATE.profile });
     markDemoContent();
     installAccountObserver();
