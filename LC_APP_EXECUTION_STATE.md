@@ -1,8 +1,8 @@
 # LC App Execution State
 
 Date: 2026-08-31
-Milestone: LC App v1.0 Candidate Engagement + Creator Loop
-Current status: v1.0 CANDIDATE READY ON GITHUB PAGES FALLBACK / CUSTOM DOMAIN BLOCKED
+Milestone: LC App v1.0 Product Depth + Full UI/UX Refinement Sprint
+Current status: v1.0 PRODUCT ACCEPTANCE READY LOCALLY / PRODUCTION QA PENDING / CUSTOM DOMAIN BLOCKED
 
 ## Locked Baseline
 - Social MVP live E2E confirmed by founder report: 21/21 PASS, 0 failures/blockers.
@@ -138,3 +138,18 @@ Current status: v1.0 CANDIDATE READY ON GITHUB PAGES FALLBACK / CUSTOM DOMAIN BL
 - Production v1.0 QA covered welcome, discover, dealer, live, following, creator and industry routes with no console errors, no failed requests, no broken images and no horizontal overflow.
 - Production v1.0 performance remained in baseline range: DCL 136ms, load 225ms, transfer 125,927 bytes.
 - Original v1.0 scope reconciled: Returning User, Following, LIVE NOW/Upcoming/Latest from Following, dealer content loop, Creator View/functions, player personalization, notification value, empty states and Quick-Win Feature Audit all verified through production interaction QA.
+- v1.0 product-depth/UI refinement sprint completed locally on 2026-08-31.
+- Demo universe expanded from 4 to 10 illustrative Live Casino creators across Blackjack, Baccarat, Roulette and Game Show categories using Demo Casino, Demo Casino A and Demo Casino B only.
+- Discover now includes richer network sections: creators for you, live now, popular tonight, starting soon and from people you follow.
+- Search now has a real input for dealers, games and live rooms with useful no-result behavior.
+- Dealer profile was simplified toward consumer-first identity, live/upcoming status, follow/play, content and schedule.
+- Live Room now supports selected creator live routes and shows community presence, reactions, follow/return and explicit operator/provider handoff boundary.
+- Following now behaves as a returning-player home with live followed creators, upcoming sessions, saved sessions and latest content.
+- Player Profile is now separate from public dealer profiles and links to Following, notifications, settings and Creator View.
+- Creator View now has Today, quick actions, Create Post, Add Session, public profile preview, share profile, schedule and content surfaces.
+- Create Post writes real local demo state and appears in Creator View, Sofia public profile content and follower-facing surfaces.
+- Creator schedule Add Session writes real local demo state and preserves the schedule/reminder loop.
+- Local depth QA passed on 120 route/viewport checks: 360x800, 375x812, 390x844, 393x852, 412x915, 430x932, 768x1024, 1024x768, 1280x800, 1366x768, 1440x900 and 1920x1080 across welcome, discover, dealer profiles, live, following, creator, player and industry routes.
+- Local sprint interaction QA passed: search input/results, follow to Following, create post, profile content propagation, creator schedule add, live handoff, Player Profile and QA harness 404.
+- Local sprint performance remained stable: DCL 58ms, load 58ms, transfer 126,494 bytes.
+- Service worker cache bumped to `lc-app-investor-demo-v62`.
