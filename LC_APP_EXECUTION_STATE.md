@@ -1,8 +1,8 @@
 # LC App Execution State
 
 Date: 2026-08-31
-Milestone: LC App Product Maturity Pass v0.9
-Current status: PRODUCT MATURITY v0.9 READY ON GITHUB PAGES FALLBACK / CUSTOM DOMAIN BLOCKED
+Milestone: LC App v1.0 Candidate Engagement + Creator Loop
+Current status: v1.0 CANDIDATE READY ON GITHUB PAGES FALLBACK / CUSTOM DOMAIN BLOCKED
 
 ## Locked Baseline
 - Social MVP live E2E confirmed by founder report: 21/21 PASS, 0 failures/blockers.
@@ -133,4 +133,8 @@ Current status: PRODUCT MATURITY v0.9 READY ON GITHUB PAGES FALLBACK / CUSTOM DO
 - Cross-operator concept is shown only as illustrative demo schedule data using `Demo Casino`, `Demo Casino A` and `Demo Casino B`; no real integration or commercial relationship is implied.
 - Auth/Social/RLS remain locked and were not modified in this pass.
 - Service worker cache bumped to `lc-app-investor-demo-v61`.
-- Browser/device regression for this pass is pending because Codex usage limit blocked Chrome QA execution; static JS syntax and factuality/security scans passed.
+- Final v1.0 browser/device regression completed on 2026-08-31 after continuation from saved state.
+- Production v1.0 QA passed on 360x800, 375x667, 375x812, 390x844, 393x852, 402x874, 414x896, 428x926, 430x932, 768x1024, 1024x768, 1440x900 and 1920x1080.
+- Production v1.0 QA covered welcome, discover, dealer, live, following, creator and industry routes with no console errors, no failed requests, no broken images and no horizontal overflow.
+- Production v1.0 performance remained in baseline range: DCL 136ms, load 225ms, transfer 125,927 bytes.
+- Original v1.0 scope reconciled: Returning User, Following, LIVE NOW/Upcoming/Latest from Following, dealer content loop, Creator View/functions, player personalization, notification value, empty states and Quick-Win Feature Audit all verified through production interaction QA.
