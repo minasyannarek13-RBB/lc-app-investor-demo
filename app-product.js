@@ -90,8 +90,9 @@
       .lc-product-actions{display:flex;gap:8px;flex-wrap:wrap}.lc-product-btn{min-height:38px;border:0;border-radius:999px;background:linear-gradient(135deg,var(--teal),#a7fff4);color:#031412;padding:0 14px;font-size:11px;font-weight:900}.lc-product-btn.secondary{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:var(--text)}.lc-product-btn:disabled{opacity:.55}.lc-product-chip{min-height:32px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:rgba(255,255,255,.06);color:var(--soft);padding:0 10px;font-size:10px;font-weight:850}.lc-product-chip.active{border-color:rgba(46,230,206,.58);background:rgba(46,230,206,.14);color:#a7fff4}
       .lc-product-row{display:flex;align-items:center;gap:10px;padding:11px 0;border-top:1px solid rgba(255,255,255,.08)}.lc-product-row:first-child{border-top:0}.lc-product-row img{width:48px;height:48px;border-radius:16px;object-fit:cover}.lc-product-row-main{min-width:0;flex:1}.lc-product-row-main b{display:block;font-size:13px}.lc-product-row-main span{display:block;color:var(--muted);font-size:10px;line-height:1.35}.lc-product-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.lc-product-stat{padding:10px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.04)}.lc-product-stat b{display:block;font-size:16px}.lc-product-stat span{color:var(--muted);font-size:9px;text-transform:uppercase;font-weight:850}
       .lc-product-tabs{position:sticky;bottom:8px;z-index:3;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:7px;border:1px solid rgba(46,230,206,.16);border-radius:20px;background:rgba(5,8,9,.92);backdrop-filter:blur(18px);margin-top:12px}.lc-product-tabs button{min-height:40px;border:0;border-radius:14px;background:transparent;color:var(--muted);font-size:10px;font-weight:900}.lc-product-tabs button.active{background:rgba(46,230,206,.14);color:#a7fff4}.lc-product-note{display:block;margin-top:9px;color:var(--muted);font-size:10px;line-height:1.35}.lc-product-empty{padding:22px;text-align:center;color:var(--muted)}
-      .lc-product-demo-banner{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:-4px 0 12px;padding:8px 10px;border:1px solid rgba(46,230,206,.2);border-radius:16px;background:rgba(46,230,206,.08)}.lc-product-demo-banner strong{font-size:10px;color:#a7fff4;text-transform:uppercase}.lc-product-demo-banner span{font-size:10px;color:var(--muted)}.lc-product-demo-banner .lc-product-actions{margin-left:auto}
-      @media(min-width:720px){#lcProductShell{padding:24px 18px 104px}.lc-product-card h1{font-size:32px}.lc-product-grid.desktop-two{grid-template-columns:1fr 1fr}}@media(max-width:390px){#lcProductShell{padding-left:10px;padding-right:10px}.lc-product-card{padding:12px}.lc-product-card h1{font-size:25px}.lc-product-grid.two{grid-template-columns:1fr}.lc-product-actions{gap:6px}.lc-product-btn{padding:0 11px}}
+      .lc-product-demo-banner{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:-2px 0 10px;padding:6px 8px;border:1px solid rgba(46,230,206,.16);border-radius:14px;background:rgba(255,255,255,.04)}.lc-product-demo-banner strong{font-size:9px;color:#a7fff4;text-transform:uppercase}.lc-product-demo-banner .lc-product-actions{margin-left:auto}
+      .lc-product-entry{min-height:100%;display:flex;flex-direction:column;gap:12px}.lc-product-entry-hero{padding:18px 4px 4px}.lc-product-entry-hero .lc-product-label{margin-bottom:12px}.lc-product-entry-hero h1{margin:0 0 8px;font-size:30px;line-height:1.02;letter-spacing:0;color:var(--text)}.lc-product-entry-hero p{margin:0;color:var(--muted);font-size:13px;font-weight:800;text-transform:uppercase}.lc-product-entry-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2px}.lc-product-entry-title strong{font-size:12px;text-transform:uppercase;color:var(--soft)}.lc-product-personas{display:grid;gap:10px}.lc-product-persona{position:relative;min-height:92px;border:1px solid rgba(255,255,255,.1);border-radius:20px;background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.035));color:var(--text);padding:14px;text-align:left;overflow:hidden}.lc-product-persona:after{content:"";position:absolute;right:-24px;top:-26px;width:80px;height:80px;border-radius:999px;background:rgba(46,230,206,.1);filter:blur(8px)}.lc-product-persona b{display:block;font-size:15px;margin-bottom:7px}.lc-product-persona span{display:block;max-width:260px;color:var(--muted);font-size:11px;line-height:1.35}.lc-product-entry-auth{display:flex;gap:8px;margin-top:2px}.lc-product-entry-auth .lc-product-btn{flex:1}
+      @media(min-width:720px){#lcProductShell{padding:24px 18px 104px}.lc-product-card h1{font-size:32px}.lc-product-grid.desktop-two{grid-template-columns:1fr 1fr}.lc-product-entry{max-width:760px;margin:0 auto}.lc-product-personas{grid-template-columns:1fr 1fr}.lc-product-entry-hero h1{font-size:42px}}@media(max-width:390px){#lcProductShell{padding-left:10px;padding-right:10px}.lc-product-card{padding:12px}.lc-product-card h1{font-size:25px}.lc-product-grid.two{grid-template-columns:1fr}.lc-product-actions{gap:6px}.lc-product-btn{padding:0 11px}.lc-product-entry-hero h1{font-size:27px}.lc-product-persona{min-height:88px;padding:12px}.lc-product-entry-auth{position:sticky;bottom:8px;z-index:3;padding:7px;border:1px solid rgba(46,230,206,.16);border-radius:20px;background:rgba(5,8,9,.92);backdrop-filter:blur(18px)}}
     `;
     document.head.appendChild(style);
   }
@@ -225,7 +226,7 @@
         <div class="lc-product-brand"><span class="lc-product-logo">LC</span><div><strong>${safe(title)}</strong><span>${safe(subtitle)}</span></div></div>
         <button class="lc-product-chip" type="button" data-lc-product="account">${safe(state.current?.persona || "persona")}</button>
       </div>
-      ${state.demo ? `<div class="lc-product-demo-banner"><div><strong>DEMO MODE · ${safe(state.demoPersona || "preview")}</strong><span>Illustrative demo data. No account, partner approval or integration implied.</span></div><div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-demo-exit>Exit demo</button><button class="lc-product-chip active" type="button" data-auth-route="signup">Create your account</button></div></div>` : ""}
+      ${state.demo ? `<div class="lc-product-demo-banner"><strong>DEMO MODE · ${safe(state.demoPersona || "preview")}</strong><div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-demo-exit>Exit demo</button><button class="lc-product-chip active" type="button" data-auth-route="signup">Create your account</button></div></div>` : ""}
     `;
   }
 
@@ -293,15 +294,20 @@
 
   function renderDemoEntry() {
     shell().innerHTML = `${top("LC App", "Live Casino. Social Experience.")}
-      <div class="lc-product-stack">
-        <section class="lc-product-card lc-product-hero"><span class="lc-product-label">Public demo</span><h1>Explore LC App as</h1><p>Enter a complete multi-sided product journey in seconds, or create a real account for persisted Supabase flows.</p></section>
-        <section class="lc-product-grid">
-          <button class="lc-product-choice" type="button" data-lc-demo-persona="player"><b>Player</b><span>Discover dealers, follow creators and join live-table context.</span></button>
-          <button class="lc-product-choice" type="button" data-lc-demo-persona="creator"><b>Creator / Dealer</b><span>See profile, content, schedule and audience loop.</span></button>
-          <button class="lc-product-choice" type="button" data-lc-demo-persona="operator"><b>Operator</b><span>Explore re-engagement and handoff concept without claimed integration.</span></button>
-          <button class="lc-product-choice" type="button" data-lc-demo-persona="provider"><b>Provider</b><span>Explore games, creators and live distribution without claimed integration.</span></button>
+      <div class="lc-product-entry">
+        <section class="lc-product-entry-hero">
+          <span class="lc-product-label">LC APP</span>
+          <h1>LIVE CASINO. SOCIAL EXPERIENCE.</h1>
+          <p>Play. Chat. Connect.</p>
         </section>
-        <section class="lc-product-card"><span class="lc-product-label">Real account</span><h2>Use real persisted flows</h2><p>Signup, login, persona onboarding and Player-Creator interactions remain backed by live Supabase.</p><div class="lc-product-actions"><button class="lc-product-btn" type="button" data-auth-route="signup">CREATE ACCOUNT</button><button class="lc-product-btn secondary" type="button" data-auth-route="login">SIGN IN</button></div></section>
+        <div class="lc-product-entry-title"><strong>Explore LC App</strong></div>
+        <section class="lc-product-personas">
+          <button class="lc-product-persona" type="button" data-lc-demo-persona="player"><b>PLAYER</b><span>Discover creators, follow live sessions and find your next table.</span></button>
+          <button class="lc-product-persona" type="button" data-lc-demo-persona="creator"><b>CREATOR / DEALER</b><span>Build your profile, audience, content and live schedule.</span></button>
+          <button class="lc-product-persona" type="button" data-lc-demo-persona="operator"><b>OPERATOR</b><span>Explore creator-led discovery, engagement and operator handoff.</span></button>
+          <button class="lc-product-persona" type="button" data-lc-demo-persona="provider"><b>PROVIDER</b><span>See how games gain distribution through people.</span></button>
+        </section>
+        <div class="lc-product-entry-auth"><button class="lc-product-btn secondary" type="button" data-auth-route="login">SIGN IN</button><button class="lc-product-btn" type="button" data-auth-route="signup">CREATE ACCOUNT</button></div>
       </div>`;
   }
 
