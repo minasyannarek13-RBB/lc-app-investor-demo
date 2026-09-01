@@ -3,6 +3,7 @@
 
   const LIVE_SUPABASE_URL = "https://aspbwgsfkebduvviyeuo.supabase.co";
   const AUTH_EMAIL_KEY = "lc-app:pending-email";
+  const AUTH_RETURN_KEY = "lc-app:auth-return-to";
   const VERIFY_COOLDOWN_KEY = "lc-app:verify-cooldown-until";
   const USERNAME_DEBOUNCE_MS = 380;
   const MAX_AVATAR_BYTES = 5 * 1024 * 1024;
@@ -103,6 +104,39 @@
 
   function isProductRoute(target) {
     return target === "product" || target.startsWith("product/");
+  }
+
+  function authReturnRoute() {
+    try {
+      const target = sessionStorage.getItem(AUTH_RETURN_KEY) || "";
+      return isProductRoute(target) ? target : "";
+    } catch {
+      return "";
+    }
+  }
+
+  function rememberProductReturn() {
+    const target = route();
+    if (!isProductRoute(target)) return;
+    try {
+      sessionStorage.setItem(AUTH_RETURN_KEY, target);
+    } catch {}
+  }
+
+  function clearAuthReturn() {
+    try {
+      sessionStorage.removeItem(AUTH_RETURN_KEY);
+    } catch {}
+  }
+
+  function consumeAuthReturn(fallback = "feed") {
+    const target = authReturnRoute();
+    clearAuthReturn();
+    return target || fallback;
+  }
+
+  function authRedirectHash(fallback = "feed") {
+    return `#/${authReturnRoute() || fallback}`;
   }
 
   function config() {
@@ -467,6 +501,7 @@
 
   function authErrorCode(error) {
     const text = `${error?.code || ""} ${error?.message || ""} ${error?.status || ""}`.toLowerCase();
+    if (/failed to fetch|network|offline|load failed|fetcherror/.test(text)) return "NETWORK_ERROR";
     if (/email not confirmed|not confirmed/.test(text)) return "AUTH_EMAIL_NOT_VERIFIED";
     if (/invalid login|invalid credentials|invalid email or password/.test(text)) return "AUTH_INVALID_CREDENTIALS";
     if (/weak password|password/.test(text) && /weak|short|least|characters/.test(text)) return "AUTH_WEAK_PASSWORD";
@@ -487,6 +522,7 @@
       AUTH_LINK_EXPIRED: "This verification link has expired. Request a new one.",
       USERNAME_TAKEN: "This username is already taken. Try another.",
       VALIDATION_ERROR: "Please check the highlighted fields.",
+      NETWORK_ERROR: "Connection problem. Check your internet and try again.",
       RATE_LIMITED: "Too many attempts. Please wait and try again.",
       UNKNOWN_ERROR: "Something went wrong. Please try again."
     };
@@ -648,7 +684,7 @@
         if (passwordError) throw new Error(passwordError);
         setPendingEmail(email);
         const redirectTo = new URL(window.location.href);
-        redirectTo.hash = "#/feed";
+        redirectTo.hash = authRedirectHash("feed");
         const { error } = await STATE.client.auth.signUp({
           email,
           password: String(formData.get("password") || ""),
@@ -676,7 +712,7 @@
           throw new Error(code);
         }
         await refreshSession();
-        setRoute("feed");
+        setRoute(isProfileComplete(STATE.profile) ? consumeAuthReturn("feed") : authReturnRoute() || "feed");
         return;
       }
       if (type === "forgot") {
@@ -714,7 +750,7 @@
       }
       if (type === "onboarding-optional") {
         await saveOptionalOnboarding(form);
-        setRoute("feed");
+        setRoute(consumeAuthReturn("feed"));
         return;
       }
       if (type === "profile") {
@@ -763,7 +799,7 @@
     STATE.busy = true;
     try {
       const redirectTo = new URL(window.location.href);
-      redirectTo.hash = "#/feed";
+      redirectTo.hash = authRedirectHash("feed");
       const { error } = await STATE.client.auth.resend({ type: "signup", email, options: { emailRedirectTo: redirectTo.toString() } });
       if (error) throw error;
       renderVerification("waiting", `Check your inbox. We've sent a verification link to ${email}.`);
@@ -776,6 +812,8 @@
   }
 
   async function logout(message = "") {
+    if (message) rememberProductReturn();
+    else clearAuthReturn();
     if (STATE.client) await STATE.client.auth.signOut();
     STATE.session = null;
     STATE.profile = null;
@@ -813,6 +851,10 @@
     }
     if (!STATE.profile.onboarding_completed || target === "onboarding-optional") {
       renderOnboardingStep2();
+      return;
+    }
+    if (["login", "signup"].includes(target) && authReturnRoute()) {
+      setRoute(consumeAuthReturn("feed"));
       return;
     }
     setLocked(false);
@@ -996,7 +1038,10 @@
     if (routeButton) {
       const routeTarget = routeButton.dataset.authRoute;
       if (routeTarget === "logout") await logout();
-      else setRoute(routeTarget);
+      else {
+        if (routeTarget === "login" || routeTarget === "signup") rememberProductReturn();
+        setRoute(routeTarget);
+      }
       return;
     }
     if (target?.closest("[data-auth-logout]")) {
@@ -1009,7 +1054,7 @@
     }
     if (target?.closest("[data-auth-skip-optional]")) {
       await updateProfile({ onboarding_completed: true });
-      setRoute("feed");
+      setRoute(consumeAuthReturn("feed"));
       return;
     }
   }, true);
