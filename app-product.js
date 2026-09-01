@@ -74,6 +74,40 @@
     if (/network|fetch|failed/.test(raw)) return "Connection issue. Try again.";
     return "Something went wrong. Please try again.";
   };
+  const validDemoPersonas = new Set(["player", "creator", "operator", "provider"]);
+  const productParts = (target = "") => {
+    const clean = (target || window.location.hash.replace(/^#\/?/, "")).split("?")[0].split("&")[0];
+    const parts = clean.split("/").filter(Boolean);
+    return parts[0] === "product" ? parts.slice(1) : [];
+  };
+  const setProductHash = (parts = []) => {
+    const next = `#/product${parts.length ? "/" + parts.map(encodeURIComponent).join("/") : ""}`;
+    if (window.location.hash === next) return false;
+    window.location.hash = next;
+    return true;
+  };
+  const resetDemoStore = () => {
+    demoStore.follows.clear();
+    demoStore.reminders.clear();
+    demoStore.likes.clear();
+    demoStore.comments = [];
+    demoStore.posts = [];
+    demoStore.sessions = [];
+    demoStore.requests.clear();
+  };
+  const sessionStatusLabel = (session) => {
+    if (session?.status === "live") return "LIVE NOW";
+    if (session?.status === "scheduled") return "UPCOMING";
+    return "ENDED";
+  };
+  const sessionLine = (session) => `${sessionStatusLabel(session)} · ${new Date(session.starts_at).toLocaleString()}`;
+  const findSessionEntry = (sessionId) => {
+    for (const entry of state.creators) {
+      const session = entry.sessions.find((row) => row.id === sessionId);
+      if (session) return { entry, session };
+    }
+    return null;
+  };
 
   function injectStyles() {
     if (q("#lcProductStyles")) return;
@@ -227,7 +261,7 @@
         <div class="lc-product-brand"><span class="lc-product-logo">LC</span><div><strong>${safe(title)}</strong><span>${safe(subtitle)}</span></div></div>
         <button class="lc-product-chip" type="button" data-lc-product="account">${safe(state.current?.persona || "persona")}</button>
       </div>
-      ${state.demo ? `<div class="lc-product-demo-banner"><strong>DEMO MODE · ${safe(state.demoPersona || "preview")}</strong><div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-demo-exit>Exit demo</button><button class="lc-product-chip active" type="button" data-auth-route="signup">Create your account</button></div></div>` : ""}
+      ${state.demo ? `<div class="lc-product-demo-banner"><strong>DEMO MODE · ${safe(state.demoPersona || "preview")}</strong><div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-demo-reset>Reset demo</button><button class="lc-product-chip" type="button" data-lc-demo-exit>Exit demo</button><button class="lc-product-chip active" type="button" data-auth-route="signup">Create your account</button></div></div>` : ""}
     `;
   }
 
@@ -278,7 +312,8 @@
     state.posts = [...demoStore.posts, ...demoPosts].filter((post) => post.author_id === state.profile?.id);
   }
 
-  function enterDemo(persona) {
+  function setupDemo(persona, shouldReset = false) {
+    if (shouldReset) resetDemoStore();
     const industrySubtype = persona === "provider" ? "provider" : persona === "operator" ? "operator" : null;
     const currentPersona = industrySubtype ? "industry" : persona;
     state.client = null;
@@ -290,6 +325,11 @@
     state.creator = currentPersona === "creator" ? { ...demoCreators[0], onboarding_completed: true } : null;
     state.industry = currentPersona === "industry" ? { user_id: state.profile.id, subtype: industrySubtype, company_name: "Demo Company", job_title: "Industry reviewer", work_email: "demo@example.com", interests, access_status: "not_requested", onboarding_completed: true } : null;
     refreshDemoData();
+  }
+
+  function enterDemo(persona) {
+    setupDemo(persona, true);
+    if (setProductHash(["demo", persona])) return;
     routeHome();
   }
 
@@ -369,7 +409,7 @@
     return `<section class="lc-product-card" data-creator-id="${safe(p.id)}">
       <div class="lc-product-row"><img src="${safe(avatar(p))}" alt=""><div class="lc-product-row-main"><b>${safe(profileName(p))}</b><span>${safe(c.headline || "Live Casino creator")} · ${safe((c.games || []).join(", ") || "Live Casino")}</span></div><button class="lc-product-chip ${following ? "active" : ""}" type="button" data-lc-follow="${safe(p.id)}">${following ? "Following" : "Follow"}</button></div>
       ${post ? `<p>${safe(post.body)}</p>` : `<p class="lc-product-muted">No public posts yet.</p>`}
-      ${next ? `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(next.game)} · ${safe(next.title || "Live session")}</b><span>${safe(next.operator_name || "Operator to be confirmed")} · ${new Date(next.starts_at).toLocaleString()}</span></div><button class="lc-product-chip ${state.reminders.has(next.id) ? "active" : ""}" type="button" data-lc-reminder="${safe(next.id)}">${state.reminders.has(next.id) ? "Reminder set" : "Remind me"}</button></div>` : `<div class="lc-product-empty">No public sessions yet.</div>`}
+      ${next ? `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(next.game)} · ${safe(next.title || "Live session")}</b><span>${safe(next.operator_name || "Operator to be confirmed")} · ${safe(sessionLine(next))}</span></div><button class="lc-product-chip ${state.reminders.has(next.id) ? "active" : ""}" type="button" data-lc-reminder="${safe(next.id)}">${state.reminders.has(next.id) ? "Reminder set" : "Remind me"}</button></div>` : `<div class="lc-product-empty">No public sessions yet. Check Discover again or follow another creator.</div>`}
       <div class="lc-product-actions"><button class="lc-product-btn secondary" type="button" data-lc-open-creator="${safe(p.id)}">Open</button>${next ? `<button class="lc-product-btn" type="button" data-lc-live="${safe(next.id)}">Live / Handoff</button>` : ""}</div>
       <span class="lc-product-note">${safe(c.affiliation_name || "Affiliation")} · ${safe(c.affiliation_verification_status || "unverified")}. No operator/provider integration implied.</span>
     </section>`;
@@ -387,7 +427,7 @@
       <div class="lc-product-stack">
         <section class="lc-product-card lc-product-hero"><span class="lc-product-label">Player</span><h1>Discover creators. Join live tables.</h1><p>Follow people, save sessions and continue to the licensed operator when you are ready to play.</p></section>
         <section class="lc-product-card"><div class="lc-product-stats"><div class="lc-product-stat"><b>${state.follows.size}</b><span>Following</span></div><div class="lc-product-stat"><b>${state.reminders.size}</b><span>Reminders</span></div><div class="lc-product-stat"><b>${creators.length}</b><span>Creators</span></div></div></section>
-        ${creators.length ? creators.map(creatorCard).join("") : `<section class="lc-product-card lc-product-empty">No real creators yet. A creator account can publish the first profile, post and session.</section>`}
+        ${creators.length ? creators.map(creatorCard).join("") : `<section class="lc-product-card lc-product-empty">No creators found. Clear filters, open Discover later, or create the first Creator profile.</section>`}
       </div>${tabs("home")}`;
   }
 
@@ -398,8 +438,8 @@
         <section class="lc-product-card lc-product-hero"><span class="lc-product-label">Creator / Dealer</span><h1>${safe(profileName(state.profile))}</h1><p>${safe(c.headline || "Live Casino creator")} · Verification ${safe(c.verification_status)} · Affiliation ${safe(c.affiliation_verification_status)}</p><span class="lc-product-note">Verification and affiliation approval are protected. Creator cannot self-verify.</span></section>
         <section class="lc-product-card"><h2>Create post</h2><form class="lc-product-form" data-lc-form="post"><textarea class="lc-product-textarea" name="body" maxlength="2000" placeholder="Share a table note or session update"></textarea><button class="lc-product-btn" type="submit">PUBLISH POST</button></form></section>
         <section class="lc-product-card"><h2>Add session</h2><form class="lc-product-form" data-lc-form="session"><input class="lc-product-input" name="title" maxlength="120" placeholder="Session title" value="Live table session"><select class="lc-product-select" name="game">${games.map((g) => `<option>${safe(g)}</option>`).join("")}</select><input class="lc-product-input" name="operator_name" maxlength="120" placeholder="Operator or studio (user claimed / optional)"><input class="lc-product-input" name="starts_at" type="datetime-local" required><button class="lc-product-btn" type="submit">ADD SESSION</button></form><span class="lc-product-note">Operator/provider context is user claimed or demo unless verified by partner integration.</span></section>
-        <section class="lc-product-card"><h2>Public sessions</h2>${state.sessions.length ? state.sessions.map((s) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(s.game)} · ${safe(s.title || "Live session")}</b><span>${safe(s.operator_name || "Operator to be confirmed")} · ${new Date(s.starts_at).toLocaleString()}</span></div></div>`).join("") : `<div class="lc-product-empty">No sessions yet. Add your first session.</div>`}</section>
-        <section class="lc-product-card"><h2>Posts</h2>${state.posts.length ? state.posts.map((p) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${new Date(p.created_at).toLocaleString()}</b><span>${safe(p.body)}</span></div></div>`).join("") : `<div class="lc-product-empty">No posts yet.</div>`}</section>
+        <section class="lc-product-card"><h2>Public sessions</h2>${state.sessions.length ? state.sessions.map((s) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(s.game)} · ${safe(s.title || "Live session")}</b><span>${safe(s.operator_name || "Operator to be confirmed")} · ${safe(sessionLine(s))}</span></div></div>`).join("") : `<div class="lc-product-empty">No sessions yet. Add your next Live table so followers know when to return.</div>`}</section>
+        <section class="lc-product-card"><h2>Posts</h2>${state.posts.length ? state.posts.map((p) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${new Date(p.created_at).toLocaleString()}</b><span>${safe(p.body)}</span></div></div>`).join("") : `<div class="lc-product-empty">No posts yet. Share a short table update for followers.</div>`}</section>
       </div>${tabs("creator")}`;
     const dt = q('[name="starts_at"]');
     if (dt && !dt.value) dt.value = new Date(Date.now() + 86400000).toISOString().slice(0, 16);
@@ -419,17 +459,23 @@
   function renderIndustryHome() {
     const subtype = state.industry?.subtype || state.current?.industry_subtype || "operator";
     const request = state.accessRequests.find((row) => row.industry_subtype === subtype);
+    const provider = subtype === "provider";
     shell().innerHTML = `${top(`${subtype} workspace`, "Concept evaluation")}
       <div class="lc-product-stack">
-        <section class="lc-product-card lc-product-hero"><span class="lc-product-label">Demo / unverified</span><h1>${subtype === "provider" ? "Providers distribute games. LC App adds distribution through people." : "Turn live traffic into relationships and return visits."}</h1><p>Discovery -> Creator -> Follow -> Content / Schedule -> Live -> Operator handoff -> Return.</p></section>
-        <section class="lc-product-card"><h2>Integration concept</h2><p>Environment: Demo. Adapter: Not configured for a real partner. Handoff passes context only, not wallet, KYC, AML, settlement or wagering data.</p></section>
+        <section class="lc-product-card lc-product-hero"><span class="lc-product-label">Demo / unverified</span><h1>${provider ? "Games gain discovery through creators and live tables." : "Turn live traffic into relationships and return visits."}</h1><p>${provider ? "Game -> Creator -> Audience -> Live distribution -> Operator handoff." : "Creator Network -> Player Journey -> Handoff -> Return."}</p></section>
+        ${provider ? `
+        <section class="lc-product-card"><h2>Game distribution</h2><p>LC App shows how games can be discovered through people, not only lobby categories.</p>${state.creators.map((item) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe((item.creator.games || [])[0] || "Live Casino game")}</b><span>${safe(profileName(item.profile))} · ${safe(item.sessions[0]?.operator_name || "Operator to be confirmed")} · ${safe(sessionStatusLabel(item.sessions[0]))}</span></div></div>`).join("")}</section>
+        <section class="lc-product-card"><h2>Integration concept</h2><p>Demo capability: pass game, creator, session and table context into existing provider/operator infrastructure.</p><span class="lc-product-note">No production provider integration is configured.</span></section>` : `
+        <section class="lc-product-card"><h2>Creator network</h2><p>Players discover recognizable live personalities before choosing a table.</p>${state.creators.map((item) => `<div class="lc-product-row"><img src="${safe(avatar(item.profile))}" alt=""><div class="lc-product-row-main"><b>${safe(profileName(item.profile))}</b><span>${safe((item.creator.games || []).join(", "))} · ${safe(sessionStatusLabel(item.sessions[0]))}</span></div></div>`).join("")}</section>
+        <section class="lc-product-card"><h2>Player journey</h2><p>Discover -> Creator -> Content -> Follow -> Live -> Continue with operator -> Return.</p></section>
+        <section class="lc-product-card"><h2>Integration concept</h2><p>Environment: Demo. Handoff passes context only, not wallet, KYC, AML, settlement or wagering data.</p><span class="lc-product-note">No confirmed operator integration.</span></section>`}
         <section class="lc-product-card"><h2>Partnership access</h2><p>Status: ${safe(request?.status || state.industry?.access_status || "not_requested")}</p><button class="lc-product-btn" type="button" data-lc-request-access="${safe(subtype)}">REQUEST PARTNERSHIP ACCESS</button><span class="lc-product-note">Request submission is persisted. Client cannot approve itself.</span></section>
       </div>${tabs("home")}`;
   }
 
   function renderCreatorDetail(id) {
     const item = state.creators.find((entry) => entry.profile.id === id);
-    if (!item) return renderPlayerHome();
+    if (!item) return renderMissing("Creator unavailable", "This creator is not available in the current context.", "Back to Discover");
     state.selectedCreator = id;
     const post = item.posts[0];
     const next = item.sessions[0];
@@ -437,20 +483,44 @@
       <div class="lc-product-stack">
         ${creatorCard(item)}
         <section class="lc-product-card"><h2>Content</h2>${item.posts.length ? item.posts.map((p) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${new Date(p.created_at).toLocaleString()}</b><span>${safe(p.body)}</span></div><button class="lc-product-chip" type="button" data-lc-like="${safe(p.id)}">React</button></div>`).join("") : `<div class="lc-product-empty">No posts yet.</div>`}${post ? `<form class="lc-product-form" data-lc-form="comment" data-post-id="${safe(post.id)}"><input class="lc-product-input" name="body" maxlength="1000" placeholder="Comment on latest post"><button class="lc-product-btn secondary" type="submit">COMMENT</button></form>` : ""}</section>
-        <section class="lc-product-card"><h2>Sessions</h2>${item.sessions.length ? item.sessions.map((s) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(s.game)} · ${safe(s.title || "Live session")}</b><span>${safe(s.operator_name || "Operator to be confirmed")} · ${new Date(s.starts_at).toLocaleString()}</span></div><button class="lc-product-chip ${state.reminders.has(s.id) ? "active" : ""}" type="button" data-lc-reminder="${safe(s.id)}">${state.reminders.has(s.id) ? "Reminder set" : "Remind me"}</button></div>`).join("") : `<div class="lc-product-empty">No sessions yet.</div>`}</section>
+        <section class="lc-product-card"><h2>Sessions</h2>${item.sessions.length ? item.sessions.map((s) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(s.game)} · ${safe(s.title || "Live session")}</b><span>${safe(s.operator_name || "Operator to be confirmed")} · ${safe(sessionLine(s))}</span></div><button class="lc-product-chip ${state.reminders.has(s.id) ? "active" : ""}" type="button" data-lc-reminder="${safe(s.id)}">${state.reminders.has(s.id) ? "Reminder set" : "Remind me"}</button></div>`).join("") : `<div class="lc-product-empty">No upcoming sessions. Follow the creator or return to Discover.</div>`}</section>
         ${next ? `<section class="lc-product-card"><h2>Live / handoff</h2><p>LC App keeps the social context. Real-money play remains with the licensed operator/provider.</p><button class="lc-product-btn" type="button" data-lc-live="${safe(next.id)}">CONTINUE TO LIVE CONTEXT</button></section>` : ""}
       </div>${tabs("discover")}`;
   }
 
   function renderLive(sessionId) {
-    const item = state.creators.find((entry) => entry.sessions.some((session) => session.id === sessionId));
-    const session = item?.sessions.find((row) => row.id === sessionId);
-    if (!item || !session) return renderPlayerHome();
+    const found = findSessionEntry(sessionId);
+    const item = found?.entry;
+    const session = found?.session;
+    if (!item || !session) return renderMissing("Session unavailable", "This live context is no longer available.", "Back to Discover");
+    state.selectedCreator = item.profile.id;
+    state.selectedSession = session.id;
     shell().innerHTML = `${top("Live context", "Social layer before handoff")}
       <div class="lc-product-stack">
-        <section class="lc-product-card lc-product-hero"><span class="lc-product-label">${safe(session.status)}</span><h1>${safe(session.game)} with ${safe(profileName(item.profile))}</h1><p>${safe(session.title || "Live session")} · ${safe(session.operator_name || "Operator to be confirmed")}</p></section>
+        <section class="lc-product-card lc-product-hero"><span class="lc-product-label">${safe(sessionStatusLabel(session))}</span><h1>${safe(session.game)} with ${safe(profileName(item.profile))}</h1><p>${safe(session.title || "Live session")} · ${safe(session.operator_name || "Operator to be confirmed")}</p></section>
         <section class="lc-product-card"><h2>What LC App owns</h2><p>Creator identity, follow relationship, session reminder and return context.</p></section>
-        <section class="lc-product-card"><h2>External operator/provider step</h2><p>Handoff can pass source, creator, game, session and table context. It does not pass password, private profile, chat history, wallet, KYC, AML or settlement data.</p><button class="lc-product-btn" type="button" data-lc-product="handoff">CONTINUE TO OPERATOR</button><span class="lc-product-note">Demo handoff only. No confirmed operator/provider integration.</span></section>
+        <section class="lc-product-card"><h2>External operator/provider step</h2><p>Continue with the operator providing this game. LC App passes context only.</p><button class="lc-product-btn" type="button" data-lc-product="handoff">CONTINUE WITH OPERATOR</button><span class="lc-product-note">Demo handoff only. No confirmed operator/provider integration.</span></section>
+      </div>${tabs("discover")}`;
+  }
+
+  function renderHandoff(sessionId = state.selectedSession) {
+    const found = findSessionEntry(sessionId);
+    if (!found) return renderMissing("Handoff unavailable", "The selected table context is not available.", "Back to Discover");
+    const { entry, session } = found;
+    state.selectedCreator = entry.profile.id;
+    state.selectedSession = session.id;
+    shell().innerHTML = `${top("Operator handoff", "LC App -> operator -> LC App")}
+      <div class="lc-product-stack">
+        <section class="lc-product-card lc-product-hero"><span class="lc-product-label">Demo handoff</span><h1>Continue with the operator providing this game.</h1><p>${safe(session.game)} with ${safe(profileName(entry.profile))} · ${safe(session.operator_name || "Operator to be confirmed")}</p></section>
+        <section class="lc-product-card"><h2>Context passed</h2><p>Creator, game, session and source context. No deposits, wagering, KYC, AML, wallet or settlement data.</p></section>
+        <section class="lc-product-card"><h2>Return loop</h2><p>After the operator experience, LC App brings the player back to the creator, content and next session.</p><div class="lc-product-actions"><button class="lc-product-btn" type="button" data-lc-return-live="${safe(session.id)}">RETURN TO LC APP</button><button class="lc-product-btn secondary" type="button" data-lc-open-creator="${safe(entry.profile.id)}">Creator profile</button></div></section>
+      </div>${tabs("discover")}`;
+  }
+
+  function renderMissing(title, body, action) {
+    shell().innerHTML = `${top(title, "Product state")}
+      <div class="lc-product-stack">
+        <section class="lc-product-card lc-product-empty"><h2>${safe(title)}</h2><p>${safe(body)}</p><div class="lc-product-actions"><button class="lc-product-btn" type="button" data-lc-product="discover">${safe(action || "Back to Discover")}</button></div></section>
       </div>${tabs("discover")}`;
   }
 
@@ -711,6 +781,8 @@
     const access = target.closest("[data-lc-request-access]");
     const demoPersona = target.closest("[data-lc-demo-persona]");
     const demoExit = target.closest("[data-lc-demo-exit]");
+    const demoReset = target.closest("[data-lc-demo-reset]");
+    const returnLive = target.closest("[data-lc-return-live]");
     try {
       if (demoPersona) {
         event.preventDefault();
@@ -719,7 +791,18 @@
       if (demoExit) {
         event.preventDefault();
         clear();
+        resetDemoStore();
+        if (window.location.hash !== "#/product") window.location.hash = "#/product";
         return renderDemoEntry();
+      }
+      if (demoReset && state.demo) {
+        event.preventDefault();
+        const personaValue = state.demoPersona || "player";
+        setupDemo(personaValue, true);
+        if (setProductHash(["demo", personaValue])) return;
+        routeHome();
+        toast("Demo reset");
+        return;
       }
       if (persona) {
         event.preventDefault();
@@ -747,11 +830,27 @@
           return renderPlayerHome();
         }
         if (value === "creator") return state.creator?.onboarding_completed ? renderCreatorHome() : renderCreatorOnboarding();
-        if (value === "handoff") return toast("Demo handoff only. External operator integration is not configured.");
+        if (value === "handoff") {
+          if (state.demo && state.selectedSession && setProductHash(["demo", state.demoPersona, "handoff", state.selectedSession])) return;
+          return renderHandoff();
+        }
         return routeHome();
       }
-      if (openCreator) return renderCreatorDetail(openCreator.dataset.lcOpenCreator);
-      if (live) return renderLive(live.dataset.lcLive);
+      if (openCreator) {
+        const id = openCreator.dataset.lcOpenCreator;
+        if (state.demo && setProductHash(["demo", state.demoPersona, "creator", id])) return;
+        return renderCreatorDetail(id);
+      }
+      if (live) {
+        const id = live.dataset.lcLive;
+        if (state.demo && setProductHash(["demo", state.demoPersona, "live", id])) return;
+        return renderLive(id);
+      }
+      if (returnLive) {
+        const id = returnLive.dataset.lcReturnLive;
+        if (state.demo && setProductHash(["demo", state.demoPersona, "live", id])) return;
+        return renderLive(id);
+      }
       if (follow) {
         await toggleFollow(follow.dataset.lcFollow);
         await loadCreators();
@@ -765,6 +864,10 @@
       if (like) return likePost(like.dataset.lcLike);
       if (access) {
         await requestAccess(access.dataset.lcRequestAccess);
+        if (state.demo) {
+          refreshDemoData();
+          return renderIndustryHome();
+        }
         await loadState();
         return renderIndustryHome();
       }
@@ -784,9 +887,9 @@
     renderLoading();
     try {
       await loadState();
-      routeHome();
+      renderProductTarget(productParts(target));
     } catch (error) {
-      shell().innerHTML = `${top()}<section class="lc-product-card lc-product-empty">Product experience unavailable. ${safe(err(error))}</section>`;
+      shell().innerHTML = `${top()}<section class="lc-product-card lc-product-empty"><h2>Product experience unavailable</h2><p>${safe(err(error))}</p><div class="lc-product-actions"><button class="lc-product-btn" type="button" data-lc-product="home">Retry</button></div></section>`;
     }
   }
 
@@ -810,9 +913,24 @@
   }
 
   function mountDemoEntry() {
-    clear();
     state.ready = true;
+    const parts = productParts();
+    if (parts[0] === "demo" && validDemoPersonas.has(parts[1])) {
+      const preserveState = state.demo && state.demoPersona === parts[1];
+      if (!preserveState) clear();
+      setupDemo(parts[1], !preserveState);
+      return renderProductTarget(parts.slice(2));
+    }
+    clear();
     renderDemoEntry();
+  }
+
+  function renderProductTarget(parts = []) {
+    if (parts[0] === "creator" && parts[1]) return renderCreatorDetail(decodeURIComponent(parts[1]));
+    if (parts[0] === "live" && parts[1]) return renderLive(decodeURIComponent(parts[1]));
+    if (parts[0] === "handoff" && parts[1]) return renderHandoff(decodeURIComponent(parts[1]));
+    if (parts[0] && !["demo"].includes(parts[0])) return renderMissing("Route not found", "This product link is not available.", "Back to Discover");
+    return routeHome();
   }
 
   document.addEventListener("submit", handleSubmit, true);

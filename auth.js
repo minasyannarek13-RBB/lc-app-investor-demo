@@ -101,6 +101,10 @@
     else renderAuthState();
   }
 
+  function isProductRoute(target) {
+    return target === "product" || target.startsWith("product/");
+  }
+
   function config() {
     const provided = window.LC_APP_CONFIG || window.__LC_APP_CONFIG__ || {};
     const publishableKey = provided.SUPABASE_PUBLISHABLE_KEY || provided.supabasePublishableKey;
@@ -812,7 +816,7 @@
       return;
     }
     setLocked(false);
-    if (target === "product" && window.LCAppProduct?.mount) {
+    if (isProductRoute(target) && window.LCAppProduct?.mount) {
       window.LCAppProduct.mount({ client: STATE.client, profile: STATE.profile, target });
       installAccountObserver();
       return;
@@ -855,10 +859,10 @@
         <div class="sheet-title"><span class="pill teal">${handoff ? "External site" : "MVP scope"}</span><h3>${handoff ? "Leaving LC App" : "Feature not available"}</h3></div>
         <button class="close" type="button" data-close aria-label="Close">×</button>
       </div>
-      <div class="lc-auth-alert">${handoff ? "You are being redirected to an external third-party operator. LC App does not manage player balances, accept wagers, or process transactions. 18+ Only. Play Responsibly." : "Wallets, tipping and payments are not part of this LC App real-user MVP."}</div>
+      <div class="lc-auth-alert">${handoff ? "Continue with the external operator providing this game. LC App does not handle deposits, wagering, KYC/AML, player funds or settlement." : "Wallets, tipping and payments are not part of this LC App real-user MVP."}</div>
       <div class="sheet-actions">
-        ${handoff ? '<button class="btn" type="button" data-auth-external-handoff>Continue to external site ↗</button>' : ""}
-        <button class="btn secondary" type="button" data-close>${handoff ? "Cancel" : "Close"}</button>
+        ${handoff ? '<button class="btn" type="button" data-auth-external-handoff>Simulate operator step</button>' : ""}
+        <button class="btn secondary" type="button" data-close>${handoff ? "Return to LC App" : "Close"}</button>
       </div>
     `;
     sheet.classList.add("open");
@@ -929,7 +933,7 @@
       return;
     }
     if (!STATE.session) {
-      if (target === "product" && window.LCAppProduct?.mountDemoEntry) {
+      if (isProductRoute(target) && window.LCAppProduct?.mountDemoEntry) {
         setLocked(false);
         window.LCAppProduct.mountDemoEntry();
         return;
@@ -978,7 +982,7 @@
     if (target?.closest("[data-auth-external-handoff]")) {
       event.preventDefault();
       event.stopImmediatePropagation();
-      toast("External handoff placeholder");
+      toast("Operator step simulated. Return to LC App.");
       return;
     }
     const blockedSheet = target?.closest('[data-sheet="handoff"],[data-sheet="wallet"],[data-sheet="tips"]');
