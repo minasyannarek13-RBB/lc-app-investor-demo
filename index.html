@@ -11,6 +11,9 @@
   <meta name="format-detection" content="telephone=no" />
   <link rel="icon" href="app-icon.svg" type="image/svg+xml" />
   <title>LC App — Live Casino. Social Experience.</title>
+  <meta name="description" content="LC App is a social discovery layer for Live Casino: discover creators, follow live sessions and continue to licensed operator tables." />
+  <meta property="og:title" content="LC App — Live Casino. Social Experience." />
+  <meta property="og:description" content="Discover dealers. Follow creators. Join live tables through the licensed operator ecosystem." />
   <script>
     (() => {
       try {
@@ -24,6 +27,13 @@
         root.classList.add("lc-auth-booting");
         if (standalone) root.classList.add("standalone-mode");
         if (isIPhone) root.classList.add("iphone-edge-mode");
+        const normalizeProductRoot = () => {
+          if (!window.location.hash || window.location.hash === "#/") {
+            window.location.replace(`${window.location.pathname}${window.location.search}#/product`);
+          }
+        };
+        normalizeProductRoot();
+        window.addEventListener("hashchange", normalizeProductRoot);
       } catch (error) {}
     })();
   </script>
@@ -38,8 +48,8 @@
       --soft: rgba(255, 255, 255, .76);
       --muted: rgba(255, 255, 255, .56);
       --dim: rgba(255, 255, 255, .36);
-      --gold: #f1c760;
-      --gold2: #ffe39a;
+      --gold: #24c7a9;
+      --gold2: #a7fff4;
       --teal: #2ee6ce;
       --coral: #ff6f61;
       --velvet: #5f1118;
@@ -77,8 +87,8 @@
       color: var(--text);
       background:
         linear-gradient(115deg, rgba(95, 17, 24, .34), transparent 42%),
-        linear-gradient(245deg, rgba(241, 199, 96, .16), transparent 38%),
-        linear-gradient(180deg, #120609 0%, #050609 46%, #0d0906 100%);
+        linear-gradient(245deg, rgba(46, 230, 206, .13), transparent 38%),
+        linear-gradient(180deg, #071012 0%, #050609 46%, #050809 100%);
     }
 
     body {
@@ -396,7 +406,7 @@
       border-radius: 16px;
       padding: 0 15px;
       color: var(--ink);
-      background: linear-gradient(135deg, var(--gold2), #ffc46b);
+      background: linear-gradient(135deg, var(--teal), #a7fff4);
       box-shadow: 0 14px 32px rgba(0, 0, 0, .28);
       font-size: 12px;
       font-weight: 950;
@@ -850,7 +860,7 @@
       height: 26px;
       border-radius: 8px;
       color: var(--ink);
-      background: linear-gradient(135deg, var(--gold2), #d49a3b);
+      background: linear-gradient(135deg, var(--gold2), #2ee6ce);
       box-shadow: 0 10px 24px rgba(0, 0, 0, .38);
     }
 
@@ -1823,7 +1833,7 @@
       border-radius: 999px;
       padding: 0 13px;
       color: var(--ink);
-      background: linear-gradient(135deg, var(--gold2), #ffb85c);
+      background: linear-gradient(135deg, var(--gold2), #2ee6ce);
       box-shadow: 0 16px 34px rgba(0, 0, 0, .38);
       display: inline-flex;
       align-items: center;
@@ -5729,7 +5739,7 @@
       color: var(--ink);
       font-size: 8px;
       font-weight: 950;
-      background: linear-gradient(135deg, var(--gold2), #f1c760);
+      background: linear-gradient(135deg, var(--gold2), #2ee6ce);
       box-shadow: 0 0 0 2px rgba(0, 0, 0, .18);
       pointer-events: none;
     }
@@ -6653,7 +6663,7 @@
 
     .side-btn.primary {
       color: var(--ink);
-      background: linear-gradient(135deg, var(--gold2), #ffc46b);
+      background: linear-gradient(135deg, var(--gold2), #2ee6ce);
       border-color: transparent;
     }
 
@@ -7114,7 +7124,7 @@
         <button class="launch-btn" type="button" data-sheet="watch">Open feed</button>
         <button class="launch-btn secondary" type="button" data-sheet="gameplay">Open live table</button>
       </div>
-      <div class="demo-note">Offline-ready investor preview with video-first feed, dealer identity and gameplay overlays.</div>
+      <div class="demo-note">Product preview with video-first discovery, dealer identity and operator handoff context.</div>
     </section>
 
     <section class="phone-shell" aria-label="LC App ideal mobile prototype">
@@ -7185,7 +7195,7 @@
 
         <div class="intro hidden" id="intro" aria-hidden="true">
           <div class="intro-card">
-            <span class="intro-kicker">Investor demo</span>
+            <span class="intro-kicker">LC App</span>
             <h2>Live casino starts before the table</h2>
             <p>Open the feed, watch the moment, follow the dealer and move into table play only when the player chooses.</p>
             <div class="intro-steps">
@@ -7207,29 +7217,29 @@
         <h3 id="activeTitle">Mia Roulette Live</h3>
         <p id="activeRead">Social-first roulette feed with dealer identity, clean video and a one-step path into table play.</p>
         <div class="kpi-row">
-          <div class="kpi"><strong id="kpiWatch">2.8K</strong><span>watching</span></div>
-          <div class="kpi"><strong id="kpiJoin">8.4%</strong><span>join rate</span></div>
-          <div class="kpi"><strong id="kpiArpu">$14</strong><span>rev / user</span></div>
+          <div class="kpi"><strong id="kpiWatch">Live</strong><span>table signal</span></div>
+          <div class="kpi"><strong id="kpiJoin">Follow</strong><span>creator layer</span></div>
+          <div class="kpi"><strong id="kpiArpu">Return</strong><span>session loop</span></div>
         </div>
       </div>
       <div class="side-box">
-        <h3>Investor journey</h3>
+        <h3>Product journey</h3>
         <div class="side-actions">
           <button class="side-btn primary" type="button" data-sheet="watch">Start with watch mode <span>Preview</span></button>
           <button class="side-btn" type="button" data-sheet="gameplay">Try gameplay flow <span>In-table</span></button>
           <button class="side-btn" type="button" data-sheet="profile">Open dealer profile <span>Follow</span></button>
           <button class="side-btn" type="button" data-sheet="handoff">Operator handoff <span>Play</span></button>
-          <button class="side-btn" type="button" data-sheet="insights">Investor proof <span>B2B</span></button>
+          <button class="side-btn" type="button" data-sheet="insights">Product fit <span>B2B</span></button>
           <button class="side-btn" type="button" id="nextCard">Next live card <span>Scroll</span></button>
         </div>
       </div>
       <div class="side-box">
         <h3>Why operators care</h3>
-        <p>LC App gives operators a measurable pre-table acquisition and retention surface while keeping the product centered on dealer identity and cleaner video.</p>
+        <p>LC App gives operators a potential pre-table discovery and return surface while keeping gambling transactions inside the licensed operator flow.</p>
         <div class="kpi-row">
-          <div class="kpi"><strong>60d</strong><span>pilot</span></div>
-          <div class="kpi"><strong>3x</strong><span>surfaces</span></div>
-          <div class="kpi"><strong>Rev</strong><span>share</span></div>
+          <div class="kpi"><strong>Creator</strong><span>identity</span></div>
+          <div class="kpi"><strong>Table</strong><span>handoff</span></div>
+          <div class="kpi"><strong>Player</strong><span>return</span></div>
         </div>
       </div>
     </aside>
@@ -7270,15 +7280,15 @@
         tableVideo: assets.streamRealRoulette,
         watchVideo: assets.streamRealRoulette,
         gameplayVideo: assets.streamRealRoulette,
-        watching: "2.8K",
-        join: "8.4%",
-        arpu: "$14",
-        follows: "2.3K",
+        watching: "Live now",
+        join: "Follow",
+        arpu: "Return",
+        follows: "Creator",
         stakes: "$10-$500",
         seat: "3",
         language: "EN",
         state: "8 red / 2 green",
-        trend: "+18%",
+        trend: "Table signal",
         caption: "Fast roulette room with a clear wheel read and direct live entry.",
         read: "Fast roulette room with clear wheel view and live chat.",
         gameplayTimer: "12s to spin",
@@ -7298,15 +7308,15 @@
         tableVideo: assets.streamRealBlackjack,
         watchVideo: assets.streamRealBlackjack,
         gameplayVideo: assets.streamRealBlackjack,
-        watching: "1.9K",
-        join: "6.7%",
-        arpu: "$22",
-        follows: "1.7K",
+        watching: "Live now",
+        join: "Follow",
+        arpu: "Return",
+        follows: "Creator",
         stakes: "$25-$1K",
         seat: "2",
         language: "EN",
         state: "VIP open",
-        trend: "+11%",
+        trend: "Table signal",
         caption: "VIP blackjack room with clean dealing, readable cards and fast seat entry.",
         read: "VIP blackjack room with readable cards and fast seat entry.",
         gameplayTimer: "Action on you",
@@ -7325,15 +7335,15 @@
         tableVideo: assets.streamFeed,
         watchVideo: assets.streamFeed,
         gameplayVideo: assets.streamFeed,
-        watching: "1.2K",
-        join: "5.9%",
-        arpu: "$18",
-        follows: "980",
+        watching: "Live now",
+        join: "Follow",
+        arpu: "Return",
+        follows: "Creator",
         stakes: "$20-$750",
         seat: "5",
         language: "EN",
         state: "Banker run",
-        trend: "+9%",
+        trend: "Table signal",
         caption: "Baccarat room with clear side choice, visible road flow and steady pace.",
         read: "Baccarat room with clean road view and quick side selection.",
         gameplayTimer: "9s to deal",
@@ -7351,15 +7361,15 @@
         tableVideo: assets.streamDealer,
         watchVideo: assets.streamDealer,
         gameplayVideo: assets.streamDealer,
-        watching: "1.6K",
-        join: "5.4%",
-        arpu: "$27",
-        follows: "1.4K",
+        watching: "Live now",
+        join: "Follow",
+        arpu: "Return",
+        follows: "Creator",
         stakes: "$50-$500",
         seat: "4",
         language: "EN",
         state: "Heads-up",
-        trend: "+13%",
+        trend: "Table signal",
         caption: "Heads-up poker room with visible board cards and a cleaner live-table pace.",
         read: "Heads-up poker room with readable board cards and light table chat.",
         gameplayTimer: "8s to deal"
@@ -7496,7 +7506,7 @@
       },
       sofia: {
         label: "VIP felt",
-        note: "Sofia's deal pass stays low so the investor sees the cards, not just the face cam."
+        note: "Sofia's deal pass stays low so the player sees the cards, not just the face cam."
       },
       marcus: {
         label: "Shoe rhythm",
@@ -7515,7 +7525,7 @@
         tags: ["Wheel-first entry", "VIP roulette", "Clean map read"]
       },
       sofia: {
-        title: "Sofia starts face-up, then drops the frame lower so the investor sees the actual deal path.",
+        title: "Sofia starts face-up, then drops the frame lower so the player sees the actual deal path.",
         note: "The intro is built to prove cards stay readable without covering the dealer stream.",
         tags: ["Low felt entry", "Readable deal", "Seat-first"]
       },
@@ -10201,7 +10211,7 @@
             <div class="operator-card"><strong>Tracking stays attached</strong><span>The handoff keeps dealer, table and session context for reporting and retention.</span></div>
           </div>
           <div class="row-grid">
-            <div class="metric"><strong>${card.join}</strong><span>join rate</span></div>
+            <div class="metric"><strong>${card.join}</strong><span>entry signal</span></div>
             <div class="metric"><strong>${card.stakes}</strong><span>stakes</span></div>
             <div class="metric"><strong>${card.trend}</strong><span>trend</span></div>
           </div>
@@ -10604,7 +10614,7 @@
           </div>
           <div class="summary-strip">
             <div class="summary-box"><strong>${card.watching}</strong><span>watching</span></div>
-            <div class="summary-box"><strong>${card.join}</strong><span>join rate</span></div>
+            <div class="summary-box"><strong>${card.join}</strong><span>entry signal</span></div>
             <div class="summary-box"><strong>${card.arpu}</strong><span>avg value</span></div>
           </div>
           <div class="quick-link-row">
@@ -10975,49 +10985,49 @@
       if (type === "insights") {
         return `
           <div class="sheet-head">
-            <div class="sheet-title"><span class="pill teal">Investor proof</span><h3>Why this scales</h3></div>
+            <div class="sheet-title"><span class="pill teal">Industry fit</span><h3>Why it matters</h3></div>
             ${closeButton()}
           </div>
           <div class="proof-hero">
-            <div><strong>Feed converts before gameplay</strong><span>The app keeps discovery clean, then opens gameplay, operator entry and KPI proof without turning the first screen into a heavy casino lobby.</span></div>
-            <b>Revenue engine</b>
+            <div><strong>Discovery starts before gameplay</strong><span>The app keeps creator discovery clean, then opens table context and operator entry without turning the first screen into a casino back office.</span></div>
+            <b>To be validated</b>
           </div>
           <div class="proof-grid">
-            <div class="proof-card"><strong>${card.join}</strong><span>join-rate signal</span></div>
-            <div class="proof-card"><strong>${card.trend}</strong><span>intent lift</span></div>
-            <div class="proof-card"><strong>${card.watching}</strong><span>live audience</span></div>
-            <div class="proof-card"><strong>$${card.arpu.replace("$", "")}K</strong><span>modeled value / 1k players</span></div>
+            <div class="proof-card"><strong>Follow</strong><span>creator relationship</span></div>
+            <div class="proof-card"><strong>Live</strong><span>table context</span></div>
+            <div class="proof-card"><strong>Return</strong><span>session reminder</span></div>
+            <div class="proof-card"><strong>Handoff</strong><span>operator-owned play</span></div>
           </div>
           <div class="proof-ladder">
             <div><strong>Discover</strong><span>Swipe live dealer feed</span></div>
             <div><strong>Engage</strong><span>Watch, follow, alert</span></div>
             <div><strong>Convert</strong><span>Table entry</span></div>
-            <div><strong>Report</strong><span>Join, retention, GGR lift</span></div>
+            <div><strong>Return</strong><span>Reminder and handoff context</span></div>
           </div>
           <div class="revenue-stack">
-            <div class="deal-row"><b>Operator setup / integration</b><span>$25K-$75K</span></div>
-            <div class="deal-row"><b>Monthly module fee</b><span>$10K-$35K</span></div>
-            <div class="deal-row"><b>Performance upside</b><span>rev-share</span></div>
-            <div class="deal-row"><b>Data room proof</b><span>weekly KPI report</span></div>
+            <div class="deal-row"><b>Operator role</b><span>licensed table and player account</span></div>
+            <div class="deal-row"><b>Provider role</b><span>game and stream infrastructure</span></div>
+            <div class="deal-row"><b>LC App role</b><span>creator discovery and return context</span></div>
+            <div class="deal-row"><b>Status</b><span>concept demo, outcomes to validate</span></div>
           </div>
           <div class="pilot-timeline">
-            <div class="pilot-step"><strong>Week 1-2</strong><span>Embed feed, map dealer/table content and tracking.</span></div>
-            <div class="pilot-step"><strong>Week 3-6</strong><span>Measure watch, follow, handoff and return alerts.</span></div>
-            <div class="pilot-step"><strong>Week 7-8</strong><span>Paid continuation decision with KPI report.</span></div>
+            <div class="pilot-step"><strong>Discover</strong><span>Find dealers and live tables.</span></div>
+            <div class="pilot-step"><strong>Follow</strong><span>Keep the relationship after a session.</span></div>
+            <div class="pilot-step"><strong>Return</strong><span>Continue through the licensed operator flow.</span></div>
           </div>
           <div class="row-grid">
-            <div class="metric"><strong>${card.watching}</strong><span>watchers</span></div>
-            <div class="metric"><strong>${card.join}</strong><span>join</span></div>
-            <div class="metric"><strong>${card.trend}</strong><span>lift</span></div>
+            <div class="metric"><strong>Live</strong><span>session</span></div>
+            <div class="metric"><strong>Follow</strong><span>creator</span></div>
+            <div class="metric"><strong>Return</strong><span>loop</span></div>
           </div>
           <div class="list">
             <div class="list-row"><b>Top surface</b><span>Feed card</span></div>
             <div class="list-row"><b>Best signal</b><span>Dealer follow</span></div>
-            <div class="list-row"><b>Revenue path</b><span>Module + rev-share</span></div>
-            <div class="list-row"><b>Upside case</b><span>$8M-$10M+ annualized</span></div>
-            <div class="list-row"><b>Scale path</b><span>More operators + higher ARPU</span></div>
+            <div class="list-row"><b>Business path</b><span>partner discussion required</span></div>
+            <div class="list-row"><b>Outcome status</b><span>to be validated</span></div>
+            <div class="list-row"><b>Scale path</b><span>operator/provider fit required</span></div>
           </div>
-          <p class="proof-note">Investor readout: LC App can earn through setup, module fees, attributed rev-share and premium placement, then scale toward a wider operator revenue network after pilot proof.</p>
+          <p class="proof-note">Concept readout: LC App shows a potential social discovery and return layer for Live Casino. Commercial outcomes are not validated.</p>
           <div class="sheet-actions">
             <button class="btn" type="button" data-sheet="handoff">Operator handoff</button>
             <button class="btn secondary" type="button" data-sheet="watch">Back to room</button>
@@ -11358,7 +11368,7 @@
     };
   </script>
   <script src="./social.js"></script>
-  <script src="./app-product.js?v=67"></script>
-  <script src="./auth.js?v=67"></script>
+  <script src="./app-product.js?v=68"></script>
+  <script src="./auth.js?v=68"></script>
 </body>
 </html>
