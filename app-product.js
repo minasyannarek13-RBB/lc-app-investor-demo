@@ -152,6 +152,7 @@
     }
     q("#screen")?.classList.add("lc-product-mode");
     node.hidden = false;
+    node.scrollTop = 0;
     return node;
   }
 
