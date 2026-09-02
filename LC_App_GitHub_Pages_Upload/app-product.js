@@ -14,9 +14,11 @@
     posts: [],
     follows: new Set(),
     reminders: new Set(),
+    notifications: [],
     accessRequests: [],
     selectedCreator: null,
     selectedSession: null,
+    search: "",
     demo: false,
     demoPersona: null,
     busy: false,
@@ -26,7 +28,7 @@
   const games = ["Blackjack", "Baccarat", "Roulette", "Poker", "Game Show"];
   const languages = ["English", "French", "Italian", "Spanish", "Armenian"];
   const interests = ["creator network", "player discovery", "retention/engagement", "live discovery", "integration", "attribution"];
-  const demoStore = { follows: new Set(), reminders: new Set(), likes: new Set(), comments: [], posts: [], sessions: [], requests: new Set() };
+  const demoStore = { follows: new Set(), reminders: new Set(), likes: new Set(), comments: [], posts: [], sessions: [], notifications: [], requests: new Set() };
   const demoProfiles = [
     { id: "demo-sofia", username: "sofia_live", display_name: "Sofia Laurent", avatar_url: "app_prototype_assets/dealers/v2_polish/sofia_avatar_public.jpg", bio: "Blackjack dealer building a followable Live Casino audience.", country: "Malta", languages: ["English", "French"] },
     { id: "demo-mia", username: "mia_tables", display_name: "Mia Novak", avatar_url: "app_prototype_assets/dealers/dealer_mia_avatar_v1.jpg", bio: "Roulette and baccarat sessions with a calm table style.", country: "Latvia", languages: ["English", "Italian"] },
@@ -101,6 +103,7 @@
     demoStore.comments = [];
     demoStore.posts = [];
     demoStore.sessions = [];
+    demoStore.notifications = [];
     demoStore.requests.clear();
   };
   const sessionStatusLabel = (session) => {
@@ -117,6 +120,10 @@
     }
     return null;
   };
+  const addDemoNotification = (text, targetId = null) => {
+    demoStore.notifications.unshift({ id: `demo-note-${Date.now()}`, text, target_id: targetId, created_at: new Date().toISOString() });
+    demoStore.notifications = demoStore.notifications.slice(0, 6);
+  };
 
   function injectStyles() {
     if (q("#lcProductStyles")) return;
@@ -127,16 +134,16 @@
       #lcProductShell{position:absolute;inset:0;z-index:74;overflow:auto;padding:18px max(14px,env(safe-area-inset-left)) calc(96px + env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-right));background:radial-gradient(circle at 85% 0,rgba(46,230,206,.13),transparent 35%),linear-gradient(180deg,#071012,#050708 72%);color:var(--text);scrollbar-width:none;-webkit-overflow-scrolling:touch}
       #lcProductShell[hidden]{display:none!important}.lc-product-stack{display:grid;gap:12px;width:100%;max-width:980px;margin:0 auto}.lc-product-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 auto 12px;width:100%;max-width:980px}.lc-product-brand{display:flex;align-items:center;gap:10px;min-width:0}.lc-product-logo{flex:0 0 auto;width:38px;height:38px;border-radius:14px;background:linear-gradient(135deg,var(--teal),#a7fff4);color:#031412;display:grid;place-items:center;font-weight:950}.lc-product-brand strong{display:block;font-size:14px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lc-product-brand span,.lc-product-muted{display:block;color:var(--muted);font-size:12px;line-height:1.35}
       .lc-product-card{border:1px solid rgba(46,230,206,.15);border-radius:18px;background:rgba(8,13,16,.84);box-shadow:0 20px 52px rgba(0,0,0,.28);padding:14px;overflow:hidden}.lc-product-hero{padding:18px;background:linear-gradient(145deg,rgba(46,230,206,.14),rgba(255,255,255,.04));border-color:rgba(46,230,206,.32)}
-      .lc-product-card h1,.lc-product-card h2,.lc-product-card h3{margin:0 0 8px;letter-spacing:0;text-wrap:balance}.lc-product-card h1{font-size:clamp(26px,7vw,36px);line-height:1.05}.lc-product-card h2{font-size:clamp(18px,4.5vw,22px);line-height:1.15}.lc-product-card h3{font-size:15px;line-height:1.2}.lc-product-card p{margin:0;color:var(--soft);font-size:14px;line-height:1.45;overflow-wrap:anywhere}.lc-product-label{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(46,230,206,.28);border-radius:999px;padding:6px 10px;color:#a7fff4;background:rgba(46,230,206,.1);font-size:10px;line-height:1;font-weight:900;text-transform:uppercase;margin-bottom:10px}
+      .lc-product-card h1,.lc-product-card h2,.lc-product-card h3{margin:0 0 8px;letter-spacing:0;text-wrap:balance}.lc-product-card h1{font-size:clamp(26px,7vw,36px);line-height:1.05}.lc-product-card h2{font-size:clamp(18px,4.5vw,22px);line-height:1.15}.lc-product-card h3{font-size:15px;line-height:1.2}.lc-product-card p{margin:0;color:var(--soft);font-size:14px;line-height:1.45;overflow-wrap:anywhere}.lc-product-label{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(46,230,206,.28);border-radius:999px;padding:6px 10px;color:#a7fff4;background:rgba(46,230,206,.1);font-size:10px;line-height:1;font-weight:900;text-transform:uppercase;margin-bottom:10px}.lc-product-section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:6px}.lc-product-section-head span{color:var(--muted);font-size:11px;line-height:1.3}.lc-product-flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}.lc-product-flow span{min-height:44px;display:grid;place-items:center;border:1px solid rgba(46,230,206,.14);border-radius:13px;background:rgba(255,255,255,.045);color:var(--soft);font-size:10px;line-height:1.1;font-weight:900;text-align:center;text-transform:uppercase;padding:6px}
       .lc-product-grid{display:grid;gap:10px}.lc-product-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.lc-product-choice{min-height:98px;text-align:left;border:1px solid rgba(255,255,255,.1);border-radius:18px;background:rgba(255,255,255,.05);color:var(--text);padding:14px;cursor:pointer}.lc-product-choice b{display:block;font-size:15px;line-height:1.2;margin-bottom:7px}.lc-product-choice span{color:var(--muted);font-size:12px;line-height:1.35}.lc-product-choice.active{border-color:rgba(46,230,206,.58);background:rgba(46,230,206,.13)}
       .lc-product-form{display:grid;gap:10px}.lc-product-input,.lc-product-select,.lc-product-textarea{width:100%;min-height:46px;border:1px solid rgba(255,255,255,.11);border-radius:15px;background:rgba(255,255,255,.06);color:var(--text);padding:12px 13px;font:inherit;font-size:16px;line-height:1.35;outline:none}.lc-product-textarea{min-height:88px;resize:vertical}.lc-product-input:focus,.lc-product-select:focus,.lc-product-textarea:focus{border-color:rgba(46,230,206,.65);box-shadow:0 0 0 3px rgba(46,230,206,.1)}
       .lc-product-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.lc-product-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;border:0;border-radius:999px;background:linear-gradient(135deg,var(--teal),#a7fff4);color:#031412;padding:0 16px;font-size:12px;line-height:1.1;font-weight:900;cursor:pointer;text-align:center;white-space:normal}.lc-product-btn.secondary{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.06);color:var(--text)}.lc-product-btn:disabled{opacity:.55;cursor:not-allowed}.lc-product-chip{display:inline-flex;align-items:center;justify-content:center;min-height:36px;border:1px solid rgba(255,255,255,.11);border-radius:999px;background:rgba(255,255,255,.06);color:var(--soft);padding:0 11px;font-size:11px;line-height:1.1;font-weight:850;cursor:pointer;text-align:center}.lc-product-chip.active{border-color:rgba(46,230,206,.58);background:rgba(46,230,206,.14);color:#a7fff4}
-      .lc-product-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-top:1px solid rgba(255,255,255,.08)}.lc-product-row:first-child{border-top:0}.lc-product-row img{flex:0 0 auto;width:50px;height:50px;border-radius:16px;object-fit:cover}.lc-product-row-main{min-width:0;flex:1}.lc-product-row-main b{display:block;font-size:14px;line-height:1.25;overflow-wrap:anywhere}.lc-product-row-main span{display:block;color:var(--muted);font-size:12px;line-height:1.35;overflow-wrap:anywhere}.lc-product-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.lc-product-stat{padding:11px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.04);min-width:0}.lc-product-stat b{display:block;font-size:17px;line-height:1.15;overflow-wrap:anywhere}.lc-product-stat span{display:block;color:var(--muted);font-size:10px;line-height:1.2;text-transform:uppercase;font-weight:850}
+      .lc-product-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-top:1px solid rgba(255,255,255,.08)}.lc-product-row:first-child{border-top:0}.lc-product-row img{flex:0 0 auto;width:50px;height:50px;border-radius:16px;object-fit:cover}.lc-product-row-main{min-width:0;flex:1}.lc-product-row-main b{display:block;font-size:14px;line-height:1.25;overflow-wrap:anywhere}.lc-product-row-main span{display:block;color:var(--muted);font-size:12px;line-height:1.35;overflow-wrap:anywhere}.lc-product-status-dot{width:8px;height:8px;border-radius:50%;background:#778287;box-shadow:0 0 0 3px rgba(255,255,255,.04);flex:0 0 auto}.lc-product-status-dot.live{background:#5dffce;box-shadow:0 0 18px rgba(93,255,206,.45)}.lc-product-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.lc-product-stat{padding:11px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.04);min-width:0}.lc-product-stat b{display:block;font-size:17px;line-height:1.15;overflow-wrap:anywhere}.lc-product-stat span{display:block;color:var(--muted);font-size:10px;line-height:1.2;text-transform:uppercase;font-weight:850}
       .lc-product-tabs{position:sticky;bottom:8px;z-index:3;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:7px;border:1px solid rgba(46,230,206,.16);border-radius:20px;background:rgba(5,8,9,.92);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);margin:12px auto 0;width:100%;max-width:980px}.lc-product-tabs button{min-height:44px;border:0;border-radius:14px;background:transparent;color:var(--muted);font-size:11px;line-height:1.05;font-weight:900;cursor:pointer}.lc-product-tabs button.active{background:rgba(46,230,206,.14);color:#a7fff4}.lc-product-note{display:block;margin-top:9px;color:var(--muted);font-size:11px;line-height:1.4;overflow-wrap:anywhere}.lc-product-empty{padding:24px 14px;text-align:center;color:var(--muted);font-size:14px;line-height:1.4}
       .lc-product-demo-banner{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 auto 10px;padding:7px 8px;border:1px solid rgba(46,230,206,.16);border-radius:14px;background:rgba(255,255,255,.04);width:100%;max-width:980px}.lc-product-demo-banner strong{font-size:10px;line-height:1.1;color:#a7fff4;text-transform:uppercase;white-space:nowrap}.lc-product-demo-banner .lc-product-actions{margin-left:auto;justify-content:flex-end}
       .lc-product-entry{min-height:100%;display:flex;flex-direction:column;gap:12px;width:100%;max-width:980px;margin:0 auto}.lc-product-entry-hero{padding:18px 4px 4px}.lc-product-entry-hero .lc-product-label{margin-bottom:12px}.lc-product-entry-hero h1{margin:0 0 8px;font-size:clamp(30px,8vw,46px);line-height:1.04;letter-spacing:0;color:var(--text);text-wrap:balance}.lc-product-entry-hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.25;font-weight:850;text-transform:uppercase}.lc-product-entry-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2px}.lc-product-entry-title strong{font-size:12px;line-height:1.2;text-transform:uppercase;color:var(--soft)}.lc-product-personas{display:grid;gap:10px}.lc-product-persona{position:relative;min-height:96px;border:1px solid rgba(255,255,255,.1);border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.035));color:var(--text);padding:14px;text-align:left;overflow:hidden;cursor:pointer}.lc-product-persona:after{content:"";position:absolute;right:-24px;top:-26px;width:80px;height:80px;border-radius:999px;background:rgba(46,230,206,.1);filter:blur(8px)}.lc-product-persona b{display:block;font-size:15px;line-height:1.2;margin-bottom:7px}.lc-product-persona span{display:block;max-width:32ch;color:var(--muted);font-size:12px;line-height:1.35}.lc-product-entry-auth{display:flex;gap:8px;margin-top:2px}.lc-product-entry-auth .lc-product-btn{flex:1}
       .lc-product-btn:focus-visible,.lc-product-chip:focus-visible,.lc-product-choice:focus-visible,.lc-product-persona:focus-visible,.lc-product-tabs button:focus-visible{outline:2px solid rgba(167,255,244,.9);outline-offset:2px}
-      @media(min-width:720px){#lcProductShell{padding:24px 18px 104px}.lc-product-grid.desktop-two{grid-template-columns:repeat(2,minmax(0,1fr))}.lc-product-personas{grid-template-columns:repeat(2,minmax(0,1fr))}.lc-product-card{padding:16px}.lc-product-hero{padding:20px}.lc-product-entry{max-width:min(920px,92vw)}}@media(min-width:1180px){#lcProductShell{padding:30px 28px 112px}.lc-product-stack,.lc-product-top,.lc-product-tabs,.lc-product-demo-banner{max-width:1040px}.lc-product-entry{max-width:960px}.lc-product-persona{min-height:112px;padding:18px}}@media(max-width:430px){#lcProductShell{padding-left:12px;padding-right:12px}.lc-product-card{padding:13px;border-radius:17px}.lc-product-card h1{font-size:26px}.lc-product-grid.two{grid-template-columns:1fr}.lc-product-row{align-items:flex-start}.lc-product-row .lc-product-chip{margin-left:auto}.lc-product-actions{gap:7px}.lc-product-btn{min-height:44px;padding:0 13px;font-size:11px}.lc-product-chip{min-height:35px;font-size:10.5px}.lc-product-entry-hero h1{font-size:30px}.lc-product-persona{min-height:92px;padding:13px}.lc-product-demo-banner{align-items:flex-start;flex-direction:column}.lc-product-demo-banner .lc-product-actions{width:100%;margin-left:0}.lc-product-demo-banner .lc-product-chip{flex:1}.lc-product-entry-auth{position:sticky;bottom:8px;z-index:3;padding:7px;border:1px solid rgba(46,230,206,.16);border-radius:20px;background:rgba(5,8,9,.92);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}}
+      @media(min-width:720px){#lcProductShell{padding:24px 18px 104px}.lc-product-grid.desktop-two{grid-template-columns:repeat(2,minmax(0,1fr))}.lc-product-personas{grid-template-columns:repeat(2,minmax(0,1fr))}.lc-product-card{padding:16px}.lc-product-hero{padding:20px}.lc-product-entry{max-width:min(920px,92vw)}}@media(min-width:1180px){#lcProductShell{padding:30px 28px 112px}.lc-product-stack,.lc-product-top,.lc-product-tabs,.lc-product-demo-banner{max-width:1040px}.lc-product-entry{max-width:960px}.lc-product-persona{min-height:112px;padding:18px}}@media(max-width:430px){#lcProductShell{padding-left:12px;padding-right:12px}.lc-product-card{padding:13px;border-radius:17px}.lc-product-card h1{font-size:26px}.lc-product-grid.two{grid-template-columns:1fr}.lc-product-flow{grid-template-columns:repeat(3,minmax(0,1fr))}.lc-product-row{align-items:flex-start}.lc-product-row .lc-product-chip{margin-left:auto}.lc-product-actions{gap:7px}.lc-product-btn{min-height:44px;padding:0 13px;font-size:11px}.lc-product-chip{min-height:35px;font-size:10.5px}.lc-product-entry-hero h1{font-size:30px}.lc-product-persona{min-height:92px;padding:13px}.lc-product-demo-banner{align-items:flex-start;flex-direction:column}.lc-product-demo-banner .lc-product-actions{width:100%;margin-left:0}.lc-product-demo-banner .lc-product-chip{flex:1}.lc-product-entry-auth{position:sticky;bottom:8px;z-index:3;padding:7px;border:1px solid rgba(46,230,206,.16);border-radius:20px;background:rgba(5,8,9,.92);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}}
     `;
     document.head.appendChild(style);
   }
@@ -173,16 +180,17 @@
 
   async function loadState() {
     const userId = state.profile.id;
-    const [personas, player, creator, industry, reminders, follows, accessRequests] = await Promise.all([
+    const [personas, player, creator, industry, reminders, follows, accessRequests, notifications] = await Promise.all([
       state.client.from("account_personas").select("*").eq("user_id", userId).order("created_at", { ascending: true }),
       state.client.from("player_preferences").select("*").eq("user_id", userId).maybeSingle(),
       state.client.from("creator_profiles").select("*").eq("user_id", userId).maybeSingle(),
       state.client.from("industry_profiles").select("*").eq("user_id", userId).maybeSingle(),
       state.client.from("player_session_reminders").select("session_id").eq("user_id", userId),
       state.client.from("follows").select("following_id").eq("follower_id", userId),
-      state.client.from("partnership_access_requests").select("industry_subtype,status,created_at").eq("user_id", userId).order("created_at", { ascending: false })
+      state.client.from("partnership_access_requests").select("industry_subtype,status,created_at").eq("user_id", userId).order("created_at", { ascending: false }),
+      state.client.from("notifications").select("id,type,target_type,target_id,read_at,created_at").eq("recipient_id", userId).order("created_at", { ascending: false }).limit(8)
     ]);
-    [personas, player, creator, industry, reminders, follows, accessRequests].forEach((res) => { if (res.error) throw res.error; });
+    [personas, player, creator, industry, reminders, follows, accessRequests, notifications].forEach((res) => { if (res.error) throw res.error; });
     state.personas = personas.data || [];
     state.current = state.personas.find((p) => p.is_current) || state.personas[0] || null;
     state.player = player.data || null;
@@ -191,6 +199,7 @@
     state.reminders = new Set((reminders.data || []).map((row) => row.session_id));
     state.follows = new Set((follows.data || []).map((row) => row.following_id));
     state.accessRequests = accessRequests.data || [];
+    state.notifications = notifications.data || [];
     if (state.creator) await loadOwnCreatorData();
     if (state.current?.persona === "player") await loadCreators();
   }
@@ -319,6 +328,7 @@
     state.follows = new Set(demoStore.follows);
     state.reminders = new Set(demoStore.reminders);
     state.accessRequests = [...demoStore.requests].map((industry_subtype) => ({ industry_subtype, status: "submitted", created_at: new Date().toISOString() }));
+    state.notifications = demoStore.notifications;
     state.sessions = [...demoSessions, ...demoStore.sessions].filter((session) => session.creator_id === state.profile?.id);
     state.posts = [...demoStore.posts, ...demoPosts].filter((post) => post.author_id === state.profile?.id);
   }
@@ -328,6 +338,10 @@
     if (shouldReset && persona === "player") {
       demoStore.follows.add("demo-sofia");
       demoStore.reminders.add("demo-session-mia");
+      addDemoNotification("Sofia is live now. Your followed creator is ready to play.", "demo-session-sofia");
+    }
+    if (shouldReset && persona === "creator") {
+      addDemoNotification("Demo reviewer followed Sofia and saved the next session.", "demo-sofia");
     }
     const industrySubtype = persona === "provider" ? "provider" : persona === "operator" ? "operator" : null;
     const currentPersona = industrySubtype ? "industry" : persona;
@@ -423,7 +437,7 @@
     const post = item.posts[0];
     const following = state.follows.has(p.id);
     return `<section class="lc-product-card" data-creator-id="${safe(p.id)}">
-      <div class="lc-product-row"><img src="${safe(avatar(p))}" alt=""><div class="lc-product-row-main"><b>${safe(profileName(p))}</b><span>${safe(sessionStatusLabel(next))} · ${safe((c.games || []).join(", ") || "Live Casino")} · ${safe((c.languages || p.languages || []).join(", ") || "Language TBC")}</span></div><button class="lc-product-chip ${following ? "active" : ""}" type="button" data-lc-follow="${safe(p.id)}">${following ? "Following" : "Follow"}</button></div>
+      <div class="lc-product-row"><img src="${safe(avatar(p))}" alt=""><span class="lc-product-status-dot ${next?.status === "live" ? "live" : ""}"></span><div class="lc-product-row-main"><b>${safe(profileName(p))}</b><span>${safe(sessionStatusLabel(next))} · ${safe((c.games || []).join(", ") || "Live Casino")} · ${safe((c.languages || p.languages || []).join(", ") || "Language TBC")}</span></div><button class="lc-product-chip ${following ? "active" : ""}" type="button" data-lc-follow="${safe(p.id)}">${following ? "Following" : "Follow"}</button></div>
       <p>${safe(c.headline || "Live Casino creator")}</p>
       ${post ? `<p>${safe(post.body)}</p>` : `<p class="lc-product-muted">No public posts yet.</p>`}
       ${next ? `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(next.game)} · ${safe(next.title || "Live session")}</b><span>${safe(next.operator_name || "Operator to be confirmed")} · ${safe(sessionLine(next))}</span></div><button class="lc-product-chip ${state.reminders.has(next.id) ? "active" : ""}" type="button" data-lc-reminder="${safe(next.id)}">${state.reminders.has(next.id) ? "Reminder set" : "Remind me"}</button></div>` : `<div class="lc-product-empty">No public sessions yet. Check Discover again or follow another creator.</div>`}
@@ -432,20 +446,56 @@
     </section>`;
   }
 
+  function compactCreatorRows(items, emptyText) {
+    if (!items.length) return `<div class="lc-product-empty">${safe(emptyText)}</div>`;
+    return items.map((item) => {
+      const next = item.sessions[0];
+      return `<div class="lc-product-row"><img src="${safe(avatar(item.profile))}" alt=""><span class="lc-product-status-dot ${next?.status === "live" ? "live" : ""}"></span><div class="lc-product-row-main"><b>${safe(profileName(item.profile))}</b><span>${safe(sessionStatusLabel(next))} · ${safe((item.creator.games || []).join(", "))} · ${safe(next?.operator_name || "Operator to be confirmed")}</span></div><button class="lc-product-chip" type="button" data-lc-open-creator="${safe(item.profile.id)}">Open</button></div>`;
+    }).join("");
+  }
+
+  function notificationText(row) {
+    if (row.text) return row.text;
+    if (row.type === "new_follower") return "New follower on your creator profile.";
+    if (row.type === "post_like") return "Someone reacted to your content.";
+    if (row.type === "comment") return "New comment on your content.";
+    if (row.type === "comment_reply") return "New reply in a creator conversation.";
+    return "Product activity updated.";
+  }
+
+  function renderNotifications(emptyText = "No notifications yet. Follow creators, react to content or save sessions.") {
+    return `<section class="lc-product-card"><div class="lc-product-section-head"><h2>Notifications</h2><span>${state.notifications.length ? "Latest activity" : "Empty"}</span></div>${state.notifications.length ? state.notifications.map((n) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(notificationText(n))}</b><span>${safe(new Date(n.created_at).toLocaleString())}</span></div></div>`).join("") : `<div class="lc-product-empty">${safe(emptyText)}</div>`}</section>`;
+  }
+
   function suggestedCreators() {
-    if (!state.player?.favorite_games?.length) return state.creators;
+    const query = state.search.trim().toLowerCase();
+    const base = !query ? state.creators : state.creators.filter((item) => {
+      const text = [profileName(item.profile), item.profile.username, item.profile.bio, item.creator.headline, ...(item.creator.games || []), ...(item.creator.languages || [])].join(" ").toLowerCase();
+      return text.includes(query);
+    });
+    if (!state.player?.favorite_games?.length) return base;
     const prefs = new Set(state.player.favorite_games);
-    return [...state.creators].sort((a, b) => Number((b.creator.games || []).some((g) => prefs.has(g))) - Number((a.creator.games || []).some((g) => prefs.has(g))));
+    return [...base].sort((a, b) => Number((b.creator.games || []).some((g) => prefs.has(g))) - Number((a.creator.games || []).some((g) => prefs.has(g))));
   }
 
   function renderPlayerHome() {
     const creators = suggestedCreators();
+    const liveNow = creators.filter((item) => item.sessions[0]?.status === "live");
+    const startingSoon = creators.filter((item) => item.sessions[0]?.status === "scheduled");
+    const following = creators.filter((item) => state.follows.has(item.profile.id));
     shell().innerHTML = `${top("Your LC App is ready", "Discover, follow and return.")}
       <div class="lc-product-stack">
         <section class="lc-product-card lc-product-hero"><span class="lc-product-label">Player</span><h1>Discover creators. Join live tables.</h1><p>Live Casino through people: follow creators, save sessions and continue to the licensed operator when ready.</p></section>
-        ${state.demo ? `<section class="lc-product-card"><h2>The LC App loop</h2><p>Person -> Content -> Schedule -> Live -> Operator handoff -> Return.</p><div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-demo-persona="creator">Creator view</button><button class="lc-product-chip" type="button" data-lc-demo-persona="operator">Operator view</button><button class="lc-product-chip" type="button" data-lc-demo-persona="provider">Provider view</button></div></section>` : ""}
+        <section class="lc-product-card"><div class="lc-product-flow"><span>Discover</span><span>Follow</span><span>Live</span><span>Play</span><span>Return</span></div></section>
+        <form class="lc-product-card lc-product-form" data-lc-form="search"><div class="lc-product-section-head"><h2>Search</h2><span>Creators, games, live rooms</span></div><input class="lc-product-input" name="search" maxlength="80" placeholder="Search Blackjack, Sofia, French..." value="${safe(state.search)}"><div class="lc-product-actions"><button class="lc-product-btn secondary" type="submit">SEARCH</button>${state.search ? `<button class="lc-product-chip" type="button" data-lc-clear-search>Clear</button>` : ""}</div></form>
+        ${state.demo ? `<section class="lc-product-card"><h2>The LC App loop</h2><p>Follow Sofia, join her Blackjack table through the operator, then return to her profile and next session.</p><div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-demo-persona="creator">Creator view</button><button class="lc-product-chip" type="button" data-lc-demo-persona="operator">Operator view</button><button class="lc-product-chip" type="button" data-lc-demo-persona="provider">Provider view</button></div></section>` : ""}
         <section class="lc-product-card"><div class="lc-product-stats"><div class="lc-product-stat"><b>${state.follows.size}</b><span>Following</span></div><div class="lc-product-stat"><b>${state.reminders.size}</b><span>Reminders</span></div><div class="lc-product-stat"><b>${creators.length}</b><span>Creators</span></div></div></section>
-        ${creators.length ? creators.map(creatorCard).join("") : `<section class="lc-product-card lc-product-empty">No creators found. Clear filters, open Discover later, or create the first Creator profile.</section>`}
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Live now</h2><span>Join through operator</span></div>${compactCreatorRows(liveNow, "No live creators right now. Browse starting soon or follow creators for updates.")}</section>
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Starting soon</h2><span>Save reminders</span></div>${compactCreatorRows(startingSoon, "No upcoming sessions in this view.")}</section>
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Following</h2><span>Return path</span></div>${compactCreatorRows(following, "No followed creators in this search. Open a creator and tap Follow.")}</section>
+        ${renderNotifications()}
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Recommended</h2><span>${state.search ? "Search results" : "Personalized by games"}</span></div></section>
+        ${creators.length ? creators.map(creatorCard).join("") : `<section class="lc-product-card lc-product-empty">No creators found. Clear search, open Discover later, or create the first Creator profile.<div class="lc-product-actions"><button class="lc-product-btn" type="button" data-lc-clear-search>Clear search</button></div></section>`}
       </div>${tabs("home")}`;
   }
 
@@ -454,10 +504,15 @@
     shell().innerHTML = `${top("Creator home", "Public creator profile and sessions.")}
       <div class="lc-product-stack">
         <section class="lc-product-card lc-product-hero"><span class="lc-product-label">Creator / Dealer</span><h1>${safe(profileName(state.profile))}</h1><p>${safe(c.headline || "Live Casino creator")} · Verification ${safe(c.verification_status)} · Affiliation ${safe(c.affiliation_verification_status)}</p><span class="lc-product-note">Verification and affiliation approval are protected. Creator cannot self-verify.</span></section>
+        <section class="lc-product-card"><div class="lc-product-flow"><span>Profile</span><span>Content</span><span>Schedule</span><span>Live</span><span>Audience</span></div></section>
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Public profile preview</h2><span>${safe(c.profile_status || "draft")}</span></div><div class="lc-product-row"><img src="${safe(avatar(state.profile))}" alt=""><div class="lc-product-row-main"><b>${safe(profileName(state.profile))}</b><span>${safe((c.games || []).join(", ") || "Live Casino")} · ${safe((c.languages || []).join(", ") || "Languages not set")}</span></div></div></section>
+        <section class="lc-product-card"><div class="lc-product-stats"><div class="lc-product-stat"><b>${state.sessions.length}</b><span>Sessions</span></div><div class="lc-product-stat"><b>${state.posts.length}</b><span>Posts</span></div><div class="lc-product-stat"><b>${safe(c.profile_status || "draft")}</b><span>Status</span></div></div></section>
         <section class="lc-product-card"><h2>Create post</h2><form class="lc-product-form" data-lc-form="post"><textarea class="lc-product-textarea" name="body" maxlength="2000" placeholder="Share a table note or session update"></textarea><button class="lc-product-btn" type="submit">PUBLISH POST</button></form></section>
         <section class="lc-product-card"><h2>Add session</h2><form class="lc-product-form" data-lc-form="session"><input class="lc-product-input" name="title" maxlength="120" placeholder="Session title" value="Live table session"><select class="lc-product-select" name="game">${games.map((g) => `<option>${safe(g)}</option>`).join("")}</select><input class="lc-product-input" name="operator_name" maxlength="120" placeholder="Operator or studio (user claimed / optional)"><input class="lc-product-input" name="starts_at" type="datetime-local" required><button class="lc-product-btn" type="submit">ADD SESSION</button></form><span class="lc-product-note">Operator/provider context is user claimed or demo unless verified by partner integration.</span></section>
         <section class="lc-product-card"><h2>Public sessions</h2>${state.sessions.length ? state.sessions.map((s) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(s.game)} · ${safe(s.title || "Live session")}</b><span>${safe(s.operator_name || "Operator to be confirmed")} · ${safe(sessionLine(s))}</span></div></div>`).join("") : `<div class="lc-product-empty">No sessions yet. Add your next Live table so followers know when to return.</div>`}</section>
         <section class="lc-product-card"><h2>Posts</h2>${state.posts.length ? state.posts.map((p) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${new Date(p.created_at).toLocaleString()}</b><span>${safe(p.body)}</span></div></div>`).join("") : `<div class="lc-product-empty">No posts yet. Share a short table update for followers.</div>`}</section>
+        <section class="lc-product-card"><h2>Audience tools</h2><p>Followers, reactions, comments and reminders form the return loop. Moderation and account status remain protected by LC App.</p></section>
+        ${renderNotifications("No audience notifications yet. Followers, reactions and comments will appear here.")}
         ${state.demo ? `<section class="lc-product-card"><h2>Why this matters</h2><p>Dealer identity becomes persistent: profile, content, schedule, live presence and return audience.</p></section>` : ""}
       </div>${tabs("creator")}`;
     const dt = q('[name="starts_at"]');
@@ -482,14 +537,15 @@
     shell().innerHTML = `${top(`${subtype} workspace`, "Concept evaluation")}
       <div class="lc-product-stack">
         <section class="lc-product-card lc-product-hero"><span class="lc-product-label">Demo / unverified</span><h1>${provider ? "Games gain discovery through creators and live tables." : "Turn live traffic into relationships and return visits."}</h1><p>${provider ? "Game -> Creator -> Audience -> Live distribution -> Operator handoff." : "Creator Network -> Player Journey -> Handoff -> Return."}</p></section>
+        <section class="lc-product-card"><div class="lc-product-flow">${provider ? "<span>Game</span><span>Creator</span><span>Audience</span><span>Live</span><span>Operator</span>" : "<span>Network</span><span>Journey</span><span>Handoff</span><span>Return</span><span>Access</span>"}</div></section>
         ${provider ? `
-        <section class="lc-product-card"><h2>Game distribution</h2><p>Games gain another discovery surface when players follow the people hosting them.</p>${state.creators.map((item) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe((item.creator.games || [])[0] || "Live Casino game")}</b><span>${safe(profileName(item.profile))} · ${safe(sessionStatusLabel(item.sessions[0]))} · ${safe((item.creator.languages || []).join(", "))}</span></div></div>`).join("")}</section>
-        <section class="lc-product-card"><h2>Creator mapping</h2><p>Provider game -> creator profile -> content -> live session -> operator handoff.</p></section>
-        <section class="lc-product-card"><h2>Integration concept</h2><p>Demo capability: pass game, creator, session and table context into existing provider/operator infrastructure.</p><span class="lc-product-note">No production provider integration is configured.</span></section>` : `
+        <section class="lc-product-card"><h2>Game distribution</h2><p>Games gain another discovery surface when players follow the people hosting them.</p>${state.creators.map((item) => `<div class="lc-product-row"><span class="lc-product-status-dot ${item.sessions[0]?.status === "live" ? "live" : ""}"></span><div class="lc-product-row-main"><b>${safe((item.creator.games || [])[0] || "Live Casino game")}</b><span>${safe(profileName(item.profile))} · ${safe(sessionStatusLabel(item.sessions[0]))} · ${safe((item.creator.languages || []).join(", "))}</span></div></div>`).join("")}</section>
+        <section class="lc-product-card"><h2>Creator mapping</h2><p>Provider game -> creator profile -> content -> live session -> operator handoff.</p>${compactCreatorRows(state.creators.slice(0, 3), "No creator mappings available.")}</section>
+        <section class="lc-product-card"><h2>Integration concept</h2><p>Demo capability: pass game, creator, session and table context into existing provider/operator infrastructure.</p><div class="lc-product-stats"><div class="lc-product-stat"><b>Demo</b><span>Adapter</span></div><div class="lc-product-stat"><b>Read-only</b><span>Catalog</span></div><div class="lc-product-stat"><b>Pending</b><span>Access</span></div></div><span class="lc-product-note">No production provider integration is configured.</span></section>` : `
         <section class="lc-product-card"><h2>Creator network</h2><p>Players discover recognizable live personalities before choosing a table.</p>${state.creators.map((item) => `<div class="lc-product-row"><img src="${safe(avatar(item.profile))}" alt=""><div class="lc-product-row-main"><b>${safe(profileName(item.profile))}</b><span>${safe((item.creator.games || []).join(", "))} · ${safe(sessionStatusLabel(item.sessions[0]))}</span></div></div>`).join("")}</section>
-        <section class="lc-product-card"><h2>Player journey</h2><p>Discover -> Creator -> Content -> Follow -> Live -> Continue with operator -> Return.</p></section>
+        <section class="lc-product-card"><h2>Player journey</h2><p>Discover -> Creator -> Content -> Follow -> Live -> Continue with operator -> Return.</p>${compactCreatorRows(state.creators.filter((item) => item.sessions[0]?.status === "live").slice(0, 2), "No live journey sample available.")}</section>
         <section class="lc-product-card"><h2>Contextual handoff</h2><p>The operator receives a player arriving from a creator, session, game and source context.</p></section>
-        <section class="lc-product-card"><h2>Integration concept</h2><p>Environment: Demo. Handoff passes context only, not wallet, KYC, AML, settlement or wagering data.</p><span class="lc-product-note">No confirmed operator integration.</span></section>`}
+        <section class="lc-product-card"><h2>Integration concept</h2><p>Environment: Demo. Handoff passes context only, not wallet, KYC, AML, settlement or wagering data.</p><div class="lc-product-stats"><div class="lc-product-stat"><b>Pending</b><span>Access</span></div><div class="lc-product-stat"><b>Demo</b><span>Handoff</span></div><div class="lc-product-stat"><b>None</b><span>Wallet data</span></div></div><span class="lc-product-note">No confirmed operator integration.</span></section>`}
         <section class="lc-product-card"><h2>The LC App loop</h2><p>Creators build identity. Players follow people. Operators receive contextual handoff. Providers gain game discovery.</p></section>
         <section class="lc-product-card"><h2>Partnership access</h2><p>Status: ${safe(request?.status || state.industry?.access_status || "not_requested")}</p><button class="lc-product-btn" type="button" data-lc-request-access="${safe(subtype)}">REQUEST PARTNERSHIP ACCESS</button><span class="lc-product-note">Request submission is persisted. Client cannot approve itself.</span></section>
       </div>${tabs("home")}`;
@@ -506,7 +562,7 @@
         ${creatorCard(item)}
         <section class="lc-product-card"><h2>Content</h2>${item.posts.length ? item.posts.map((p) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${new Date(p.created_at).toLocaleString()}</b><span>${safe(p.body)}</span></div><button class="lc-product-chip" type="button" data-lc-like="${safe(p.id)}">React</button></div>`).join("") : `<div class="lc-product-empty">No posts yet.</div>`}${post ? `<form class="lc-product-form" data-lc-form="comment" data-post-id="${safe(post.id)}"><input class="lc-product-input" name="body" maxlength="1000" placeholder="Comment on latest post"><button class="lc-product-btn secondary" type="submit">COMMENT</button></form>` : ""}</section>
         <section class="lc-product-card"><h2>Sessions</h2>${item.sessions.length ? item.sessions.map((s) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(s.game)} · ${safe(s.title || "Live session")}</b><span>${safe(s.operator_name || "Operator to be confirmed")} · ${safe(sessionLine(s))}</span></div><button class="lc-product-chip ${state.reminders.has(s.id) ? "active" : ""}" type="button" data-lc-reminder="${safe(s.id)}">${state.reminders.has(s.id) ? "Reminder set" : "Remind me"}</button></div>`).join("") : `<div class="lc-product-empty">No upcoming sessions. Follow the creator or return to Discover.</div>`}</section>
-        ${next ? `<section class="lc-product-card"><h2>Live / handoff</h2><p>LC App keeps the social context. Real-money play remains with the licensed operator/provider.</p><button class="lc-product-btn" type="button" data-lc-live="${safe(next.id)}">CONTINUE TO LIVE CONTEXT</button></section>` : ""}
+        ${next ? `<section class="lc-product-card"><h2>Live / handoff</h2><p>LC App keeps the social context. Real-money play remains with the licensed operator/provider.</p><button class="lc-product-btn" type="button" data-lc-live="${safe(next.id)}">PLAY WITH ${safe(profileName(item.profile)).toUpperCase()}</button></section>` : ""}
       </div>${tabs("discover")}`;
   }
 
@@ -521,8 +577,8 @@
       <div class="lc-product-stack">
         <section class="lc-product-card lc-product-hero"><span class="lc-product-label">${safe(sessionStatusLabel(session))}</span><h1>${safe(session.game)} with ${safe(profileName(item.profile))}</h1><p>${safe(session.title || "Live session")} · ${safe(session.operator_name || "Operator to be confirmed")}</p></section>
         <section class="lc-product-card"><h2>What LC App owns</h2><p>Creator identity, follow relationship, session reminder and return context.</p></section>
-        <section class="lc-product-card"><h2>Social presence</h2><p>Players arrive through a creator, react to content, save the session and return after play.</p></section>
-        <section class="lc-product-card"><h2>External operator/provider step</h2><p>Continue with the operator providing this game. LC App passes context only.</p><button class="lc-product-btn" type="button" data-lc-product="handoff">CONTINUE WITH OPERATOR</button><span class="lc-product-note">Demo handoff only. No confirmed operator/provider integration.</span></section>
+        <section class="lc-product-card"><h2>Social presence</h2><p>Players arrive through a creator, react to content, save the session and return after play.</p><div class="lc-product-actions"><button class="lc-product-chip ${state.follows.has(item.profile.id) ? "active" : ""}" type="button" data-lc-follow="${safe(item.profile.id)}">${state.follows.has(item.profile.id) ? "Following" : "Follow creator"}</button><button class="lc-product-chip ${state.reminders.has(session.id) ? "active" : ""}" type="button" data-lc-reminder="${safe(session.id)}">${state.reminders.has(session.id) ? "Reminder set" : "Remind me"}</button>${item.posts[0] ? `<button class="lc-product-chip" type="button" data-lc-like="${safe(item.posts[0].id)}">React</button>` : ""}</div></section>
+        <section class="lc-product-card"><h2>External operator/provider step</h2><p>Continue with the operator providing this game. LC App passes context only.</p><button class="lc-product-btn" type="button" data-lc-product="handoff">PLAY WITH ${safe(profileName(item.profile)).toUpperCase()}</button><span class="lc-product-note">Demo handoff only. No confirmed operator/provider integration.</span></section>
       </div>${tabs("discover")}`;
   }
 
@@ -775,6 +831,11 @@
       if (type === "post") await createPost(form);
       if (type === "session") await createSession(form);
       if (type === "comment") await commentPost(form);
+      if (type === "search") {
+        state.search = String(new FormData(form).get("search") || "").trim().slice(0, 80);
+        renderPlayerHome();
+        return;
+      }
       if (state.demo) {
         refreshDemoData();
         routeHome();
@@ -807,6 +868,7 @@
     const demoReset = target.closest("[data-lc-demo-reset]");
     const demoSwitch = target.closest("[data-lc-demo-switch]");
     const returnLive = target.closest("[data-lc-return-live]");
+    const clearSearch = target.closest("[data-lc-clear-search]");
     try {
       if (demoPersona) {
         event.preventDefault();
@@ -864,6 +926,12 @@
         }
         return routeHome();
       }
+      if (clearSearch) {
+        event.preventDefault();
+        state.search = "";
+        await loadCreators();
+        return renderPlayerHome();
+      }
       if (openCreator) {
         const id = openCreator.dataset.lcOpenCreator;
         if (state.demo && setProductHash(["demo", state.demoPersona, "creator", id])) return;
@@ -876,6 +944,10 @@
       }
       if (returnLive) {
         const id = returnLive.dataset.lcReturnLive;
+        if (state.demo) {
+          const found = findSessionEntry(id);
+          if (found) addDemoNotification(`Returned from operator context to ${profileName(found.entry.profile)}. Follow, content and next session stayed connected.`, id);
+        }
         if (state.demo && setProductHash(["demo", state.demoPersona, "live", id])) return;
         return renderLive(id);
       }
@@ -936,7 +1008,9 @@
     state.posts = [];
     state.follows = new Set();
     state.reminders = new Set();
+    state.notifications = [];
     state.accessRequests = [];
+    state.search = "";
     hide();
   }
 
