@@ -1,8 +1,8 @@
 {
-  "name": "LC App Investor Demo",
+  "name": "LC App",
   "short_name": "LC App",
   "id": "./?app=1",
-  "description": "Feed-first social live casino investor demo with watch mode, gameplay and licensed-operator handoff.",
+  "description": "LC App is the social discovery layer for Live Casino: discover creators, follow live sessions and continue through licensed operators.",
   "start_url": "./?app=1",
   "scope": "./",
   "display": "standalone",
