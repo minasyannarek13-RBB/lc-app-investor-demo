@@ -153,6 +153,7 @@
     q("#screen")?.classList.add("lc-product-mode");
     node.hidden = false;
     node.scrollTop = 0;
+    window.scrollTo(0, 0);
     return node;
   }
 
