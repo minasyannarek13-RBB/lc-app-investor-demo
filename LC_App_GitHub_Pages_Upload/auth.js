@@ -698,6 +698,7 @@
         const email = String(formData.get("email") || "").trim();
         const password = String(formData.get("password") || "");
         if (!validateEmail(email) || !password) throw new Error("VALIDATION_LOGIN");
+        const returnTarget = authReturnRoute();
         setPendingEmail(email);
         const { error } = await STATE.client.auth.signInWithPassword({
           email,
@@ -712,7 +713,9 @@
           throw new Error(code);
         }
         await refreshSession();
-        setRoute(isProfileComplete(STATE.profile) ? consumeAuthReturn("feed") : authReturnRoute() || "feed");
+        const nextRoute = returnTarget || authReturnRoute() || "feed";
+        if (isProfileComplete(STATE.profile)) clearAuthReturn();
+        setRoute(nextRoute);
         return;
       }
       if (type === "forgot") {

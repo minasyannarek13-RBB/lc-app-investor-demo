@@ -609,6 +609,7 @@
         <section class="lc-product-card"><div class="lc-product-row"><img src="${safe(avatar(state.profile))}" alt=""><div class="lc-product-row-main"><b>${safe(profileName(state.profile))}</b><span>${safe(state.profile.username ? "@" + state.profile.username : state.profile.id)}</span></div></div></section>
         <section class="lc-product-card"><h2>Current experience</h2><p>${safe(state.current?.persona || "none")} ${state.current?.industry_subtype ? "· " + safe(state.current.industry_subtype) : ""}</p><div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-persona="player">Player</button><button class="lc-product-chip" type="button" data-lc-persona="creator">Creator</button><button class="lc-product-chip" type="button" data-lc-persona="industry">Industry</button></div></section>
         <section class="lc-product-card"><h2>Security role</h2><p>${safe(state.profile.role || "user")} stays separate from product persona.</p></section>
+        <section class="lc-product-card"><h2>Session</h2><p>Sign out clears the local LC App session and returns to login.</p><div class="lc-product-actions">${state.demo ? `<button class="lc-product-btn secondary" type="button" data-lc-demo-exit>EXIT DEMO</button><button class="lc-product-btn" type="button" data-auth-route="signup">CREATE ACCOUNT</button>` : `<button class="lc-product-btn secondary" type="button" data-auth-route="logout">SIGN OUT</button>`}</div></section>
       </div>${tabs("account")}`;
   }
 
@@ -978,7 +979,7 @@
     }
   }
 
-  async function mount({ client, profile }) {
+  async function mount({ client, profile, target = "product" }) {
     state.demo = false;
     state.demoPersona = null;
     state.client = client;
