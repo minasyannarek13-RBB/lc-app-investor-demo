@@ -21,6 +21,7 @@
     cursor: null,
     hasMore: true,
     loading: false,
+    error: "",
     searchTimer: 0,
     searchResults: [],
     blockedIds: new Set(),
@@ -252,7 +253,14 @@
       return;
     }
     const posts = state.posts.map(postMarkup).join("");
-    const empty = !state.loading && !state.posts.length ? `
+    const failure = !state.loading && state.error ? `
+      <section class="lc-social-card lc-social-empty">
+        <h3>Couldn't load the feed.</h3>
+        <p>Check your connection and try again.</p>
+        <button class="lc-social-btn primary" type="button" data-lc-social-action="retry-feed">Retry</button>
+      </section>
+    ` : "";
+    const empty = !state.loading && !state.error && !state.posts.length ? `
       <section class="lc-social-card lc-social-empty">
         <h3>${state.tab === "following" ? "Your feed is empty" : "No posts yet"}</h3>
         <p>${state.tab === "following" ? "Follow creators, players, and hosts to see their latest updates here." : "Create the first real LC App post."}</p>
@@ -260,7 +268,7 @@
       </section>
     ` : "";
     const more = state.hasMore && state.posts.length ? `<button class="lc-social-btn" type="button" data-lc-social-action="load-more">Load more</button>` : "";
-    renderShell(`${composer()}${posts}${empty}${more}`);
+    renderShell(`${composer()}${posts}${failure}${empty}${more}`);
   }
 
   function postMarkup(post) {
@@ -334,8 +342,8 @@
   async function loadFeed(reset = false) {
     if (state.loading) return;
     state.loading = true;
+    state.error = "";
     if (reset) {
-      state.posts = [];
       state.cursor = null;
       state.hasMore = true;
     }
@@ -368,7 +376,8 @@
       state.hasMore = (data || []).length === PAGE_SIZE;
       state.cursor = state.posts.length ? state.posts[state.posts.length - 1] : null;
     } catch (error) {
-      toast(message(error));
+      state.error = "Couldn't load the feed.";
+      toast(state.error);
     } finally {
       state.loading = false;
       renderFeed();
@@ -875,6 +884,7 @@
       }
       const action = target.dataset.lcSocialAction;
       if (action === "load-more") await loadFeed(false);
+      if (action === "retry-feed") await loadFeed(!state.posts.length);
       if (action === "like") await toggleLike(target.dataset.postId);
       if (action === "comments") await loadComments(target.dataset.postId);
       if (action === "reply") renderReplyForm(target.dataset.postId, target.dataset.commentId);
@@ -914,6 +924,7 @@
     state.profile = null;
     state.mounted = false;
     state.posts = [];
+    state.error = "";
     state.commentsByPost.clear();
     q("#screen")?.classList.remove("lc-social-active");
     q("#lcSocialSheet")?.setAttribute("hidden", "");
