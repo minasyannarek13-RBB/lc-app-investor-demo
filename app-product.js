@@ -290,7 +290,7 @@
         <div class="lc-product-brand"><span class="lc-product-logo">LC</span><div><strong>${safe(title)}</strong><span>${safe(subtitle)}</span></div></div>
         <button class="lc-product-chip" type="button" data-lc-product="account">${safe(state.current?.persona || "persona")}</button>
       </div>
-      ${state.demo ? `<div class="lc-product-demo-banner"><strong>DEMO MODE · ${safe(state.demoPersona || "preview")}</strong><div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-demo-switch>Switch role</button><button class="lc-product-chip" type="button" data-lc-demo-reset>Reset demo</button><button class="lc-product-chip" type="button" data-lc-demo-exit>Exit demo</button><button class="lc-product-chip active" type="button" data-auth-route="signup">Create your account</button></div></div>` : ""}
+      ${state.demo ? `<div class="lc-product-demo-banner"><strong>INTERACTIVE REVEAL · ${safe(state.demoPersona || "preview")}</strong><div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-demo-switch>Switch perspective</button><button class="lc-product-chip" type="button" data-lc-demo-reset>Reset journey</button><button class="lc-product-chip" type="button" data-lc-demo-exit>Back to opening</button></div></div>` : ""}
     `;
   }
 
@@ -376,22 +376,24 @@
   }
 
   function renderDemoEntry() {
-    shell().innerHTML = `${top("LC App", "Creator-first Live Casino")}
+    shell().innerHTML = `${top("LC App", "The social discovery layer for Live Casino")}
       <div class="lc-product-entry">
-        ${visualHero("Visual 2.0", "Casino, through people.", "Follow creators. Catch the live moment. Return to the table with context.", visualMedia.fallback, '<button class="lc-product-btn" type="button" data-lc-demo-persona="player">Start reveal</button><button class="lc-product-btn secondary" type="button" data-lc-demo-persona="operator">Ecosystem view</button>')}
+        ${visualHero("The social discovery layer for Live Casino", "Live Casino through people.", "Live Casino has always had personalities. LC App makes them discoverable, followable and able to bring audiences back to the live moment.", visualMedia.fallback, '<button class="lc-product-btn" type="button" data-lc-demo-persona="player">Start with the player</button><button class="lc-product-btn secondary" type="button" data-lc-demo-persona="operator">See the business layer</button>')}
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>The discovery model changes</h2><span>Game-first → people-first</span></div><p style="margin-bottom:10px">Traditional Live Casino discovery starts with the lobby. LC starts with the person.</p><div class="lc-product-flow"><span>Casino</span><span>Lobby</span><span>Game</span><span>Table</span><span>Seat</span></div><div class="lc-product-flow" style="margin-top:8px"><span>Discover</span><span>Creator</span><span>Follow</span><span>Live</span><span>Return</span></div></section>
         <section class="lc-product-media-grid">
-          ${visualTile(visualMedia["demo-sofia"], "Discover", "The host behind the table.", "A consumer entry point for live rooms.", true)}
-          ${visualTile(visualMedia["demo-alex"], "Live now", "Baccarat starts soon.", "Creator-led live intent.")}
-          ${visualTile(visualMedia["demo-marcus"], "Community", "The table becomes a room.", "People, content and return loops.")}
+          ${visualTile(visualMedia["demo-sofia"], "Discover", "The person becomes the entry point.", "A player can discover a host before choosing the table.", true)}
+          ${visualTile(visualMedia["demo-alex"], "Live intent", "Follow the moment, not only the game.", "Creator identity turns attention into a reason to return.")}
+          ${visualTile(visualMedia["demo-marcus"], "Continuity", "The table is temporary. The relationship can continue.", "Content, schedules and follows connect one live session to the next.")}
         </section>
-        <section class="lc-product-card"><h2>Safe boundary</h2><p>LC App handles discovery and social context. Operators/providers keep game operation, wallet, KYC, wagering and settlement.</p></section>
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>One layer. Four sides.</h2><span>Explore the thesis</span></div><p>Start with the player journey, then switch perspective to see why creators, operators and providers can all participate without LC becoming the casino.</p></section>
         <section class="lc-product-personas">
-          <button class="lc-product-persona" type="button" data-lc-demo-persona="player"><b>PLAYER</b><span>Discover -> Creator -> Follow -> Live -> Handoff -> Return.</span></button>
-          <button class="lc-product-persona" type="button" data-lc-demo-persona="creator"><b>CREATOR / DEALER</b><span>Profile, content, audience and live schedule.</span></button>
-          <button class="lc-product-persona" type="button" data-lc-demo-persona="operator"><b>OPERATOR</b><span>Creator-led discovery and operator-controlled handoff.</span></button>
-          <button class="lc-product-persona" type="button" data-lc-demo-persona="provider"><b>PROVIDER</b><span>Distribution through people, rooms and content.</span></button>
+          <button class="lc-product-persona" type="button" data-lc-demo-persona="player"><b>PLAYER</b><span>Discover → Creator → Follow → Live → Handoff → Return.</span></button>
+          <button class="lc-product-persona" type="button" data-lc-demo-persona="creator"><b>CREATOR / DEALER</b><span>Dealer → Persona → Creator → Audience → Live intent.</span></button>
+          <button class="lc-product-persona" type="button" data-lc-demo-persona="operator"><b>OPERATOR</b><span>The operator keeps the game. LC creates another path to it.</span></button>
+          <button class="lc-product-persona" type="button" data-lc-demo-persona="provider"><b>PROVIDER</b><span>Distribution can start with a person, not only a game tile.</span></button>
         </section>
-        <div class="lc-product-entry-auth"><button class="lc-product-btn secondary" type="button" data-auth-route="login">SIGN IN</button><button class="lc-product-btn" type="button" data-auth-route="signup">CREATE ACCOUNT</button></div>
+        <section class="lc-product-card"><h2>Clear operating boundary</h2><p>LC App owns discovery, creator identity, social context, schedules and return intent. Licensed operators/providers keep gameplay, wallet, deposits and withdrawals, KYC/AML, responsible gaming, wagering and settlement.</p></section>
+        <section class="lc-product-card lc-product-hero"><span class="lc-product-label">The thesis</span><h1>Casino was built around games. LC is built around people.</h1><p>Live Casino through people.</p></section>
       </div>`;
   }
 
@@ -517,8 +519,8 @@
     const c = state.creator;
     shell().innerHTML = `${top("Creator Home", "Profile, content, schedule")}
       <div class="lc-product-stack">
-        ${visualHero("Creator Home", "A home for the host.", "Profile, posts, rooms, followers and live schedule in one consumer surface.", visualImage(state.profile), "", "compact")}
-        <section class="lc-product-card"><div class="lc-product-flow"><span>Profile</span><span>Content</span><span>Schedule</span><span>Live</span><span>Audience</span></div><span class="lc-product-note">Verification and affiliation approval are protected. Creator cannot self-verify.</span></section>
+        ${visualHero("Creator Home", "From dealer to creator.", "A persistent identity turns a dealer into a persona players can discover, follow and return to across sessions.", visualImage(state.profile), "", "compact")}
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Identity becomes distribution</h2><span>Dealer → Creator</span></div><div class="lc-product-flow"><span>Dealer</span><span>Persona</span><span>Content</span><span>Audience</span><span>Live intent</span></div><span class="lc-product-note">Verification and affiliation approval are protected. Creator cannot self-verify.</span></section>
         <section class="lc-product-card"><div class="lc-product-stats"><div class="lc-product-stat"><b>${state.sessions.length}</b><span>Sessions</span></div><div class="lc-product-stat"><b>${state.posts.length}</b><span>Posts</span></div><div class="lc-product-stat"><b>${safe(c.profile_status || "draft")}</b><span>Status</span></div></div></section>
         <section class="lc-product-card"><h2>Create post</h2><form class="lc-product-form" data-lc-form="post"><textarea class="lc-product-textarea" name="body" maxlength="2000" placeholder="Share a table note or session update"></textarea><button class="lc-product-btn" type="submit">PUBLISH POST</button></form></section>
         <section class="lc-product-card"><h2>Add session</h2><form class="lc-product-form" data-lc-form="session"><input class="lc-product-input" name="title" maxlength="120" placeholder="Session title" value="Live table session"><select class="lc-product-select" name="game">${games.map((g) => `<option>${safe(g)}</option>`).join("")}</select><input class="lc-product-input" name="operator_name" maxlength="120" placeholder="Operator or studio (user claimed / optional)"><input class="lc-product-input" name="starts_at" type="datetime-local" required><button class="lc-product-btn" type="submit">ADD SESSION</button></form><span class="lc-product-note">Operator/provider context is user claimed or demo unless verified by partner integration.</span></section>
@@ -547,8 +549,8 @@
     const provider = subtype === "provider";
     shell().innerHTML = `${top(`${subtype} perspective`, "Concept evaluation")}
       <div class="lc-product-stack">
-        ${visualHero(provider ? "Provider / ecosystem" : "Operator perspective", provider ? "Live Casino as a creator network." : "Return intent before the table opens.", provider ? "A distribution layer for rooms, hosts and content without claiming production integrations." : "A social discovery and re-engagement layer around licensed operator infrastructure.", provider ? visualMedia["demo-mia"] : visualMedia["demo-sofia"], "", "copy-top")}
-        <section class="lc-product-card"><div class="lc-product-flow">${provider ? "<span>Game</span><span>Creator</span><span>Audience</span><span>Live</span><span>Operator</span>" : "<span>Discover</span><span>Intent</span><span>Handoff</span><span>Return</span><span>Access</span>"}</div></section>
+        ${visualHero(provider ? "Provider / ecosystem" : "Operator perspective", provider ? "Distribution can start with a person." : "The operator keeps the game. LC creates another path to it.", provider ? "Creators, rooms and content become an additional discovery surface around existing provider distribution." : "Creator → Audience → Live intent → Operator handoff → Return. LC adds discovery and continuity around licensed operator infrastructure.", provider ? visualMedia["demo-mia"] : visualMedia["demo-sofia"], "", "copy-top")}
+        <section class="lc-product-card"><div class="lc-product-flow">${provider ? "<span>Game</span><span>Creator</span><span>Audience</span><span>Live intent</span><span>Operator</span>" : "<span>Creator</span><span>Audience</span><span>Live intent</span><span>Handoff</span><span>Return</span>"}</div></section>
         <section class="lc-product-media-grid">${state.creators.slice(0, 3).map((item, index) => visualTile(visualImage(item.profile), provider ? "Room discovery" : "Creator-led discovery", profileName(item.profile), sessionStatusLabel(item.sessions[0]), index === 0)).join("")}</section>
         <section class="lc-product-card"><h2>Partnership access</h2><p>Status: ${safe(request?.status || state.industry?.access_status || "not_requested")}</p><button class="lc-product-btn" type="button" data-lc-request-access="${safe(subtype)}">REQUEST PARTNERSHIP ACCESS</button><span class="lc-product-note">Request submission is persisted. Client cannot approve itself. No production integration is configured.</span></section>
       </div>${tabs("home")}`;
@@ -593,7 +595,7 @@
     shell().innerHTML = `${top("Operator handoff", "Conceptual external flow")}
       <div class="lc-product-stack">
         ${visualHero(state.demo ? "Demo handoff" : "Conceptual handoff", "Continue with the operator.", "The licensed operator controls gameplay, wallet, KYC/AML, responsible gaming, bet acceptance and settlement.", visualImage(entry.profile), `<button class="lc-product-btn" type="button" data-lc-return-live="${safe(session.id)}">Return to LC App</button><button class="lc-product-btn secondary" type="button" data-lc-open-creator="${safe(entry.profile.id)}">Creator profile</button>`, "compact copy-top")}
-        <section class="lc-product-card"><div class="lc-product-flow"><span>Creator</span><span>Intent</span><span>Operator</span><span>Play</span><span>Return</span></div><span class="lc-product-note">No deposits, wagering, KYC, AML, wallet or settlement data passes through LC.</span></section>
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>The relationship survives the handoff</h2><span>Context returns with the player</span></div><div class="lc-product-flow"><span>Creator</span><span>Intent</span><span>Operator</span><span>Play</span><span>Return</span></div><p style="margin-top:10px">The table is temporary. The relationship can continue.</p><span class="lc-product-note">No deposits, wagering, KYC, AML, wallet or settlement data passes through LC.</span></section><section class="lc-product-card lc-product-hero"><span class="lc-product-label">LC App</span><h1>Live Casino through people.</h1><p>Discovery, identity and return context around the licensed casino ecosystem.</p></section>
       </div>${tabs("discover")}`;
   }
 
@@ -610,7 +612,7 @@
         <section class="lc-product-card"><div class="lc-product-row"><img src="${safe(avatar(state.profile))}" alt=""><div class="lc-product-row-main"><b>${safe(profileName(state.profile))}</b><span>${safe(state.profile.username ? "@" + state.profile.username : state.profile.id)}</span></div></div></section>
         <section class="lc-product-card"><h2>Current experience</h2><p>${safe(state.current?.persona || "none")} ${state.current?.industry_subtype ? "· " + safe(state.current.industry_subtype) : ""}</p><div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-persona="player">Player</button><button class="lc-product-chip" type="button" data-lc-persona="creator">Creator</button><button class="lc-product-chip" type="button" data-lc-persona="industry">Industry</button></div></section>
         <section class="lc-product-card"><h2>Security role</h2><p>${safe(state.profile.role || "user")} stays separate from product persona.</p></section>
-        <section class="lc-product-card"><h2>Session</h2><p>Sign out clears the local LC App session and returns to login.</p><div class="lc-product-actions">${state.demo ? `<button class="lc-product-btn secondary" type="button" data-lc-demo-exit>EXIT DEMO</button><button class="lc-product-btn" type="button" data-auth-route="signup">CREATE ACCOUNT</button>` : `<button class="lc-product-btn secondary" type="button" data-auth-route="logout">SIGN OUT</button>`}</div></section>
+        <section class="lc-product-card"><h2>Session</h2><p>Sign out clears the local LC App session and returns to login.</p><div class="lc-product-actions">${state.demo ? `<button class="lc-product-btn secondary" type="button" data-lc-demo-exit>BACK TO OPENING</button>` : `<button class="lc-product-btn secondary" type="button" data-auth-route="logout">SIGN OUT</button>`}</div></section>
       </div>${tabs("account")}`;
   }
 
