@@ -1,0 +1,76 @@
+name: Reveal executive IA polish
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/reveal-executive-ia-polish.yml'
+jobs:
+  polish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Apply executive narrative polish
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const files = ['app-product.js','LC_App_GitHub_Pages_Upload/app-product.js'];
+          for (const file of files) {
+            let s = fs.readFileSync(file,'utf8');
+            const replacements = [
+              [
+                'Live Casino has always had personalities. LC App makes them discoverable, followable and able to bring audiences back to the live moment.',
+                'Live Casino already has personalities. The missing layer is a way to discover them, follow them and return when they are live.'
+              ],
+              [
+                '<h2>Old discovery</h2><span>Casino → Lobby → Game → Table → Seat</span>',
+                '<h2>Today</h2><span>Casino → Lobby → Game → Table → Seat</span>'
+              ],
+              [
+                '<h2>LC discovery</h2><span>Discover → Creator → Follow → Live → Return</span>',
+                '<h2>With LC</h2><span>Discover → Person → Follow → Live → Return</span>'
+              ],
+              [
+                'One layer. Four sides.',
+                'One product loop. Four beneficiaries.'
+              ],
+              [
+                'Choose a perspective to see the same product from the player, creator, operator or provider side.',
+                'The same creator-led loop creates a different reason to care for players, creators, operators and providers.'
+              ],
+              [
+                'The person becomes the entry point.',
+                'Discovery can start with a person, not only a game tile.'
+              ],
+              [
+                'Follow the moment, not only the game.',
+                'Follow creates a reason to return to the next live moment.'
+              ],
+              [
+                'The table is temporary. The relationship can continue.',
+                'A table session ends. The creator relationship can persist.'
+              ]
+            ];
+            for (const [from,to] of replacements) {
+              if (s.includes(from)) s = s.replaceAll(from,to);
+            }
+            fs.writeFileSync(file,s);
+          }
+          NODE
+          node --check app-product.js
+          node --check LC_App_GitHub_Pages_Upload/app-product.js
+          cmp -s app-product.js LC_App_GitHub_Pages_Upload/app-product.js
+      - name: Commit executive narrative polish
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add app-product.js LC_App_GitHub_Pages_Upload/app-product.js
+          git diff --cached --quiet && exit 0
+          git commit -m 'Sharpen reveal for executive comprehension'
+          git push origin HEAD:main
