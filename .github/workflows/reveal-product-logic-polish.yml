@@ -1,0 +1,59 @@
+name: Reveal product logic polish
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/reveal-product-logic-polish.yml'
+jobs:
+  polish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Apply product logic polish
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const files = ['app-product.js','LC_App_GitHub_Pages_Upload/app-product.js'];
+          for (const file of files) {
+            let s = fs.readFileSync(file,'utf8');
+
+            const watchFrom = `<section class="lc-product-card"><h2>Room chat</h2><div class="lc-product-row"><div class="lc-product-row-main"><b>James</b><span>Same table tomorrow?</span></div></div><div class="lc-product-row"><div class="lc-product-row-main"><b>\${safe(profileName(item.profile))}</b><span>Yes - 20:00.</span></div></div></section>\n        <section class="lc-product-card"><h2>LC owns the social layer</h2><p>Creator identity, follow relationship, session reminder and return context. The licensed operator controls gameplay.</p><span class="lc-product-note">\${state.demo ? "Demo handoff only." : "Conceptual handoff only."} No confirmed operator/provider integration.</span></section>`;
+            const watchTo = `<section class="lc-product-card"><div class="lc-product-section-head"><h2>Why this player can return</h2><span>Relationship before transaction</span></div><div class="lc-product-flow"><span>Creator</span><span>Follow</span><span>Schedule</span><span>Live</span><span>Return</span></div><p style="margin-top:10px">Chat is context, not the product. The value is that the player can keep a relationship with the person behind the table between live sessions.</p></section>\n        <section class="lc-product-card"><h2>LC stops at the casino boundary</h2><p>LC keeps creator identity, follow state, schedule and return context. The licensed operator keeps gameplay, wallet, KYC/AML, responsible gaming, wagering and settlement.</p><span class="lc-product-note">\${state.demo ? "Demo handoff only." : "Conceptual handoff only."} No confirmed operator/provider integration.</span></section>`;
+            if (!s.includes(watchFrom)) throw new Error(`watch anchor missing: ${file}`);
+            s = s.replace(watchFrom, watchTo);
+
+            const creatorAnchor = `  function renderCreatorHome() {\n    const c = state.creator;\n`;
+            if (!s.includes(creatorAnchor)) throw new Error(`creator anchor missing: ${file}`);
+            const creatorInsert = `  function renderCreatorHome() {\n    const c = state.creator;\n    if (state.demo) {\n      shell().innerHTML = \`\${top("Creator", "Dealer → Persona → Audience → Return")}\n        <div class="lc-product-stack">\n          \${visualHero("Creator identity", "The dealer should not disappear when the shift ends.", "A persistent creator identity lets players discover a person, follow them, see when they are live and return across sessions.", visualImage(state.profile), "", "compact")}\n          <section class="lc-product-card"><div class="lc-product-section-head"><h2>The transformation</h2><span>From staff role to followable persona</span></div><div class="lc-product-flow"><span>Dealer</span><span>Persona</span><span>Content</span><span>Audience</span><span>Live intent</span></div><p style="margin-top:10px">The product opportunity is not a creator dashboard. It is continuity of identity around Live Casino.</p></section>\n          <section class="lc-product-card"><h2>What LC adds</h2><p>Profile, content, schedule, follows and reminders work together as one return mechanism. They are not separate features competing for attention.</p></section>\n          <section class="lc-product-card lc-product-hero"><span class="lc-product-label">Creator value</span><h1>A table session ends. The audience does not have to.</h1><p>Persistent identity creates a reason to come back to the next live moment.</p></section>\n        </div>\`;\n      return;\n    }\n`;
+            s = s.replace(creatorAnchor, creatorInsert);
+
+            const industryAnchor = `    const request = state.accessRequests.find((row) => row.industry_subtype === subtype);\n    const provider = subtype === "provider";\n`;
+            if (!s.includes(industryAnchor)) throw new Error(`industry anchor missing: ${file}`);
+            const industryInsert = `    const request = state.accessRequests.find((row) => row.industry_subtype === subtype);\n    const provider = subtype === "provider";\n    if (state.demo) {\n      const heroTitle = provider ? "Distribution can start with a person." : "The operator keeps the game. LC creates another path to it.";\n      const heroBody = provider ? "Creators, rooms and content become an additional discovery surface around existing provider distribution." : "Creator → Audience → Live intent → Operator handoff → Return. LC adds discovery and continuity around licensed operator infrastructure.";\n      shell().innerHTML = \`\${top(provider ? "Provider" : "Operator", "Business perspective")}\n        <div class="lc-product-stack">\n          \${visualHero(provider ? "Provider value" : "Operator value", heroTitle, heroBody, visualMedia[provider ? "demo-marcus" : "demo-sofia"], "", "compact copy-top")}\n          <section class="lc-product-card"><div class="lc-product-section-head"><h2>What changes</h2><span>New discovery path, same regulated core</span></div><div class="lc-product-flow">\${provider ? "<span>Creator</span><span>Audience</span><span>Room</span><span>Live intent</span><span>Operator</span>" : "<span>Creator</span><span>Audience</span><span>Intent</span><span>Handoff</span><span>Return</span>"}</div></section>\n          <section class="lc-product-card"><h2>Why this can matter</h2><p>LC is not proposing another casino lobby. It proposes an additional reason for players to discover, choose and return to Live Casino through people.</p></section>\n          <section class="lc-product-card"><h2>Operating boundary</h2><p>Operators/providers retain gameplay, wallet, deposits and withdrawals, KYC/AML, responsible gaming, wagering and settlement. LC remains the discovery, identity and return-context layer.</p><span class="lc-product-note">Concept only. No confirmed production integration, pilot, customer or revenue claim.</span></section>\n          <section class="lc-product-card lc-product-hero"><span class="lc-product-label">Commercial thesis</span><h1>More ways to reach the same regulated live product.</h1><p>People become a distribution surface without LC becoming the operator.</p></section>\n        </div>\`;\n      return;\n    }\n`;
+            s = s.replace(industryAnchor, industryInsert);
+
+            const handoffFrom = `<section class="lc-product-card"><div class="lc-product-section-head"><h2>The relationship survives the handoff</h2><span>Context returns with the player</span></div><div class="lc-product-flow"><span>Creator</span><span>Intent</span><span>Operator</span><span>Play</span><span>Return</span></div><p style="margin-top:10px">The table is temporary. The relationship can continue.</p><span class="lc-product-note">No deposits, wagering, KYC, AML, wallet or settlement data passes through LC.</span></section><section class="lc-product-card lc-product-hero"><span class="lc-product-label">LC App</span><h1>Live Casino through people.</h1><p>Discovery, identity and return context around the licensed casino ecosystem.</p></section>`;
+            const handoffTo = `<section class="lc-product-card"><div class="lc-product-section-head"><h2>The handoff is the proof</h2><span>LC creates intent, operator completes play</span></div><div class="lc-product-flow"><span>Discover</span><span>Creator</span><span>Intent</span><span>Operator</span><span>Return</span></div><p style="margin-top:10px">LC does not need to own the wager to create value. Its job is to create a stronger reason to reach the live table and a clearer reason to come back afterward.</p><span class="lc-product-note">No deposits, wagering, KYC, AML, wallet or settlement data passes through LC.</span></section><section class="lc-product-card lc-product-hero"><span class="lc-product-label">Closed loop</span><h1>The table is temporary. The relationship can continue.</h1><p>Live Casino through people.</p></section>`;
+            if (!s.includes(handoffFrom)) throw new Error(`handoff anchor missing: ${file}`);
+            s = s.replace(handoffFrom, handoffTo);
+
+            fs.writeFileSync(file,s);
+          }
+          NODE
+          node --check app-product.js
+          node --check LC_App_GitHub_Pages_Upload/app-product.js
+      - name: Commit product logic polish
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add app-product.js LC_App_GitHub_Pages_Upload/app-product.js
+          git diff --cached --quiet && exit 0
+          git commit -m 'Refocus reveal on product value loops'
+          git push origin HEAD:main
