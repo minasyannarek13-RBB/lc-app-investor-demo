@@ -1,0 +1,54 @@
+name: Mobile reveal layout polish
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/mobile-reveal-layout-polish.yml'
+jobs:
+  polish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Polish mobile reveal layout
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const files = ['app-product.js','LC_App_GitHub_Pages_Upload/app-product.js'];
+          for (const file of files) {
+            let s = fs.readFileSync(file,'utf8');
+
+            const shellFrom = '#lcProductShell{position:absolute;inset:0;z-index:74;overflow:auto;padding:18px max(14px,env(safe-area-inset-left)) calc(96px + env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-right));';
+            const shellTo = '#lcProductShell{position:absolute;inset:0;z-index:74;overflow:auto;padding:calc(18px + env(safe-area-inset-top)) max(14px,env(safe-area-inset-left)) calc(72px + env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-right));';
+            if (!s.includes(shellFrom)) throw new Error(`product shell anchor missing: ${file}`);
+            s = s.replace(shellFrom, shellTo);
+
+            const tabsFn = '  function tabs(active) {\n    const current = state.current?.persona || "start";';
+            const tabsFnNew = '  function tabs(active) {\n    if (state.demo) return "";\n    const current = state.current?.persona || "start";';
+            if (!s.includes(tabsFn)) throw new Error(`tabs function anchor missing: ${file}`);
+            s = s.replace(tabsFn, tabsFnNew);
+
+            const mobileAnchor = '@media(max-width:430px){#lcProductShell{padding-left:12px;padding-right:12px}';
+            const mobileNew = '@media(max-width:430px){#lcProductShell{padding-top:calc(12px + env(safe-area-inset-top));padding-left:12px;padding-right:12px;padding-bottom:calc(48px + env(safe-area-inset-bottom))}.lc-product-top{margin-bottom:8px}.lc-product-logo{width:34px;height:34px;border-radius:12px}.lc-product-brand span{display:none}.lc-product-brand strong{font-size:13px}.lc-product-top>.lc-product-chip{min-height:32px;padding:0 10px}.lc-product-cinema.compact{min-height:350px}';
+            if (!s.includes(mobileAnchor)) throw new Error(`mobile anchor missing: ${file}`);
+            s = s.replace(mobileAnchor, mobileNew);
+
+            fs.writeFileSync(file,s);
+          }
+          NODE
+          node --check app-product.js
+          node --check LC_App_GitHub_Pages_Upload/app-product.js
+      - name: Commit mobile layout polish
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add app-product.js LC_App_GitHub_Pages_Upload/app-product.js
+          git diff --cached --quiet && exit 0
+          git commit -m 'Polish reveal layout for mobile Safari'
+          git push origin HEAD:main
