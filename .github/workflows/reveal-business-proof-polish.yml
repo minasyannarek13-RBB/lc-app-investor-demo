@@ -1,0 +1,69 @@
+name: Reveal business proof polish
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/reveal-business-proof-polish.yml'
+jobs:
+  polish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Strengthen product and business proof
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const files = ['app-product.js','LC_App_GitHub_Pages_Upload/app-product.js'];
+          for (const file of files) {
+            let s = fs.readFileSync(file,'utf8');
+
+            const liveFrom = 'shell().innerHTML = `${top("Live", "Watch mode before handoff")}';
+            const liveTo = 'shell().innerHTML = `${top("Live", "Creator-led intent before operator handoff")}';
+            if (!s.includes(liveFrom)) throw new Error(`live heading anchor missing: ${file}`);
+            s = s.replace(liveFrom, liveTo);
+
+            const heroFrom = '"Watch mode with creator identity, social context and table intent."';
+            const heroTo = '"Creator identity, follow state and live context build intent before the player continues to the licensed operator."';
+            if (!s.includes(heroFrom)) throw new Error(`live hero anchor missing: ${file}`);
+            s = s.replace(heroFrom, heroTo);
+
+            const valueFrom = '<section class="lc-product-card"><div class="lc-product-section-head"><h2>Why this player can return</h2><span>Relationship before transaction</span></div><div class="lc-product-flow"><span>Creator</span><span>Follow</span><span>Schedule</span><span>Live</span><span>Return</span></div><p style="margin-top:10px">Chat is context, not the product. The value is that the player can keep a relationship with the person behind the table between live sessions.</p></section>';
+            const valueTo = '<section class="lc-product-card"><div class="lc-product-section-head"><h2>Continuity is the product</h2><span>Relationship before transaction</span></div><div class="lc-product-flow"><span>Discover</span><span>Follow</span><span>Schedule</span><span>Live intent</span><span>Return</span></div><p style="margin-top:10px">Profile, follow, schedule and social context are one mechanism: they turn a one-off table encounter into a reason to find the same person again.</p></section>';
+            if (!s.includes(valueFrom)) throw new Error(`player continuity anchor missing: ${file}`);
+            s = s.replace(valueFrom, valueTo);
+
+            const industryFrom = '<section class="lc-product-card"><h2>Why this can matter</h2><p>LC is not proposing another casino lobby. It proposes an additional reason for players to discover, choose and return to Live Casino through people.</p></section>';
+            const industryTo = '<section class="lc-product-card"><div class="lc-product-section-head"><h2>Value hypothesis</h2><span>No invented performance claims</span></div><div class="lc-product-grid two">${provider ? `<div class="lc-product-card"><h3>Discovery</h3><p>Hosts and live rooms become visible through people, not only through game tiles.</p></div><div class="lc-product-card"><h3>Distribution</h3><p>Creator identity can become an additional surface around existing provider and operator channels.</p></div>` : `<div class="lc-product-card"><h3>Discovery</h3><p>Creator-led entry gives the operator another path from attention to a live table.</p></div><div class="lc-product-card"><h3>Return</h3><p>Follow, schedule and creator identity give the player a reason to come back beyond generic lobby browsing.</p></div>`}</div><p style="margin-top:10px">These are product hypotheses to validate through integration and pilot data. The reveal does not claim proven uplift, revenue or retention.</p></section>';
+            if (!s.includes(industryFrom)) throw new Error(`industry value anchor missing: ${file}`);
+            s = s.replace(industryFrom, industryTo);
+
+            const thesisFrom = '<section class="lc-product-card lc-product-hero"><span class="lc-product-label">Commercial thesis</span><h1>More ways to reach the same regulated live product.</h1><p>People become a distribution surface without LC becoming the operator.</p></section>';
+            const thesisTo = '<section class="lc-product-card lc-product-hero"><span class="lc-product-label">Commercial thesis</span><h1>LC monetizes the path around the game, not the regulated game itself.</h1><p>Discovery, creator identity, return context and attributable handoff are the layer to validate commercially.</p></section>';
+            if (!s.includes(thesisFrom)) throw new Error(`commercial thesis anchor missing: ${file}`);
+            s = s.replace(thesisFrom, thesisTo);
+
+            const handoffFrom = '<p style="margin-top:10px">LC does not need to own the wager to create value. Its job is to create a stronger reason to reach the live table and a clearer reason to come back afterward.</p>';
+            const handoffTo = '<p style="margin-top:10px">The product proof is the handoff itself: LC creates identifiable creator-led intent, the operator keeps the regulated transaction, and LC can preserve the social context needed for a return loop.</p>';
+            if (!s.includes(handoffFrom)) throw new Error(`handoff proof anchor missing: ${file}`);
+            s = s.replace(handoffFrom, handoffTo);
+
+            fs.writeFileSync(file,s);
+          }
+          NODE
+          node --check app-product.js
+          node --check LC_App_GitHub_Pages_Upload/app-product.js
+      - name: Commit business proof polish
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add app-product.js LC_App_GitHub_Pages_Upload/app-product.js
+          git diff --cached --quiet && exit 0
+          git commit -m 'Strengthen reveal business proof and value hypotheses'
+          git push origin HEAD:main
