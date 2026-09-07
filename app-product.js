@@ -22,7 +22,9 @@
     demo: false,
     demoPersona: null,
     busy: false,
-    ready: false
+    ready: false,
+    loadError: null,
+    retrying: false
   };
 
   const games = ["Blackjack", "Baccarat", "Roulette", "Poker", "Game Show"];
@@ -149,6 +151,7 @@
       .lc-product-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-top:1px solid rgba(255,255,255,.08)}.lc-product-row:first-child{border-top:0}.lc-product-row img{flex:0 0 auto;width:50px;height:50px;border-radius:16px;object-fit:cover}.lc-product-row-main{min-width:0;flex:1}.lc-product-row-main b{display:block;font-size:14px;line-height:1.25;overflow-wrap:anywhere}.lc-product-row-main span{display:block;color:var(--muted);font-size:12px;line-height:1.35;overflow-wrap:anywhere}.lc-product-status-dot{width:8px;height:8px;border-radius:50%;background:#778287;box-shadow:0 0 0 3px rgba(255,255,255,.04);flex:0 0 auto}.lc-product-status-dot.live{background:#5dffce;box-shadow:0 0 18px rgba(93,255,206,.45)}.lc-product-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.lc-product-stat{padding:11px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.04);min-width:0}.lc-product-stat b{display:block;font-size:17px;line-height:1.15;overflow-wrap:anywhere}.lc-product-stat span{display:block;color:var(--muted);font-size:10px;line-height:1.2;text-transform:uppercase;font-weight:850}
       .lc-product-tabs{position:relative;bottom:auto;z-index:3;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:7px;border:1px solid rgba(46,230,206,.16);border-radius:20px;background:rgba(5,8,9,.92);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);margin:12px auto 0;width:100%;max-width:980px}.lc-product-tabs button{min-height:44px;border:0;border-radius:14px;background:transparent;color:var(--muted);font-size:11px;line-height:1.05;font-weight:900;cursor:pointer}.lc-product-tabs button.active{background:rgba(46,230,206,.14);color:#a7fff4}.lc-product-note{display:block;margin-top:9px;color:var(--muted);font-size:11px;line-height:1.4;overflow-wrap:anywhere}.lc-product-empty{padding:24px 14px;text-align:center;color:var(--muted);font-size:14px;line-height:1.4}
       .lc-product-demo-banner{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 auto 10px;padding:7px 8px;border:1px solid rgba(46,230,206,.16);border-radius:14px;background:rgba(255,255,255,.04);width:100%;max-width:980px}.lc-product-demo-banner strong{font-size:10px;line-height:1.1;color:#a7fff4;text-transform:uppercase;white-space:nowrap}.lc-product-demo-banner .lc-product-actions{margin-left:auto;justify-content:flex-end}
+      .lc-product-connectivity{position:sticky;top:0;z-index:8;width:100%;max-width:980px;margin:0 auto 10px;padding:9px 12px;border:1px solid rgba(255,185,86,.24);border-radius:14px;background:rgba(45,29,8,.94);color:#ffe0ad;font-size:11px;line-height:1.35;text-align:center;box-shadow:0 14px 36px rgba(0,0,0,.22)}
       .lc-product-entry{min-height:100%;display:flex;flex-direction:column;gap:12px;width:100%;max-width:980px;margin:0 auto}.lc-product-entry-hero{padding:18px 4px 4px}.lc-product-entry-hero .lc-product-label{margin-bottom:12px}.lc-product-entry-hero h1{margin:0 0 8px;font-size:clamp(30px,8vw,46px);line-height:1.04;letter-spacing:0;color:var(--text);text-wrap:balance}.lc-product-entry-hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.25;font-weight:850;text-transform:uppercase}.lc-product-entry-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2px}.lc-product-entry-title strong{font-size:12px;line-height:1.2;text-transform:uppercase;color:var(--soft)}.lc-product-personas{display:grid;gap:10px}.lc-product-persona{position:relative;min-height:96px;border:1px solid rgba(255,255,255,.1);border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.035));color:var(--text);padding:14px;text-align:left;overflow:hidden;cursor:pointer}.lc-product-persona:after{content:"";position:absolute;right:-24px;top:-26px;width:80px;height:80px;border-radius:999px;background:rgba(46,230,206,.1);filter:blur(8px)}.lc-product-persona b{display:block;font-size:15px;line-height:1.2;margin-bottom:7px}.lc-product-persona span{display:block;max-width:32ch;color:var(--muted);font-size:12px;line-height:1.35}.lc-product-entry-auth{display:flex;gap:8px;margin-top:2px}.lc-product-entry-auth .lc-product-btn{flex:1}
       .lc-product-btn:focus-visible,.lc-product-chip:focus-visible,.lc-product-choice:focus-visible,.lc-product-persona:focus-visible,.lc-product-tabs button:focus-visible{outline:2px solid rgba(167,255,244,.9);outline-offset:2px}
       .lc-product-cinema{position:relative;min-height:520px;display:grid;align-content:end;overflow:hidden;border-radius:24px;border:1px solid rgba(167,255,244,.14);background:#020504;box-shadow:0 30px 90px rgba(0,0,0,.36),inset 0 0 0 1px rgba(255,255,255,.035)}.lc-product-cinema.compact{min-height:360px}.lc-product-cinema.copy-top{align-content:start}.lc-product-cinema img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.05) contrast(1.04) brightness(.68)}.lc-product-cinema:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,5,4,.04),rgba(2,5,4,.12) 34%,rgba(2,5,4,.9)),linear-gradient(90deg,rgba(2,5,4,.58),transparent 54%);z-index:1}.lc-product-cinema.copy-top:after{background:linear-gradient(180deg,rgba(2,5,4,.88),rgba(2,5,4,.18) 46%,rgba(2,5,4,.86)),linear-gradient(90deg,rgba(2,5,4,.56),transparent 54%)}.lc-product-cinema-copy{position:relative;z-index:2;display:grid;justify-items:start;gap:10px;padding:18px}.lc-product-cinema-copy h1{margin:0;max-width:12ch;font-size:clamp(36px,9vw,58px);line-height:.92;font-weight:870;color:#f7fffb}.lc-product-cinema-copy p{max-width:31ch;color:#f7fffb;font-size:14px}.lc-product-cinema .lc-product-actions{position:relative;z-index:2}.lc-product-media-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.lc-product-media-tile{position:relative;min-height:176px;overflow:hidden;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:#07100e}.lc-product-media-tile.large{grid-column:1/-1;min-height:260px}.lc-product-media-tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.04) brightness(.72)}.lc-product-media-tile:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(2,5,4,.86));z-index:1}.lc-product-media-copy{position:absolute;left:12px;right:12px;bottom:12px;z-index:2;display:grid;gap:7px;justify-items:start}.lc-product-card{border-color:rgba(167,255,244,.12);background:rgba(5,9,8,.72);box-shadow:0 24px 70px rgba(0,0,0,.26);backdrop-filter:blur(18px)}.lc-product-hero{background:linear-gradient(145deg,rgba(31,216,196,.1),rgba(255,255,255,.035));border-color:rgba(167,255,244,.2)}.lc-product-tabs{border-color:rgba(167,255,244,.13);background:rgba(2,6,5,.9)}@media(prefers-reduced-motion:reduce){.screen,.lc-product-cinema,.lc-product-card{animation:none!important;transition:none!important}}@media(max-width:430px){.lc-product-cinema{min-height:calc(var(--app-height) - 168px)}.lc-product-cinema.compact{min-height:390px}.lc-product-cinema-copy{padding:16px}.lc-product-cinema-copy h1{font-size:40px}.lc-product-media-grid{grid-template-columns:1fr}.lc-product-media-tile.large{min-height:260px}}
@@ -322,6 +325,49 @@
 
   function renderLoading() {
     shell().innerHTML = `${top()}<div class="lc-product-card lc-product-empty">Loading product experience...</div>`;
+    syncConnectivity();
+  }
+
+  function syncConnectivity() {
+    const root = q("#lcProductShell");
+    if (!root) return;
+    const existing = q("#lcProductConnectivity", root);
+    if (navigator.onLine) {
+      existing?.remove();
+      return;
+    }
+    if (existing) return;
+    const banner = document.createElement("div");
+    banner.id = "lcProductConnectivity";
+    banner.className = "lc-product-connectivity";
+    banner.setAttribute("role", "status");
+    banner.textContent = "You are offline. Your account data will reconnect automatically.";
+    root.prepend(banner);
+  }
+
+  function renderLoadError(error) {
+    state.loadError = error || new Error("load");
+    shell().innerHTML = `${top()}<section class="lc-product-card lc-product-empty"><h2>Product experience unavailable</h2><p>${safe(err(error))}</p><div class="lc-product-actions"><button class="lc-product-btn" type="button" data-lc-retry>Retry</button></div><span class="lc-product-note">Your account data has not been changed.</span></section>`;
+    syncConnectivity();
+  }
+
+  async function retryLoad(button = null, silent = false) {
+    if (state.retrying || !state.client || !state.profile) return;
+    state.retrying = true;
+    if (button) button.disabled = true;
+    renderLoading();
+    try {
+      await loadState();
+      state.loadError = null;
+      renderProductTarget(productParts());
+      syncConnectivity();
+      if (!silent) toast("Product reconnected");
+    } catch (error) {
+      renderLoadError(error);
+    } finally {
+      state.retrying = false;
+      if (button?.isConnected) button.disabled = false;
+    }
   }
 
   function demoProfile(id) {
@@ -773,14 +819,18 @@
   }
 
   async function toggleFollow(id) {
-    if (state.follows.has(id)) {
+    const wasFollowing = state.follows.has(id);
+    if (wasFollowing) {
       state.follows.delete(id);
       if (state.demo) {
         demoStore.follows.delete(id);
         return;
       }
       const { error } = await state.client.from("follows").delete().eq("follower_id", state.profile.id).eq("following_id", id);
-      if (error) throw error;
+      if (error) {
+        state.follows.add(id);
+        throw error;
+      }
     } else {
       state.follows.add(id);
       if (state.demo) {
@@ -788,19 +838,26 @@
         return;
       }
       const { error } = await state.client.from("follows").insert({ follower_id: state.profile.id, following_id: id });
-      if (error && !/23505|duplicate/i.test(`${error.code} ${error.message}`)) throw error;
+      if (error && !/23505|duplicate/i.test(`${error.code} ${error.message}`)) {
+        state.follows.delete(id);
+        throw error;
+      }
     }
   }
 
   async function toggleReminder(id) {
-    if (state.reminders.has(id)) {
+    const wasSet = state.reminders.has(id);
+    if (wasSet) {
       state.reminders.delete(id);
       if (state.demo) {
         demoStore.reminders.delete(id);
         return;
       }
       const { error } = await state.client.from("player_session_reminders").delete().eq("user_id", state.profile.id).eq("session_id", id);
-      if (error) throw error;
+      if (error) {
+        state.reminders.add(id);
+        throw error;
+      }
     } else {
       state.reminders.add(id);
       if (state.demo) {
@@ -808,7 +865,10 @@
         return;
       }
       const { error } = await state.client.from("player_session_reminders").insert({ user_id: state.profile.id, session_id: id });
-      if (error && !/23505|duplicate/i.test(`${error.code} ${error.message}`)) throw error;
+      if (error && !/23505|duplicate/i.test(`${error.code} ${error.message}`)) {
+        state.reminders.delete(id);
+        throw error;
+      }
     }
   }
 
@@ -907,7 +967,12 @@
     const demoSwitch = target.closest("[data-lc-demo-switch]");
     const returnLive = target.closest("[data-lc-return-live]");
     const clearSearch = target.closest("[data-lc-clear-search]");
+    const retry = target.closest("[data-lc-retry]");
     try {
+      if (retry) {
+        event.preventDefault();
+        return retryLoad(retry);
+      }
       if (demoPersona) {
         event.preventDefault();
         return enterDemo(demoPersona.dataset.lcDemoPersona);
@@ -1025,9 +1090,10 @@
     renderLoading();
     try {
       await loadState();
+      state.loadError = null;
       renderProductTarget(productParts(target));
     } catch (error) {
-      shell().innerHTML = `${top()}<section class="lc-product-card lc-product-empty"><h2>Product experience unavailable</h2><p>${safe(err(error))}</p><div class="lc-product-actions"><button class="lc-product-btn" type="button" data-lc-product="home">Retry</button></div></section>`;
+      renderLoadError(error);
     }
   }
 
@@ -1049,6 +1115,8 @@
     state.notifications = [];
     state.accessRequests = [];
     state.search = "";
+    state.loadError = null;
+    state.retrying = false;
     hide();
   }
 
@@ -1075,5 +1143,10 @@
 
   document.addEventListener("submit", handleSubmit, true);
   document.addEventListener("click", handleClick, true);
+  window.addEventListener("offline", syncConnectivity);
+  window.addEventListener("online", () => {
+    syncConnectivity();
+    if (state.loadError) retryLoad(null, true);
+  });
   window.LCAppProduct = { mount, mountDemoEntry, clear };
 })();
