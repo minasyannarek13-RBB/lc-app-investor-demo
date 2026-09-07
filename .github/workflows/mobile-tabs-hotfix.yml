@@ -1,0 +1,42 @@
+name: Mobile reveal tabs hotfix
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/mobile-tabs-hotfix.yml'
+jobs:
+  hotfix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Fix sticky reveal navigation
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const files = ['app-product.js','LC_App_GitHub_Pages_Upload/app-product.js'];
+          const from = '.lc-product-tabs{position:sticky;bottom:8px;z-index:3;';
+          const to = '.lc-product-tabs{position:relative;bottom:auto;z-index:3;';
+          for (const file of files) {
+            let s = fs.readFileSync(file,'utf8');
+            if (!s.includes(from)) throw new Error(`sticky tabs anchor missing: ${file}`);
+            s = s.replace(from,to);
+            fs.writeFileSync(file,s);
+          }
+          NODE
+          node --check app-product.js
+          node --check LC_App_GitHub_Pages_Upload/app-product.js
+      - name: Commit hotfix
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add app-product.js LC_App_GitHub_Pages_Upload/app-product.js
+          git diff --cached --quiet && exit 0
+          git commit -m 'Fix reveal navigation blocking mobile content'
+          git push origin HEAD:main
