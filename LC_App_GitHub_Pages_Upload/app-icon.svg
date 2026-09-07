@@ -1,32 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="LC App">
   <defs>
-    <linearGradient id="bg" x1="76" y1="54" x2="438" y2="458" gradientUnits="userSpaceOnUse">
+    <linearGradient id="bg" x1="82" y1="58" x2="430" y2="454" gradientUnits="userSpaceOnUse">
       <stop stop-color="#10201d"/>
-      <stop offset="0.48" stop-color="#07100e"/>
+      <stop offset=".5" stop-color="#07110f"/>
       <stop offset="1" stop-color="#010303"/>
     </linearGradient>
-    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(342 144) rotate(135) scale(246)" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#59e8c7" stop-opacity=".12"/>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(320 160) rotate(135) scale(250)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#59e8c7" stop-opacity=".10"/>
       <stop offset="1" stop-color="#59e8c7" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="ink" x1="154" y1="132" x2="354" y2="378" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#f4fffc"/>
-      <stop offset="1" stop-color="#d7eee8"/>
-    </linearGradient>
   </defs>
-
-  <rect width="512" height="512" rx="116" fill="url(#bg)"/>
-  <rect width="512" height="512" rx="116" fill="url(#glow)"/>
-  <rect x="22" y="22" width="468" height="468" rx="98" fill="none" stroke="#c9fff4" stroke-opacity=".055" stroke-width="2"/>
-
-  <circle cx="256" cy="256" r="172" fill="none" stroke="#c9fff4" stroke-opacity=".10" stroke-width="2"/>
-  <circle cx="256" cy="256" r="151" fill="none" stroke="#59e8c7" stroke-opacity=".045" stroke-width="2"/>
-
+  <rect width="512" height="512" rx="118" fill="url(#bg)"/>
+  <rect width="512" height="512" rx="118" fill="url(#glow)"/>
+  <rect x="28" y="28" width="456" height="456" rx="96" fill="none" stroke="#c9fff4" stroke-opacity=".08" stroke-width="2"/>
+  <rect x="58" y="58" width="396" height="396" rx="78" fill="none" stroke="#ffffff" stroke-opacity=".035" stroke-width="2"/>
+  <circle cx="256" cy="256" r="126" fill="none" stroke="#c9fff4" stroke-opacity=".18" stroke-width="2"/>
   <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M184 157v198h102" stroke="url(#ink)" stroke-width="26"/>
-    <path d="M349 191c-18-26-45-40-76-40-58 0-101 45-101 105s43 105 101 105c31 0 58-14 76-40" stroke="url(#ink)" stroke-width="26"/>
-    <path d="M359 132c25 20 43 48 50 80" stroke="#59e8c7" stroke-width="9"/>
+    <path d="M190 162v188h96" stroke="#effcf8" stroke-width="28"/>
+    <path d="M339 196c-17-26-43-40-72-40-55 0-96 44-96 101s41 101 96 101c29 0 55-14 72-40" stroke="#effcf8" stroke-width="28"/>
+    <path d="M350 138a150 150 0 0 1 43 66" stroke="#59e8c7" stroke-width="10"/>
   </g>
-
-  <circle cx="399" cy="210" r="7" fill="#59e8c7"/>
 </svg>
