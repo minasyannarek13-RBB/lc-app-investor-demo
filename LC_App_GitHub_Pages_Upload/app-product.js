@@ -57,6 +57,14 @@
     { id: "demo-post-alex", author_id: "demo-alex", body: "Baccarat table is live soon. I will host the slower premium room tonight.", created_at: new Date(Date.now() - 2700000).toISOString(), status: "active", deleted_at: null },
     { id: "demo-post-lilit", author_id: "demo-lilit", body: "Posted a quick Blackjack note for players joining my next session.", created_at: new Date(Date.now() - 7200000).toISOString(), status: "active", deleted_at: null }
   ];
+  const visualMedia = {
+    "demo-sofia": "app_prototype_assets/dealers/v2_polish/sofia_profile_public.jpg",
+    "demo-mia": "app_prototype_assets/dealers/v2_polish/mia_roulette.jpg",
+    "demo-marcus": "app_prototype_assets/dealers/v2_polish/marcus_community.jpg",
+    "demo-alex": "app_prototype_assets/dealers/v2_polish/alex_baccarat.jpg",
+    "demo-lilit": "app_prototype_assets/dealers/v2_polish/sofia_discover_public.jpg",
+    fallback: "app_prototype_assets/dealers/v2_polish/sofia_welcome_public.jpg"
+  };
 
   const q = (selector, root = document) => root.querySelector(selector);
   const qa = (selector, root = document) => Array.from(root.querySelectorAll(selector));
@@ -143,6 +151,7 @@
       .lc-product-demo-banner{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 auto 10px;padding:7px 8px;border:1px solid rgba(46,230,206,.16);border-radius:14px;background:rgba(255,255,255,.04);width:100%;max-width:980px}.lc-product-demo-banner strong{font-size:10px;line-height:1.1;color:#a7fff4;text-transform:uppercase;white-space:nowrap}.lc-product-demo-banner .lc-product-actions{margin-left:auto;justify-content:flex-end}
       .lc-product-entry{min-height:100%;display:flex;flex-direction:column;gap:12px;width:100%;max-width:980px;margin:0 auto}.lc-product-entry-hero{padding:18px 4px 4px}.lc-product-entry-hero .lc-product-label{margin-bottom:12px}.lc-product-entry-hero h1{margin:0 0 8px;font-size:clamp(30px,8vw,46px);line-height:1.04;letter-spacing:0;color:var(--text);text-wrap:balance}.lc-product-entry-hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.25;font-weight:850;text-transform:uppercase}.lc-product-entry-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2px}.lc-product-entry-title strong{font-size:12px;line-height:1.2;text-transform:uppercase;color:var(--soft)}.lc-product-personas{display:grid;gap:10px}.lc-product-persona{position:relative;min-height:96px;border:1px solid rgba(255,255,255,.1);border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.035));color:var(--text);padding:14px;text-align:left;overflow:hidden;cursor:pointer}.lc-product-persona:after{content:"";position:absolute;right:-24px;top:-26px;width:80px;height:80px;border-radius:999px;background:rgba(46,230,206,.1);filter:blur(8px)}.lc-product-persona b{display:block;font-size:15px;line-height:1.2;margin-bottom:7px}.lc-product-persona span{display:block;max-width:32ch;color:var(--muted);font-size:12px;line-height:1.35}.lc-product-entry-auth{display:flex;gap:8px;margin-top:2px}.lc-product-entry-auth .lc-product-btn{flex:1}
       .lc-product-btn:focus-visible,.lc-product-chip:focus-visible,.lc-product-choice:focus-visible,.lc-product-persona:focus-visible,.lc-product-tabs button:focus-visible{outline:2px solid rgba(167,255,244,.9);outline-offset:2px}
+      .lc-product-cinema{position:relative;min-height:520px;display:grid;align-content:end;overflow:hidden;border-radius:24px;border:1px solid rgba(167,255,244,.14);background:#020504;box-shadow:0 30px 90px rgba(0,0,0,.36),inset 0 0 0 1px rgba(255,255,255,.035)}.lc-product-cinema.compact{min-height:360px}.lc-product-cinema.copy-top{align-content:start}.lc-product-cinema img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.05) contrast(1.04) brightness(.68)}.lc-product-cinema:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,5,4,.04),rgba(2,5,4,.12) 34%,rgba(2,5,4,.9)),linear-gradient(90deg,rgba(2,5,4,.58),transparent 54%);z-index:1}.lc-product-cinema.copy-top:after{background:linear-gradient(180deg,rgba(2,5,4,.88),rgba(2,5,4,.18) 46%,rgba(2,5,4,.86)),linear-gradient(90deg,rgba(2,5,4,.56),transparent 54%)}.lc-product-cinema-copy{position:relative;z-index:2;display:grid;justify-items:start;gap:10px;padding:18px}.lc-product-cinema-copy h1{margin:0;max-width:12ch;font-size:clamp(36px,9vw,58px);line-height:.92;font-weight:870;color:#f7fffb}.lc-product-cinema-copy p{max-width:31ch;color:#f7fffb;font-size:14px}.lc-product-cinema .lc-product-actions{position:relative;z-index:2}.lc-product-media-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.lc-product-media-tile{position:relative;min-height:176px;overflow:hidden;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:#07100e}.lc-product-media-tile.large{grid-column:1/-1;min-height:260px}.lc-product-media-tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.04) brightness(.72)}.lc-product-media-tile:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(2,5,4,.86));z-index:1}.lc-product-media-copy{position:absolute;left:12px;right:12px;bottom:12px;z-index:2;display:grid;gap:7px;justify-items:start}.lc-product-card{border-color:rgba(167,255,244,.12);background:rgba(5,9,8,.72);box-shadow:0 24px 70px rgba(0,0,0,.26);backdrop-filter:blur(18px)}.lc-product-hero{background:linear-gradient(145deg,rgba(31,216,196,.1),rgba(255,255,255,.035));border-color:rgba(167,255,244,.2)}.lc-product-tabs{border-color:rgba(167,255,244,.13);background:rgba(2,6,5,.9)}@media(prefers-reduced-motion:reduce){.screen,.lc-product-cinema,.lc-product-card{animation:none!important;transition:none!important}}@media(max-width:430px){.lc-product-cinema{min-height:calc(var(--app-height) - 168px)}.lc-product-cinema.compact{min-height:390px}.lc-product-cinema-copy{padding:16px}.lc-product-cinema-copy h1{font-size:40px}.lc-product-media-grid{grid-template-columns:1fr}.lc-product-media-tile.large{min-height:260px}}
       @media(min-width:720px){#lcProductShell{padding:24px 18px 104px}.lc-product-grid.desktop-two{grid-template-columns:repeat(2,minmax(0,1fr))}.lc-product-personas{grid-template-columns:repeat(2,minmax(0,1fr))}.lc-product-card{padding:16px}.lc-product-hero{padding:20px}.lc-product-entry{max-width:min(920px,92vw)}}@media(min-width:1180px){#lcProductShell{padding:30px 28px 112px}.lc-product-stack,.lc-product-top,.lc-product-tabs,.lc-product-demo-banner{max-width:1040px}.lc-product-entry{max-width:960px}.lc-product-persona{min-height:112px;padding:18px}}@media(max-width:430px){#lcProductShell{padding-left:12px;padding-right:12px}.lc-product-card{padding:13px;border-radius:17px}.lc-product-card h1{font-size:26px}.lc-product-grid.two{grid-template-columns:1fr}.lc-product-flow{grid-template-columns:repeat(3,minmax(0,1fr))}.lc-product-row{align-items:flex-start}.lc-product-row .lc-product-chip{margin-left:auto}.lc-product-actions{gap:7px}.lc-product-btn{min-height:44px;padding:0 13px;font-size:11px}.lc-product-chip{min-height:35px;font-size:10.5px}.lc-product-entry-hero h1{font-size:30px}.lc-product-persona{min-height:92px;padding:13px}.lc-product-demo-banner{align-items:flex-start;flex-direction:column}.lc-product-demo-banner .lc-product-actions{width:100%;margin-left:0}.lc-product-demo-banner .lc-product-chip{flex:1}.lc-product-entry-auth{position:sticky;bottom:8px;z-index:3;padding:7px;border:1px solid rgba(46,230,206,.16);border-radius:20px;background:rgba(5,8,9,.92);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}}
     `;
     document.head.appendChild(style);
@@ -306,6 +315,10 @@
     return `<div class="lc-product-actions">${list.map((item) => `<label class="lc-product-chip ${set.has(item) ? "active" : ""}"><input style="display:none" type="checkbox" name="${safe(name)}" value="${safe(item)}" ${set.has(item) ? "checked" : ""}>${safe(item)}</label>`).join("")}</div>`;
   }
 
+  const visualImage = (profile) => visualMedia[profile?.id] || visualMedia.fallback;
+  const visualHero = (label, title, body, image, actions = "", mode = "") => `<section class="lc-product-cinema ${mode}"><img src="${safe(image || visualMedia.fallback)}" alt=""><div class="lc-product-cinema-copy"><span class="lc-product-label">${safe(label)}</span><h1>${safe(title)}</h1><p>${safe(body)}</p>${actions ? `<div class="lc-product-actions">${actions}</div>` : ""}</div></section>`;
+  const visualTile = (image, label, title, body, large = false) => `<article class="lc-product-media-tile ${large ? "large" : ""}"><img src="${safe(image || visualMedia.fallback)}" alt=""><div class="lc-product-media-copy"><span class="lc-product-label">${safe(label)}</span><h3>${safe(title)}</h3><p>${safe(body)}</p></div></article>`;
+
   function renderLoading() {
     shell().innerHTML = `${top()}<div class="lc-product-card lc-product-empty">Loading product experience...</div>`;
   }
@@ -363,21 +376,21 @@
   }
 
   function renderDemoEntry() {
-    shell().innerHTML = `${top("LC App", "Live Casino. Social Experience.")}
+    shell().innerHTML = `${top("LC App", "Creator-first Live Casino")}
       <div class="lc-product-entry">
-        <section class="lc-product-entry-hero">
-          <span class="lc-product-label">LC APP</span>
-          <h1>LIVE CASINO. SOCIAL EXPERIENCE.</h1>
-          <p>Play. Chat. Connect. Live Casino through people.</p>
+        ${visualHero("Visual 2.0", "Casino, through people.", "Follow creators. Catch the live moment. Return to the table with context.", visualMedia.fallback, '<button class="lc-product-btn" type="button" data-lc-demo-persona="player">Start reveal</button><button class="lc-product-btn secondary" type="button" data-lc-demo-persona="operator">Ecosystem view</button>')}
+        <section class="lc-product-media-grid">
+          ${visualTile(visualMedia["demo-sofia"], "Discover", "The host behind the table.", "A consumer entry point for live rooms.", true)}
+          ${visualTile(visualMedia["demo-alex"], "Live now", "Baccarat starts soon.", "Creator-led live intent.")}
+          ${visualTile(visualMedia["demo-marcus"], "Community", "The table becomes a room.", "People, content and return loops.")}
         </section>
-        <div class="lc-product-entry-title"><strong>Explore LC App</strong></div>
+        <section class="lc-product-card"><h2>Safe boundary</h2><p>LC App handles discovery and social context. Operators/providers keep game operation, wallet, KYC, wagering and settlement.</p></section>
         <section class="lc-product-personas">
-          <button class="lc-product-persona" type="button" data-lc-demo-persona="player"><b>PLAYER</b><span>Discover creators, follow live sessions and find your next table.</span></button>
-          <button class="lc-product-persona" type="button" data-lc-demo-persona="creator"><b>CREATOR / DEALER</b><span>Build your profile, audience, content and live schedule.</span></button>
-          <button class="lc-product-persona" type="button" data-lc-demo-persona="operator"><b>OPERATOR</b><span>Explore creator-led discovery, engagement and operator handoff.</span></button>
-          <button class="lc-product-persona" type="button" data-lc-demo-persona="provider"><b>PROVIDER</b><span>See how games gain distribution through people.</span></button>
+          <button class="lc-product-persona" type="button" data-lc-demo-persona="player"><b>PLAYER</b><span>Discover -> Creator -> Follow -> Live -> Handoff -> Return.</span></button>
+          <button class="lc-product-persona" type="button" data-lc-demo-persona="creator"><b>CREATOR / DEALER</b><span>Profile, content, audience and live schedule.</span></button>
+          <button class="lc-product-persona" type="button" data-lc-demo-persona="operator"><b>OPERATOR</b><span>Creator-led discovery and operator-controlled handoff.</span></button>
+          <button class="lc-product-persona" type="button" data-lc-demo-persona="provider"><b>PROVIDER</b><span>Distribution through people, rooms and content.</span></button>
         </section>
-        <section class="lc-product-card"><h2>How it works</h2><p>Today: Casino -> Lobby -> Game -> Table. LC App: Discover -> Person -> Follow -> Live -> Operator handoff -> Return.</p><span class="lc-product-note">LC App handles discovery and social context. Operators/providers keep game operation, wallet, KYC, wagering and settlement.</span></section>
         <div class="lc-product-entry-auth"><button class="lc-product-btn secondary" type="button" data-auth-route="login">SIGN IN</button><button class="lc-product-btn" type="button" data-auth-route="signup">CREATE ACCOUNT</button></div>
       </div>`;
   }
@@ -436,13 +449,15 @@
     const next = item.sessions[0];
     const post = item.posts[0];
     const following = state.follows.has(p.id);
-    return `<section class="lc-product-card" data-creator-id="${safe(p.id)}">
-      <div class="lc-product-row"><img src="${safe(avatar(p))}" alt=""><span class="lc-product-status-dot ${next?.status === "live" ? "live" : ""}"></span><div class="lc-product-row-main"><b>${safe(profileName(p))}</b><span>${safe(sessionStatusLabel(next))} · ${safe((c.games || []).join(", ") || "Live Casino")} · ${safe((c.languages || p.languages || []).join(", ") || "Language TBC")}</span></div><button class="lc-product-chip ${following ? "active" : ""}" type="button" data-lc-follow="${safe(p.id)}">${following ? "Following" : "Follow"}</button></div>
-      <p>${safe(c.headline || "Live Casino creator")}</p>
-      ${post ? `<p>${safe(post.body)}</p>` : `<p class="lc-product-muted">No public posts yet.</p>`}
-      ${next ? `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(next.game)} · ${safe(next.title || "Live session")}</b><span>${safe(next.operator_name || "Operator to be confirmed")} · ${safe(sessionLine(next))}</span></div><button class="lc-product-chip ${state.reminders.has(next.id) ? "active" : ""}" type="button" data-lc-reminder="${safe(next.id)}">${state.reminders.has(next.id) ? "Reminder set" : "Remind me"}</button></div>` : `<div class="lc-product-empty">No public sessions yet. Check Discover again or follow another creator.</div>`}
-      <div class="lc-product-actions"><button class="lc-product-btn secondary" type="button" data-lc-open-creator="${safe(p.id)}">Open</button>${next ? `<button class="lc-product-btn" type="button" data-lc-live="${safe(next.id)}">Live / Handoff</button>` : ""}</div>
-      <span class="lc-product-note">${safe(c.affiliation_name || "Affiliation")} · ${safe(c.affiliation_verification_status || "unverified")}. No operator/provider integration implied.</span>
+    return `<section class="lc-product-cinema compact" data-creator-id="${safe(p.id)}">
+      <img src="${safe(visualImage(p))}" alt="">
+      <div class="lc-product-cinema-copy">
+        <span class="lc-product-label">${safe(sessionStatusLabel(next))}</span>
+        <h1>${safe(profileName(p))}</h1>
+        <p>${safe(c.headline || "Live Casino creator")} · ${safe((c.games || []).join(", ") || "Live Casino")}</p>
+        <div class="lc-product-actions"><button class="lc-product-btn secondary ${following ? "active" : ""}" type="button" data-lc-follow="${safe(p.id)}">${following ? "Following" : "Follow"}</button><button class="lc-product-btn secondary" type="button" data-lc-open-creator="${safe(p.id)}">Open</button>${next ? `<button class="lc-product-btn" type="button" data-lc-live="${safe(next.id)}">Live / Handoff</button>` : ""}</div>
+        <span class="lc-product-note">${safe(c.affiliation_name || "Affiliation")} · ${safe(c.affiliation_verification_status || "unverified")}. No operator/provider integration implied.</span>
+      </div>
     </section>`;
   }
 
@@ -483,37 +498,33 @@
     const liveNow = creators.filter((item) => item.sessions[0]?.status === "live");
     const startingSoon = creators.filter((item) => item.sessions[0]?.status === "scheduled");
     const following = creators.filter((item) => state.follows.has(item.profile.id));
-    shell().innerHTML = `${top("Your LC App is ready", "Discover, follow and return.")}
+    const lead = liveNow[0] || creators[0];
+    shell().innerHTML = `${top("Discover", "Creator-first Live Casino")}
       <div class="lc-product-stack">
-        <section class="lc-product-card lc-product-hero"><span class="lc-product-label">Player</span><h1>Discover creators. Join live tables.</h1><p>Live Casino through people: follow creators, save sessions and continue to the licensed operator when ready.</p></section>
-        <section class="lc-product-card"><div class="lc-product-flow"><span>Discover</span><span>Follow</span><span>Live</span><span>Play</span><span>Return</span></div></section>
-        <form class="lc-product-card lc-product-form" data-lc-form="search"><div class="lc-product-section-head"><h2>Search</h2><span>Creators, games, live rooms</span></div><input class="lc-product-input" name="search" maxlength="80" placeholder="Search Blackjack, Sofia, French..." value="${safe(state.search)}"><div class="lc-product-actions"><button class="lc-product-btn secondary" type="submit">SEARCH</button>${state.search ? `<button class="lc-product-chip" type="button" data-lc-clear-search>Clear</button>` : ""}</div></form>
-        ${state.demo ? `<section class="lc-product-card"><h2>The LC App loop</h2><p>Follow Sofia, join her Blackjack table through the operator, then return to her profile and next session.</p><div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-demo-persona="creator">Creator view</button><button class="lc-product-chip" type="button" data-lc-demo-persona="operator">Operator view</button><button class="lc-product-chip" type="button" data-lc-demo-persona="provider">Provider view</button></div></section>` : ""}
-        <section class="lc-product-card"><div class="lc-product-stats"><div class="lc-product-stat"><b>${state.follows.size}</b><span>Following</span></div><div class="lc-product-stat"><b>${state.reminders.size}</b><span>Reminders</span></div><div class="lc-product-stat"><b>${creators.length}</b><span>Creators</span></div></div></section>
+        ${visualHero("Discover", lead ? "Find the person behind the table." : "Discover creators.", "Casino was built around games. LC is built around people.", visualImage(lead?.profile), lead ? `<button class="lc-product-btn" type="button" data-lc-open-creator="${safe(lead.profile.id)}">Open creator</button><button class="lc-product-btn secondary" type="button" data-lc-live="${safe(lead.sessions[0]?.id || "")}">Live now</button>` : "", "compact")}
+        <section class="lc-product-card"><div class="lc-product-flow"><span>Discover</span><span>Creator</span><span>Follow</span><span>Live</span><span>Return</span></div></section>
+        <form class="lc-product-card lc-product-form" data-lc-form="search"><input class="lc-product-input" name="search" maxlength="80" placeholder="Search creators, games, live rooms..." value="${safe(state.search)}"><div class="lc-product-actions"><button class="lc-product-btn secondary" type="submit">SEARCH</button>${state.search ? `<button class="lc-product-chip" type="button" data-lc-clear-search>Clear</button>` : ""}</div></form>
         <section class="lc-product-card"><div class="lc-product-section-head"><h2>Live now</h2><span>Join through operator</span></div>${compactCreatorRows(liveNow, "No live creators right now. Browse starting soon or follow creators for updates.")}</section>
-        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Starting soon</h2><span>Save reminders</span></div>${compactCreatorRows(startingSoon, "No upcoming sessions in this view.")}</section>
         <section class="lc-product-card"><div class="lc-product-section-head"><h2>Following</h2><span>Return path</span></div>${compactCreatorRows(following, "No followed creators in this search. Open a creator and tap Follow.")}</section>
+        <section class="lc-product-media-grid">${creators.slice(0, 3).map((item, index) => visualTile(visualImage(item.profile), sessionStatusLabel(item.sessions[0]), profileName(item.profile), (item.creator.games || []).join(", ") || "Live Casino", index === 0)).join("")}</section>
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Starting soon</h2><span>Save reminders</span></div>${compactCreatorRows(startingSoon, "No upcoming sessions in this view.")}</section>
         ${renderNotifications()}
-        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Recommended</h2><span>${state.search ? "Search results" : "Personalized by games"}</span></div></section>
-        ${creators.length ? creators.map(creatorCard).join("") : `<section class="lc-product-card lc-product-empty">No creators found. Clear search, open Discover later, or create the first Creator profile.<div class="lc-product-actions"><button class="lc-product-btn" type="button" data-lc-clear-search>Clear search</button></div></section>`}
+        ${creators.slice(0, 4).map(creatorCard).join("")}
       </div>${tabs("home")}`;
   }
 
   function renderCreatorHome() {
     const c = state.creator;
-    shell().innerHTML = `${top("Creator home", "Public creator profile and sessions.")}
+    shell().innerHTML = `${top("Creator Home", "Profile, content, schedule")}
       <div class="lc-product-stack">
-        <section class="lc-product-card lc-product-hero"><span class="lc-product-label">Creator / Dealer</span><h1>${safe(profileName(state.profile))}</h1><p>${safe(c.headline || "Live Casino creator")} · Verification ${safe(c.verification_status)} · Affiliation ${safe(c.affiliation_verification_status)}</p><span class="lc-product-note">Verification and affiliation approval are protected. Creator cannot self-verify.</span></section>
-        <section class="lc-product-card"><div class="lc-product-flow"><span>Profile</span><span>Content</span><span>Schedule</span><span>Live</span><span>Audience</span></div></section>
-        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Public profile preview</h2><span>${safe(c.profile_status || "draft")}</span></div><div class="lc-product-row"><img src="${safe(avatar(state.profile))}" alt=""><div class="lc-product-row-main"><b>${safe(profileName(state.profile))}</b><span>${safe((c.games || []).join(", ") || "Live Casino")} · ${safe((c.languages || []).join(", ") || "Languages not set")}</span></div></div></section>
+        ${visualHero("Creator Home", "A home for the host.", "Profile, posts, rooms, followers and live schedule in one consumer surface.", visualImage(state.profile), "", "compact")}
+        <section class="lc-product-card"><div class="lc-product-flow"><span>Profile</span><span>Content</span><span>Schedule</span><span>Live</span><span>Audience</span></div><span class="lc-product-note">Verification and affiliation approval are protected. Creator cannot self-verify.</span></section>
         <section class="lc-product-card"><div class="lc-product-stats"><div class="lc-product-stat"><b>${state.sessions.length}</b><span>Sessions</span></div><div class="lc-product-stat"><b>${state.posts.length}</b><span>Posts</span></div><div class="lc-product-stat"><b>${safe(c.profile_status || "draft")}</b><span>Status</span></div></div></section>
         <section class="lc-product-card"><h2>Create post</h2><form class="lc-product-form" data-lc-form="post"><textarea class="lc-product-textarea" name="body" maxlength="2000" placeholder="Share a table note or session update"></textarea><button class="lc-product-btn" type="submit">PUBLISH POST</button></form></section>
         <section class="lc-product-card"><h2>Add session</h2><form class="lc-product-form" data-lc-form="session"><input class="lc-product-input" name="title" maxlength="120" placeholder="Session title" value="Live table session"><select class="lc-product-select" name="game">${games.map((g) => `<option>${safe(g)}</option>`).join("")}</select><input class="lc-product-input" name="operator_name" maxlength="120" placeholder="Operator or studio (user claimed / optional)"><input class="lc-product-input" name="starts_at" type="datetime-local" required><button class="lc-product-btn" type="submit">ADD SESSION</button></form><span class="lc-product-note">Operator/provider context is user claimed or demo unless verified by partner integration.</span></section>
         <section class="lc-product-card"><h2>Public sessions</h2>${state.sessions.length ? state.sessions.map((s) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(s.game)} · ${safe(s.title || "Live session")}</b><span>${safe(s.operator_name || "Operator to be confirmed")} · ${safe(sessionLine(s))}</span></div></div>`).join("") : `<div class="lc-product-empty">No sessions yet. Add your next Live table so followers know when to return.</div>`}</section>
         <section class="lc-product-card"><h2>Posts</h2>${state.posts.length ? state.posts.map((p) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${new Date(p.created_at).toLocaleString()}</b><span>${safe(p.body)}</span></div></div>`).join("") : `<div class="lc-product-empty">No posts yet. Share a short table update for followers.</div>`}</section>
-        <section class="lc-product-card"><h2>Audience tools</h2><p>Followers, reactions, comments and reminders form the return loop. Moderation and account status remain protected by LC App.</p></section>
         ${renderNotifications("No audience notifications yet. Followers, reactions and comments will appear here.")}
-        ${state.demo ? `<section class="lc-product-card"><h2>Why this matters</h2><p>Dealer identity becomes persistent: profile, content, schedule, live presence and return audience.</p></section>` : ""}
       </div>${tabs("creator")}`;
     const dt = q('[name="starts_at"]');
     if (dt && !dt.value) dt.value = new Date(Date.now() + 86400000).toISOString().slice(0, 16);
@@ -534,20 +545,12 @@
     const subtype = state.industry?.subtype || state.current?.industry_subtype || "operator";
     const request = state.accessRequests.find((row) => row.industry_subtype === subtype);
     const provider = subtype === "provider";
-    shell().innerHTML = `${top(`${subtype} workspace`, "Concept evaluation")}
+    shell().innerHTML = `${top(`${subtype} perspective`, "Concept evaluation")}
       <div class="lc-product-stack">
-        <section class="lc-product-card lc-product-hero"><span class="lc-product-label">Demo / unverified</span><h1>${provider ? "Games gain discovery through creators and live tables." : "Turn live traffic into relationships and return visits."}</h1><p>${provider ? "Game -> Creator -> Audience -> Live distribution -> Operator handoff." : "Creator Network -> Player Journey -> Handoff -> Return."}</p></section>
-        <section class="lc-product-card"><div class="lc-product-flow">${provider ? "<span>Game</span><span>Creator</span><span>Audience</span><span>Live</span><span>Operator</span>" : "<span>Network</span><span>Journey</span><span>Handoff</span><span>Return</span><span>Access</span>"}</div></section>
-        ${provider ? `
-        <section class="lc-product-card"><h2>Game distribution</h2><p>Games gain another discovery surface when players follow the people hosting them.</p>${state.creators.map((item) => `<div class="lc-product-row"><span class="lc-product-status-dot ${item.sessions[0]?.status === "live" ? "live" : ""}"></span><div class="lc-product-row-main"><b>${safe((item.creator.games || [])[0] || "Live Casino game")}</b><span>${safe(profileName(item.profile))} · ${safe(sessionStatusLabel(item.sessions[0]))} · ${safe((item.creator.languages || []).join(", "))}</span></div></div>`).join("")}</section>
-        <section class="lc-product-card"><h2>Creator mapping</h2><p>Provider game -> creator profile -> content -> live session -> operator handoff.</p>${compactCreatorRows(state.creators.slice(0, 3), "No creator mappings available.")}</section>
-        <section class="lc-product-card"><h2>Integration concept</h2><p>Demo capability: pass game, creator, session and table context into existing provider/operator infrastructure.</p><div class="lc-product-stats"><div class="lc-product-stat"><b>Demo</b><span>Adapter</span></div><div class="lc-product-stat"><b>Read-only</b><span>Catalog</span></div><div class="lc-product-stat"><b>Pending</b><span>Access</span></div></div><span class="lc-product-note">No production provider integration is configured.</span></section>` : `
-        <section class="lc-product-card"><h2>Creator network</h2><p>Players discover recognizable live personalities before choosing a table.</p>${state.creators.map((item) => `<div class="lc-product-row"><img src="${safe(avatar(item.profile))}" alt=""><div class="lc-product-row-main"><b>${safe(profileName(item.profile))}</b><span>${safe((item.creator.games || []).join(", "))} · ${safe(sessionStatusLabel(item.sessions[0]))}</span></div></div>`).join("")}</section>
-        <section class="lc-product-card"><h2>Player journey</h2><p>Discover -> Creator -> Content -> Follow -> Live -> Continue with operator -> Return.</p>${compactCreatorRows(state.creators.filter((item) => item.sessions[0]?.status === "live").slice(0, 2), "No live journey sample available.")}</section>
-        <section class="lc-product-card"><h2>Contextual handoff</h2><p>The operator receives a player arriving from a creator, session, game and source context.</p></section>
-        <section class="lc-product-card"><h2>Integration concept</h2><p>Environment: Demo. Handoff passes context only, not wallet, KYC, AML, settlement or wagering data.</p><div class="lc-product-stats"><div class="lc-product-stat"><b>Pending</b><span>Access</span></div><div class="lc-product-stat"><b>Demo</b><span>Handoff</span></div><div class="lc-product-stat"><b>None</b><span>Wallet data</span></div></div><span class="lc-product-note">No confirmed operator integration.</span></section>`}
-        <section class="lc-product-card"><h2>The LC App loop</h2><p>Creators build identity. Players follow people. Operators receive contextual handoff. Providers gain game discovery.</p></section>
-        <section class="lc-product-card"><h2>Partnership access</h2><p>Status: ${safe(request?.status || state.industry?.access_status || "not_requested")}</p><button class="lc-product-btn" type="button" data-lc-request-access="${safe(subtype)}">REQUEST PARTNERSHIP ACCESS</button><span class="lc-product-note">Request submission is persisted. Client cannot approve itself.</span></section>
+        ${visualHero(provider ? "Provider / ecosystem" : "Operator perspective", provider ? "Live Casino as a creator network." : "Return intent before the table opens.", provider ? "A distribution layer for rooms, hosts and content without claiming production integrations." : "A social discovery and re-engagement layer around licensed operator infrastructure.", provider ? visualMedia["demo-mia"] : visualMedia["demo-sofia"], "", "copy-top")}
+        <section class="lc-product-card"><div class="lc-product-flow">${provider ? "<span>Game</span><span>Creator</span><span>Audience</span><span>Live</span><span>Operator</span>" : "<span>Discover</span><span>Intent</span><span>Handoff</span><span>Return</span><span>Access</span>"}</div></section>
+        <section class="lc-product-media-grid">${state.creators.slice(0, 3).map((item, index) => visualTile(visualImage(item.profile), provider ? "Room discovery" : "Creator-led discovery", profileName(item.profile), sessionStatusLabel(item.sessions[0]), index === 0)).join("")}</section>
+        <section class="lc-product-card"><h2>Partnership access</h2><p>Status: ${safe(request?.status || state.industry?.access_status || "not_requested")}</p><button class="lc-product-btn" type="button" data-lc-request-access="${safe(subtype)}">REQUEST PARTNERSHIP ACCESS</button><span class="lc-product-note">Request submission is persisted. Client cannot approve itself. No production integration is configured.</span></section>
       </div>${tabs("home")}`;
   }
 
@@ -559,10 +562,10 @@
     const next = item.sessions[0];
     shell().innerHTML = `${top(profileName(item.profile), "Creator profile")}
       <div class="lc-product-stack">
-        ${creatorCard(item)}
-        <section class="lc-product-card"><h2>Content</h2>${item.posts.length ? item.posts.map((p) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${new Date(p.created_at).toLocaleString()}</b><span>${safe(p.body)}</span></div><button class="lc-product-chip" type="button" data-lc-like="${safe(p.id)}">React</button></div>`).join("") : `<div class="lc-product-empty">No posts yet.</div>`}${post ? `<form class="lc-product-form" data-lc-form="comment" data-post-id="${safe(post.id)}"><input class="lc-product-input" name="body" maxlength="1000" placeholder="Comment on latest post"><button class="lc-product-btn secondary" type="submit">COMMENT</button></form>` : ""}</section>
+        ${visualHero(sessionStatusLabel(next), profileName(item.profile), `${item.creator.headline || "Live Casino creator"} · ${(item.creator.games || []).join(", ") || "Live Casino"}`, visualImage(item.profile), `<button class="lc-product-btn secondary ${state.follows.has(item.profile.id) ? "active" : ""}" type="button" data-lc-follow="${safe(item.profile.id)}">${state.follows.has(item.profile.id) ? "Following" : "Follow"}</button>${next ? `<button class="lc-product-btn" type="button" data-lc-live="${safe(next.id)}">Watch live</button>` : ""}`, "compact")}
+        <section class="lc-product-media-grid">${item.posts.slice(0, 3).map((p, index) => visualTile(visualImage(item.profile), "Creator content", new Date(p.created_at).toLocaleString(), p.body, index === 0)).join("")}</section>
         <section class="lc-product-card"><h2>Sessions</h2>${item.sessions.length ? item.sessions.map((s) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(s.game)} · ${safe(s.title || "Live session")}</b><span>${safe(s.operator_name || "Operator to be confirmed")} · ${safe(sessionLine(s))}</span></div><button class="lc-product-chip ${state.reminders.has(s.id) ? "active" : ""}" type="button" data-lc-reminder="${safe(s.id)}">${state.reminders.has(s.id) ? "Reminder set" : "Remind me"}</button></div>`).join("") : `<div class="lc-product-empty">No upcoming sessions. Follow the creator or return to Discover.</div>`}</section>
-        ${next ? `<section class="lc-product-card"><h2>Live / handoff</h2><p>LC App keeps the social context. Real-money play remains with the licensed operator/provider.</p><button class="lc-product-btn" type="button" data-lc-live="${safe(next.id)}">PLAY WITH ${safe(profileName(item.profile)).toUpperCase()}</button></section>` : ""}
+        ${post ? `<section class="lc-product-card"><form class="lc-product-form" data-lc-form="comment" data-post-id="${safe(post.id)}"><input class="lc-product-input" name="body" maxlength="1000" placeholder="Comment on latest post"><button class="lc-product-btn secondary" type="submit">COMMENT</button></form></section>` : ""}
       </div>${tabs("discover")}`;
   }
 
@@ -573,12 +576,11 @@
     if (!item || !session) return renderMissing("Session unavailable", "This live context is no longer available.", "Back to Discover");
     state.selectedCreator = item.profile.id;
     state.selectedSession = session.id;
-    shell().innerHTML = `${top("Live context", "Social layer before handoff")}
+    shell().innerHTML = `${top("Live", "Watch mode before handoff")}
       <div class="lc-product-stack">
-        <section class="lc-product-card lc-product-hero"><span class="lc-product-label">${safe(sessionStatusLabel(session))}</span><h1>${safe(session.game)} with ${safe(profileName(item.profile))}</h1><p>${safe(session.title || "Live session")} · ${safe(session.operator_name || "Operator to be confirmed")}</p></section>
-        <section class="lc-product-card"><h2>What LC App owns</h2><p>Creator identity, follow relationship, session reminder and return context.</p></section>
-        <section class="lc-product-card"><h2>Social presence</h2><p>Players arrive through a creator, react to content, save the session and return after play.</p><div class="lc-product-actions"><button class="lc-product-chip ${state.follows.has(item.profile.id) ? "active" : ""}" type="button" data-lc-follow="${safe(item.profile.id)}">${state.follows.has(item.profile.id) ? "Following" : "Follow creator"}</button><button class="lc-product-chip ${state.reminders.has(session.id) ? "active" : ""}" type="button" data-lc-reminder="${safe(session.id)}">${state.reminders.has(session.id) ? "Reminder set" : "Remind me"}</button>${item.posts[0] ? `<button class="lc-product-chip" type="button" data-lc-like="${safe(item.posts[0].id)}">React</button>` : ""}</div></section>
-        <section class="lc-product-card"><h2>External operator/provider step</h2><p>Continue with the operator providing this game. LC App passes context only.</p><button class="lc-product-btn" type="button" data-lc-product="handoff">PLAY WITH ${safe(profileName(item.profile)).toUpperCase()}</button><span class="lc-product-note">${state.demo ? "Demo handoff only." : "Conceptual handoff only."} No confirmed operator/provider integration.</span></section>
+        ${visualHero(sessionStatusLabel(session), `${session.game} with ${profileName(item.profile)}`, "Watch mode with creator identity, social context and table intent.", visualImage(item.profile), `<button class="lc-product-btn" type="button" data-lc-product="handoff">Play with ${safe(profileName(item.profile))}</button><button class="lc-product-btn secondary ${state.follows.has(item.profile.id) ? "active" : ""}" type="button" data-lc-follow="${safe(item.profile.id)}">${state.follows.has(item.profile.id) ? "Following" : "Follow"}</button>`, "compact copy-top")}
+        <section class="lc-product-card"><h2>Room chat</h2><div class="lc-product-row"><div class="lc-product-row-main"><b>James</b><span>Same table tomorrow?</span></div></div><div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(profileName(item.profile))}</b><span>Yes - 20:00.</span></div></div></section>
+        <section class="lc-product-card"><h2>LC owns the social layer</h2><p>Creator identity, follow relationship, session reminder and return context. The licensed operator controls gameplay.</p><span class="lc-product-note">${state.demo ? "Demo handoff only." : "Conceptual handoff only."} No confirmed operator/provider integration.</span></section>
       </div>${tabs("discover")}`;
   }
 
@@ -588,11 +590,10 @@
     const { entry, session } = found;
     state.selectedCreator = entry.profile.id;
     state.selectedSession = session.id;
-    shell().innerHTML = `${top("Operator handoff", "LC App -> operator -> LC App")}
+    shell().innerHTML = `${top("Operator handoff", "Conceptual external flow")}
       <div class="lc-product-stack">
-        <section class="lc-product-card lc-product-hero"><span class="lc-product-label">${state.demo ? "Demo handoff" : "Continue to Casino"}</span><h1>Continue with the operator providing this game.</h1><p>${safe(session.game)} with ${safe(profileName(entry.profile))} · ${safe(session.operator_name || "Operator to be confirmed")}</p></section>
-        <section class="lc-product-card"><h2>Context passed</h2><p>Creator, game, session, table intent and source = LC App. No deposits, wagering, KYC, AML, wallet or settlement data.</p></section>
-        <section class="lc-product-card"><h2>Return loop</h2><p>After the operator experience, LC App brings the player back to the creator, content and next session.</p><div class="lc-product-actions"><button class="lc-product-btn" type="button" data-lc-return-live="${safe(session.id)}">RETURN TO LC APP</button><button class="lc-product-btn secondary" type="button" data-lc-open-creator="${safe(entry.profile.id)}">Creator profile</button></div></section>
+        ${visualHero(state.demo ? "Demo handoff" : "Conceptual handoff", "Continue with the operator.", "The licensed operator controls gameplay, wallet, KYC/AML, responsible gaming, bet acceptance and settlement.", visualImage(entry.profile), `<button class="lc-product-btn" type="button" data-lc-return-live="${safe(session.id)}">Return to LC App</button><button class="lc-product-btn secondary" type="button" data-lc-open-creator="${safe(entry.profile.id)}">Creator profile</button>`, "compact copy-top")}
+        <section class="lc-product-card"><div class="lc-product-flow"><span>Creator</span><span>Intent</span><span>Operator</span><span>Play</span><span>Return</span></div><span class="lc-product-note">No deposits, wagering, KYC, AML, wallet or settlement data passes through LC.</span></section>
       </div>${tabs("discover")}`;
   }
 
