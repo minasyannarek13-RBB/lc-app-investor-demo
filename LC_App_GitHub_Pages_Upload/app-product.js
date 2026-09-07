@@ -654,14 +654,24 @@
       const { error: bioError } = await state.client.from("profiles").update({ bio }).eq("id", state.profile.id);
       if (bioError) throw bioError;
     }
+    const affiliationType = String(data.get("affiliation_type") || "unlisted");
+    const currentVerification = state.creator?.verification_status || "not_requested";
+    const currentAffiliationVerification = state.creator?.affiliation_verification_status || "unverified";
+    const verificationStatus = currentVerification === "not_requested" ? "submitted" : currentVerification;
+    const affiliationVerificationStatus = affiliationType !== "unlisted" && currentAffiliationVerification === "unverified"
+      ? "submitted"
+      : currentAffiliationVerification;
+    const creatorApproved = verificationStatus === "verified";
     const { error } = await state.client.from("creator_profiles").upsert({
       user_id: state.profile.id,
       headline,
       games: selectedGames,
       languages: selectedLanguages,
-      affiliation_type: String(data.get("affiliation_type") || "unlisted"),
+      affiliation_type: affiliationType,
       affiliation_name: String(data.get("affiliation_name") || "").trim().slice(0, 120) || null,
-      profile_status: "published",
+      verification_status: verificationStatus,
+      affiliation_verification_status: affiliationVerificationStatus,
+      profile_status: creatorApproved ? "published" : "draft",
       onboarding_completed: true
     }, { onConflict: "user_id" });
     if (error) throw error;
