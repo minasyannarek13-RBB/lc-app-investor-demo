@@ -1,0 +1,45 @@
+name: Compact mobile reveal controls
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/mobile-reveal-banner-polish.yml'
+jobs:
+  polish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Compact reveal control banner on mobile
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const files = ['app-product.js','LC_App_GitHub_Pages_Upload/app-product.js'];
+          const markupFrom = '${state.demo ? `<div class="lc-product-demo-banner"><strong>INTERACTIVE REVEAL · ${safe(state.demoPersona || "preview")}</strong><div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-demo-switch>Switch perspective</button><button class="lc-product-chip" type="button" data-lc-demo-reset>Reset journey</button><button class="lc-product-chip" type="button" data-lc-demo-exit>Back to opening</button></div></div>` : ""}';
+          const markupTo = '${state.demo ? `<div class="lc-product-demo-banner"><strong>${safe((state.demoPersona || "preview").toUpperCase())}</strong><div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-demo-switch>Switch</button><button class="lc-product-chip" type="button" data-lc-demo-reset>Reset</button><button class="lc-product-chip" type="button" data-lc-demo-exit>Opening</button></div></div>` : ""}';
+          const mobileFrom = '.lc-product-demo-banner{align-items:flex-start;flex-direction:column}.lc-product-demo-banner .lc-product-actions{width:100%;margin-left:0}.lc-product-demo-banner .lc-product-chip{flex:1}';
+          const mobileTo = '.lc-product-demo-banner{align-items:center;flex-direction:row;padding:5px 6px;gap:5px;min-height:42px}.lc-product-demo-banner strong{font-size:9px;letter-spacing:.08em;flex:0 0 auto}.lc-product-demo-banner .lc-product-actions{width:auto;min-width:0;flex:1;margin-left:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}.lc-product-demo-banner .lc-product-chip{min-width:0;min-height:31px;padding:0 6px;font-size:9px;line-height:1;white-space:nowrap}';
+          for (const file of files) {
+            let s = fs.readFileSync(file,'utf8');
+            if (!s.includes(markupFrom)) throw new Error(`reveal banner markup anchor missing: ${file}`);
+            if (!s.includes(mobileFrom)) throw new Error(`mobile banner css anchor missing: ${file}`);
+            s = s.replace(markupFrom, markupTo).replace(mobileFrom, mobileTo);
+            fs.writeFileSync(file,s);
+          }
+          NODE
+          node --check app-product.js
+          node --check LC_App_GitHub_Pages_Upload/app-product.js
+      - name: Commit mobile banner polish
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add app-product.js LC_App_GitHub_Pages_Upload/app-product.js
+          git diff --cached --quiet && exit 0
+          git commit -m 'Compact reveal controls on mobile'
+          git push origin HEAD:main
