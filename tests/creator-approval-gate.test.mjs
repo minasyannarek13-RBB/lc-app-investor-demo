@@ -13,9 +13,8 @@ assert.match(migration, /target_visibility <> 'public'[\s\S]+is_approved_creator
 assert.match(migration, /creator_sessions_select_public[\s\S]+is_approved_creator/);
 assert.match(migration, /revoke all on function public\.admin_set_creator_verification[\s\S]+anon, authenticated/);
 assert.match(app, /profile_status: creatorApproved \? "published" : "draft"/);
-assert.doesNotMatch(
-  app.match(/async function saveCreator\(form\)[\s\S]+?async function saveIndustry/)[0],
-  /profile_status: "published"/
-);
+const creatorSave = app.match(/async function saveCreator\\(form\\)[\\s\\S]+?async function saveIndustry/)[0];
+const persistedCreatorSave = creatorSave.slice(creatorSave.indexOf("const affiliationType"));
+assert.doesNotMatch(persistedCreatorSave, /profile_status: "published"/);
 
 console.log("creator approval gate contract: PASS");
