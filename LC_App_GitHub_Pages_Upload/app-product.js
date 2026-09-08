@@ -13,9 +13,11 @@
     creators: [],
     posts: [],
     follows: new Set(),
+    creatorLiveAlerts: new Map(),
     reminders: new Set(),
     notifications: [],
     returnSignalsAvailable: true,
+    creatorLiveAlertsAvailable: true,
     liveSignalsEnabled: true,
     accessRequests: [],
     pilotBriefs: [],
@@ -45,7 +47,7 @@
   const PRODUCT_EVENTS = new Set(["product_open", "creator_impression", "discovery_search", "creator_profile_open", "creator_follow", "live_session_open", "schedule_reminder", "handoff_intent", "handoff_return", "notification_response"]);
   const PILOT_EVENTS = [["creator_impression", "Creator impression"], ["creator_profile_open", "Profile open"], ["creator_follow", "Follow"], ["live_session_open", "Live open"], ["schedule_reminder", "Schedule reminder"], ["handoff_intent", "Handoff intent"], ["handoff_return", "Return visit"], ["notification_response", "Signal response"]];
   const PILOT_HYPOTHESES = [["creator_handoff", "Creator-led discovery produces operator handoff intent"], ["creator_return", "Following a Creator contributes to return activity"], ["live_signal_response", "Live signals prompt measurable player response"], ["creator_source_attribution", "Creator source remains attributable through handoff and return"]];
-  const demoStore = { follows: new Set(), reminders: new Set(), likes: new Set(), comments: [], posts: [], sessions: [], notifications: [], requests: new Set(), pilotBriefs: [] };
+  const demoStore = { follows: new Set(), creatorLiveAlerts: new Map(), reminders: new Set(), likes: new Set(), comments: [], posts: [], sessions: [], notifications: [], requests: new Set(), pilotBriefs: [] };
   const demoProfiles = [
     { id: "demo-sofia", username: "sofia_live", display_name: "Sofia Laurent", avatar_url: "app_prototype_assets/dealers/v2_polish/sofia_avatar_public.jpg", bio: "Blackjack dealer building a followable Live Casino audience.", country: "Malta", languages: ["English", "French"] },
     { id: "demo-mia", username: "mia_tables", display_name: "Mia Novak", avatar_url: "app_prototype_assets/dealers/dealer_mia_avatar_v1.jpg", bio: "Roulette and baccarat sessions with a calm table style.", country: "Latvia", languages: ["English", "Italian"] },
@@ -125,6 +127,7 @@
   };
   const resetDemoStore = () => {
     demoStore.follows.clear();
+    demoStore.creatorLiveAlerts.clear();
     demoStore.reminders.clear();
     demoStore.likes.clear();
     demoStore.comments = [];
@@ -296,13 +299,23 @@
 
   async function loadState() {
     const userId = state.profile.id;
+    const followResultPromise = (async () => {
+      let result = await state.client.from("follows").select("following_id,live_alerts_enabled").eq("follower_id", userId);
+      if (result.error && (["42703", "PGRST204"].includes(result.error.code) || /live_alerts_enabled/i.test(result.error.message || ""))) {
+        state.creatorLiveAlertsAvailable = false;
+        result = await state.client.from("follows").select("following_id").eq("follower_id", userId);
+      } else {
+        state.creatorLiveAlertsAvailable = true;
+      }
+      return result;
+    })();
     const [personas, player, creator, industry, reminders, follows, accessRequests, notifications, blocks] = await Promise.all([
       state.client.from("account_personas").select("*").eq("user_id", userId).order("created_at", { ascending: true }),
       state.client.from("player_preferences").select("*").eq("user_id", userId).maybeSingle(),
       state.client.from("creator_profiles").select("*").eq("user_id", userId).maybeSingle(),
       state.client.from("industry_profiles").select("*").eq("user_id", userId).maybeSingle(),
       state.client.from("player_session_reminders").select("session_id").eq("user_id", userId),
-      state.client.from("follows").select("following_id").eq("follower_id", userId),
+      followResultPromise,
       state.client.from("partnership_access_requests").select("industry_subtype,status,created_at").eq("user_id", userId).order("created_at", { ascending: false }),
       state.client.from("notifications").select("id,type,target_type,target_id,read_at,created_at").eq("recipient_id", userId).order("created_at", { ascending: false }).limit(8),
       state.client.from("user_blocks").select("blocked_id").eq("blocker_id", userId)
@@ -315,6 +328,7 @@
     state.industry = industry.data || null;
     state.reminders = new Set((reminders.data || []).map((row) => row.session_id));
     state.follows = new Set((follows.data || []).map((row) => row.following_id));
+    state.creatorLiveAlerts = new Map((follows.data || []).map((row) => [row.following_id, row.live_alerts_enabled !== false]));
     state.accessRequests = accessRequests.data || [];
     state.notifications = notifications.data || [];
     state.blockedIds = new Set((blocks.data || []).map((row) => row.blocked_id));
@@ -562,6 +576,7 @@
   function refreshDemoData() {
     setDemoCreators();
     state.follows = new Set(demoStore.follows);
+    state.creatorLiveAlerts = new Map(demoStore.creatorLiveAlerts);
     state.reminders = new Set(demoStore.reminders);
     state.accessRequests = [...demoStore.requests].map((industry_subtype) => ({ industry_subtype, status: "submitted", created_at: new Date().toISOString() }));
     state.pilotBriefs = [...demoStore.pilotBriefs];
@@ -574,6 +589,7 @@
     if (shouldReset) resetDemoStore();
     if (shouldReset && persona === "player") {
       demoStore.follows.add("demo-sofia");
+      demoStore.creatorLiveAlerts.set("demo-sofia", true);
       demoStore.reminders.add("demo-session-mia");
       addDemoNotification("Sofia is live now. Your followed creator is ready to play.", "demo-session-sofia");
     }
@@ -682,10 +698,19 @@
         <span class="lc-product-label">${safe(sessionStatusLabel(next))}</span>
         <h1>${safe(profileName(p))}</h1>
         <p>${safe(c.headline || "Live Casino creator")} · ${safe((c.games || []).join(", ") || "Live Casino")}</p>
-        <div class="lc-product-actions"><button class="lc-product-btn secondary ${following ? "active" : ""}" type="button" data-lc-follow="${safe(p.id)}">${following ? "Following" : "Follow"}</button><button class="lc-product-btn secondary" type="button" data-lc-open-creator="${safe(p.id)}">Open</button>${next ? `<button class="lc-product-btn" type="button" data-lc-live="${safe(next.id)}">Live / Handoff</button>` : ""}</div>
+        <div class="lc-product-actions"><button class="lc-product-btn secondary ${following ? "active" : ""}" type="button" data-lc-follow="${safe(p.id)}">${following ? "Following" : "Follow"}</button><button class="lc-product-btn secondary" type="button" data-lc-open-creator="${safe(p.id)}">Open</button>${next ? `<button class="lc-product-btn" type="button" data-lc-live="${safe(next.id)}">${next.status === "live" ? "Watch live" : "View schedule"}</button>` : ""}</div>
         <span class="lc-product-note">${safe(c.affiliation_name || "Affiliation")} · ${safe(c.affiliation_verification_status || "unverified")}. No operator/provider integration implied.</span>
       </div>
     </section>`;
+  }
+
+  function creatorLiveAlertControl(id) {
+    if (!state.follows.has(id)) return "";
+    const enabled = state.creatorLiveAlerts.get(id) !== false;
+    const globallyPaused = !state.liveSignalsEnabled;
+    const available = state.demo || (state.returnSignalsAvailable && state.creatorLiveAlertsAvailable);
+    const label = globallyPaused ? "Live alerts paused globally" : enabled ? "Mute Live alerts" : "Enable Live alerts";
+    return `<button class="lc-product-chip ${enabled && !globallyPaused ? "active" : ""}" type="button" data-lc-creator-live-alerts="${safe(id)}" ${available && !globallyPaused ? "" : "disabled"}>${safe(label)}</button>`;
   }
 
   function compactCreatorRows(items, emptyText) {
@@ -936,7 +961,7 @@
     const next = item.sessions[0];
     shell().innerHTML = `${top(profileName(item.profile), "Creator profile")}
       <div class="lc-product-stack">
-        ${visualHero(sessionStatusLabel(next), profileName(item.profile), `${item.creator.headline || "Live Casino creator"} · ${(item.creator.games || []).join(", ") || "Live Casino"}`, visualImage(item.profile), `<button class="lc-product-btn secondary ${state.follows.has(item.profile.id) ? "active" : ""}" type="button" data-lc-follow="${safe(item.profile.id)}">${state.follows.has(item.profile.id) ? "Following" : "Follow"}</button>${next ? `<button class="lc-product-btn" type="button" data-lc-live="${safe(next.id)}">${next.status === "live" ? "Watch live" : "View schedule"}</button>` : ""}`, "compact")}
+        ${visualHero(sessionStatusLabel(next), profileName(item.profile), `${item.creator.headline || "Live Casino creator"} · ${(item.creator.games || []).join(", ") || "Live Casino"}`, visualImage(item.profile), `<button class="lc-product-btn secondary ${state.follows.has(item.profile.id) ? "active" : ""}" type="button" data-lc-follow="${safe(item.profile.id)}">${state.follows.has(item.profile.id) ? "Following" : "Follow"}</button>${creatorLiveAlertControl(item.profile.id)}${next ? `<button class="lc-product-btn" type="button" data-lc-live="${safe(next.id)}">${next.status === "live" ? "Watch live" : "View schedule"}</button>` : ""}`, "compact")}
         <section class="lc-product-media-grid">${item.posts.slice(0, 3).map((p, index) => visualTile(visualImage(item.profile), "Creator content", new Date(p.created_at).toLocaleString(), p.body, index === 0)).join("")}</section>
         <section class="lc-product-card"><h2>Sessions</h2>${item.sessions.length ? item.sessions.map((s) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(s.game)} · ${safe(s.title || "Live session")}</b><span>${safe(s.operator_name || "Operator to be confirmed")} · ${safe(sessionLine(s))}</span></div>${s.status === "scheduled" ? `<button class="lc-product-chip ${state.reminders.has(s.id) ? "active" : ""}" type="button" data-lc-reminder="${safe(s.id)}">${state.reminders.has(s.id) ? "Reminder set" : "Remind me"}</button>` : `<button class="lc-product-chip active" type="button" data-lc-live="${safe(s.id)}">Open Live</button>`}</div>`).join("") : `<div class="lc-product-empty">No upcoming sessions. Follow the creator or return to Discover.</div>`}</section>
         ${post ? `<section class="lc-product-card"><form class="lc-product-form" data-lc-form="comment" data-post-id="${safe(post.id)}"><input class="lc-product-input" name="body" maxlength="1000" placeholder="Comment on latest post"><button class="lc-product-btn secondary" type="submit">COMMENT</button></form></section>` : ""}
@@ -1277,30 +1302,52 @@
 
   async function toggleFollow(id) {
     const wasFollowing = state.follows.has(id);
+    const liveAlertsWereEnabled = state.creatorLiveAlerts.get(id) !== false;
     if (wasFollowing) {
       state.follows.delete(id);
+      state.creatorLiveAlerts.delete(id);
       if (state.demo) {
         demoStore.follows.delete(id);
+        demoStore.creatorLiveAlerts.delete(id);
         return;
       }
       const { error } = await state.client.from("follows").delete().eq("follower_id", state.profile.id).eq("following_id", id);
       if (error) {
         state.follows.add(id);
+        state.creatorLiveAlerts.set(id, liveAlertsWereEnabled);
         throw error;
       }
     } else {
       state.follows.add(id);
+      state.creatorLiveAlerts.set(id, true);
       if (state.demo) {
         demoStore.follows.add(id);
+        demoStore.creatorLiveAlerts.set(id, true);
         return;
       }
       const { error } = await state.client.from("follows").insert({ follower_id: state.profile.id, following_id: id });
       if (error && !/23505|duplicate/i.test(`${error.code} ${error.message}`)) {
         state.follows.delete(id);
+        state.creatorLiveAlerts.delete(id);
         throw error;
       }
     }
     void trackProductEvent("creator_follow", { creatorId: id, metadata: { action: state.follows.has(id) ? "follow" : "unfollow" } });
+  }
+
+  async function toggleCreatorLiveAlerts(id) {
+    if (!state.follows.has(id) || !state.liveSignalsEnabled) throw new Error("not_eligible");
+    const enabled = state.creatorLiveAlerts.get(id) === false;
+    if (state.demo) {
+      state.creatorLiveAlerts.set(id, enabled);
+      demoStore.creatorLiveAlerts.set(id, enabled);
+      return;
+    }
+    if (!state.returnSignalsAvailable || !state.creatorLiveAlertsAvailable) throw new Error("not_available");
+    const { error } = await state.client.rpc("set_creator_live_alert_preference", { p_creator_id: id, p_enabled: enabled });
+    if (error) throw error;
+    state.creatorLiveAlerts.set(id, enabled);
+    await loadReturnSignals();
   }
 
   async function toggleReminder(id) {
@@ -1428,6 +1475,7 @@
     const openCreator = target.closest("[data-lc-open-creator]");
     const live = target.closest("[data-lc-live]");
     const follow = target.closest("[data-lc-follow]");
+    const creatorLiveAlerts = target.closest("[data-lc-creator-live-alerts]");
     const reminder = target.closest("[data-lc-reminder]");
     const like = target.closest("[data-lc-like]");
     const access = target.closest("[data-lc-request-access]");
@@ -1610,6 +1658,14 @@
         await loadCreators();
         return state.selectedCreator ? renderCreatorDetail(state.selectedCreator) : renderPlayerHome();
       }
+      if (creatorLiveAlerts) {
+        event.preventDefault();
+        const id = creatorLiveAlerts.dataset.lcCreatorLiveAlerts;
+        await toggleCreatorLiveAlerts(id);
+        renderCreatorDetail(id);
+        toast(state.creatorLiveAlerts.get(id) === false ? "Live alerts muted for this Creator" : "Live alerts enabled for this Creator");
+        return;
+      }
       if (reminder) {
         await toggleReminder(reminder.dataset.lcReminder);
         await loadCreators();
@@ -1665,9 +1721,11 @@
     state.creators = [];
     state.posts = [];
     state.follows = new Set();
+    state.creatorLiveAlerts = new Map();
     state.reminders = new Set();
     state.notifications = [];
     state.returnSignalsAvailable = true;
+    state.creatorLiveAlertsAvailable = true;
     state.liveSignalsEnabled = true;
     state.accessRequests = [];
     state.blockedIds = new Set();
