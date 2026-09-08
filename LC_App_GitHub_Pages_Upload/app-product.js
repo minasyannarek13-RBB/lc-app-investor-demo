@@ -16,6 +16,8 @@
     reminders: new Set(),
     notifications: [],
     accessRequests: [],
+    blockedIds: new Set(),
+    blockedProfiles: [],
     selectedCreator: null,
     selectedSession: null,
     search: "",
@@ -33,6 +35,7 @@
   const languages = ["English", "French", "Italian", "Spanish", "Armenian"];
   const interests = ["creator network", "player discovery", "retention/engagement", "live discovery", "integration", "attribution"];
   const ATTRIBUTION_KEY_PREFIX = "lc-app:attribution-v1";
+  const reportReasons = [["spam", "Spam"], ["abuse", "Abuse or harassment"], ["illegal_content", "Illegal content"], ["other", "Other"]];
   const ATTRIBUTION_MAX_AGE = 30 * 24 * 60 * 60 * 1000;
   const PRODUCT_EVENTS = new Set(["product_open", "creator_impression", "discovery_search", "creator_profile_open", "creator_follow", "live_session_open", "schedule_reminder", "handoff_intent", "handoff_return", "notification_response"]);
   const demoStore = { follows: new Set(), reminders: new Set(), likes: new Set(), comments: [], posts: [], sessions: [], notifications: [], requests: new Set() };
@@ -284,7 +287,7 @@
 
   async function loadState() {
     const userId = state.profile.id;
-    const [personas, player, creator, industry, reminders, follows, accessRequests, notifications] = await Promise.all([
+    const [personas, player, creator, industry, reminders, follows, accessRequests, notifications, blocks] = await Promise.all([
       state.client.from("account_personas").select("*").eq("user_id", userId).order("created_at", { ascending: true }),
       state.client.from("player_preferences").select("*").eq("user_id", userId).maybeSingle(),
       state.client.from("creator_profiles").select("*").eq("user_id", userId).maybeSingle(),
@@ -292,9 +295,10 @@
       state.client.from("player_session_reminders").select("session_id").eq("user_id", userId),
       state.client.from("follows").select("following_id").eq("follower_id", userId),
       state.client.from("partnership_access_requests").select("industry_subtype,status,created_at").eq("user_id", userId).order("created_at", { ascending: false }),
-      state.client.from("notifications").select("id,type,target_type,target_id,read_at,created_at").eq("recipient_id", userId).order("created_at", { ascending: false }).limit(8)
+      state.client.from("notifications").select("id,type,target_type,target_id,read_at,created_at").eq("recipient_id", userId).order("created_at", { ascending: false }).limit(8),
+      state.client.from("user_blocks").select("blocked_id").eq("blocker_id", userId)
     ]);
-    [personas, player, creator, industry, reminders, follows, accessRequests, notifications].forEach((res) => { if (res.error) throw res.error; });
+    [personas, player, creator, industry, reminders, follows, accessRequests, notifications, blocks].forEach((res) => { if (res.error) throw res.error; });
     state.personas = personas.data || [];
     state.current = state.personas.find((p) => p.is_current) || state.personas[0] || null;
     state.player = player.data || null;
@@ -304,6 +308,15 @@
     state.follows = new Set((follows.data || []).map((row) => row.following_id));
     state.accessRequests = accessRequests.data || [];
     state.notifications = notifications.data || [];
+    state.blockedIds = new Set((blocks.data || []).map((row) => row.blocked_id));
+    state.creators = state.creators.filter((item) => !state.blockedIds.has(item.profile.id));
+    if (state.blockedIds.size) {
+      const { data: blockedProfiles, error: blockedProfilesError } = await state.client.from("profiles").select("id,username,display_name,avatar_url").in("id", [...state.blockedIds]);
+      const blockedProfileMap = new Map((blockedProfilesError ? [] : blockedProfiles || []).map((profile) => [profile.id, profile]));
+      state.blockedProfiles = [...state.blockedIds].map((id) => blockedProfileMap.get(id) || { id, display_name: "Blocked Creator" });
+    } else {
+      state.blockedProfiles = [];
+    }
     if (state.creator) await loadOwnCreatorData();
     if (state.current?.persona === "player") await loadCreators();
   }
@@ -331,7 +344,7 @@
       .order("updated_at", { ascending: false })
       .limit(30);
     if (error) throw error;
-    const ids = (creatorRows || []).map((row) => row.user_id).filter((id) => id !== state.profile.id);
+    const ids = (creatorRows || []).map((row) => row.user_id).filter((id) => id !== state.profile.id && !state.blockedIds.has(id));
     if (!ids.length) {
       state.creators = [];
       return;
@@ -765,7 +778,29 @@
         <section class="lc-product-media-grid">${item.posts.slice(0, 3).map((p, index) => visualTile(visualImage(item.profile), "Creator content", new Date(p.created_at).toLocaleString(), p.body, index === 0)).join("")}</section>
         <section class="lc-product-card"><h2>Sessions</h2>${item.sessions.length ? item.sessions.map((s) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(s.game)} · ${safe(s.title || "Live session")}</b><span>${safe(s.operator_name || "Operator to be confirmed")} · ${safe(sessionLine(s))}</span></div><button class="lc-product-chip ${state.reminders.has(s.id) ? "active" : ""}" type="button" data-lc-reminder="${safe(s.id)}">${state.reminders.has(s.id) ? "Reminder set" : "Remind me"}</button></div>`).join("") : `<div class="lc-product-empty">No upcoming sessions. Follow the creator or return to Discover.</div>`}</section>
         ${post ? `<section class="lc-product-card"><form class="lc-product-form" data-lc-form="comment" data-post-id="${safe(post.id)}"><input class="lc-product-input" name="body" maxlength="1000" placeholder="Comment on latest post"><button class="lc-product-btn secondary" type="submit">COMMENT</button></form></section>` : ""}
+        ${state.demo ? "" : `<section class="lc-product-card"><div class="lc-product-section-head"><h2>Safety</h2><span>Private controls</span></div><p>Report harmful content for review or block this Creator from your discovery experience.</p><div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-creator-safety="report" data-lc-creator-id="${safe(id)}">Report</button><button class="lc-product-chip" type="button" data-lc-creator-safety="block" data-lc-creator-id="${safe(id)}">Block</button></div></section>`}
       </div>${tabs("discover")}`;
+  }
+
+  function renderCreatorSafety(id, mode) {
+    const item = state.creators.find((entry) => entry.profile.id === id);
+    if (!item) return renderMissing("Creator unavailable", "This Creator is no longer available in discovery.", "Back to Discover");
+    const name = profileName(item.profile);
+    const report = mode === "report";
+    shell().innerHTML = `${top(report ? "Report Creator" : "Block Creator", "Safety control")}
+      <div class="lc-product-stack">
+        <section class="lc-product-card"><div class="lc-product-row"><img src="${safe(avatar(item.profile))}" alt=""><div class="lc-product-row-main"><b>${safe(name)}</b><span>${safe(item.profile.username ? "@" + item.profile.username : "Creator profile")}</span></div></div></section>
+        ${report ? `<form class="lc-product-card lc-product-form" data-lc-form="creator-report" data-lc-creator-id="${safe(id)}"><h2>Why are you reporting this profile?</h2><select class="lc-product-select" name="reason">${reportReasons.map(([value, label]) => `<option value="${safe(value)}">${safe(label)}</option>`).join("")}</select><textarea class="lc-product-textarea" name="description" maxlength="500" placeholder="Optional context for the moderation team"></textarea><span class="lc-product-note">Your report is private. Submission does not automatically remove or penalize the profile.</span><div class="lc-product-actions"><button class="lc-product-btn" type="submit">SUBMIT REPORT</button><button class="lc-product-chip" type="button" data-lc-open-creator="${safe(id)}">Cancel</button></div></form>` : `<section class="lc-product-card"><h2>Remove ${safe(name)} from your experience?</h2><p>You will no longer see this Creator in LC discovery. New follow interactions between your accounts will be denied while the block is active.</p><span class="lc-product-note">Blocking is private and can be reversed from Account → Safety.</span><div class="lc-product-actions"><button class="lc-product-btn" type="button" data-lc-confirm-block="${safe(id)}">BLOCK CREATOR</button><button class="lc-product-chip" type="button" data-lc-open-creator="${safe(id)}">Cancel</button></div></section>`}
+      </div>${tabs("discover")}`;
+  }
+
+  function renderBlockedCreators() {
+    shell().innerHTML = `${top("Blocked Creators", "Account safety")}
+      <div class="lc-product-stack">
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Blocked profiles</h2><span>${state.blockedIds.size}</span></div><p>Blocked Creators are removed from discovery and cannot start new follow interactions with your account.</p></section>
+        <section class="lc-product-card">${state.blockedProfiles.length ? state.blockedProfiles.map((profile) => `<div class="lc-product-row"><img src="${safe(avatar(profile))}" alt=""><div class="lc-product-row-main"><b>${safe(profileName(profile))}</b><span>${safe(profile.username ? "@" + profile.username : "Blocked profile")}</span></div><button class="lc-product-chip" type="button" data-lc-unblock="${safe(profile.id)}">Unblock</button></div>`).join("") : `<div class="lc-product-empty">No blocked Creators.</div>`}</section>
+        <button class="lc-product-btn secondary" type="button" data-lc-product="account">BACK TO ACCOUNT</button>
+      </div>${tabs("account")}`;
   }
 
   function renderLive(sessionId) {
@@ -811,6 +846,7 @@
         <section class="lc-product-card"><div class="lc-product-row"><img src="${safe(avatar(state.profile))}" alt=""><div class="lc-product-row-main"><b>${safe(profileName(state.profile))}</b><span>${safe(state.profile.username ? "@" + state.profile.username : state.profile.id)}</span></div></div></section>
         <section class="lc-product-card"><h2>Current experience</h2><p>${safe(state.current?.persona || "none")} ${state.current?.industry_subtype ? "· " + safe(state.current.industry_subtype) : ""}</p><div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-persona="player">Player</button><button class="lc-product-chip" type="button" data-lc-persona="creator">Creator</button><button class="lc-product-chip" type="button" data-lc-persona="industry">Industry</button></div></section>
         <section class="lc-product-card"><h2>Security role</h2><p>${safe(state.profile.role || "user")} stays separate from product persona.</p></section>
+        ${state.demo ? "" : `<section class="lc-product-card"><div class="lc-product-section-head"><h2>Safety</h2><span>${state.blockedIds.size} blocked</span></div><p>Review and reverse profile blocks without exposing reports or moderation decisions.</p><button class="lc-product-chip" type="button" data-lc-blocked-list>MANAGE BLOCKED CREATORS</button></section>`}
         <section class="lc-product-card"><h2>Session</h2><p>Sign out clears the local LC App session and returns to login.</p><div class="lc-product-actions">${state.demo ? `<button class="lc-product-btn secondary" type="button" data-lc-demo-exit>BACK TO OPENING</button>` : `<button class="lc-product-btn secondary" type="button" data-auth-route="logout">SIGN OUT</button>`}</div></section>
       </div>${tabs("account")}`;
   }
@@ -948,6 +984,37 @@
     await loadOwnCreatorData();
   }
 
+  async function submitCreatorReport(form) {
+    const data = new FormData(form);
+    const targetId = form.dataset.lcCreatorId;
+    const reason = String(data.get("reason") || "other");
+    if (!targetId || !reportReasons.some(([value]) => value === reason)) throw new Error("validation");
+    const { error } = await state.client.from("reports").insert({
+      reporter_id: state.profile.id,
+      target_type: "profile",
+      target_id: targetId,
+      reason,
+      description: String(data.get("description") || "").trim().slice(0, 500) || null
+    });
+    if (error && !/23505|duplicate/i.test(`${error.code} ${error.message}`)) throw error;
+  }
+
+  async function blockCreator(id) {
+    if (!id || id === state.profile.id) throw new Error("validation");
+    const { error } = await state.client.from("user_blocks").insert({ blocker_id: state.profile.id, blocked_id: id });
+    if (error && !/23505|duplicate/i.test(`${error.code} ${error.message}`)) throw error;
+    state.selectedCreator = null;
+    await loadState();
+    await loadCreators();
+  }
+
+  async function unblockCreator(id) {
+    const { error } = await state.client.from("user_blocks").delete().eq("blocker_id", state.profile.id).eq("blocked_id", id);
+    if (error) throw error;
+    await loadState();
+    if (state.current?.persona === "player") await loadCreators();
+  }
+
   async function setCreatorProfileStatus(profileStatus) {
     if (!state.creator || !["draft", "published"].includes(profileStatus)) throw new Error("validation");
     if (profileStatus === "published" && state.creator.verification_status !== "verified") throw new Error("not_verified");
@@ -1083,6 +1150,13 @@
       if (type === "industry") await saveIndustry(form);
       if (type === "post") await createPost(form);
       if (type === "session") await createSession(form);
+      if (type === "creator-report") {
+        await submitCreatorReport(form);
+        await loadState();
+        routeHome();
+        toast("Report submitted privately");
+        return;
+      }
       if (type === "comment") await commentPost(form);
       if (type === "search") {
         state.search = String(new FormData(form).get("search") || "").trim().slice(0, 80);
@@ -1129,7 +1203,33 @@
     const creatorProfileStatus = target.closest("[data-lc-creator-profile-status]");
     const sessionVisibility = target.closest("[data-lc-session-visibility]");
     const sessionStatus = target.closest("[data-lc-session-status]");
+    const creatorSafety = target.closest("[data-lc-creator-safety]");
+    const confirmBlock = target.closest("[data-lc-confirm-block]");
+    const blockedList = target.closest("[data-lc-blocked-list]");
+    const unblock = target.closest("[data-lc-unblock]");
     try {
+      if (creatorSafety) {
+        event.preventDefault();
+        return renderCreatorSafety(creatorSafety.dataset.lcCreatorId, creatorSafety.dataset.lcCreatorSafety);
+      }
+      if (confirmBlock) {
+        event.preventDefault();
+        await blockCreator(confirmBlock.dataset.lcConfirmBlock);
+        renderPlayerHome();
+        toast("Creator blocked");
+        return;
+      }
+      if (blockedList) {
+        event.preventDefault();
+        return renderBlockedCreators();
+      }
+      if (unblock) {
+        event.preventDefault();
+        await unblockCreator(unblock.dataset.lcUnblock);
+        renderBlockedCreators();
+        toast("Creator unblocked");
+        return;
+      }
       if (creatorProfileStatus) {
         event.preventDefault();
         await setCreatorProfileStatus(creatorProfileStatus.dataset.lcCreatorProfileStatus);
@@ -1308,6 +1408,8 @@
     state.reminders = new Set();
     state.notifications = [];
     state.accessRequests = [];
+    state.blockedIds = new Set();
+    state.blockedProfiles = [];
     state.search = "";
     state.loadError = null;
     state.retrying = false;
