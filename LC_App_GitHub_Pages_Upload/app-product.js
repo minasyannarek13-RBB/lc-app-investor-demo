@@ -108,6 +108,7 @@
     const raw = `${error?.code || ""} ${error?.message || ""}`.toLowerCase();
     if (/not_verified/.test(raw)) return "Creator verification and a published profile are required.";
     if (/publish_first/.test(raw)) return "Publish this session before going live.";
+    if (/already_live/.test(raw)) return "End the current Live session before starting another.";
     if (/duplicate|23505/.test(raw)) return "Already saved.";
     if (/permission|policy|rls|42501|not authorized/.test(raw)) return "This action is not available.";
     if (/network|fetch|failed/.test(raw)) return "Connection issue. Try again.";
@@ -443,10 +444,13 @@
     if (sessions.error) throw sessions.error;
     if (posts.error) throw posts.error;
     const profileMap = new Map((profiles.data || []).map((profile) => [profile.id, profile]));
+    const eligibleSessions = (sessions.data || [])
+      .filter((session) => session.status === "live" || new Date(session.starts_at).getTime() > Date.now())
+      .sort((a, b) => (a.status === "live" ? -1 : 0) - (b.status === "live" ? -1 : 0) || new Date(a.starts_at) - new Date(b.starts_at));
     state.creators = (creatorRows || []).map((creator) => ({
       creator,
       profile: profileMap.get(creator.user_id),
-      sessions: (sessions.data || []).filter((session) => session.creator_id === creator.user_id),
+      sessions: eligibleSessions.filter((session) => session.creator_id === creator.user_id),
       posts: (posts.data || []).filter((post) => post.author_id === creator.user_id)
     })).filter((item) => item.profile);
   }
@@ -873,7 +877,7 @@
         <section class="lc-product-card"><div class="lc-product-section-head"><h2>Identity becomes distribution</h2><span>Dealer → Creator</span></div><div class="lc-product-flow"><span>Dealer</span><span>Persona</span><span>Content</span><span>Audience</span><span>Live intent</span></div><span class="lc-product-note">Verification and affiliation approval are protected. Creator cannot self-verify.</span></section>
         <section class="lc-product-card"><div class="lc-product-section-head"><h2>Publication</h2><span>${safe(reviewCopy[0])}</span></div><p>${safe(reviewCopy[1])}</p><div class="lc-product-actions">${publicAction}</div><span class="lc-product-note">Verification is server-controlled. Publishing changes visibility only after approval; it never grants verification.</span></section>
         <section class="lc-product-card"><div class="lc-product-stats"><div class="lc-product-stat"><b>${state.sessions.length}</b><span>Sessions</span></div><div class="lc-product-stat"><b>${state.posts.length}</b><span>Posts</span></div><div class="lc-product-stat"><b>${safe(c.profile_status || "draft")}</b><span>Status</span></div></div></section>
-        <section class="lc-product-card"><h2>Create post</h2><form class="lc-product-form" data-lc-form="post"><textarea class="lc-product-textarea" name="body" maxlength="2000" placeholder="Share a table note or session update"></textarea><button class="lc-product-btn" type="submit">PUBLISH POST</button></form></section>
+        ${publication.publicReady ? `<section class="lc-product-card"><h2>Create post</h2><form class="lc-product-form" data-lc-form="post"><textarea class="lc-product-textarea" name="body" maxlength="2000" placeholder="Share a table note or session update"></textarea><button class="lc-product-btn" type="submit">PUBLISH POST</button></form><span class="lc-product-note">Published Creator content supports profile discovery and continuity around upcoming Live sessions.</span></section>` : `<section class="lc-product-card"><div class="lc-product-section-head"><h2>Creator content</h2><span>Private until approved</span></div><p>Publishing becomes available after server-controlled verification and profile publication.</p><span class="lc-product-note">LC does not expose unverified Creator posts as public content.</span></section>`}
         <section class="lc-product-card"><h2>Add session</h2><form class="lc-product-form" data-lc-form="session"><input class="lc-product-input" name="title" maxlength="120" placeholder="Session title" value="Live table session"><select class="lc-product-select" name="game">${games.map((g) => `<option>${safe(g)}</option>`).join("")}</select><input class="lc-product-input" name="operator_name" maxlength="120" placeholder="Operator or studio (user claimed / optional)"><input class="lc-product-input" name="starts_at" type="datetime-local" required><button class="lc-product-btn" type="submit">${publication.publicReady ? "ADD PUBLIC SESSION" : "SAVE PRIVATE SESSION"}</button></form><span class="lc-product-note">${publication.publicReady ? "This session will be discoverable. Operator/provider context remains user claimed unless verified by partner integration." : "This session will stay private. After verification, publish your profile and then choose which sessions become discoverable."}</span></section>
         <section class="lc-product-card"><div class="lc-product-section-head"><h2>Sessions</h2><span>${publication.publicReady ? "Public control" : "Private workspace"}</span></div>${state.sessions.length ? state.sessions.map((s) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(s.game)} · ${safe(s.title || "Live session")}</b><span>${safe(s.operator_name || "Operator to be confirmed")} · ${safe(sessionLine(s))} · ${safe(s.visibility || "private")}</span><div class="lc-product-actions">${publication.publicReady && s.status !== "cancelled" && s.status !== "completed" ? `<button class="lc-product-chip" type="button" data-lc-session-visibility="${s.visibility === "public" ? "private" : "public"}" data-lc-session-id="${safe(s.id)}">${s.visibility === "public" ? "Make private" : "Publish"}</button>` : ""}${s.visibility === "public" && s.status === "scheduled" ? `<button class="lc-product-chip" type="button" data-lc-session-status="live" data-lc-session-id="${safe(s.id)}">Go live</button>` : ""}${s.status === "live" ? `<button class="lc-product-chip" type="button" data-lc-session-status="completed" data-lc-session-id="${safe(s.id)}">End session</button>` : ""}${["scheduled", "live"].includes(s.status) ? `<button class="lc-product-chip" type="button" data-lc-session-status="cancelled" data-lc-session-id="${safe(s.id)}">Cancel</button>` : ""}</div></div></div>`).join("") : `<div class="lc-product-empty">No sessions yet. Save your next Live table; it stays private until you are ready and approved to publish.</div>`}</section>
         <section class="lc-product-card"><h2>Posts</h2>${state.posts.length ? state.posts.map((p) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${new Date(p.created_at).toLocaleString()}</b><span>${safe(p.body)}</span></div></div>`).join("") : `<div class="lc-product-empty">No posts yet. Share a short table update for followers.</div>`}</section>
@@ -1199,6 +1203,7 @@
       demoStore.posts.unshift({ id: `demo-post-${Date.now()}`, author_id: state.profile.id, body, created_at: new Date().toISOString(), status: "active", deleted_at: null });
       return;
     }
+    if (!creatorPublication().publicReady) throw new Error("not_verified");
     const { error } = await state.client.from("posts").insert({ author_id: state.profile.id, body, status: "active" });
     if (error) throw error;
     await loadOwnCreatorData();
@@ -1290,6 +1295,7 @@
       cancelled: new Set(["cancelled"])
     };
     if (changes.status && !allowedTransitions[session.status]?.has(changes.status)) throw new Error("invalid_transition");
+    if (changes.status === "live" && state.sessions.some((row) => row.id !== id && row.status === "live")) throw new Error("already_live");
     if (changes.visibility === "public" && !creatorPublication().publicReady) throw new Error("not_verified");
     if (changes.status === "live" && session.visibility !== "public") throw new Error("publish_first");
     const nextChanges = ["completed", "cancelled"].includes(changes.status)
