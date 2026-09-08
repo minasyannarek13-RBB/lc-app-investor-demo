@@ -11,6 +11,9 @@ assert.match(app, /async function trackProductEvent[\s\S]+from\("product_events"
 assert.match(app, /state\.demo \|\| !state\.analyticsAvailable/);
 assert.match(app, /metadata: \{ has_query: Boolean\(state\.search\), result_count:/);
 assert.doesNotMatch(app, /metadata: \{[^}]*search:/);
+assert.match(app, /function attributionStorageKey\(\)[\s\S]+state\.profile\?\.id[\s\S]+ATTRIBUTION_KEY_PREFIX/);
+assert.match(app, /localStorage\.getItem\(storageKey\)/);
+assert.doesNotMatch(app, /localStorage\.(getItem|setItem)\(ATTRIBUTION_KEY[,)]/);
 
 assert.match(migration, /alter table public\.product_events enable row level security/);
 assert.match(migration, /revoke all on table public\.product_events from public, anon, authenticated/);
