@@ -25,6 +25,7 @@
     selectedCreator: null,
     selectedSession: null,
     search: "",
+    discoveryFilter: "for_you",
     demo: false,
     demoPersona: null,
     busy: false,
@@ -569,6 +570,7 @@
     state.client = null;
     state.demo = true;
     state.demoPersona = persona;
+    state.discoveryFilter = "for_you";
     state.current = { id: `demo-${persona}`, persona: currentPersona, industry_subtype: industrySubtype, onboarding_status: "completed", is_current: true };
     state.profile = persona === "creator" ? demoProfile("demo-sofia") : { id: "demo-reviewer", username: "demo_reviewer", display_name: "Demo Reviewer", avatar_url: "app-icon-512.png", role: "user", account_status: "active", onboarding_completed: true };
     state.player = currentPersona === "player" ? { user_id: state.profile.id, favorite_games: ["Blackjack", "Roulette"], preferred_languages: ["English"], onboarding_completed: true } : null;
@@ -675,7 +677,8 @@
     if (!items.length) return `<div class="lc-product-empty">${safe(emptyText)}</div>`;
     return items.map((item) => {
       const next = item.sessions[0];
-      return `<div class="lc-product-row"><img src="${safe(avatar(item.profile))}" alt=""><span class="lc-product-status-dot ${next?.status === "live" ? "live" : ""}"></span><div class="lc-product-row-main"><b>${safe(profileName(item.profile))}</b><span>${safe(sessionStatusLabel(next))} · ${safe((item.creator.games || []).join(", "))} · ${safe(next?.operator_name || "Operator to be confirmed")}</span></div><button class="lc-product-chip" type="button" data-lc-open-creator="${safe(item.profile.id)}">Open</button></div>`;
+      const reason = creatorRecommendationReasons(item).slice(0, 2).join(" · ");
+      return `<div class="lc-product-row"><img src="${safe(avatar(item.profile))}" alt=""><span class="lc-product-status-dot ${next?.status === "live" ? "live" : ""}"></span><div class="lc-product-row-main"><b>${safe(profileName(item.profile))}</b><span>${safe(reason || sessionStatusLabel(next))} · ${safe((item.creator.games || []).join(", ") || "Live Casino")}</span></div><button class="lc-product-chip" type="button" data-lc-open-creator="${safe(item.profile.id)}">Open</button></div>`;
     }).join("");
   }
 
@@ -735,30 +738,61 @@
       const text = [profileName(item.profile), item.profile.username, item.profile.bio, item.creator.headline, ...(item.creator.games || []), ...(item.creator.languages || [])].join(" ").toLowerCase();
       return text.includes(query);
     });
-    if (!state.player?.favorite_games?.length) return base;
-    const prefs = new Set(state.player.favorite_games);
-    return [...base].sort((a, b) => Number((b.creator.games || []).some((g) => prefs.has(g))) - Number((a.creator.games || []).some((g) => prefs.has(g))));
+    const filtered = base.filter((item) => {
+      const status = item.sessions[0]?.status;
+      if (state.discoveryFilter === "live") return status === "live";
+      if (state.discoveryFilter === "following") return state.follows.has(item.profile.id);
+      if (state.discoveryFilter === "upcoming") return status === "scheduled";
+      return true;
+    });
+    return [...filtered].sort((a, b) => creatorDiscoveryScore(b) - creatorDiscoveryScore(a) || profileName(a.profile).localeCompare(profileName(b.profile)));
+  }
+
+  function creatorDiscoveryScore(item) {
+    const gamePrefs = new Set(state.player?.favorite_games || []);
+    const languagePrefs = new Set(state.player?.preferred_languages || []);
+    const session = item.sessions[0];
+    let score = 0;
+    if (session?.status === "live") score += 80;
+    if (state.follows.has(item.profile.id)) score += 60;
+    if (session && state.reminders.has(session.id)) score += 45;
+    score += Math.min(2, (item.creator.games || []).filter((value) => gamePrefs.has(value)).length) * 30;
+    score += Math.min(2, (item.creator.languages || []).filter((value) => languagePrefs.has(value)).length) * 15;
+    if (session?.status === "scheduled") score += 10;
+    return score;
+  }
+
+  function creatorRecommendationReasons(item) {
+    const gamePrefs = new Set(state.player?.favorite_games || []);
+    const languagePrefs = new Set(state.player?.preferred_languages || []);
+    const session = item.sessions[0];
+    const matchedGame = (item.creator.games || []).find((value) => gamePrefs.has(value));
+    const matchedLanguage = (item.creator.languages || []).find((value) => languagePrefs.has(value));
+    return [
+      session?.status === "live" ? "Live now" : null,
+      state.follows.has(item.profile.id) ? "Following" : null,
+      session && state.reminders.has(session.id) ? "Reminder set" : null,
+      matchedGame ? `Matches ${matchedGame}` : null,
+      matchedLanguage ? matchedLanguage : null,
+      session?.status === "scheduled" ? "Starting soon" : null
+    ].filter(Boolean);
   }
 
   function renderPlayerHome() {
     const creators = suggestedCreators();
-    const liveNow = creators.filter((item) => item.sessions[0]?.status === "live");
-    const startingSoon = creators.filter((item) => item.sessions[0]?.status === "scheduled");
-    const following = creators.filter((item) => state.follows.has(item.profile.id));
-    const lead = liveNow[0] || creators[0];
+    const lead = creators[0];
+    const filterLabels = { for_you: "For you", live: "Live", following: "Following", upcoming: "Starting soon" };
+    const emptyCopy = state.discoveryFilter === "live" ? "No Creators are live right now. Follow people to receive their next Live signal." : state.discoveryFilter === "following" ? "You are not following anyone in this view yet. Switch to For you and choose a Creator." : state.discoveryFilter === "upcoming" ? "No scheduled sessions match this view." : "No Creators match this search yet.";
     shell().innerHTML = `${top("Discover", "Creator-first Live Casino")}
       <div class="lc-product-stack">
-        ${visualHero("Discover", lead ? "Find the person behind the table." : "Discover creators.", "Casino was built around games. LC is built around people.", visualImage(lead?.profile), lead ? `<button class="lc-product-btn" type="button" data-lc-open-creator="${safe(lead.profile.id)}">Open creator</button><button class="lc-product-btn secondary" type="button" data-lc-live="${safe(lead.sessions[0]?.id || "")}">Live now</button>` : "", "compact")}
+        ${visualHero("Discover", lead ? "Find the person behind the table." : "Discover creators.", "Casino was built around games. LC is built around people.", visualImage(lead?.profile), lead ? `<button class="lc-product-btn" type="button" data-lc-open-creator="${safe(lead.profile.id)}">Open creator</button>${lead.sessions[0] ? `<button class="lc-product-btn secondary" type="button" data-lc-live="${safe(lead.sessions[0].id)}">${lead.sessions[0].status === "live" ? "Live now" : "View session"}</button>` : ""}` : "", "compact")}
         <section class="lc-product-card"><div class="lc-product-flow"><span>Discover</span><span>Creator</span><span>Follow</span><span>Live</span><span>Return</span></div></section>
         <form class="lc-product-card lc-product-form" data-lc-form="search"><input class="lc-product-input" name="search" maxlength="80" placeholder="Search creators, games, live rooms..." value="${safe(state.search)}"><div class="lc-product-actions"><button class="lc-product-btn secondary" type="submit">SEARCH</button>${state.search ? `<button class="lc-product-chip" type="button" data-lc-clear-search>Clear</button>` : ""}</div></form>
-        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Live now</h2><span>Join through operator</span></div>${compactCreatorRows(liveNow, "No live creators right now. Browse starting soon or follow creators for updates.")}</section>
-        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Following</h2><span>Return path</span></div>${compactCreatorRows(following, "No followed creators in this search. Open a creator and tap Follow.")}</section>
-        <section class="lc-product-media-grid">${creators.slice(0, 3).map((item, index) => visualTile(visualImage(item.profile), sessionStatusLabel(item.sessions[0]), profileName(item.profile), (item.creator.games || []).join(", ") || "Live Casino", index === 0)).join("")}</section>
-        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Starting soon</h2><span>Save reminders</span></div>${compactCreatorRows(startingSoon, "No upcoming sessions in this view.")}</section>
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Creator feed</h2><span>${safe(filterLabels[state.discoveryFilter] || "For you")}</span></div><div class="lc-product-actions">${Object.entries(filterLabels).map(([value, label]) => `<button class="lc-product-chip ${state.discoveryFilter === value ? "active" : ""}" type="button" data-lc-discovery-filter="${safe(value)}">${safe(label)}</button>`).join("")}</div>${compactCreatorRows(creators, emptyCopy)}</section>
         ${renderNotifications()}
         ${creators.slice(0, 4).map(creatorCard).join("")}
       </div>${tabs("home")}`;
-    creators.slice(0, 10).forEach((item) => void trackProductEvent("creator_impression", { creatorId: item.profile.id, dedupeKey: `impression:${item.profile.id}` }));
+    creators.slice(0, 10).forEach((item, index) => void trackProductEvent("creator_impression", { creatorId: item.profile.id, dedupeKey: `impression:${state.discoveryFilter}:${item.profile.id}`, metadata: { surface: "creator_feed", position: index + 1, filter: state.discoveryFilter, recommendation_reasons: creatorRecommendationReasons(item).slice(0, 4) } }));
   }
 
   function renderCreatorHome() {
@@ -1368,7 +1402,17 @@
     const blockedList = target.closest("[data-lc-blocked-list]");
     const unblock = target.closest("[data-lc-unblock]");
     const liveSignals = target.closest("[data-lc-live-signals]");
+    const discoveryFilter = target.closest("[data-lc-discovery-filter]");
     try {
+      if (discoveryFilter) {
+        event.preventDefault();
+        const value = discoveryFilter.dataset.lcDiscoveryFilter;
+        if (!["for_you", "live", "following", "upcoming"].includes(value)) return;
+        state.discoveryFilter = value;
+        void trackProductEvent("discovery_search", { metadata: { interaction: "filter", filter: value, result_count: suggestedCreators().length } });
+        renderPlayerHome();
+        return;
+      }
       if (liveSignals) {
         event.preventDefault();
         await toggleLiveSignals();
@@ -1547,6 +1591,7 @@
     state.demoPersona = null;
     state.client = client;
     state.profile = profile;
+    state.discoveryFilter = "for_you";
     state.ready = true;
     renderLoading();
     try {
@@ -1561,6 +1606,7 @@
 
   function clear() {
     state.client = null;
+    state.discoveryFilter = "for_you";
     state.profile = null;
     state.demo = false;
     state.demoPersona = null;
