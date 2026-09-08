@@ -326,9 +326,9 @@
     } else {
       state.blockedProfiles = [];
     }
+    await loadReturnSignals();
     if (state.creator) await loadOwnCreatorData();
     if (state.current?.persona === "player") await loadCreators();
-    await loadReturnSignals();
     await loadPilotBriefs();
   }
 
@@ -394,13 +394,27 @@
       setDemoCreators();
       return;
     }
-    const { data: creatorRows, error } = await state.client
-      .from("creator_profiles")
-      .select("*")
-      .eq("profile_status", "published")
-      .order("updated_at", { ascending: false })
-      .limit(30);
-    if (error) throw error;
+    const reminderIds = [...state.reminders].slice(0, 100);
+    const [discovery, reminderSessions] = await Promise.all([
+      state.client.from("creator_profiles").select("*").eq("profile_status", "published").order("updated_at", { ascending: false }).limit(30),
+      reminderIds.length
+        ? state.client.from("creator_sessions").select("id,creator_id").in("id", reminderIds)
+        : Promise.resolve({ data: [], error: null })
+    ]);
+    if (discovery.error) throw discovery.error;
+    if (reminderSessions.error) throw reminderSessions.error;
+    const requiredIds = new Set([
+      ...[...state.follows].slice(0, 100),
+      ...state.notifications.map((row) => row.creator_id).filter(Boolean),
+      ...(reminderSessions.data || []).map((row) => row.creator_id)
+    ]);
+    const discoveryIds = new Set((discovery.data || []).map((row) => row.user_id));
+    const missingRequiredIds = [...requiredIds].filter((id) => !discoveryIds.has(id) && id !== state.profile.id && !state.blockedIds.has(id)).slice(0, 100);
+    const required = missingRequiredIds.length
+      ? await state.client.from("creator_profiles").select("*").eq("profile_status", "published").in("user_id", missingRequiredIds)
+      : { data: [], error: null };
+    if (required.error) throw required.error;
+    const creatorRows = [...new Map([...(discovery.data || []), ...(required.data || [])].map((row) => [row.user_id, row])).values()];
     const ids = (creatorRows || []).map((row) => row.user_id).filter((id) => id !== state.profile.id && !state.blockedIds.has(id));
     if (!ids.length) {
       state.creators = [];
@@ -722,12 +736,14 @@
     const notification = state.notifications.find((item) => item.id === id);
     if (!notification) return;
     await markNotificationsRead([id]);
-    void trackProductEvent("notification_response", {
-      creatorId: notification.target_type === "profile" ? notification.target_id : null,
-      sessionId: ["session", "creator_session"].includes(notification.target_type) ? notification.target_id : null,
-      metadata: { notification_type: notification.type || "unknown" }
-    });
     const session = findSessionEntry(notification.target_id);
+    if (notification.source === "return_signal" && session) {
+      void trackProductEvent("notification_response", {
+        creatorId: notification.creator_id || session.entry.profile.id,
+        sessionId: session.session.id,
+        metadata: { notification_type: notification.type || "creator_live" }
+      });
+    }
     if (session) return renderLive(notification.target_id);
     if (state.creators.some((item) => item.profile.id === notification.target_id)) return renderCreatorDetail(notification.target_id);
     routeHome();
