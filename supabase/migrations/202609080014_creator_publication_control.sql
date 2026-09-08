@@ -104,6 +104,38 @@ $$;
 revoke all on function public.can_manage_user_generated_creator_session(uuid, text) from public;
 grant execute on function public.can_manage_user_generated_creator_session(uuid, text) to authenticated;
 
+-- Keep profile publication and session exposure in one database transaction.
+-- Direct API clients and interrupted browser requests must not leave stale
+-- public session rows that can reappear on a later profile publication.
+create or replace function public.privatize_creator_sessions_on_unpublish()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $
+begin
+  if old.profile_status = 'published' and new.profile_status <> 'published' then
+    update public.creator_sessions
+       set visibility = 'private',
+           updated_at = now()
+     where creator_id = new.user_id
+       and visibility = 'public'
+       and provenance = 'user_generated';
+  end if;
+
+  return new;
+end;
+$;
+
+revoke all on function public.privatize_creator_sessions_on_unpublish() from public;
+
+drop trigger if exists creator_profiles_privatize_sessions on public.creator_profiles;
+create trigger creator_profiles_privatize_sessions
+  after update of profile_status on public.creator_profiles
+  for each row
+  when (old.profile_status is distinct from new.profile_status)
+  execute function public.privatize_creator_sessions_on_unpublish();
+
 update public.creator_sessions cs
    set visibility = 'private',
        updated_at = now()
