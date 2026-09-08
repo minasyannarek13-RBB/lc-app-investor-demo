@@ -1,0 +1,96 @@
+name: LC App product shell v2
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'LC_App_GitHub_Pages_Upload/product-shell-v2.css'
+      - 'LC_App_GitHub_Pages_Upload/product-shell-v2.js'
+      - '.github/workflows/lc-product-shell-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lc-product-shell-v2
+  cancel-in-progress: true
+
+jobs:
+  integrate-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout canonical main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Integrate product shell assets
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          root = Path('LC_App_GitHub_Pages_Upload')
+          index = root / 'index.html'
+          sw = root / 'sw.js'
+
+          html = index.read_text(encoding='utf-8')
+          marker = '<script src="product-shell-v2.js?v=1" defer></script>'
+          if marker not in html:
+              if '</body>' not in html:
+                  raise SystemExit('index.html has no closing body')
+              html = html.replace('</body>', f'  {marker}\n</body>', 1)
+              index.write_text(html, encoding='utf-8')
+
+          sw_text = sw.read_text(encoding='utf-8')
+          if '"./product-shell-v2.css"' not in sw_text:
+              sw_text = sw_text.replace('  "./app-product.js",', '  "./app-product.js",\n  "./product-shell-v2.css",\n  "./product-shell-v2.js",', 1)
+          sw_text = re.sub(r'lc-app-investor-demo-v\d+', 'lc-app-investor-demo-v92', sw_text, count=1)
+          sw.write_text(sw_text, encoding='utf-8')
+          PY
+
+      - name: Syntax and contract checks
+        run: |
+          set -euo pipefail
+          node --check LC_App_GitHub_Pages_Upload/product-shell-v2.js
+          node --check LC_App_GitHub_Pages_Upload/app-product.js
+          node --check LC_App_GitHub_Pages_Upload/auth.js
+          node --check LC_App_GitHub_Pages_Upload/sw.js
+          python3 - <<'PY'
+          from pathlib import Path
+          root = Path('LC_App_GitHub_Pages_Upload')
+          html = (root/'index.html').read_text(encoding='utf-8')
+          js = (root/'product-shell-v2.js').read_text(encoding='utf-8')
+          css = (root/'product-shell-v2.css').read_text(encoding='utf-8')
+          sw = (root/'sw.js').read_text(encoding='utf-8')
+          assert html.lstrip().lower().startswith('<!doctype html>')
+          assert '<script src="product-shell-v2.js?v=1" defer></script>' in html
+          assert 'product-shell-v2.css?v=1' in js
+          assert './product-shell-v2.css' in sw and './product-shell-v2.js' in sw
+          assert 'service_role' not in js.lower() and 'service_role' not in css.lower()
+          assert 'wallet' not in js.lower() or 'boundary' in js.lower()
+          assert 'lc-product-v2' in css and 'lc-v2-rail' in css
+          print('LC product shell v2 static contract: PASS')
+          PY
+
+      - name: Verify protected boundaries untouched
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- CNAME showcase-v2 || {
+            echo 'Protected showcase/domain files changed unexpectedly.' >&2
+            exit 1
+          }
+          git diff --check
+
+      - name: Commit verified integration
+        run: |
+          if git diff --quiet -- LC_App_GitHub_Pages_Upload/index.html LC_App_GitHub_Pages_Upload/sw.js; then
+            echo 'No integration changes required.'
+            exit 0
+          fi
+          git config user.name 'LC App Build Engine'
+          git config user.email 'actions@users.noreply.github.com'
+          git add LC_App_GitHub_Pages_Upload/index.html LC_App_GitHub_Pages_Upload/sw.js
+          git commit -m 'Activate LC App production product shell v2'
+          git push origin HEAD:main
