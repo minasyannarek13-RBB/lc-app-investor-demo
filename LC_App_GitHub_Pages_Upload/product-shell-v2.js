@@ -148,8 +148,9 @@
       }
     });
 
+    const labelledFieldIds = new Set(Array.from(root.querySelectorAll("label[for]"), (label) => label.htmlFor).filter(Boolean));
     root.querySelectorAll("input,select,textarea").forEach((field) => {
-      if (field.getAttribute("aria-label") || field.id && root.querySelector(`label[for='${CSS.escape(field.id)}']`)) return;
+      if (field.getAttribute("aria-label") || (field.id && labelledFieldIds.has(field.id))) return;
       const placeholder = field.getAttribute("placeholder");
       const name = field.getAttribute("name");
       if (placeholder || name) field.setAttribute("aria-label", placeholder || name.replace(/[_-]+/g, " "));
