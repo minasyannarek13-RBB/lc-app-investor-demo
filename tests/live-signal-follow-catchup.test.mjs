@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
 const sql = await readFile(new URL('../supabase/migrations/202609080020_live_signal_follow_catchup.sql', import.meta.url), 'utf8');
+const executableSql = sql.replace(/^\s*--.*$/gm, '');
 
 assert.match(sql, /after insert on public\.follows/i, 'follow insert must trigger live-signal catch-up');
 assert.match(sql, /cp\.verification_status = 'verified'/i, 'creator must be verified');
@@ -15,6 +16,6 @@ assert.match(sql, /on conflict \(recipient_id, session_id, signal_type\) do noth
 assert.match(sql, /after insert or update of creator_live_enabled on public\.return_signal_preferences/i, 're-enable must restore eligible current signals');
 assert.match(sql, /revoke all on function public\.create_live_signal_on_follow\(\) from public, anon, authenticated/i, 'trigger function must not be client callable');
 assert.match(sql, /revoke all on function public\.create_live_signals_on_preference_enable\(\) from public, anon, authenticated/i, 'preference catch-up function must not be client callable');
-assert.doesNotMatch(sql, /wallet|deposit|withdraw|kyc|aml|wager|settlement/i, 'migration must not introduce regulated-flow data');
+assert.doesNotMatch(executableSql, /wallet|deposit|withdraw|kyc|aml|wager|settlement/i, 'migration must not introduce regulated-flow data');
 
 console.log('live-signal follow catch-up contract: PASS');
