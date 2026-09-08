@@ -18,6 +18,8 @@
     returnSignalsAvailable: true,
     liveSignalsEnabled: true,
     accessRequests: [],
+    pilotBriefs: [],
+    pilotBriefsAvailable: true,
     blockedIds: new Set(),
     blockedProfiles: [],
     selectedCreator: null,
@@ -40,7 +42,9 @@
   const reportReasons = [["spam", "Spam"], ["abuse", "Abuse or harassment"], ["illegal_content", "Illegal content"], ["other", "Other"]];
   const ATTRIBUTION_MAX_AGE = 30 * 24 * 60 * 60 * 1000;
   const PRODUCT_EVENTS = new Set(["product_open", "creator_impression", "discovery_search", "creator_profile_open", "creator_follow", "live_session_open", "schedule_reminder", "handoff_intent", "handoff_return", "notification_response"]);
-  const demoStore = { follows: new Set(), reminders: new Set(), likes: new Set(), comments: [], posts: [], sessions: [], notifications: [], requests: new Set() };
+  const PILOT_EVENTS = [["creator_impression", "Creator impression"], ["creator_profile_open", "Profile open"], ["creator_follow", "Follow"], ["live_session_open", "Live open"], ["schedule_reminder", "Schedule reminder"], ["handoff_intent", "Handoff intent"], ["handoff_return", "Return visit"], ["notification_response", "Signal response"]];
+  const PILOT_HYPOTHESES = [["creator_handoff", "Creator-led discovery produces operator handoff intent"], ["creator_return", "Following a Creator contributes to return activity"], ["live_signal_response", "Live signals prompt measurable player response"], ["creator_source_attribution", "Creator source remains attributable through handoff and return"]];
+  const demoStore = { follows: new Set(), reminders: new Set(), likes: new Set(), comments: [], posts: [], sessions: [], notifications: [], requests: new Set(), pilotBriefs: [] };
   const demoProfiles = [
     { id: "demo-sofia", username: "sofia_live", display_name: "Sofia Laurent", avatar_url: "app_prototype_assets/dealers/v2_polish/sofia_avatar_public.jpg", bio: "Blackjack dealer building a followable Live Casino audience.", country: "Malta", languages: ["English", "French"] },
     { id: "demo-mia", username: "mia_tables", display_name: "Mia Novak", avatar_url: "app_prototype_assets/dealers/dealer_mia_avatar_v1.jpg", bio: "Roulette and baccarat sessions with a calm table style.", country: "Latvia", languages: ["English", "Italian"] },
@@ -127,6 +131,7 @@
     demoStore.sessions = [];
     demoStore.notifications = [];
     demoStore.requests.clear();
+    demoStore.pilotBriefs = [];
   };
   const sessionStatusLabel = (session) => {
     if (!session) return "NO SESSION";
@@ -322,6 +327,23 @@
     if (state.creator) await loadOwnCreatorData();
     if (state.current?.persona === "player") await loadCreators();
     await loadReturnSignals();
+    await loadPilotBriefs();
+  }
+
+  async function loadPilotBriefs() {
+    if (state.demo) {
+      state.pilotBriefs = [...demoStore.pilotBriefs];
+      return;
+    }
+    const { data, error } = await state.client.from("pilot_measurement_briefs").select("*").eq("user_id", state.profile.id);
+    if (error && (["42P01", "PGRST205"].includes(error.code) || /pilot_measurement_briefs/i.test(error.message || ""))) {
+      state.pilotBriefsAvailable = false;
+      state.pilotBriefs = [];
+      return;
+    }
+    if (error) throw error;
+    state.pilotBriefsAvailable = true;
+    state.pilotBriefs = data || [];
   }
 
   async function loadReturnSignals() {
@@ -526,6 +548,7 @@
     state.follows = new Set(demoStore.follows);
     state.reminders = new Set(demoStore.reminders);
     state.accessRequests = [...demoStore.requests].map((industry_subtype) => ({ industry_subtype, status: "submitted", created_at: new Date().toISOString() }));
+    state.pilotBriefs = [...demoStore.pilotBriefs];
     state.notifications = demoStore.notifications;
     state.sessions = [...demoSessions, ...demoStore.sessions].filter((session) => session.creator_id === state.profile?.id);
     state.posts = [...demoStore.posts, ...demoPosts].filter((post) => post.author_id === state.profile?.id);
@@ -782,6 +805,33 @@
       </form>`;
   }
 
+  function renderPilotMeasurementBrief(subtype) {
+    if (!state.pilotBriefsAvailable && !state.demo) {
+      return `<section class="lc-product-card"><div class="lc-product-section-head"><h2>Pilot measurement brief</h2><span>Not available</span></div><p>The planning workspace will become available after its additive database migration is applied.</p><span class="lc-product-note">No product event collection or operator integration is implied.</span></section>`;
+    }
+    const brief = state.pilotBriefs.find((row) => row.industry_subtype === subtype);
+    if (brief && brief.status !== "draft") {
+      const hypothesis = PILOT_HYPOTHESES.find(([value]) => value === brief.primary_hypothesis)?.[1] || brief.primary_hypothesis;
+      const labels = (brief.observed_events || []).map((value) => PILOT_EVENTS.find(([eventName]) => eventName === value)?.[1] || value);
+      return `<section class="lc-product-card"><div class="lc-product-section-head"><h2>Pilot measurement brief</h2><span>${safe(brief.status)}</span></div><h3>${safe(hypothesis)}</h3><p>${safe(brief.attribution_window_days)}-day attribution window · ${safe(labels.join(" · "))}</p><span class="lc-product-note">Submitted for review. This records a measurement plan, not validated performance, partner approval or production readiness.</span></section>`;
+    }
+    const selected = new Set(brief?.observed_events || ["creator_impression", "creator_profile_open", "creator_follow", "live_session_open", "handoff_intent", "handoff_return"]);
+    return `<form class="lc-product-card lc-product-form" data-lc-form="pilot-brief">
+      <div class="lc-product-section-head"><h2>Pilot measurement brief</h2><span>${brief ? "Draft saved" : "To be validated"}</span></div>
+      <p>Define what a first pilot should learn before discussing commercial outcomes.</p>
+      <select class="lc-product-select" name="primary_hypothesis">${PILOT_HYPOTHESES.map(([value, label]) => `<option value="${safe(value)}" ${brief?.primary_hypothesis === value ? "selected" : ""}>${safe(label)}</option>`).join("")}</select>
+      <label class="lc-product-note" for="pilot-window">Attribution window (1–30 days)</label>
+      <input class="lc-product-input" id="pilot-window" name="attribution_window_days" type="number" min="1" max="30" required value="${safe(brief?.attribution_window_days || 7)}">
+      <h3>Observed LC events</h3>
+      <div class="lc-product-actions">${PILOT_EVENTS.map(([value, label]) => `<label class="lc-product-chip ${selected.has(value) ? "active" : ""}"><input style="display:none" type="checkbox" name="observed_events" value="${safe(value)}" ${selected.has(value) ? "checked" : ""}>${safe(label)}</label>`).join("")}</div>
+      <select class="lc-product-select" name="feed_readiness"><option value="not_available">Live feed: not available</option><option value="documentation_available" ${brief?.feed_readiness === "documentation_available" ? "selected" : ""}>Live feed: documentation available</option><option value="sandbox_available" ${brief?.feed_readiness === "sandbox_available" ? "selected" : ""}>Live feed: sandbox available</option></select>
+      <select class="lc-product-select" name="handoff_readiness"><option value="not_available">Operator handoff: not available</option><option value="conceptual" ${brief?.handoff_readiness === "conceptual" ? "selected" : ""}>Operator handoff: conceptual URL flow</option><option value="sandbox_available" ${brief?.handoff_readiness === "sandbox_available" ? "selected" : ""}>Operator handoff: sandbox available</option></select>
+      <textarea class="lc-product-textarea" name="notes" maxlength="1000" placeholder="Constraints, consent, market rules or data availability (optional)">${safe(brief?.notes || "")}</textarea>
+      <div class="lc-product-actions"><button class="lc-product-btn secondary" type="submit" name="pilot_action" value="draft">SAVE DRAFT</button><button class="lc-product-btn" type="submit" name="pilot_action" value="submit">SUBMIT FOR REVIEW</button></div>
+      <span class="lc-product-note">Readiness is self-reported and unverified. LC stores app-owned funnel events only; gameplay, wallet, KYC/AML, wagering and settlement remain outside LC.</span>
+    </form>`;
+  }
+
   function renderIndustryHome() {
     const subtype = state.industry?.subtype || state.current?.industry_subtype || "operator";
     const request = state.accessRequests.find((row) => row.industry_subtype === subtype);
@@ -794,6 +844,7 @@
           ${visualHero(provider ? "Provider value" : "Operator value", heroTitle, heroBody, visualMedia[provider ? "demo-marcus" : "demo-sofia"], "", "compact copy-top")}
           <section class="lc-product-card"><div class="lc-product-section-head"><h2>What changes</h2><span>New discovery path, same regulated core</span></div><div class="lc-product-flow">${provider ? "<span>Creator</span><span>Audience</span><span>Room</span><span>Live intent</span><span>Operator</span>" : "<span>Creator</span><span>Audience</span><span>Intent</span><span>Handoff</span><span>Return</span>"}</div></section>
           <section class="lc-product-card"><div class="lc-product-section-head"><h2>Value hypothesis</h2><span>No invented performance claims</span></div><div class="lc-product-grid two">${provider ? `<div class="lc-product-card"><h3>Discovery</h3><p>Hosts and live rooms become visible through people, not only through game tiles.</p></div><div class="lc-product-card"><h3>Distribution</h3><p>Creator identity can become an additional surface around existing provider and operator channels.</p></div>` : `<div class="lc-product-card"><h3>Discovery</h3><p>Creator-led entry gives the operator another path from attention to a live table.</p></div><div class="lc-product-card"><h3>Return</h3><p>Follow, schedule and creator identity give the player a reason to come back beyond generic lobby browsing.</p></div>`}</div><p style="margin-top:10px">These are product hypotheses to validate through integration and pilot data. The reveal does not claim proven uplift, revenue or retention.</p></section>
+          ${renderPilotMeasurementBrief(subtype)}
           <section class="lc-product-card"><h2>Operating boundary</h2><p>Operators/providers retain gameplay, wallet, deposits and withdrawals, KYC/AML, responsible gaming, wagering and settlement. LC remains the discovery, identity and return-context layer.</p><span class="lc-product-note">Concept only. No confirmed production integration, pilot, customer or revenue claim.</span></section>
           <section class="lc-product-card lc-product-hero"><span class="lc-product-label">Commercial thesis</span><h1>LC monetizes the path around the game, not the regulated game itself.</h1><p>Discovery, creator identity, return context and attributable handoff are the layer to validate commercially.</p></section>
         </div>`;
@@ -804,6 +855,7 @@
         ${visualHero(provider ? "Provider / ecosystem" : "Operator perspective", provider ? "Distribution can start with a person." : "The operator keeps the game. LC creates another path to it.", provider ? "Creators, rooms and content become an additional discovery surface around existing provider distribution." : "Creator → Audience → Live intent → Operator handoff → Return. LC adds discovery and continuity around licensed operator infrastructure.", provider ? visualMedia["demo-mia"] : visualMedia["demo-sofia"], "", "copy-top")}
         <section class="lc-product-card"><div class="lc-product-flow">${provider ? "<span>Game</span><span>Creator</span><span>Audience</span><span>Live intent</span><span>Operator</span>" : "<span>Creator</span><span>Audience</span><span>Live intent</span><span>Handoff</span><span>Return</span>"}</div></section>
         <section class="lc-product-media-grid">${state.creators.slice(0, 3).map((item, index) => visualTile(visualImage(item.profile), provider ? "Room discovery" : "Creator-led discovery", profileName(item.profile), sessionStatusLabel(item.sessions[0]), index === 0)).join("")}</section>
+        ${renderPilotMeasurementBrief(subtype)}
         <section class="lc-product-card"><h2>Partnership access</h2><p>Status: ${safe(request?.status || state.industry?.access_status || "not_requested")}</p><button class="lc-product-btn" type="button" data-lc-request-access="${safe(subtype)}">REQUEST PARTNERSHIP ACCESS</button><span class="lc-product-note">Request submission is persisted. Client cannot approve itself. No production integration is configured.</span></section>
       </div>${tabs("home")}`;
   }
@@ -994,6 +1046,56 @@
     const { error } = await state.client.from("industry_profiles").upsert(payload, { onConflict: "user_id" });
     if (error) throw error;
     await completeCurrentPersona();
+  }
+
+  async function savePilotBrief(form, shouldSubmit = false) {
+    const data = new FormData(form);
+    const subtype = state.industry?.subtype || state.current?.industry_subtype || "operator";
+    const hypothesis = String(data.get("primary_hypothesis") || "");
+    const observedEvents = values(form, "observed_events");
+    const attributionWindowDays = Number(data.get("attribution_window_days"));
+    const feedReadiness = String(data.get("feed_readiness") || "not_available");
+    const handoffReadiness = String(data.get("handoff_readiness") || "not_available");
+    const existing = state.pilotBriefs.find((row) => row.industry_subtype === subtype);
+    if (!PILOT_HYPOTHESES.some(([value]) => value === hypothesis)
+      || !observedEvents.length
+      || observedEvents.some((value) => !PILOT_EVENTS.some(([eventName]) => eventName === value))
+      || !Number.isInteger(attributionWindowDays)
+      || attributionWindowDays < 1
+      || attributionWindowDays > 30
+      || !["not_available", "documentation_available", "sandbox_available"].includes(feedReadiness)
+      || !["not_available", "conceptual", "sandbox_available"].includes(handoffReadiness)
+      || (existing && existing.status !== "draft")) throw new Error("validation");
+    const payload = {
+      user_id: state.profile.id,
+      industry_subtype: subtype,
+      primary_hypothesis: hypothesis,
+      attribution_window_days: attributionWindowDays,
+      observed_events: observedEvents,
+      feed_readiness: feedReadiness,
+      handoff_readiness: handoffReadiness,
+      notes: String(data.get("notes") || "").trim().slice(0, 1000) || null,
+      status: "draft"
+    };
+    if (state.demo) {
+      const row = { ...existing, ...payload, id: existing?.id || `demo-pilot-${Date.now()}`, status: shouldSubmit ? "submitted" : "draft", updated_at: new Date().toISOString() };
+      demoStore.pilotBriefs = [...demoStore.pilotBriefs.filter((item) => item.industry_subtype !== subtype), row];
+      state.pilotBriefs = [...demoStore.pilotBriefs];
+      return;
+    }
+    let id = existing?.id;
+    if (existing) {
+      const { error } = await state.client.from("pilot_measurement_briefs").update(payload).eq("id", existing.id).eq("user_id", state.profile.id).eq("status", "draft");
+      if (error) throw error;
+    } else {
+      const { data: created, error } = await state.client.from("pilot_measurement_briefs").insert(payload).select("id").single();
+      if (error) throw error;
+      id = created.id;
+    }
+    if (shouldSubmit) {
+      const { error } = await state.client.from("pilot_measurement_briefs").update({ status: "submitted" }).eq("id", id).eq("user_id", state.profile.id).eq("status", "draft");
+      if (error) throw error;
+    }
   }
 
   async function createPost(form) {
@@ -1205,6 +1307,7 @@
       if (type === "player") await savePlayer(form);
       if (type === "creator") await saveCreator(form);
       if (type === "industry") await saveIndustry(form);
+      if (type === "pilot-brief") await savePilotBrief(form, event.submitter?.value === "submit");
       if (type === "post") await createPost(form);
       if (type === "session") await createSession(form);
       if (type === "creator-report") {
