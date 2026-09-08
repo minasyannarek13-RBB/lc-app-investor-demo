@@ -112,7 +112,7 @@ returns trigger
 language plpgsql
 security definer
 set search_path = public
-as $
+as $$
 begin
   if old.profile_status = 'published' and new.profile_status <> 'published' then
     update public.creator_sessions
@@ -125,7 +125,7 @@ begin
 
   return new;
 end;
-$;
+$$;
 
 revoke all on function public.privatize_creator_sessions_on_unpublish() from public;
 
