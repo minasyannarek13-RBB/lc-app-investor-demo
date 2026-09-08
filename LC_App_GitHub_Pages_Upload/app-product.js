@@ -94,6 +94,8 @@
   };
   const err = (error) => {
     const raw = `${error?.code || ""} ${error?.message || ""}`.toLowerCase();
+    if (/not_verified/.test(raw)) return "Creator verification and a published profile are required.";
+    if (/publish_first/.test(raw)) return "Publish this session before going live.";
     if (/duplicate|23505/.test(raw)) return "Already saved.";
     if (/permission|policy|rls|42501|not authorized/.test(raw)) return "This action is not available.";
     if (/network|fetch|failed/.test(raw)) return "Connection issue. Try again.";
@@ -128,6 +130,19 @@
     return "ENDED";
   };
   const sessionLine = (session) => `${sessionStatusLabel(session)} · ${new Date(session.starts_at).toLocaleString()}`;
+  const creatorPublication = () => {
+    const verification = state.creator?.verification_status || "not_requested";
+    const approved = verification === "verified";
+    const published = state.creator?.profile_status === "published";
+    return { verification, approved, published, publicReady: approved && published };
+  };
+  const creatorReviewCopy = (verification) => ({
+    not_requested: ["Draft", "Complete Creator setup to submit your identity for review."],
+    submitted: ["Submitted", "Your profile is saved. Sessions stay private while verification is reviewed."],
+    under_review: ["Under review", "Your profile and sessions stay private until verification is complete."],
+    verified: ["Verified", "You control when your approved profile and sessions become public."],
+    rejected: ["Needs attention", "Your drafts remain private. Contact support before submitting new public information."]
+  }[verification] || ["Private", "Your Creator workspace is not public."]);
   const findSessionEntry = (sessionId) => {
     for (const entry of state.creators) {
       const session = entry.sessions.find((row) => row.id === sessionId);
@@ -673,14 +688,20 @@
         </div>`;
       return;
     }
+    const publication = creatorPublication();
+    const reviewCopy = creatorReviewCopy(publication.verification);
+    const publicAction = publication.approved
+      ? `<button class="lc-product-btn ${publication.published ? "secondary" : ""}" type="button" data-lc-creator-profile-status="${publication.published ? "draft" : "published"}">${publication.published ? "MAKE PROFILE PRIVATE" : "PUBLISH PROFILE"}</button>`
+      : "";
     shell().innerHTML = `${top("Creator Home", "Profile, content, schedule")}
       <div class="lc-product-stack">
         ${visualHero("Creator Home", "From dealer to creator.", "A persistent identity turns a dealer into a persona players can discover, follow and return to across sessions.", visualImage(state.profile), "", "compact")}
         <section class="lc-product-card"><div class="lc-product-section-head"><h2>Identity becomes distribution</h2><span>Dealer → Creator</span></div><div class="lc-product-flow"><span>Dealer</span><span>Persona</span><span>Content</span><span>Audience</span><span>Live intent</span></div><span class="lc-product-note">Verification and affiliation approval are protected. Creator cannot self-verify.</span></section>
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Publication</h2><span>${safe(reviewCopy[0])}</span></div><p>${safe(reviewCopy[1])}</p><div class="lc-product-actions">${publicAction}</div><span class="lc-product-note">Verification is server-controlled. Publishing changes visibility only after approval; it never grants verification.</span></section>
         <section class="lc-product-card"><div class="lc-product-stats"><div class="lc-product-stat"><b>${state.sessions.length}</b><span>Sessions</span></div><div class="lc-product-stat"><b>${state.posts.length}</b><span>Posts</span></div><div class="lc-product-stat"><b>${safe(c.profile_status || "draft")}</b><span>Status</span></div></div></section>
         <section class="lc-product-card"><h2>Create post</h2><form class="lc-product-form" data-lc-form="post"><textarea class="lc-product-textarea" name="body" maxlength="2000" placeholder="Share a table note or session update"></textarea><button class="lc-product-btn" type="submit">PUBLISH POST</button></form></section>
-        <section class="lc-product-card"><h2>Add session</h2><form class="lc-product-form" data-lc-form="session"><input class="lc-product-input" name="title" maxlength="120" placeholder="Session title" value="Live table session"><select class="lc-product-select" name="game">${games.map((g) => `<option>${safe(g)}</option>`).join("")}</select><input class="lc-product-input" name="operator_name" maxlength="120" placeholder="Operator or studio (user claimed / optional)"><input class="lc-product-input" name="starts_at" type="datetime-local" required><button class="lc-product-btn" type="submit">ADD SESSION</button></form><span class="lc-product-note">Operator/provider context is user claimed or demo unless verified by partner integration.</span></section>
-        <section class="lc-product-card"><h2>Public sessions</h2>${state.sessions.length ? state.sessions.map((s) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(s.game)} · ${safe(s.title || "Live session")}</b><span>${safe(s.operator_name || "Operator to be confirmed")} · ${safe(sessionLine(s))}</span></div></div>`).join("") : `<div class="lc-product-empty">No sessions yet. Add your next Live table so followers know when to return.</div>`}</section>
+        <section class="lc-product-card"><h2>Add session</h2><form class="lc-product-form" data-lc-form="session"><input class="lc-product-input" name="title" maxlength="120" placeholder="Session title" value="Live table session"><select class="lc-product-select" name="game">${games.map((g) => `<option>${safe(g)}</option>`).join("")}</select><input class="lc-product-input" name="operator_name" maxlength="120" placeholder="Operator or studio (user claimed / optional)"><input class="lc-product-input" name="starts_at" type="datetime-local" required><button class="lc-product-btn" type="submit">${publication.publicReady ? "ADD PUBLIC SESSION" : "SAVE PRIVATE SESSION"}</button></form><span class="lc-product-note">${publication.publicReady ? "This session will be discoverable. Operator/provider context remains user claimed unless verified by partner integration." : "This session will stay private. After verification, publish your profile and then choose which sessions become discoverable."}</span></section>
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Sessions</h2><span>${publication.publicReady ? "Public control" : "Private workspace"}</span></div>${state.sessions.length ? state.sessions.map((s) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(s.game)} · ${safe(s.title || "Live session")}</b><span>${safe(s.operator_name || "Operator to be confirmed")} · ${safe(sessionLine(s))} · ${safe(s.visibility || "private")}</span><div class="lc-product-actions">${publication.publicReady && s.status !== "cancelled" && s.status !== "completed" ? `<button class="lc-product-chip" type="button" data-lc-session-visibility="${s.visibility === "public" ? "private" : "public"}" data-lc-session-id="${safe(s.id)}">${s.visibility === "public" ? "Make private" : "Publish"}</button>` : ""}${s.visibility === "public" && s.status === "scheduled" ? `<button class="lc-product-chip" type="button" data-lc-session-status="live" data-lc-session-id="${safe(s.id)}">Go live</button>` : ""}${s.status === "live" ? `<button class="lc-product-chip" type="button" data-lc-session-status="completed" data-lc-session-id="${safe(s.id)}">End session</button>` : ""}${["scheduled", "live"].includes(s.status) ? `<button class="lc-product-chip" type="button" data-lc-session-status="cancelled" data-lc-session-id="${safe(s.id)}">Cancel</button>` : ""}</div></div></div>`).join("") : `<div class="lc-product-empty">No sessions yet. Save your next Live table; it stays private until you are ready and approved to publish.</div>`}</section>
         <section class="lc-product-card"><h2>Posts</h2>${state.posts.length ? state.posts.map((p) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${new Date(p.created_at).toLocaleString()}</b><span>${safe(p.body)}</span></div></div>`).join("") : `<div class="lc-product-empty">No posts yet. Share a short table update for followers.</div>`}</section>
         ${renderNotifications("No audience notifications yet. Followers, reactions and comments will appear here.")}
       </div>${tabs("creator")}`;
@@ -906,6 +927,7 @@
       });
       return;
     }
+    const { publicReady } = creatorPublication();
     const { error } = await state.client.from("creator_sessions").insert({
       creator_id: state.profile.id,
       title: String(data.get("title") || "").trim().slice(0, 120) || "Live session",
@@ -913,9 +935,31 @@
       operator_name: String(data.get("operator_name") || "").trim().slice(0, 120) || null,
       starts_at: new Date(starts).toISOString(),
       status: "scheduled",
-      visibility: "public",
+      visibility: publicReady ? "public" : "private",
       provenance: "user_generated"
     });
+    if (error) throw error;
+    await loadOwnCreatorData();
+  }
+
+  async function setCreatorProfileStatus(profileStatus) {
+    if (!state.creator || !["draft", "published"].includes(profileStatus)) throw new Error("validation");
+    if (profileStatus === "published" && state.creator.verification_status !== "verified") throw new Error("not_verified");
+    const { error } = await state.client.from("creator_profiles").update({ profile_status: profileStatus }).eq("user_id", state.profile.id);
+    if (error) throw error;
+    if (profileStatus === "draft") {
+      const { error: sessionsError } = await state.client.from("creator_sessions").update({ visibility: "private" }).eq("creator_id", state.profile.id).eq("provenance", "user_generated").eq("visibility", "public");
+      if (sessionsError) throw sessionsError;
+    }
+    await loadState();
+  }
+
+  async function updateCreatorSession(id, changes) {
+    const session = state.sessions.find((row) => row.id === id);
+    if (!session || session.provenance !== "user_generated") throw new Error("validation");
+    if (changes.visibility === "public" && !creatorPublication().publicReady) throw new Error("not_verified");
+    if (changes.status === "live" && session.visibility !== "public") throw new Error("publish_first");
+    const { error } = await state.client.from("creator_sessions").update(changes).eq("id", id).eq("creator_id", state.profile.id);
     if (error) throw error;
     await loadOwnCreatorData();
   }
@@ -1076,7 +1120,31 @@
     const retry = target.closest("[data-lc-retry]");
     const notification = target.closest("[data-lc-notification]");
     const notificationsRead = target.closest("[data-lc-notifications-read]");
+    const creatorProfileStatus = target.closest("[data-lc-creator-profile-status]");
+    const sessionVisibility = target.closest("[data-lc-session-visibility]");
+    const sessionStatus = target.closest("[data-lc-session-status]");
     try {
+      if (creatorProfileStatus) {
+        event.preventDefault();
+        await setCreatorProfileStatus(creatorProfileStatus.dataset.lcCreatorProfileStatus);
+        renderCreatorHome();
+        toast(state.creator.profile_status === "published" ? "Creator profile published" : "Creator profile is private");
+        return;
+      }
+      if (sessionVisibility) {
+        event.preventDefault();
+        await updateCreatorSession(sessionVisibility.dataset.lcSessionId, { visibility: sessionVisibility.dataset.lcSessionVisibility });
+        renderCreatorHome();
+        toast(sessionVisibility.dataset.lcSessionVisibility === "public" ? "Session published" : "Session is private");
+        return;
+      }
+      if (sessionStatus) {
+        event.preventDefault();
+        await updateCreatorSession(sessionStatus.dataset.lcSessionId, { status: sessionStatus.dataset.lcSessionStatus });
+        renderCreatorHome();
+        toast(sessionStatus.dataset.lcSessionStatus === "live" ? "Session is live" : "Session updated");
+        return;
+      }
       if (retry) {
         event.preventDefault();
         return retryLoad(retry);
