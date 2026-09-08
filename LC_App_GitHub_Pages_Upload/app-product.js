@@ -1223,9 +1223,19 @@
   async function updateCreatorSession(id, changes) {
     const session = state.sessions.find((row) => row.id === id);
     if (!session || session.provenance !== "user_generated") throw new Error("validation");
+    const allowedTransitions = {
+      scheduled: new Set(["scheduled", "live", "cancelled"]),
+      live: new Set(["live", "completed", "cancelled"]),
+      completed: new Set(["completed"]),
+      cancelled: new Set(["cancelled"])
+    };
+    if (changes.status && !allowedTransitions[session.status]?.has(changes.status)) throw new Error("invalid_transition");
     if (changes.visibility === "public" && !creatorPublication().publicReady) throw new Error("not_verified");
     if (changes.status === "live" && session.visibility !== "public") throw new Error("publish_first");
-    const { error } = await state.client.from("creator_sessions").update(changes).eq("id", id).eq("creator_id", state.profile.id);
+    const nextChanges = ["completed", "cancelled"].includes(changes.status)
+      ? { ...changes, visibility: "private" }
+      : changes;
+    const { error } = await state.client.from("creator_sessions").update(nextChanges).eq("id", id).eq("creator_id", state.profile.id);
     if (error) throw error;
     await loadOwnCreatorData();
   }
