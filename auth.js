@@ -20,6 +20,9 @@
     booted: false,
     busy: false,
     recovery: false,
+    deletionRequest: null,
+    deletionRequestsAvailable: true,
+    deletionConfirm: false,
     accountObserver: null,
     profileRenderTimer: 0,
     usernameTimer: 0,
@@ -473,14 +476,24 @@
           </form>
         </div>
         <div class="account-page-section">
-          <div class="sheet-section-head"><strong>Account deletion</strong><span>backend required</span></div>
-          <p class="lc-profile-note">Secure deletion requires a backend function and is intentionally unavailable in this static frontend.</p>
-          <button class="lc-auth-btn danger" type="button" disabled>Delete account unavailable</button>
+          <div class="sheet-section-head"><strong>Account deletion</strong><span>${STATE.deletionRequest ? "request pending" : "privacy control"}</span></div>
+          <div class="lc-auth-alert" data-auth-message hidden></div>
+          ${accountDeletionControls()}
         </div>
       </div>
     `;
     bindUsernameInput();
     bindAvatarPreview();
+  }
+
+  function accountDeletionControls() {
+    if (!STATE.deletionRequestsAvailable) return `<p class="lc-profile-note">Account deletion requests are not available until the privacy backend is enabled.</p><button class="lc-auth-btn danger" type="button" disabled>Request unavailable</button>`;
+    if (STATE.deletionRequest) {
+      const requested = new Date(STATE.deletionRequest.requested_at).toLocaleString();
+      return `<div class="lc-auth-alert">Deletion requested ${safe(requested)}. Your account remains active until an authorised administrator completes the request.</div><p class="lc-profile-note">LC does not silently delete or alter your account from this browser. You can cancel while the request is pending.</p><button class="lc-auth-btn secondary" type="button" data-auth-cancel-deletion>Cancel deletion request</button>`;
+    }
+    if (STATE.deletionConfirm) return `<form class="lc-auth-form" data-auth-form="deletion-request" novalidate><div class="lc-auth-alert">This submits a private deletion request for authorised review. It does not immediately delete your account or bypass identity, legal-retention or dispute checks.</div>${field("Type DELETE to confirm", "deletion_confirmation", "text", "", "autocomplete=\"off\" required")}<div class="lc-auth-actions"><button class="lc-auth-btn danger" type="submit">Submit deletion request</button><button class="lc-auth-btn secondary" type="button" data-auth-cancel-deletion-confirmation>Keep account</button></div></form>`;
+    return `<p class="lc-profile-note">Submit a private request for authorised account deletion. The request is reversible until processing begins.</p><button class="lc-auth-btn danger" type="button" data-auth-request-deletion>Request account deletion</button>`;
   }
 
   function validateEmail(email) {
@@ -543,10 +556,48 @@
     const { data, error } = await STATE.client.from("profiles").select("*").eq("id", user.id).maybeSingle();
     if (error) throw error;
     STATE.profile = data;
+    await loadDeletionRequest();
     if (data) {
       STATE.client.from("profiles").update({ last_seen_at: new Date().toISOString() }).eq("id", user.id).then(() => {});
     }
     return data;
+  }
+
+  async function loadDeletionRequest() {
+    if (!STATE.client || !STATE.session?.user) return;
+    const { data, error } = await STATE.client.from("account_deletion_requests")
+      .select("id,status,requested_at,cancelled_at")
+      .eq("user_id", STATE.session.user.id)
+      .eq("status", "pending")
+      .order("requested_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (error) {
+      const unavailable = ["42P01", "PGRST205"].includes(error.code) || /account_deletion_requests/i.test(error.message || "");
+      if (!unavailable) throw error;
+      STATE.deletionRequestsAvailable = false;
+      STATE.deletionRequest = null;
+      return;
+    }
+    STATE.deletionRequestsAvailable = true;
+    STATE.deletionRequest = data || null;
+  }
+
+  async function cancelDeletionRequest() {
+    if (!STATE.deletionRequest) return;
+    const { data, error } = await STATE.client.from("account_deletion_requests")
+      .update({ status: "cancelled", cancelled_at: new Date().toISOString() })
+      .eq("id", STATE.deletionRequest.id)
+      .eq("user_id", STATE.session.user.id)
+      .eq("status", "pending")
+      .select("id")
+      .maybeSingle();
+    if (error) throw error;
+    if (!data) {
+      await loadDeletionRequest();
+      throw new Error("REQUEST_NOT_PENDING");
+    }
+    STATE.deletionRequest = null;
   }
 
   async function checkUsername(username) {
@@ -766,13 +817,26 @@
         await saveUsername(formData);
         renderProfilePage();
         toast("Username updated");
+        return;
+      }
+      if (type === "deletion-request") {
+        if (String(formData.get("deletion_confirmation") || "").trim() !== "DELETE") throw new Error("DELETION_CONFIRMATION");
+        const { data, error } = await STATE.client.from("account_deletion_requests").insert({ user_id: STATE.session.user.id }).select("id,status,requested_at,cancelled_at").single();
+        if (error) throw error;
+        STATE.deletionRequest = data;
+        STATE.deletionConfirm = false;
+        renderProfilePage();
+        toast("Deletion request submitted");
+        return;
       }
     } catch (error) {
       const raw = error?.message || "";
       let code = raw.startsWith("AUTH_") || raw === "USERNAME_TAKEN" || raw === "RATE_LIMITED" ? raw : authErrorCode(error);
       if (raw === "VALIDATION_EMAIL") code = "VALIDATION_ERROR";
       if (raw === "VALIDATION_LOGIN") code = "AUTH_INVALID_CREDENTIALS";
-      if (raw === "PASSWORD_MISMATCH") {
+      if (raw === "DELETION_CONFIRMATION") {
+        showMessage("Type DELETE exactly to submit the request.", "error");
+      } else if (raw === "PASSWORD_MISMATCH") {
         showMessage("Passwords do not match.", "error");
       } else if (raw === "VALIDATION_AVATAR_TYPE" || raw === "VALIDATION_AVATAR_SIZE") {
         showMessage("Use PNG, JPEG or WEBP up to 5MB.", "error");
@@ -820,6 +884,8 @@
     if (STATE.client) await STATE.client.auth.signOut();
     STATE.session = null;
     STATE.profile = null;
+    STATE.deletionRequest = null;
+    STATE.deletionConfirm = false;
     if (window.LCAppSocial?.clear) window.LCAppSocial.clear();
     if (window.LCAppProduct?.clear) window.LCAppProduct.clear();
     setRoute("login");
@@ -1053,6 +1119,26 @@
     }
     if (target?.closest("[data-auth-resend]")) {
       await resendVerification();
+      return;
+    }
+    if (target?.closest("[data-auth-request-deletion]")) {
+      STATE.deletionConfirm = true;
+      renderProfilePage();
+      return;
+    }
+    if (target?.closest("[data-auth-cancel-deletion-confirmation]")) {
+      STATE.deletionConfirm = false;
+      renderProfilePage();
+      return;
+    }
+    if (target?.closest("[data-auth-cancel-deletion]")) {
+      try {
+        await cancelDeletionRequest();
+        renderProfilePage();
+        toast("Deletion request cancelled");
+      } catch (error) {
+        showMessage(safeAuthMessage(authErrorCode(error)), "error");
+      }
       return;
     }
     if (target?.closest("[data-auth-skip-optional]")) {
