@@ -24,12 +24,17 @@
     busy: false,
     ready: false,
     loadError: null,
-    retrying: false
+    retrying: false,
+    analyticsAvailable: true,
+    eventDedupe: new Set()
   };
 
   const games = ["Blackjack", "Baccarat", "Roulette", "Poker", "Game Show"];
   const languages = ["English", "French", "Italian", "Spanish", "Armenian"];
   const interests = ["creator network", "player discovery", "retention/engagement", "live discovery", "integration", "attribution"];
+  const ATTRIBUTION_KEY = "lc-app:attribution-v1";
+  const ATTRIBUTION_MAX_AGE = 30 * 24 * 60 * 60 * 1000;
+  const PRODUCT_EVENTS = new Set(["product_open", "creator_impression", "discovery_search", "creator_profile_open", "creator_follow", "live_session_open", "schedule_reminder", "handoff_intent", "handoff_return", "notification_response"]);
   const demoStore = { follows: new Set(), reminders: new Set(), likes: new Set(), comments: [], posts: [], sessions: [], notifications: [], requests: new Set() };
   const demoProfiles = [
     { id: "demo-sofia", username: "sofia_live", display_name: "Sofia Laurent", avatar_url: "app_prototype_assets/dealers/v2_polish/sofia_avatar_public.jpg", bio: "Blackjack dealer building a followable Live Casino audience.", country: "Malta", languages: ["English", "French"] },
@@ -135,6 +140,71 @@
     demoStore.notifications = demoStore.notifications.slice(0, 6);
   };
 
+  function uuid() {
+    if (window.crypto?.randomUUID) return window.crypto.randomUUID();
+    const bytes = new Uint8Array(16);
+    window.crypto.getRandomValues(bytes);
+    bytes[6] = (bytes[6] & 15) | 64;
+    bytes[8] = (bytes[8] & 63) | 128;
+    return [...bytes].map((byte, index) => `${[4, 6, 8, 10].includes(index) ? "-" : ""}${byte.toString(16).padStart(2, "0")}`).join("");
+  }
+
+  function cleanAttributionValue(value) {
+    return String(value || "").trim().replace(/[^a-zA-Z0-9._ -]/g, "").slice(0, 80) || null;
+  }
+
+  function attributionContext() {
+    const now = Date.now();
+    let saved = {};
+    try { saved = JSON.parse(localStorage.getItem(ATTRIBUTION_KEY) || "{}"); } catch (_) {}
+    if (!saved.journey_id || now - Number(saved.updated_at || 0) > ATTRIBUTION_MAX_AGE) saved = { journey_id: uuid() };
+    const params = new URLSearchParams(window.location.search);
+    saved.campaign_source = cleanAttributionValue(params.get("utm_source") || params.get("source")) || saved.campaign_source || null;
+    saved.campaign_name = cleanAttributionValue(params.get("utm_campaign") || params.get("campaign")) || saved.campaign_name || null;
+    saved.updated_at = now;
+    try { localStorage.setItem(ATTRIBUTION_KEY, JSON.stringify(saved)); } catch (_) {}
+    return saved;
+  }
+
+  function updateAttribution(creatorId = null, sessionId = null) {
+    const context = attributionContext();
+    if (creatorId) context.last_creator_id = creatorId;
+    if (sessionId) context.last_session_id = sessionId;
+    context.updated_at = Date.now();
+    try { localStorage.setItem(ATTRIBUTION_KEY, JSON.stringify(context)); } catch (_) {}
+    return context;
+  }
+
+  async function trackProductEvent(eventName, options = {}) {
+    if (state.demo || !state.analyticsAvailable || !state.client || !state.profile || !PRODUCT_EVENTS.has(eventName)) return;
+    const dedupeKey = options.dedupeKey || null;
+    if (dedupeKey && state.eventDedupe.has(dedupeKey)) return;
+    if (dedupeKey) state.eventDedupe.add(dedupeKey);
+    const context = updateAttribution(options.creatorId, options.sessionId);
+    const creatorId = options.creatorId || context.last_creator_id || null;
+    const sessionId = options.sessionId || context.last_session_id || null;
+    const confidence = options.confidence || (creatorId && context.campaign_source ? "direct" : creatorId || context.campaign_source ? "contextual" : "unattributed");
+    try {
+      const { error } = await state.client.from("product_events").insert({
+        user_id: state.profile.id,
+        event_name: eventName,
+        event_key: uuid(),
+        journey_id: context.journey_id,
+        creator_id: creatorId,
+        creator_session_id: sessionId,
+        campaign_source: context.campaign_source,
+        campaign_name: context.campaign_name,
+        attribution_confidence: confidence,
+        metadata: options.metadata || {}
+      });
+      if (!error) return;
+      if (/42P01|PGRST205|product_events/i.test(`${error.code || ""} ${error.message || ""}`)) state.analyticsAvailable = false;
+      if (dedupeKey) state.eventDedupe.delete(dedupeKey);
+    } catch (_) {
+      if (dedupeKey) state.eventDedupe.delete(dedupeKey);
+    }
+  }
+
   function injectStyles() {
     if (q("#lcProductStyles")) return;
     const style = document.createElement("style");
@@ -149,6 +219,7 @@
       .lc-product-form{display:grid;gap:10px}.lc-product-input,.lc-product-select,.lc-product-textarea{width:100%;min-height:46px;border:1px solid rgba(255,255,255,.11);border-radius:15px;background:rgba(255,255,255,.06);color:var(--text);padding:12px 13px;font:inherit;font-size:16px;line-height:1.35;outline:none}.lc-product-textarea{min-height:88px;resize:vertical}.lc-product-input:focus,.lc-product-select:focus,.lc-product-textarea:focus{border-color:rgba(46,230,206,.65);box-shadow:0 0 0 3px rgba(46,230,206,.1)}
       .lc-product-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.lc-product-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;border:0;border-radius:999px;background:linear-gradient(135deg,var(--teal),#a7fff4);color:#031412;padding:0 16px;font-size:12px;line-height:1.1;font-weight:900;cursor:pointer;text-align:center;white-space:normal}.lc-product-btn.secondary{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.06);color:var(--text)}.lc-product-btn:disabled{opacity:.55;cursor:not-allowed}.lc-product-chip{display:inline-flex;align-items:center;justify-content:center;min-height:36px;border:1px solid rgba(255,255,255,.11);border-radius:999px;background:rgba(255,255,255,.06);color:var(--soft);padding:0 11px;font-size:11px;line-height:1.1;font-weight:850;cursor:pointer;text-align:center}.lc-product-chip.active{border-color:rgba(46,230,206,.58);background:rgba(46,230,206,.14);color:#a7fff4}
       .lc-product-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-top:1px solid rgba(255,255,255,.08)}.lc-product-row:first-child{border-top:0}.lc-product-row img{flex:0 0 auto;width:50px;height:50px;border-radius:16px;object-fit:cover}.lc-product-row-main{min-width:0;flex:1}.lc-product-row-main b{display:block;font-size:14px;line-height:1.25;overflow-wrap:anywhere}.lc-product-row-main span{display:block;color:var(--muted);font-size:12px;line-height:1.35;overflow-wrap:anywhere}.lc-product-status-dot{width:8px;height:8px;border-radius:50%;background:#778287;box-shadow:0 0 0 3px rgba(255,255,255,.04);flex:0 0 auto}.lc-product-status-dot.live{background:#5dffce;box-shadow:0 0 18px rgba(93,255,206,.45)}.lc-product-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.lc-product-stat{padding:11px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.04);min-width:0}.lc-product-stat b{display:block;font-size:17px;line-height:1.15;overflow-wrap:anywhere}.lc-product-stat span{display:block;color:var(--muted);font-size:10px;line-height:1.2;text-transform:uppercase;font-weight:850}
+      .lc-product-row.unread{border-left:2px solid rgba(46,230,206,.72);padding-left:10px;background:linear-gradient(90deg,rgba(46,230,206,.055),transparent 48%)}
       .lc-product-tabs{position:relative;bottom:auto;z-index:3;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:7px;border:1px solid rgba(46,230,206,.16);border-radius:20px;background:rgba(5,8,9,.92);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);margin:12px auto 0;width:100%;max-width:980px}.lc-product-tabs button{min-height:44px;border:0;border-radius:14px;background:transparent;color:var(--muted);font-size:11px;line-height:1.05;font-weight:900;cursor:pointer}.lc-product-tabs button.active{background:rgba(46,230,206,.14);color:#a7fff4}.lc-product-note{display:block;margin-top:9px;color:var(--muted);font-size:11px;line-height:1.4;overflow-wrap:anywhere}.lc-product-empty{padding:24px 14px;text-align:center;color:var(--muted);font-size:14px;line-height:1.4}
       .lc-product-demo-banner{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 auto 10px;padding:7px 8px;border:1px solid rgba(46,230,206,.16);border-radius:14px;background:rgba(255,255,255,.04);width:100%;max-width:980px}.lc-product-demo-banner strong{font-size:10px;line-height:1.1;color:#a7fff4;text-transform:uppercase;white-space:nowrap}.lc-product-demo-banner .lc-product-actions{margin-left:auto;justify-content:flex-end}
       .lc-product-connectivity{position:sticky;top:0;z-index:8;width:100%;max-width:980px;margin:0 auto 10px;padding:9px 12px;border:1px solid rgba(255,185,86,.24);border-radius:14px;background:rgba(45,29,8,.94);color:#ffe0ad;font-size:11px;line-height:1.35;text-align:center;box-shadow:0 14px 36px rgba(0,0,0,.22)}
@@ -528,7 +599,34 @@
   }
 
   function renderNotifications(emptyText = "No notifications yet. Follow creators, react to content or save sessions.") {
-    return `<section class="lc-product-card"><div class="lc-product-section-head"><h2>Notifications</h2><span>${state.notifications.length ? "Latest activity" : "Empty"}</span></div>${state.notifications.length ? state.notifications.map((n) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(notificationText(n))}</b><span>${safe(new Date(n.created_at).toLocaleString())}</span></div></div>`).join("") : `<div class="lc-product-empty">${safe(emptyText)}</div>`}</section>`;
+    const unread = state.notifications.filter((item) => !item.read_at).length;
+    return `<section class="lc-product-card"><div class="lc-product-section-head"><h2>Notifications</h2><span>${state.notifications.length ? `${unread} unread` : "Empty"}</span></div>${unread ? `<div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-notifications-read>Mark all read</button></div>` : ""}${state.notifications.length ? state.notifications.map((n) => `<div class="lc-product-row ${n.read_at ? "" : "unread"}"><div class="lc-product-row-main"><b>${safe(notificationText(n))}</b><span>${safe(new Date(n.created_at).toLocaleString())}</span></div><button class="lc-product-chip" type="button" data-lc-notification="${safe(n.id)}">Open</button></div>`).join("") : `<div class="lc-product-empty">${safe(emptyText)}</div>`}</section>`;
+  }
+
+  async function markNotificationsRead(ids) {
+    const unread = state.notifications.filter((item) => !item.read_at && (!ids || ids.includes(item.id)));
+    if (!unread.length) return;
+    const now = new Date().toISOString();
+    if (!state.demo) {
+      const { error } = await state.client.from("notifications").update({ read_at: now }).in("id", unread.map((item) => item.id));
+      if (error) throw error;
+    }
+    unread.forEach((item) => { item.read_at = now; });
+  }
+
+  async function openNotification(id) {
+    const notification = state.notifications.find((item) => item.id === id);
+    if (!notification) return;
+    await markNotificationsRead([id]);
+    void trackProductEvent("notification_response", {
+      creatorId: notification.target_type === "profile" ? notification.target_id : null,
+      sessionId: ["session", "creator_session"].includes(notification.target_type) ? notification.target_id : null,
+      metadata: { notification_type: notification.type || "unknown" }
+    });
+    const session = findSessionEntry(notification.target_id);
+    if (session) return renderLive(notification.target_id);
+    if (state.creators.some((item) => item.profile.id === notification.target_id)) return renderCreatorDetail(notification.target_id);
+    routeHome();
   }
 
   function suggestedCreators() {
@@ -560,6 +658,7 @@
         ${renderNotifications()}
         ${creators.slice(0, 4).map(creatorCard).join("")}
       </div>${tabs("home")}`;
+    creators.slice(0, 10).forEach((item) => void trackProductEvent("creator_impression", { creatorId: item.profile.id, dedupeKey: `impression:${item.profile.id}` }));
   }
 
   function renderCreatorHome() {
@@ -630,6 +729,7 @@
     const item = state.creators.find((entry) => entry.profile.id === id);
     if (!item) return renderMissing("Creator unavailable", "This creator is not available in the current context.", "Back to Discover");
     state.selectedCreator = id;
+    void trackProductEvent("creator_profile_open", { creatorId: id, dedupeKey: `profile:${id}` });
     const post = item.posts[0];
     const next = item.sessions[0];
     shell().innerHTML = `${top(profileName(item.profile), "Creator profile")}
@@ -648,6 +748,7 @@
     if (!item || !session) return renderMissing("Session unavailable", "This live context is no longer available.", "Back to Discover");
     state.selectedCreator = item.profile.id;
     state.selectedSession = session.id;
+    void trackProductEvent("live_session_open", { creatorId: item.profile.id, sessionId: session.id, dedupeKey: `live:${session.id}` });
     shell().innerHTML = `${top("Live", "Creator-led intent before operator handoff")}
       <div class="lc-product-stack">
         ${visualHero(sessionStatusLabel(session), `${session.game} with ${profileName(item.profile)}`, "Creator identity, follow state and live context build intent before the player continues to the licensed operator.", visualImage(item.profile), `<button class="lc-product-btn" type="button" data-lc-product="handoff">Play with ${safe(profileName(item.profile))}</button><button class="lc-product-btn secondary ${state.follows.has(item.profile.id) ? "active" : ""}" type="button" data-lc-follow="${safe(item.profile.id)}">${state.follows.has(item.profile.id) ? "Following" : "Follow"}</button>`, "compact copy-top")}
@@ -662,6 +763,7 @@
     const { entry, session } = found;
     state.selectedCreator = entry.profile.id;
     state.selectedSession = session.id;
+    void trackProductEvent("handoff_intent", { creatorId: entry.profile.id, sessionId: session.id, confidence: "direct", dedupeKey: `handoff:${session.id}` });
     shell().innerHTML = `${top("Operator handoff", "Conceptual external flow")}
       <div class="lc-product-stack">
         ${visualHero(state.demo ? "Demo handoff" : "Conceptual handoff", "Continue with the operator.", "The licensed operator controls gameplay, wallet, KYC/AML, responsible gaming, bet acceptance and settlement.", visualImage(entry.profile), `<button class="lc-product-btn" type="button" data-lc-return-live="${safe(session.id)}">Return to LC App</button><button class="lc-product-btn secondary" type="button" data-lc-open-creator="${safe(entry.profile.id)}">Creator profile</button>`, "compact copy-top")}
@@ -843,6 +945,7 @@
         throw error;
       }
     }
+    void trackProductEvent("creator_follow", { creatorId: id, metadata: { action: state.follows.has(id) ? "follow" : "unfollow" } });
   }
 
   async function toggleReminder(id) {
@@ -870,6 +973,8 @@
         throw error;
       }
     }
+    const found = findSessionEntry(id);
+    void trackProductEvent("schedule_reminder", { creatorId: found?.entry.profile.id, sessionId: id, metadata: { action: state.reminders.has(id) ? "set" : "remove" } });
   }
 
   async function likePost(id) {
@@ -931,6 +1036,7 @@
       if (type === "comment") await commentPost(form);
       if (type === "search") {
         state.search = String(new FormData(form).get("search") || "").trim().slice(0, 80);
+        void trackProductEvent("discovery_search", { metadata: { has_query: Boolean(state.search), result_count: suggestedCreators().length } });
         renderPlayerHome();
         return;
       }
@@ -968,10 +1074,22 @@
     const returnLive = target.closest("[data-lc-return-live]");
     const clearSearch = target.closest("[data-lc-clear-search]");
     const retry = target.closest("[data-lc-retry]");
+    const notification = target.closest("[data-lc-notification]");
+    const notificationsRead = target.closest("[data-lc-notifications-read]");
     try {
       if (retry) {
         event.preventDefault();
         return retryLoad(retry);
+      }
+      if (notification) {
+        event.preventDefault();
+        return openNotification(notification.dataset.lcNotification);
+      }
+      if (notificationsRead) {
+        event.preventDefault();
+        await markNotificationsRead();
+        routeHome();
+        return;
       }
       if (demoPersona) {
         event.preventDefault();
@@ -1047,8 +1165,9 @@
       }
       if (returnLive) {
         const id = returnLive.dataset.lcReturnLive;
+        const found = findSessionEntry(id);
+        void trackProductEvent("handoff_return", { creatorId: found?.entry.profile.id, sessionId: id, confidence: "direct" });
         if (state.demo) {
-          const found = findSessionEntry(id);
           if (found) addDemoNotification(`Returned from operator context to ${profileName(found.entry.profile)}. Follow, content and next session stayed connected.`, id);
         }
         if (state.demo && setProductHash(["demo", state.demoPersona, "live", id])) return;
@@ -1092,6 +1211,7 @@
       await loadState();
       state.loadError = null;
       renderProductTarget(productParts(target));
+      void trackProductEvent("product_open", { dedupeKey: "product_open" });
     } catch (error) {
       renderLoadError(error);
     }
@@ -1117,6 +1237,8 @@
     state.search = "";
     state.loadError = null;
     state.retrying = false;
+    state.analyticsAvailable = true;
+    state.eventDedupe = new Set();
     hide();
   }
 
