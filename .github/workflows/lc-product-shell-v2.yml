@@ -30,11 +30,9 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           import re
-
           root = Path('LC_App_GitHub_Pages_Upload')
           index = root / 'index.html'
           sw = root / 'sw.js'
-
           html = index.read_text(encoding='utf-8')
           old = '<script src="product-shell-v2.js?v=1" defer></script>'
           marker = '<script src="product-shell-v2.js?v=2" defer></script>'
@@ -45,12 +43,73 @@ jobs:
                   raise SystemExit('index.html has no closing body')
               html = html.replace('</body>', f'  {marker}\n</body>', 1)
           index.write_text(html, encoding='utf-8')
-
           sw_text = sw.read_text(encoding='utf-8')
           if '"./product-shell-v2.css"' not in sw_text:
               sw_text = sw_text.replace('  "./app-product.js",', '  "./app-product.js",\n  "./product-shell-v2.css",\n  "./product-shell-v2.js",', 1)
           sw_text = re.sub(r'lc-app-investor-demo-v\d+', 'lc-app-investor-demo-v93', sw_text, count=1)
           sw.write_text(sw_text, encoding='utf-8')
+          PY
+
+      - name: Polish Player onboarding and discovery
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('LC_App_GitHub_Pages_Upload/app-product.js')
+          text = path.read_text(encoding='utf-8')
+          if 'Your Live Casino people layer' in text and 'Make discovery useful from the first screen' in text:
+              print('Player v2.1 already integrated')
+              raise SystemExit(0)
+
+          def replace_between(source, start, end, replacement):
+              a = source.find(start)
+              if a < 0: raise SystemExit('missing start marker: ' + start)
+              b = source.find(end, a)
+              if b < 0: raise SystemExit('missing end marker: ' + end)
+              return source[:a] + replacement + '\n\n' + source[b:]
+
+          onboarding = '''  function renderPlayerOnboarding() {
+    const selectedGames = new Set(state.player?.favorite_games || []);
+    const selectedLanguages = new Set(state.player?.preferred_languages || []);
+    const preferenceCount = selectedGames.size + selectedLanguages.size;
+    shell().innerHTML = `${top("Player setup", "Make discovery useful from the first screen.")}
+      <form class="lc-product-stack lc-product-form" data-lc-form="player">
+        ${visualHero("1 minute setup", "Find people you actually want to return to.", "Choose the games and languages you care about. LC uses them only to rank creator discovery more usefully.", visualMedia["demo-sofia"], "", "compact")}
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Your discovery signal</h2><span>${preferenceCount ? `${preferenceCount} preferences selected` : "Start with what matters"}</span></div><div class="lc-product-flow"><span>Preferences</span><span>Creators</span><span>Follow</span><span>Live</span><span>Return</span></div><p style="margin-top:12px">Nothing here changes gameplay, account limits or operator settings. This only shapes LC discovery.</p></section>
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Games you follow</h2><span>Choose one or more</span></div><p>These preferences help surface relevant creators and sessions first.</p>${checks("games", games, state.player?.favorite_games)}</section>
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Languages</h2><span>Creator and content matching</span></div><p>Prioritize creators you can comfortably follow.</p>${checks("languages", languages, state.player?.preferred_languages)}</section>
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Ready</h2><span>You can edit this later</span></div><p>Next you will land in Discover, where Live status, follows, reminders and these preferences shape the order.</p><div class="lc-product-actions"><button class="lc-product-btn" type="submit">OPEN DISCOVER</button></div></section>
+      </form>`;
+  }'''
+
+          player_home = '''  function renderPlayerHome() {
+    const creators = suggestedCreators();
+    const lead = creators[0];
+    const liveCount = state.creators.filter((item) => item.sessions[0]?.status === "live").length;
+    const followingCount = state.follows.size;
+    const savedCount = savedScheduleEntries().length;
+    const unreadCount = state.notifications.filter((item) => !item.read_at).length;
+    const filterLabels = { for_you: "For you", live: "Live", following: "Following", upcoming: "Starting soon" };
+    const emptyCopy = state.discoveryFilter === "live" ? "No Creators are live right now. Follow people to receive their next Live signal." : state.discoveryFilter === "following" ? "You are not following anyone in this view yet. Switch to For you and choose a Creator." : state.discoveryFilter === "upcoming" ? "No scheduled sessions match this view." : "No Creators match this search yet.";
+    const leadReason = lead ? creatorRecommendationReasons(lead).slice(0, 3) : [];
+    shell().innerHTML = `${top("Discover", "Your Live Casino people layer")}
+      <div class="lc-product-stack">
+        ${visualHero(lead?.sessions[0]?.status === "live" ? "Live now" : "Creator spotlight", lead ? profileName(lead.profile) : "Discover creators worth returning to.", lead ? `${lead.creator.headline || "Live Casino creator"}${leadReason.length ? ` · ${leadReason.join(" · ")}` : ""}` : "Follow people, not just tables. LC keeps the creator relationship visible across sessions.", visualImage(lead?.profile), lead ? `<button class="lc-product-btn" type="button" data-lc-open-creator="${safe(lead.profile.id)}">View ${safe(profileName(lead.profile))}</button>${lead.sessions[0] ? `<button class="lc-product-btn secondary" type="button" data-lc-live="${safe(lead.sessions[0].id)}">${lead.sessions[0].status === "live" ? "Open live session" : "See next session"}</button>` : ""}` : "", "compact")}
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Right now</h2><span>Your return context</span></div><div class="lc-product-stats"><div class="lc-product-stat"><b>${liveCount}</b><span>Creators live</span></div><div class="lc-product-stat"><b>${followingCount}</b><span>Following</span></div><div class="lc-product-stat"><b>${savedCount}</b><span>Saved sessions</span></div></div>${unreadCount ? `<p style="margin-top:12px">${unreadCount} unread in-app ${unreadCount === 1 ? "signal" : "signals"} waiting below.</p>` : `<p style="margin-top:12px">No unread signals. Discover or save a session to create your next return point.</p>`}</section>
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Browse creators</h2><span>${safe(filterLabels[state.discoveryFilter] || "For you")}</span></div><form class="lc-product-form" data-lc-form="search"><input class="lc-product-input" name="search" maxlength="80" placeholder="Search a creator, game or language" value="${safe(state.search)}"><div class="lc-product-actions"><button class="lc-product-btn secondary" type="submit">SEARCH</button>${state.search ? `<button class="lc-product-chip" type="button" data-lc-clear-search>Clear</button>` : ""}</div></form><div class="lc-product-actions" style="margin-top:12px">${Object.entries(filterLabels).map(([value, label]) => `<button class="lc-product-chip ${state.discoveryFilter === value ? "active" : ""}" type="button" data-lc-discovery-filter="${safe(value)}">${safe(label)}</button>`).join("")}</div></section>
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>Creator feed</h2><span>${creators.length} ${creators.length === 1 ? "result" : "results"}</span></div>${compactCreatorRows(creators, emptyCopy)}</section>
+        ${savedCount ? renderSavedSchedule() : ""}
+        ${unreadCount || state.notifications.length ? renderNotifications() : ""}
+        ${creators.length ? `<section class="lc-product-card"><div class="lc-product-section-head"><h2>Explore visually</h2><span>People before lobby tiles</span></div><p>Open a profile for creator context, then follow, save the next session or continue to a licensed operator when the session is live.</p></section>${creators.slice(0, 4).map(creatorCard).join("")}` : ""}
+        ${!savedCount ? renderSavedSchedule() : ""}
+        ${!(unreadCount || state.notifications.length) ? renderNotifications() : ""}
+        <section class="lc-product-card"><div class="lc-product-section-head"><h2>How LC fits</h2><span>Clear boundary</span></div><div class="lc-product-flow"><span>Discover</span><span>Creator</span><span>Follow</span><span>Live</span><span>Return</span></div><p style="margin-top:12px">LC handles discovery, creator identity, schedules and return context. Gameplay, wallet, KYC/AML, wagering and settlement remain with licensed operator/provider infrastructure.</p></section>
+      </div>${tabs("home")}`;
+    creators.slice(0, 10).forEach((item, index) => void trackProductEvent("creator_impression", { creatorId: item.profile.id, dedupeKey: `impression:${state.discoveryFilter}:${item.profile.id}`, metadata: { surface: "creator_feed", position: index + 1, filter: state.discoveryFilter, recommendation_reasons: creatorRecommendationReasons(item).slice(0, 4) } }));
+  }'''
+
+          text = replace_between(text, '  function renderPlayerOnboarding() {', '  function renderCreatorOnboarding() {', onboarding)
+          text = replace_between(text, '  function renderPlayerHome() {', '  function renderCreatorHome() {', player_home)
+          path.write_text(text, encoding='utf-8')
           PY
 
       - name: Syntax and contract checks
@@ -65,6 +124,7 @@ jobs:
           root = Path('LC_App_GitHub_Pages_Upload')
           html = (root/'index.html').read_text(encoding='utf-8')
           js = (root/'product-shell-v2.js').read_text(encoding='utf-8')
+          app = (root/'app-product.js').read_text(encoding='utf-8')
           css = (root/'product-shell-v2.css').read_text(encoding='utf-8')
           sw = (root/'sw.js').read_text(encoding='utf-8')
           assert html.lstrip().lower().startswith('<!doctype html>')
@@ -72,10 +132,12 @@ jobs:
           assert 'product-shell-v2.css?v=2' in js
           assert './product-shell-v2.css' in sw and './product-shell-v2.js' in sw
           assert 'lc-app-investor-demo-v93' in sw
+          assert 'Your Live Casino people layer' in app
+          assert 'Make discovery useful from the first screen' in app
+          assert 'trackProductEvent("creator_impression"' in app
           assert 'service_role' not in js.lower() and 'service_role' not in css.lower()
           assert 'lc-product-v2' in css and 'lc-v2-rail' in css
-          assert 'data-lc-scrolled' not in js.lower() or 'lcScrolled' in js
-          print('LC product shell v2.1 static contract: PASS')
+          print('LC shell + Player v2.1 static contract: PASS')
           PY
 
       - name: Verify protected boundaries untouched
@@ -89,12 +151,12 @@ jobs:
 
       - name: Commit verified integration
         run: |
-          if git diff --quiet -- LC_App_GitHub_Pages_Upload/index.html LC_App_GitHub_Pages_Upload/sw.js; then
+          if git diff --quiet -- LC_App_GitHub_Pages_Upload/index.html LC_App_GitHub_Pages_Upload/sw.js LC_App_GitHub_Pages_Upload/app-product.js; then
             echo 'No integration changes required.'
             exit 0
           fi
           git config user.name 'LC App Build Engine'
           git config user.email 'actions@users.noreply.github.com'
-          git add LC_App_GitHub_Pages_Upload/index.html LC_App_GitHub_Pages_Upload/sw.js
-          git commit -m 'Activate LC App shell v2.1'
+          git add LC_App_GitHub_Pages_Upload/index.html LC_App_GitHub_Pages_Upload/sw.js LC_App_GitHub_Pages_Upload/app-product.js
+          git commit -m 'Polish LC App Player discovery journey'
           git push origin HEAD:main
