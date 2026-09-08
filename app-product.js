@@ -15,6 +15,8 @@
     follows: new Set(),
     reminders: new Set(),
     notifications: [],
+    returnSignalsAvailable: true,
+    liveSignalsEnabled: true,
     accessRequests: [],
     blockedIds: new Set(),
     blockedProfiles: [],
@@ -319,6 +321,37 @@
     }
     if (state.creator) await loadOwnCreatorData();
     if (state.current?.persona === "player") await loadCreators();
+    await loadReturnSignals();
+  }
+
+  async function loadReturnSignals() {
+    if (state.demo) return;
+    const [signals, preferences] = await Promise.all([
+      state.client.from("return_signals").select("id,signal_type,creator_id,session_id,read_at,created_at").eq("recipient_id", state.profile.id).order("created_at", { ascending: false }).limit(20),
+      state.client.from("return_signal_preferences").select("creator_live_enabled").eq("user_id", state.profile.id).maybeSingle()
+    ]);
+    const unavailable = [signals.error, preferences.error].some((error) => error && (["42P01", "PGRST205"].includes(error.code) || /return_signals|return_signal_preferences/i.test(error.message || "")));
+    if (unavailable) {
+      state.returnSignalsAvailable = false;
+      return;
+    }
+    if (signals.error) throw signals.error;
+    if (preferences.error) throw preferences.error;
+    state.returnSignalsAvailable = true;
+    state.liveSignalsEnabled = preferences.data?.creator_live_enabled !== false;
+    const returnSignals = (signals.data || []).filter((row) => !state.blockedIds.has(row.creator_id)).map((row) => ({
+      id: row.id,
+      type: row.signal_type,
+      target_type: "creator_session",
+      target_id: row.session_id,
+      creator_id: row.creator_id,
+      read_at: row.read_at,
+      created_at: row.created_at,
+      source: "return_signal"
+    }));
+    state.notifications = [...returnSignals, ...state.notifications.map((row) => ({ ...row, source: "notification" }))]
+      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+      .slice(0, 20);
   }
 
   async function loadOwnCreatorData() {
@@ -625,6 +658,10 @@
 
   function notificationText(row) {
     if (row.text) return row.text;
+    if (row.type === "creator_live") {
+      const creator = state.creators.find((item) => item.profile.id === row.creator_id);
+      return creator ? `${profileName(creator.profile)} is live now.` : "A Creator you follow is live now.";
+    }
     if (row.type === "new_follower") return "New follower on your creator profile.";
     if (row.type === "post_like") return "Someone reacted to your content.";
     if (row.type === "comment") return "New comment on your content.";
@@ -642,8 +679,14 @@
     if (!unread.length) return;
     const now = new Date().toISOString();
     if (!state.demo) {
-      const { error } = await state.client.from("notifications").update({ read_at: now }).in("id", unread.map((item) => item.id));
-      if (error) throw error;
+      const ordinaryIds = unread.filter((item) => item.source !== "return_signal").map((item) => item.id);
+      const returnIds = unread.filter((item) => item.source === "return_signal").map((item) => item.id);
+      const updates = [];
+      if (ordinaryIds.length) updates.push(state.client.from("notifications").update({ read_at: now }).in("id", ordinaryIds));
+      if (returnIds.length) updates.push(state.client.from("return_signals").update({ read_at: now }).in("id", returnIds));
+      const results = await Promise.all(updates);
+      const failed = results.find((result) => result.error);
+      if (failed) throw failed.error;
     }
     unread.forEach((item) => { item.read_at = now; });
   }
@@ -847,9 +890,22 @@
         <section class="lc-product-card"><h2>Current experience</h2><p>${safe(state.current?.persona || "none")} ${state.current?.industry_subtype ? "· " + safe(state.current.industry_subtype) : ""}</p><div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-persona="player">Player</button><button class="lc-product-chip" type="button" data-lc-persona="creator">Creator</button><button class="lc-product-chip" type="button" data-lc-persona="industry">Industry</button></div></section>
         <section class="lc-product-card"><h2>Security role</h2><p>${safe(state.profile.role || "user")} stays separate from product persona.</p></section>
         ${state.demo ? "" : `<section class="lc-product-card"><div class="lc-product-section-head"><h2>Safety</h2><span>${state.blockedIds.size} blocked</span></div><p>Review and reverse profile blocks without exposing reports or moderation decisions.</p><button class="lc-product-chip" type="button" data-lc-blocked-list>MANAGE BLOCKED CREATORS</button></section>`}
+        ${state.demo ? "" : `<section class="lc-product-card"><div class="lc-product-section-head"><h2>Live return signals</h2><span>${state.returnSignalsAvailable ? (state.liveSignalsEnabled ? "On" : "Muted") : "Backend pending"}</span></div><p>Control in-app alerts when a Creator you follow starts a verified public Live session.</p><button class="lc-product-chip ${state.liveSignalsEnabled ? "active" : ""}" type="button" data-lc-live-signals ${state.returnSignalsAvailable ? "" : "disabled"}>${state.liveSignalsEnabled ? "MUTE LIVE SIGNALS" : "ENABLE LIVE SIGNALS"}</button><span class="lc-product-note">In-app only. No email, SMS or push delivery is implied.</span></section>`}
         ${state.demo ? "" : `<section class="lc-product-card"><h2>Profile, privacy and password</h2><p>Manage your public profile, password and account deletion request from secure account settings.</p><button class="lc-product-chip" type="button" data-auth-route="profile">OPEN ACCOUNT SETTINGS</button></section>`}
         <section class="lc-product-card"><h2>Session</h2><p>Sign out clears the local LC App session and returns to login.</p><div class="lc-product-actions">${state.demo ? `<button class="lc-product-btn secondary" type="button" data-lc-demo-exit>BACK TO OPENING</button>` : `<button class="lc-product-btn secondary" type="button" data-auth-route="logout">SIGN OUT</button>`}</div></section>
       </div>${tabs("account")}`;
+  }
+
+  async function toggleLiveSignals() {
+    if (!state.returnSignalsAvailable) return;
+    const enabled = !state.liveSignalsEnabled;
+    const { error } = await state.client.from("return_signal_preferences").upsert({
+      user_id: state.profile.id,
+      creator_live_enabled: enabled,
+      updated_at: new Date().toISOString()
+    }, { onConflict: "user_id" });
+    if (error) throw error;
+    state.liveSignalsEnabled = enabled;
   }
 
   function routeHome() {
@@ -1208,7 +1264,15 @@
     const confirmBlock = target.closest("[data-lc-confirm-block]");
     const blockedList = target.closest("[data-lc-blocked-list]");
     const unblock = target.closest("[data-lc-unblock]");
+    const liveSignals = target.closest("[data-lc-live-signals]");
     try {
+      if (liveSignals) {
+        event.preventDefault();
+        await toggleLiveSignals();
+        renderAccount();
+        toast(state.liveSignalsEnabled ? "Live signals enabled" : "Live signals muted");
+        return;
+      }
       if (creatorSafety) {
         event.preventDefault();
         return renderCreatorSafety(creatorSafety.dataset.lcCreatorId, creatorSafety.dataset.lcCreatorSafety);
@@ -1408,6 +1472,8 @@
     state.follows = new Set();
     state.reminders = new Set();
     state.notifications = [];
+    state.returnSignalsAvailable = true;
+    state.liveSignalsEnabled = true;
     state.accessRequests = [];
     state.blockedIds = new Set();
     state.blockedProfiles = [];
