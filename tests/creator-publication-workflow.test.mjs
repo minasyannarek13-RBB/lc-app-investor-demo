@@ -13,6 +13,10 @@ assert.match(migration, /profile_status = 'published'/);
 assert.match(migration, /profile_status <> 'published'[\s\S]+can_publish_creator_profile/);
 assert.match(migration, /target_visibility <> 'public'[\s\S]+is_approved_creator/);
 assert.match(migration, /update public\.creator_sessions[\s\S]+visibility = 'private'/);
+assert.match(migration, /privatize_creator_sessions_on_unpublish/);
+assert.match(migration, /after update of profile_status on public\.creator_profiles/);
+assert.match(migration, /old\.profile_status = 'published'[\s\S]+new\.profile_status <> 'published'/);
+assert.match(migration, /where creator_id = new\.user_id[\s\S]+visibility = 'public'[\s\S]+provenance = 'user_generated'/);
 
 assert.match(app, /visibility: publicReady \? "public" : "private"/);
 assert.match(app, /SAVE PRIVATE SESSION/);
