@@ -140,6 +140,7 @@
     if (session?.status === "scheduled") return "UPCOMING";
     return "ENDED";
   };
+  const localDateTimeInput = (date) => new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
   const sessionLine = (session) => `${sessionStatusLabel(session)} · ${new Date(session.starts_at).toLocaleString()}`;
   const creatorPublication = () => {
     const verification = state.creator?.verification_status || "not_requested";
@@ -778,6 +779,18 @@
     ].filter(Boolean);
   }
 
+  function savedScheduleEntries() {
+    return state.creators.flatMap((entry) => entry.sessions
+      .filter((session) => session.status === "scheduled" && new Date(session.starts_at).getTime() > Date.now() && state.reminders.has(session.id))
+      .map((session) => ({ entry, session })))
+      .sort((a, b) => new Date(a.session.starts_at) - new Date(b.session.starts_at));
+  }
+
+  function renderSavedSchedule() {
+    const saved = savedScheduleEntries();
+    return `<section class="lc-product-card"><div class="lc-product-section-head"><h2>My schedule</h2><span>${saved.length ? `${saved.length} saved` : "Return plan"}</span></div>${saved.length ? saved.map(({ entry, session }) => `<div class="lc-product-row"><img src="${safe(avatar(entry.profile))}" alt=""><div class="lc-product-row-main"><b>${safe(profileName(entry.profile))} · ${safe(session.game)}</b><span>${safe(sessionLine(session))} · ${safe(session.operator_name || "Operator to be confirmed")}</span></div><button class="lc-product-chip active" type="button" data-lc-open-creator="${safe(entry.profile.id)}">Open</button></div>`).join("") : `<div class="lc-product-empty">Save a Creator's upcoming session to build your return plan. LC currently provides in-app schedule context; push, email and SMS are not enabled.</div>`}</section>`;
+  }
+
   function renderPlayerHome() {
     const creators = suggestedCreators();
     const lead = creators[0];
@@ -789,6 +802,7 @@
         <section class="lc-product-card"><div class="lc-product-flow"><span>Discover</span><span>Creator</span><span>Follow</span><span>Live</span><span>Return</span></div></section>
         <form class="lc-product-card lc-product-form" data-lc-form="search"><input class="lc-product-input" name="search" maxlength="80" placeholder="Search creators, games, live rooms..." value="${safe(state.search)}"><div class="lc-product-actions"><button class="lc-product-btn secondary" type="submit">SEARCH</button>${state.search ? `<button class="lc-product-chip" type="button" data-lc-clear-search>Clear</button>` : ""}</div></form>
         <section class="lc-product-card"><div class="lc-product-section-head"><h2>Creator feed</h2><span>${safe(filterLabels[state.discoveryFilter] || "For you")}</span></div><div class="lc-product-actions">${Object.entries(filterLabels).map(([value, label]) => `<button class="lc-product-chip ${state.discoveryFilter === value ? "active" : ""}" type="button" data-lc-discovery-filter="${safe(value)}">${safe(label)}</button>`).join("")}</div>${compactCreatorRows(creators, emptyCopy)}</section>
+        ${renderSavedSchedule()}
         ${renderNotifications()}
         ${creators.slice(0, 4).map(creatorCard).join("")}
       </div>${tabs("home")}`;
@@ -825,7 +839,10 @@
         ${renderNotifications("No audience notifications yet. Followers, reactions and comments will appear here.")}
       </div>${tabs("creator")}`;
     const dt = q('[name="starts_at"]');
-    if (dt && !dt.value) dt.value = new Date(Date.now() + 86400000).toISOString().slice(0, 16);
+    if (dt) {
+      dt.min = localDateTimeInput(new Date(Date.now() + 300000));
+      if (!dt.value) dt.value = localDateTimeInput(new Date(Date.now() + 86400000));
+    }
   }
 
   function renderIndustryOnboarding() {
@@ -903,9 +920,9 @@
     const next = item.sessions[0];
     shell().innerHTML = `${top(profileName(item.profile), "Creator profile")}
       <div class="lc-product-stack">
-        ${visualHero(sessionStatusLabel(next), profileName(item.profile), `${item.creator.headline || "Live Casino creator"} · ${(item.creator.games || []).join(", ") || "Live Casino"}`, visualImage(item.profile), `<button class="lc-product-btn secondary ${state.follows.has(item.profile.id) ? "active" : ""}" type="button" data-lc-follow="${safe(item.profile.id)}">${state.follows.has(item.profile.id) ? "Following" : "Follow"}</button>${next ? `<button class="lc-product-btn" type="button" data-lc-live="${safe(next.id)}">Watch live</button>` : ""}`, "compact")}
+        ${visualHero(sessionStatusLabel(next), profileName(item.profile), `${item.creator.headline || "Live Casino creator"} · ${(item.creator.games || []).join(", ") || "Live Casino"}`, visualImage(item.profile), `<button class="lc-product-btn secondary ${state.follows.has(item.profile.id) ? "active" : ""}" type="button" data-lc-follow="${safe(item.profile.id)}">${state.follows.has(item.profile.id) ? "Following" : "Follow"}</button>${next ? `<button class="lc-product-btn" type="button" data-lc-live="${safe(next.id)}">${next.status === "live" ? "Watch live" : "View schedule"}</button>` : ""}`, "compact")}
         <section class="lc-product-media-grid">${item.posts.slice(0, 3).map((p, index) => visualTile(visualImage(item.profile), "Creator content", new Date(p.created_at).toLocaleString(), p.body, index === 0)).join("")}</section>
-        <section class="lc-product-card"><h2>Sessions</h2>${item.sessions.length ? item.sessions.map((s) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(s.game)} · ${safe(s.title || "Live session")}</b><span>${safe(s.operator_name || "Operator to be confirmed")} · ${safe(sessionLine(s))}</span></div><button class="lc-product-chip ${state.reminders.has(s.id) ? "active" : ""}" type="button" data-lc-reminder="${safe(s.id)}">${state.reminders.has(s.id) ? "Reminder set" : "Remind me"}</button></div>`).join("") : `<div class="lc-product-empty">No upcoming sessions. Follow the creator or return to Discover.</div>`}</section>
+        <section class="lc-product-card"><h2>Sessions</h2>${item.sessions.length ? item.sessions.map((s) => `<div class="lc-product-row"><div class="lc-product-row-main"><b>${safe(s.game)} · ${safe(s.title || "Live session")}</b><span>${safe(s.operator_name || "Operator to be confirmed")} · ${safe(sessionLine(s))}</span></div>${s.status === "scheduled" ? `<button class="lc-product-chip ${state.reminders.has(s.id) ? "active" : ""}" type="button" data-lc-reminder="${safe(s.id)}">${state.reminders.has(s.id) ? "Reminder set" : "Remind me"}</button>` : `<button class="lc-product-chip active" type="button" data-lc-live="${safe(s.id)}">Open Live</button>`}</div>`).join("") : `<div class="lc-product-empty">No upcoming sessions. Follow the creator or return to Discover.</div>`}</section>
         ${post ? `<section class="lc-product-card"><form class="lc-product-form" data-lc-form="comment" data-post-id="${safe(post.id)}"><input class="lc-product-input" name="body" maxlength="1000" placeholder="Comment on latest post"><button class="lc-product-btn secondary" type="submit">COMMENT</button></form></section>` : ""}
         ${state.demo ? "" : `<section class="lc-product-card"><div class="lc-product-section-head"><h2>Safety</h2><span>Private controls</span></div><p>Report harmful content for review or block this Creator from your discovery experience.</p><div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-creator-safety="report" data-lc-creator-id="${safe(id)}">Report</button><button class="lc-product-chip" type="button" data-lc-creator-safety="block" data-lc-creator-id="${safe(id)}">Block</button></div></section>`}
       </div>${tabs("discover")}`;
@@ -940,9 +957,10 @@
     state.selectedCreator = item.profile.id;
     state.selectedSession = session.id;
     void trackProductEvent("live_session_open", { creatorId: item.profile.id, sessionId: session.id, dedupeKey: `live:${session.id}` });
-    shell().innerHTML = `${top("Live", "Creator-led intent before operator handoff")}
+    const isLive = session.status === "live";
+    shell().innerHTML = `${top(isLive ? "Live" : "Schedule", isLive ? "Creator-led intent before operator handoff" : "Plan a return for this Creator")}
       <div class="lc-product-stack">
-        ${visualHero(sessionStatusLabel(session), `${session.game} with ${profileName(item.profile)}`, "Creator identity, follow state and live context build intent before the player continues to the licensed operator.", visualImage(item.profile), `<button class="lc-product-btn" type="button" data-lc-product="handoff">Play with ${safe(profileName(item.profile))}</button><button class="lc-product-btn secondary ${state.follows.has(item.profile.id) ? "active" : ""}" type="button" data-lc-follow="${safe(item.profile.id)}">${state.follows.has(item.profile.id) ? "Following" : "Follow"}</button>`, "compact copy-top")}
+        ${visualHero(sessionStatusLabel(session), `${session.game} with ${profileName(item.profile)}`, isLive ? "Creator identity, follow state and live context build intent before the player continues to the licensed operator." : `${sessionLine(session)}. Save this session and return when the Creator is Live.`, visualImage(item.profile), `${isLive ? `<button class="lc-product-btn" type="button" data-lc-product="handoff">Play with ${safe(profileName(item.profile))}</button>` : `<button class="lc-product-btn ${state.reminders.has(session.id) ? "secondary" : ""}" type="button" data-lc-reminder="${safe(session.id)}">${state.reminders.has(session.id) ? "Reminder set" : "Remind me"}</button>`}<button class="lc-product-btn secondary ${state.follows.has(item.profile.id) ? "active" : ""}" type="button" data-lc-follow="${safe(item.profile.id)}">${state.follows.has(item.profile.id) ? "Following" : "Follow"}</button>`, "compact copy-top")}
         <section class="lc-product-card"><div class="lc-product-section-head"><h2>Continuity is the product</h2><span>Relationship before transaction</span></div><div class="lc-product-flow"><span>Discover</span><span>Follow</span><span>Schedule</span><span>Live intent</span><span>Return</span></div><p style="margin-top:10px">Profile, follow, schedule and social context are one mechanism: they turn a one-off table encounter into a reason to find the same person again.</p></section>
         <section class="lc-product-card"><h2>LC stops at the casino boundary</h2><p>LC keeps creator identity, follow state, schedule and return context. The licensed operator keeps gameplay, wallet, KYC/AML, responsible gaming, wagering and settlement.</p><span class="lc-product-note">${state.demo ? "Demo handoff only." : "Conceptual handoff only."} No confirmed operator/provider integration.</span></section>
       </div>${tabs("discover")}`;
@@ -952,6 +970,7 @@
     const found = findSessionEntry(sessionId);
     if (!found) return renderMissing("Handoff unavailable", "The selected table context is not available.", "Back to Discover");
     const { entry, session } = found;
+    if (session.status !== "live") return renderMissing("Session not Live", "Operator handoff becomes available when this Creator session is Live.", "Back to Discover");
     state.selectedCreator = entry.profile.id;
     state.selectedSession = session.id;
     void trackProductEvent("handoff_intent", { creatorId: entry.profile.id, sessionId: session.id, confidence: "direct", dedupeKey: `handoff:${session.id}` });
@@ -1147,7 +1166,7 @@
   async function createSession(form) {
     const data = new FormData(form);
     const starts = String(data.get("starts_at") || "");
-    if (!starts) throw new Error("validation");
+    if (!starts || !Number.isFinite(new Date(starts).getTime()) || new Date(starts).getTime() <= Date.now()) throw new Error("validation");
     if (state.demo) {
       demoStore.sessions.unshift({
         id: `demo-session-${Date.now()}`,
@@ -1270,6 +1289,8 @@
 
   async function toggleReminder(id) {
     const wasSet = state.reminders.has(id);
+    const found = findSessionEntry(id);
+    if (!wasSet && (!found || found.session.status !== "scheduled" || new Date(found.session.starts_at).getTime() <= Date.now())) throw new Error("not_eligible");
     if (wasSet) {
       state.reminders.delete(id);
       if (state.demo) {
@@ -1293,7 +1314,6 @@
         throw error;
       }
     }
-    const found = findSessionEntry(id);
     void trackProductEvent("schedule_reminder", { creatorId: found?.entry.profile.id, sessionId: id, metadata: { action: state.reminders.has(id) ? "set" : "remove" } });
   }
 
