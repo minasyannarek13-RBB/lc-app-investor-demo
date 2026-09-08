@@ -32,7 +32,7 @@
   const games = ["Blackjack", "Baccarat", "Roulette", "Poker", "Game Show"];
   const languages = ["English", "French", "Italian", "Spanish", "Armenian"];
   const interests = ["creator network", "player discovery", "retention/engagement", "live discovery", "integration", "attribution"];
-  const ATTRIBUTION_KEY = "lc-app:attribution-v1";
+  const ATTRIBUTION_KEY_PREFIX = "lc-app:attribution-v1";
   const ATTRIBUTION_MAX_AGE = 30 * 24 * 60 * 60 * 1000;
   const PRODUCT_EVENTS = new Set(["product_open", "creator_impression", "discovery_search", "creator_profile_open", "creator_follow", "live_session_open", "schedule_reminder", "handoff_intent", "handoff_return", "notification_response"]);
   const demoStore = { follows: new Set(), reminders: new Set(), likes: new Set(), comments: [], posts: [], sessions: [], notifications: [], requests: new Set() };
@@ -153,16 +153,22 @@
     return String(value || "").trim().replace(/[^a-zA-Z0-9._ -]/g, "").slice(0, 80) || null;
   }
 
+  function attributionStorageKey() {
+    const accountId = String(state.profile?.id || "").trim();
+    return `${ATTRIBUTION_KEY_PREFIX}:${accountId || "anonymous"}`;
+  }
+
   function attributionContext() {
     const now = Date.now();
+    const storageKey = attributionStorageKey();
     let saved = {};
-    try { saved = JSON.parse(localStorage.getItem(ATTRIBUTION_KEY) || "{}"); } catch (_) {}
+    try { saved = JSON.parse(localStorage.getItem(storageKey) || "{}"); } catch (_) {}
     if (!saved.journey_id || now - Number(saved.updated_at || 0) > ATTRIBUTION_MAX_AGE) saved = { journey_id: uuid() };
     const params = new URLSearchParams(window.location.search);
     saved.campaign_source = cleanAttributionValue(params.get("utm_source") || params.get("source")) || saved.campaign_source || null;
     saved.campaign_name = cleanAttributionValue(params.get("utm_campaign") || params.get("campaign")) || saved.campaign_name || null;
     saved.updated_at = now;
-    try { localStorage.setItem(ATTRIBUTION_KEY, JSON.stringify(saved)); } catch (_) {}
+    try { localStorage.setItem(attributionStorageKey(), JSON.stringify(saved)); } catch (_) {}
     return saved;
   }
 
@@ -171,7 +177,7 @@
     if (creatorId) context.last_creator_id = creatorId;
     if (sessionId) context.last_session_id = sessionId;
     context.updated_at = Date.now();
-    try { localStorage.setItem(ATTRIBUTION_KEY, JSON.stringify(context)); } catch (_) {}
+    try { localStorage.setItem(attributionStorageKey(), JSON.stringify(context)); } catch (_) {}
     return context;
   }
 
