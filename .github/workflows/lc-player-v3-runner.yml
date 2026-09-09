@@ -1,0 +1,76 @@
+name: LC App Player journey v3 runner
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/lc-player-v3-runner.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lc-player-v3-runner
+  cancel-in-progress: true
+
+jobs:
+  apply-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout canonical main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract and run Player v3 patch
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          source = Path('.github/workflows/lc-player-journey-v3.yml').read_text(encoding='utf-8')
+          start_marker = "          python3 - <<'PY'\n"
+          end_marker = "\n          PY\n\n      - name: Syntax and product contract checks"
+          start = source.find(start_marker)
+          end = source.find(end_marker, start + len(start_marker))
+          if start < 0 or end < 0:
+              raise SystemExit('Could not extract Player v3 patch body')
+          body = source[start + len(start_marker):end]
+          lines = []
+          for line in body.splitlines():
+              lines.append(line[10:] if line.startswith('          ') else line)
+          Path('/tmp/lc_player_v3_patch.py').write_text('\n'.join(lines) + '\n', encoding='utf-8')
+          PY
+          python3 /tmp/lc_player_v3_patch.py
+
+      - name: Verify JavaScript and contracts
+        run: |
+          set -euo pipefail
+          node --check LC_App_GitHub_Pages_Upload/app-product.js
+          node --check LC_App_GitHub_Pages_Upload/product-shell-v2.js
+          node --check LC_App_GitHub_Pages_Upload/auth.js
+          node --check LC_App_GitHub_Pages_Upload/sw.js
+          grep -Fq 'Who do you want to come back for?' LC_App_GitHub_Pages_Upload/app-product.js
+          grep -Fq 'People you can join now' LC_App_GitHub_Pages_Upload/app-product.js
+          grep -Fq 'Creators worth following' LC_App_GitHub_Pages_Upload/app-product.js
+          grep -Fq 'Keep the person, not just the table.' LC_App_GitHub_Pages_Upload/app-product.js
+          grep -Fq 'You are leaving LC App to play.' LC_App_GitHub_Pages_Upload/app-product.js
+          grep -Fq 'LC PLAYER JOURNEY V3' LC_App_GitHub_Pages_Upload/product-shell-v2.css
+          grep -Fq 'lc-app-investor-demo-v94' LC_App_GitHub_Pages_Upload/sw.js
+          ! grep -qi 'service_role' LC_App_GitHub_Pages_Upload/app-product.js
+          git diff --check
+
+      - name: Protect showcase and domain
+        run: |
+          git diff --exit-code -- CNAME showcase-v2
+
+      - name: Commit verified Player journey v3
+        run: |
+          git config user.name 'LC App Build Engine'
+          git config user.email 'actions@users.noreply.github.com'
+          git add LC_App_GitHub_Pages_Upload/app-product.js LC_App_GitHub_Pages_Upload/product-shell-v2.css LC_App_GitHub_Pages_Upload/sw.js
+          if git diff --cached --quiet; then
+            echo 'No changes required.'
+            exit 0
+          fi
+          git commit -m 'Rebuild LC App Player journey v3'
+          git push origin HEAD:main
