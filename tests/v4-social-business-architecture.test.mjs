@@ -25,7 +25,7 @@ assert.match(css, /lc-v4-explore-grid/);
 assert.match(css, /lc-v4-business-workspace/);
 assert.match(html, /app-product\.js\?v=95/);
 assert.match(html, /product-shell-v2\.js\?v=5/);
-assert.match(sw, /lc-app-investor-demo-v95/);
+assert.match(sw, /lc-app-investor-demo-v96/);
 assert.equal(
   (shell.match(/if \(!structureMatches\) \{/g) || []).length,
   2,
