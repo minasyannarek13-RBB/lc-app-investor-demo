@@ -47,7 +47,7 @@ jobs:
           css4 = (root/'product-shell-v4.css').read_text(encoding='utf-8')
           sw = (root/'sw.js').read_text(encoding='utf-8')
           assert html.lstrip().lower().startswith('<!doctype html>')
-          assert '<script src="product-shell-v2.js?v=5" defer></script>' in html
+          assert '<script src="product-shell-v2.js?v=6" defer></script>' in html
           assert './app-product.js?v=95' in html
           assert 'product-shell-v2.css?v=4' in js
           assert 'product-shell-v4.css?v=2' in js
