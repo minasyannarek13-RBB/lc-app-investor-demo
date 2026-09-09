@@ -26,5 +26,15 @@ assert.match(css, /lc-v4-business-workspace/);
 assert.match(html, /app-product\.js\?v=95/);
 assert.match(html, /product-shell-v2\.js\?v=5/);
 assert.match(sw, /lc-app-investor-demo-v95/);
+assert.equal(
+  (shell.match(/if \\(!structureMatches\\) \\{/g) || []).length,
+  2,
+  "social and business navigation must preserve stable button nodes between upgrades"
+);
+assert.doesNotMatch(
+  shell,
+  /nav\\.replaceChildren\\([^\\n]+\\);\\n\\s+nav\\.querySelectorAll/,
+  "business navigation must not be rebuilt on every mutation"
+);
 
 console.log("LC App v4 social + business architecture contract: PASS");
