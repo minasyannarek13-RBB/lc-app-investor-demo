@@ -4,14 +4,19 @@ on:
   push:
     branches: [main]
     paths:
+      - 'app-product.js'
+      - 'LC_App_GitHub_Pages_Upload/app-product.js'
+      - 'LC_App_GitHub_Pages_Upload/index.html'
       - 'LC_App_GitHub_Pages_Upload/product-shell-v2.css'
       - 'LC_App_GitHub_Pages_Upload/product-shell-v2.js'
       - 'LC_App_GitHub_Pages_Upload/product-shell-v4.css'
+      - 'LC_App_GitHub_Pages_Upload/sw.js'
+      - 'tests/**'
       - '.github/workflows/lc-product-shell-v2.yml'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: lc-product-shell-v4
@@ -25,38 +30,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Integrate shell assets
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          root = Path('LC_App_GitHub_Pages_Upload')
-          index = root / 'index.html'
-          sw = root / 'sw.js'
-
-          html = index.read_text(encoding='utf-8')
-          markers = [
-              '<script src="product-shell-v2.js?v=1" defer></script>',
-              '<script src="product-shell-v2.js?v=2" defer></script>'
-          ]
-          target = '<script src="product-shell-v2.js?v=4" defer></script>'
-          for marker in markers:
-              html = html.replace(marker, target)
-          if target not in html:
-              if '</body>' not in html:
-                  raise SystemExit('index.html has no closing body')
-              html = html.replace('</body>', f'  {target}\n</body>', 1)
-          index.write_text(html, encoding='utf-8')
-
-          sw_text = sw.read_text(encoding='utf-8')
-          additions = ['  "./product-shell-v2.css",', '  "./product-shell-v2.js",', '  "./product-shell-v4.css",']
-          anchor = '  "./app-product.js",'
-          if anchor in sw_text:
-              missing = [line for line in additions if line not in sw_text]
-              if missing:
-                  sw_text = sw_text.replace(anchor, anchor + '\n' + '\n'.join(missing), 1)
-          sw.write_text(sw_text, encoding='utf-8')
-          PY
 
       - name: Syntax and contract checks
         run: |
@@ -74,9 +47,10 @@ jobs:
           css4 = (root/'product-shell-v4.css').read_text(encoding='utf-8')
           sw = (root/'sw.js').read_text(encoding='utf-8')
           assert html.lstrip().lower().startswith('<!doctype html>')
-          assert '<script src="product-shell-v2.js?v=4" defer></script>' in html
+          assert '<script src="product-shell-v2.js?v=5" defer></script>' in html
+          assert './app-product.js?v=95' in html
           assert 'product-shell-v2.css?v=4' in js
-          assert 'product-shell-v4.css?v=1' in js
+          assert 'product-shell-v4.css?v=2' in js
           assert 'SOCIAL_NAV' in js and 'BUSINESS_NAV' in js
           assert 'lc-v4-social' in css4 and 'lc-v4-business' in css4
           assert './product-shell-v2.css' in sw and './product-shell-v2.js' in sw and './product-shell-v4.css' in sw
@@ -84,6 +58,7 @@ jobs:
           assert 'lc-product-v2' in css2 and 'lc-v2-rail' in css2
           print('LC App shell v4 static contract: PASS')
           PY
+          for test_file in tests/*.mjs; do node "$test_file"; done
 
       - name: Verify protected boundaries untouched
         run: |
@@ -93,15 +68,3 @@ jobs:
             exit 1
           }
           git diff --check
-
-      - name: Commit verified integration
-        run: |
-          if git diff --quiet -- LC_App_GitHub_Pages_Upload/index.html LC_App_GitHub_Pages_Upload/sw.js; then
-            echo 'No integration changes required.'
-            exit 0
-          fi
-          git config user.name 'LC App Build Engine'
-          git config user.email 'actions@users.noreply.github.com'
-          git add LC_App_GitHub_Pages_Upload/index.html LC_App_GitHub_Pages_Upload/sw.js
-          git commit -m 'Activate LC App shell v4'
-          git push origin HEAD:main
