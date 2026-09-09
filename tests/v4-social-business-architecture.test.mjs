@@ -23,16 +23,11 @@ assert.match(app, /To be validated/);
 assert.doesNotMatch(app, /service_role/i);
 assert.match(css, /lc-v4-explore-grid/);
 assert.match(css, /lc-v4-business-workspace/);
-assert.match(html, /app-product\.js\?v=97/);
-assert.match(html, /product-shell-v2\.js\?v=6/);
-assert.match(sw, /lc-app-investor-demo-v98/);
-assert.match(app, /document\.addEventListener\("pointerdown"/);
-assert.match(app, /\[data-lc-product\],\[data-lc-business-view\]/);
-assert.equal(
-  (app.match(/event\.stopImmediatePropagation\(\);/g) || []).length >= 2,
-  true,
-  "v4 social and business navigation must be isolated from the legacy prototype shell"
-);
+assert.match(html, /app-product\.js\?v=98/);
+assert.match(html, /product-shell-v2\.js\?v=7/);
+assert.match(sw, /lc-app-investor-demo-v99/);
+assert.match(app, /navigate: navigateProduct/);
+assert.match(shell, /LCAppProduct\?\.navigate/);
 assert.equal(
   (shell.match(/if \(!structureMatches\) \{/g) || []).length,
   2,
