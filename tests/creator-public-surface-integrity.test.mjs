@@ -8,7 +8,8 @@ const sql = readFileSync(new URL("../supabase/migrations/202609080027_creator_pu
 assert.equal(app, nested, "root and deployed product modules must stay synchronized");
 assert.match(app, /eligibleSessions[\s\S]+session\.status === "live" \|\| new Date\(session\.starts_at\)\.getTime\(\) > Date\.now\(\)/);
 assert.match(app, /a\.status === "live" \? -1[\s\S]+b\.status === "live" \? -1/, "Live must sort before scheduled sessions");
-assert.match(app, /publication\.publicReady \? `<section class="lc-product-card"><h2>Create post/);
+assert.match(app, /publication\.publicReady \? `<form class="lc-v4-post-composer" data-lc-form="post"/);
+assert.match(app, /Content unlocks after verification and publication/);
 assert.match(app, /if \(!creatorPublication\(\)\.publicReady\) throw new Error\("not_verified"\)/);
 assert.match(app, /state\.sessions\.some\(\(row\) => row\.id !== id && row\.status === "live"\)/);
 assert.match(sql, /public\.is_approved_creator\(author_id\)/i, "Creator posts must require server-approved public identity");
