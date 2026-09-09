@@ -24,8 +24,13 @@ assert.doesNotMatch(app, /service_role/i);
 assert.match(css, /lc-v4-explore-grid/);
 assert.match(css, /lc-v4-business-workspace/);
 assert.match(html, /app-product\.js\?v=98/);
-assert.match(html, /product-shell-v2\.js\?v=7/);
-assert.match(sw, /lc-app-investor-demo-v99/);
+assert.match(html, /product-shell-v2\.js\?v=8/);
+assert.match(shell, /const routePersona = currentRoute\(\)\[0\] === "demo" \? currentRoute\(\)\[1\] : "";/);
+assert.ok(
+  shell.indexOf("const routePersona") < shell.indexOf("const explicit"),
+  "demo route and freshly rendered persona chip must override stale shell dataset state"
+);
+assert.match(sw, /lc-app-investor-demo-v100/);
 assert.match(app, /navigate: navigateProduct/);
 assert.match(shell, /LCAppProduct\?\.navigate/);
 assert.equal(
