@@ -6,6 +6,7 @@ const shell = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/product-shell-
 const css = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/product-shell-v4.css", import.meta.url), "utf8");
 const socialFeedCss = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/social-feed-v4.css", import.meta.url), "utf8");
 const creatorStudioCss = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/creator-studio-v4.css", import.meta.url), "utf8");
+const socialAccountCss = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/social-account-v4.css", import.meta.url), "utf8");
 const html = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/index.html", import.meta.url), "utf8");
 const sw = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/sw.js", import.meta.url), "utf8");
 
@@ -17,6 +18,9 @@ for (const view of ["overview", "creators", "campaigns", "live", "performance", 
 }
 assert.match(app, /function renderSocialExplore/);
 assert.match(app, /function renderSocialActivity/);
+assert.match(app, /function renderActivitySignals/);
+assert.match(app, /lc-v4-social-profile/);
+assert.match(app, /const accountTarget = state\.current\?\.persona === "industry"/);
 assert.match(app, /function renderSocialCreate/);
 assert.match(app, /function socialFeedEntries/);
 assert.match(app, /function renderSocialPost/);
@@ -40,18 +44,22 @@ assert.match(socialFeedCss, /lc-v4-feed-post/);
 assert.match(socialFeedCss, /lc-v4-live-rail/);
 assert.match(shell, /social-feed-v4\.css\?v=1/);
 assert.match(shell, /creator-studio-v4\.css\?v=1/);
+assert.match(shell, /social-account-v4\.css\?v=1/);
+assert.match(socialAccountCss, /lc-v4-signal-list/);
+assert.match(socialAccountCss, /lc-v4-profile-media-grid/);
 assert.match(creatorStudioCss, /lc-v4-studio-nav/);
 assert.match(creatorStudioCss, /lc-v4-live-control/);
 assert.match(css, /lc-v4-business-workspace/);
-assert.match(html, /app-product\.js\?v=101/);
-assert.match(html, /product-shell-v2\.js\?v=9/);
+assert.match(html, /app-product\.js\?v=102/);
+assert.match(html, /product-shell-v2\.js\?v=10/);
 assert.match(shell, /const routePersona = currentRoute\(\)\[0\] === "demo" \? currentRoute\(\)\[1\] : "";/);
 assert.ok(
   shell.indexOf("const routePersona") < shell.indexOf("const explicit"),
   "demo route and freshly rendered persona chip must override stale shell dataset state"
 );
-assert.match(sw, /lc-app-investor-demo-v110/);
+assert.match(sw, /lc-app-investor-demo-v111/);
 assert.match(sw, /creator-studio-v4\.css/);
+assert.match(sw, /social-account-v4\.css/);
 assert.match(shell, /function syncDemoSwitch\(root\)/);
 assert.match(shell, /window\.location\.hash = "#\/product"/);
 assert.match(shell, /function handleDemoSwitch\(event\)/);
