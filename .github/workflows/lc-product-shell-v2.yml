@@ -10,6 +10,7 @@ on:
       - 'LC_App_GitHub_Pages_Upload/product-shell-v2.css'
       - 'LC_App_GitHub_Pages_Upload/product-shell-v2.js'
       - 'LC_App_GitHub_Pages_Upload/product-shell-v4.css'
+      - 'LC_App_GitHub_Pages_Upload/social-feed-v4.css'
       - 'LC_App_GitHub_Pages_Upload/sw.js'
       - 'tests/**'
       - '.github/workflows/lc-product-shell-v2.yml'
@@ -45,16 +46,19 @@ jobs:
           js = (root/'product-shell-v2.js').read_text(encoding='utf-8')
           css2 = (root/'product-shell-v2.css').read_text(encoding='utf-8')
           css4 = (root/'product-shell-v4.css').read_text(encoding='utf-8')
+          social_feed = (root/'social-feed-v4.css').read_text(encoding='utf-8')
           sw = (root/'sw.js').read_text(encoding='utf-8')
           assert html.lstrip().lower().startswith('<!doctype html>')
-          assert '<script src="product-shell-v2.js?v=7" defer></script>' in html
-          assert './app-product.js?v=98' in html
+          assert '<script src="product-shell-v2.js?v=8" defer></script>' in html
+          assert './app-product.js?v=99' in html
           assert 'product-shell-v2.css?v=4' in js
-          assert 'product-shell-v4.css?v=2' in js
+          assert 'product-shell-v4.css?v=3' in js
+          assert 'social-feed-v4.css?v=1' in js
           assert 'SOCIAL_NAV' in js and 'BUSINESS_NAV' in js
           assert 'lc-v4-social' in css4 and 'lc-v4-business' in css4
-          assert './product-shell-v2.css' in sw and './product-shell-v2.js' in sw and './product-shell-v4.css' in sw
-          assert 'service_role' not in js.lower() and 'service_role' not in css2.lower() and 'service_role' not in css4.lower()
+          assert 'lc-v4-social-feed' in social_feed and 'lc-v4-feed-post' in social_feed
+          assert './product-shell-v2.css' in sw and './product-shell-v2.js' in sw and './product-shell-v4.css' in sw and './social-feed-v4.css' in sw
+          assert 'service_role' not in js.lower() and 'service_role' not in css2.lower() and 'service_role' not in css4.lower() and 'service_role' not in social_feed.lower()
           assert 'lc-product-v2' in css2 and 'lc-v2-rail' in css2
           print('LC App shell v4 static contract: PASS')
           PY
