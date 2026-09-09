@@ -43,7 +43,7 @@ assert.match(shell, /creator-studio-v4\.css\?v=1/);
 assert.match(creatorStudioCss, /lc-v4-studio-nav/);
 assert.match(creatorStudioCss, /lc-v4-live-control/);
 assert.match(css, /lc-v4-business-workspace/);
-assert.match(html, /app-product\.js\?v=100/);
+assert.match(html, /app-product\.js\?v=101/);
 assert.match(html, /product-shell-v2\.js\?v=9/);
 assert.match(shell, /const routePersona = currentRoute\(\)\[0\] === "demo" \? currentRoute\(\)\[1\] : "";/);
 assert.ok(
