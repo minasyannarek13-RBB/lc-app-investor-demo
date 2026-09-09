@@ -7,6 +7,7 @@ const css = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/product-shell-v4
 const socialFeedCss = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/social-feed-v4.css", import.meta.url), "utf8");
 const creatorStudioCss = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/creator-studio-v4.css", import.meta.url), "utf8");
 const socialAccountCss = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/social-account-v4.css", import.meta.url), "utf8");
+const businessConsoleCss = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/business-console-v4.css", import.meta.url), "utf8");
 const html = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/index.html", import.meta.url), "utf8");
 const sw = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/sw.js", import.meta.url), "utf8");
 
@@ -34,6 +35,11 @@ assert.match(app, /\["audience", "Audience"\]/);
 assert.match(app, /data-lc-creator-studio="\$\{id\}"/);
 assert.match(app, /demoStore\.sessionOverrides/);
 assert.match(app, /function renderIndustryHome\(view = state\.businessView\)/);
+assert.match(app, /function businessRoleCopy\(subtype, isAdmin\)/);
+assert.match(app, /OPERATOR OPERATIONS/);
+assert.match(app, /PROVIDER OPERATIONS/);
+assert.match(app, /ADMIN CONTROL/);
+assert.match(app, /Demo records are illustrative and do not represent partners or approvals/);
 assert.match(app, /Creator verification and affiliation approval remain server-controlled/);
 assert.match(app, /No live connection/);
 assert.match(app, /To be validated/);
@@ -45,21 +51,25 @@ assert.match(socialFeedCss, /lc-v4-live-rail/);
 assert.match(shell, /social-feed-v4\.css\?v=1/);
 assert.match(shell, /creator-studio-v4\.css\?v=1/);
 assert.match(shell, /social-account-v4\.css\?v=1/);
+assert.match(shell, /business-console-v4\.css\?v=1/);
+assert.match(businessConsoleCss, /lc-v4-ops-queue/);
+assert.match(businessConsoleCss, /lc-v4-ops-toolbar/);
 assert.match(socialAccountCss, /lc-v4-signal-list/);
 assert.match(socialAccountCss, /lc-v4-profile-media-grid/);
 assert.match(creatorStudioCss, /lc-v4-studio-nav/);
 assert.match(creatorStudioCss, /lc-v4-live-control/);
 assert.match(css, /lc-v4-business-workspace/);
-assert.match(html, /app-product\.js\?v=103/);
-assert.match(html, /product-shell-v2\.js\?v=10/);
+assert.match(html, /app-product\.js\?v=104/);
+assert.match(html, /product-shell-v2\.js\?v=11/);
 assert.match(shell, /const routePersona = currentRoute\(\)\[0\] === "demo" \? currentRoute\(\)\[1\] : "";/);
 assert.ok(
   shell.indexOf("const routePersona") < shell.indexOf("const explicit"),
   "demo route and freshly rendered persona chip must override stale shell dataset state"
 );
-assert.match(sw, /lc-app-investor-demo-v112/);
+assert.match(sw, /lc-app-investor-demo-v113/);
 assert.match(sw, /creator-studio-v4\.css/);
 assert.match(sw, /social-account-v4\.css/);
+assert.match(sw, /business-console-v4\.css/);
 assert.match(shell, /function syncDemoSwitch\(root\)/);
 assert.match(shell, /window\.location\.hash = "#\/product"/);
 assert.match(shell, /function handleDemoSwitch\(event\)/);

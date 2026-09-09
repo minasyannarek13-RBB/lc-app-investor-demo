@@ -13,6 +13,7 @@ on:
       - 'LC_App_GitHub_Pages_Upload/social-feed-v4.css'
       - 'LC_App_GitHub_Pages_Upload/creator-studio-v4.css'
       - 'LC_App_GitHub_Pages_Upload/social-account-v4.css'
+      - 'LC_App_GitHub_Pages_Upload/business-console-v4.css'
       - 'LC_App_GitHub_Pages_Upload/sw.js'
       - 'tests/**'
       - '.github/workflows/lc-product-shell-v2.yml'
@@ -51,20 +52,23 @@ jobs:
           social_feed = (root/'social-feed-v4.css').read_text(encoding='utf-8')
           creator_studio = (root/'creator-studio-v4.css').read_text(encoding='utf-8')
           social_account = (root/'social-account-v4.css').read_text(encoding='utf-8')
+          business_console = (root/'business-console-v4.css').read_text(encoding='utf-8')
           sw = (root/'sw.js').read_text(encoding='utf-8')
           assert html.lstrip().lower().startswith('<!doctype html>')
-          assert '<script src="product-shell-v2.js?v=10" defer></script>' in html
-          assert './app-product.js?v=103' in html
+          assert '<script src="product-shell-v2.js?v=11" defer></script>' in html
+          assert './app-product.js?v=104' in html
           assert 'product-shell-v2.css?v=4' in js
           assert 'product-shell-v4.css?v=3' in js
           assert 'social-feed-v4.css?v=1' in js
           assert 'creator-studio-v4.css?v=1' in js
           assert 'social-account-v4.css?v=1' in js
+          assert 'business-console-v4.css?v=1' in js
           assert 'SOCIAL_NAV' in js and 'BUSINESS_NAV' in js
           assert 'lc-v4-social' in css4 and 'lc-v4-business' in css4
           assert 'lc-v4-social-feed' in social_feed and 'lc-v4-feed-post' in social_feed
           assert 'lc-v4-studio-nav' in creator_studio and 'lc-v4-live-control' in creator_studio
-          assert './product-shell-v2.css' in sw and './product-shell-v2.js' in sw and './product-shell-v4.css' in sw and './social-feed-v4.css' in sw and './creator-studio-v4.css' in sw and './social-account-v4.css' in sw
+          assert './product-shell-v2.css' in sw and './product-shell-v2.js' in sw and './product-shell-v4.css' in sw and './social-feed-v4.css' in sw and './creator-studio-v4.css' in sw and './social-account-v4.css' in sw and './business-console-v4.css' in sw
+          assert 'lc-v4-ops-queue' in business_console and 'lc-v4-ops-toolbar' in business_console
           assert 'lc-v4-signal-list' in social_account and 'lc-v4-social-profile' in social_account
           assert 'service_role' not in js.lower() and 'service_role' not in css2.lower() and 'service_role' not in css4.lower() and 'service_role' not in social_feed.lower()
           assert 'lc-product-v2' in css2 and 'lc-v2-rail' in css2
