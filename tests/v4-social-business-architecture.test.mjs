@@ -23,11 +23,11 @@ assert.match(app, /To be validated/);
 assert.doesNotMatch(app, /service_role/i);
 assert.match(css, /lc-v4-explore-grid/);
 assert.match(css, /lc-v4-business-workspace/);
-assert.match(html, /app-product\.js\?v=95/);
+assert.match(html, /app-product\.js\?v=96/);
 assert.match(html, /product-shell-v2\.js\?v=6/);
 assert.match(sw, /lc-app-investor-demo-v97/);
 assert.equal(
-  (app.match(/event\\.stopImmediatePropagation\\(\\);/g) || []).length >= 2,
+  (app.match(/event\.stopImmediatePropagation\(\);/g) || []).length >= 2,
   true,
   "v4 social and business navigation must be isolated from the legacy prototype shell"
 );
