@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 const app = readFileSync(new URL("../app-product.js", import.meta.url), "utf8");
 const shell = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/product-shell-v2.js", import.meta.url), "utf8");
 const css = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/product-shell-v4.css", import.meta.url), "utf8");
+const socialFeedCss = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/social-feed-v4.css", import.meta.url), "utf8");
 const html = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/index.html", import.meta.url), "utf8");
 const sw = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/sw.js", import.meta.url), "utf8");
 
@@ -16,21 +17,29 @@ for (const view of ["overview", "creators", "campaigns", "live", "performance", 
 assert.match(app, /function renderSocialExplore/);
 assert.match(app, /function renderSocialActivity/);
 assert.match(app, /function renderSocialCreate/);
+assert.match(app, /function socialFeedEntries/);
+assert.match(app, /function renderSocialPost/);
+assert.match(app, /social_home_feed/);
+assert.match(app, /data-lc-form="comment"/);
 assert.match(app, /function renderIndustryHome\(view = state\.businessView\)/);
 assert.match(app, /Creator verification and affiliation approval remain server-controlled/);
 assert.match(app, /No live connection/);
 assert.match(app, /To be validated/);
 assert.doesNotMatch(app, /service_role/i);
 assert.match(css, /lc-v4-explore-grid/);
+assert.match(socialFeedCss, /lc-v4-social-feed/);
+assert.match(socialFeedCss, /lc-v4-feed-post/);
+assert.match(socialFeedCss, /lc-v4-live-rail/);
+assert.match(shell, /social-feed-v4\.css\?v=1/);
 assert.match(css, /lc-v4-business-workspace/);
-assert.match(html, /app-product\.js\?v=98/);
-assert.match(html, /product-shell-v2\.js\?v=7/);
+assert.match(html, /app-product\.js\?v=99/);
+assert.match(html, /product-shell-v2\.js\?v=8/);
 assert.match(shell, /const routePersona = currentRoute\(\)\[0\] === "demo" \? currentRoute\(\)\[1\] : "";/);
 assert.ok(
   shell.indexOf("const routePersona") < shell.indexOf("const explicit"),
   "demo route and freshly rendered persona chip must override stale shell dataset state"
 );
-assert.match(sw, /lc-app-investor-demo-v107/);
+assert.match(sw, /lc-app-investor-demo-v108/);
 assert.match(shell, /function syncDemoSwitch\(root\)/);
 assert.match(shell, /window\.location\.hash = "#\/product"/);
 assert.match(shell, /function handleDemoSwitch\(event\)/);
