@@ -2,6 +2,7 @@
   "use strict";
 
   const CSS_ID = "lcProductV2Css";
+  const V4_CSS_ID = "lcProductV4Css";
   const RAIL_ID = "lcProductV2Rail";
   const LOAD_ID = "lcProductV2Loading";
   const PRODUCT_SELECTOR = "#lcProductShell";
@@ -30,6 +31,15 @@
       document.head.appendChild(link);
     }
     if (!/product-shell-v2\.css\?v=4$/.test(link.href)) link.href = "product-shell-v2.css?v=4";
+
+    let v4 = document.getElementById(V4_CSS_ID);
+    if (!v4) {
+      v4 = document.createElement("link");
+      v4.id = V4_CSS_ID;
+      v4.rel = "stylesheet";
+      document.head.appendChild(v4);
+    }
+    if (!/product-shell-v4\.css\?v=1$/.test(v4.href)) v4.href = "product-shell-v4.css?v=1";
   }
 
   const productRoot = () => document.querySelector(PRODUCT_SELECTOR);
