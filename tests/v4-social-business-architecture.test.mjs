@@ -23,9 +23,11 @@ assert.match(app, /To be validated/);
 assert.doesNotMatch(app, /service_role/i);
 assert.match(css, /lc-v4-explore-grid/);
 assert.match(css, /lc-v4-business-workspace/);
-assert.match(html, /app-product\.js\?v=96/);
+assert.match(html, /app-product\.js\?v=97/);
 assert.match(html, /product-shell-v2\.js\?v=6/);
-assert.match(sw, /lc-app-investor-demo-v97/);
+assert.match(sw, /lc-app-investor-demo-v98/);
+assert.match(app, /document\.addEventListener\("pointerdown"/);
+assert.match(app, /\[data-lc-product\],\[data-lc-business-view\]/);
 assert.equal(
   (app.match(/event\.stopImmediatePropagation\(\);/g) || []).length >= 2,
   true,
