@@ -30,9 +30,12 @@ assert.ok(
   shell.indexOf("const routePersona") < shell.indexOf("const explicit"),
   "demo route and freshly rendered persona chip must override stale shell dataset state"
 );
-assert.match(sw, /lc-app-investor-demo-v101/);
+assert.match(sw, /lc-app-investor-demo-v102/);
 assert.match(shell, /function syncDemoSwitch\(root\)/);
 assert.match(shell, /window\.location\.hash = "#\/product"/);
+assert.match(shell, /function handleDemoSwitch\(event\)/);
+assert.match(shell, /document\.addEventListener\("click", handleDemoSwitch, true\)/);
+assert.match(shell, /event\.stopImmediatePropagation\(\)/);
 assert.match(app, /navigate: navigateProduct/);
 assert.match(shell, /LCAppProduct\?\.navigate/);
 assert.equal(
