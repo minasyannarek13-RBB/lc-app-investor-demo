@@ -50,14 +50,14 @@ assert.match(socialAccountCss, /lc-v4-profile-media-grid/);
 assert.match(creatorStudioCss, /lc-v4-studio-nav/);
 assert.match(creatorStudioCss, /lc-v4-live-control/);
 assert.match(css, /lc-v4-business-workspace/);
-assert.match(html, /app-product\.js\?v=102/);
+assert.match(html, /app-product\.js\?v=103/);
 assert.match(html, /product-shell-v2\.js\?v=10/);
 assert.match(shell, /const routePersona = currentRoute\(\)\[0\] === "demo" \? currentRoute\(\)\[1\] : "";/);
 assert.ok(
   shell.indexOf("const routePersona") < shell.indexOf("const explicit"),
   "demo route and freshly rendered persona chip must override stale shell dataset state"
 );
-assert.match(sw, /lc-app-investor-demo-v111/);
+assert.match(sw, /lc-app-investor-demo-v112/);
 assert.match(sw, /creator-studio-v4\.css/);
 assert.match(sw, /social-account-v4\.css/);
 assert.match(shell, /function syncDemoSwitch\(root\)/);
