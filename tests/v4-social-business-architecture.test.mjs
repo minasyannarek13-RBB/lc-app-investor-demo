@@ -25,7 +25,12 @@ assert.match(css, /lc-v4-explore-grid/);
 assert.match(css, /lc-v4-business-workspace/);
 assert.match(html, /app-product\.js\?v=95/);
 assert.match(html, /product-shell-v2\.js\?v=6/);
-assert.match(sw, /lc-app-investor-demo-v96/);
+assert.match(sw, /lc-app-investor-demo-v97/);
+assert.equal(
+  (app.match(/event\\.stopImmediatePropagation\\(\\);/g) || []).length >= 2,
+  true,
+  "v4 social and business navigation must be isolated from the legacy prototype shell"
+);
 assert.equal(
   (shell.match(/if \(!structureMatches\) \{/g) || []).length,
   2,
