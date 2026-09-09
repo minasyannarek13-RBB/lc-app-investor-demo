@@ -1,0 +1,170 @@
+/* LC App v4 shell split: social app vs business back office. */
+
+html.lc-v4-social #lcProductShell[data-lc-v2-layout="social"] {
+  padding-left: 0;
+  padding-bottom: 96px;
+  background:
+    radial-gradient(circle at 50% -10%, rgba(53,232,208,.10), transparent 32%),
+    #030506;
+}
+
+html.lc-v4-social #lcProductV2Rail { display:none!important; }
+
+html.lc-v4-social .lc-product-top,
+html.lc-v4-social .lc-product-stack,
+html.lc-v4-social .lc-product-entry {
+  width:min(760px, calc(100% - 32px));
+}
+
+html.lc-v4-social .lc-product-top {
+  min-height:68px;
+  border-bottom-color:rgba(255,255,255,.07);
+}
+
+html.lc-v4-social .lc-product-tabs {
+  position:fixed;
+  left:50%;
+  right:auto;
+  bottom:max(10px, env(safe-area-inset-bottom));
+  z-index:120;
+  width:min(620px, calc(100% - 24px));
+  transform:translateX(-50%);
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:4px;
+  padding:7px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:22px;
+  background:rgba(5,9,10,.94);
+  box-shadow:0 20px 60px rgba(0,0,0,.44);
+  backdrop-filter:blur(24px) saturate(135%);
+  -webkit-backdrop-filter:blur(24px) saturate(135%);
+}
+
+html.lc-v4-social .lc-product-tabs button {
+  min-width:0;
+  min-height:58px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  padding:5px 4px;
+  border:0;
+  border-radius:16px;
+  background:transparent;
+  color:rgba(233,245,243,.54);
+  font-size:10px;
+  font-weight:760;
+}
+
+html.lc-v4-social .lc-product-tabs button.active {
+  color:#b8fff6;
+  background:rgba(53,232,208,.10);
+  box-shadow:none;
+}
+
+html.lc-v4-social .lc-v4-social-icon {
+  display:block;
+  font-size:18px;
+  line-height:1;
+}
+
+html.lc-v4-social .lc-v3-featured,
+html.lc-v4-social .lc-v3-profile-hero,
+html.lc-v4-social .lc-v3-live-card {
+  border-radius:26px;
+}
+
+html.lc-v4-social .lc-v3-creator-row {
+  border-radius:18px;
+}
+
+html.lc-v4-social .lc-product-card {
+  box-shadow:none;
+}
+
+html.lc-v4-business #lcProductShell[data-lc-v2-layout="workspace"] {
+  padding-left:var(--lc-rail);
+  padding-bottom:48px;
+  background:
+    radial-gradient(circle at 88% -8%, rgba(53,232,208,.07), transparent 28%),
+    #030506;
+}
+
+html.lc-v4-business .lc-v4-business-rail {
+  display:flex;
+}
+
+html.lc-v4-business .lc-product-tabs {
+  display:none!important;
+}
+
+html.lc-v4-business .lc-product-top,
+html.lc-v4-business .lc-product-stack,
+html.lc-v4-business .lc-product-entry {
+  width:min(1320px, calc(100% - 48px));
+}
+
+html.lc-v4-business .lc-product-card {
+  border-radius:16px;
+  background:rgba(8,14,16,.88);
+  box-shadow:0 12px 36px rgba(0,0,0,.16);
+}
+
+html.lc-v4-business .lc-product-grid,
+html.lc-v4-business .lc-product-grid.two {
+  gap:14px;
+}
+
+@media (max-width: 760px) {
+  html.lc-v4-social .lc-product-top,
+  html.lc-v4-social .lc-product-stack,
+  html.lc-v4-social .lc-product-entry {
+    width:calc(100% - 20px);
+  }
+  html.lc-v4-social #lcProductShell[data-lc-v2-layout="social"] {
+    padding-bottom:calc(92px + env(safe-area-inset-bottom));
+  }
+  html.lc-v4-social .lc-product-tabs {
+    width:calc(100% - 16px);
+    bottom:max(6px, env(safe-area-inset-bottom));
+    border-radius:20px;
+  }
+  html.lc-v4-social .lc-product-tabs button {
+    min-height:54px;
+    font-size:9px;
+  }
+}
+
+@media (max-width: 980px) {
+  html.lc-v4-business #lcProductShell[data-lc-v2-layout="workspace"] {
+    padding-left:0;
+  }
+  html.lc-v4-business .lc-v4-business-rail {
+    position:sticky;
+    top:0;
+    width:100%;
+    height:auto;
+    max-height:none;
+    display:block;
+    padding:10px 12px;
+    border-right:0;
+    border-bottom:1px solid var(--lc-line);
+  }
+  html.lc-v4-business .lc-v2-rail-brand,
+  html.lc-v4-business .lc-v2-rail-foot { display:none; }
+  html.lc-v4-business .lc-v2-rail-nav {
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+  html.lc-v4-business .lc-v2-rail-nav button {
+    justify-content:center;
+    min-height:44px;
+    padding:0 8px;
+  }
+  html.lc-v4-business .lc-product-top,
+  html.lc-v4-business .lc-product-stack,
+  html.lc-v4-business .lc-product-entry {
+    width:calc(100% - 24px);
+  }
+}
