@@ -9,17 +9,21 @@
 
   const SOCIAL_NAV = [
     ["home", "⌂", "Home"],
-    ["discover", "◎", "Explore"],
-    ["creator", "+", "Create"],
+    ["explore", "◎", "Explore"],
+    ["create", "+", "Create"],
     ["activity", "♡", "Activity"],
-    ["account", "◉", "Profile"]
+    ["profile", "◉", "Profile"]
   ];
 
   const BUSINESS_NAV = [
-    ["home", "▦", "Overview"],
-    ["discover", "◎", "Creators"],
-    ["creator", "◇", "Integrations"],
-    ["account", "⚙", "Settings"]
+    ["overview", "▦", "Overview"],
+    ["creators", "◎", "Creators"],
+    ["campaigns", "◈", "Campaigns"],
+    ["live", "●", "Live"],
+    ["performance", "↗", "Performance"],
+    ["integrations", "◇", "Integrations"],
+    ["safety", "◉", "Safety"],
+    ["settings", "⚙", "Settings"]
   ];
 
   function ensureCss() {
@@ -39,7 +43,7 @@
       v4.rel = "stylesheet";
       document.head.appendChild(v4);
     }
-    if (!/product-shell-v4\.css\?v=1$/.test(v4.href)) v4.href = "product-shell-v4.css?v=1";
+    if (!/product-shell-v4\.css\?v=2$/.test(v4.href)) v4.href = "product-shell-v4.css?v=2";
   }
 
   const productRoot = () => document.querySelector(PRODUCT_SELECTOR);
@@ -56,7 +60,7 @@
     if (["player", "creator", "operator", "provider", "admin", "industry"].includes(explicit)) {
       return explicit === "industry" ? "Operator" : explicit.charAt(0).toUpperCase() + explicit.slice(1);
     }
-    const chip = root?.querySelector(".lc-product-top [data-lc-product='account']");
+    const chip = root?.querySelector(".lc-product-top [data-lc-product='profile'],.lc-product-top [data-lc-product='account']");
     const raw = String(chip?.textContent || "").trim().toLowerCase();
     if (["industry", "operator"].includes(raw)) return "Operator";
     if (raw === "provider") return "Provider";
@@ -72,6 +76,9 @@
   }
 
   function activeNav() {
+    const root = productRoot();
+    if (productFamily() === "business" && root?.dataset?.lcBusinessView) return root.dataset.lcBusinessView;
+    if (productFamily() === "social" && root?.dataset?.lcSocialView) return root.dataset.lcSocialView;
     const route = currentRoute();
     const title = productRoot()?.querySelector(".lc-product-brand strong")?.textContent?.toLowerCase() || "";
     if (/account|profile|settings|safety|privacy/.test(title)) return "account";
@@ -97,10 +104,10 @@
     document.documentElement.classList.toggle("lc-v4-business", family === "business");
   }
 
-  function buildNavButton([id, icon, label]) {
+  function buildNavButton([id, icon, label], family = "social") {
     const button = document.createElement("button");
     button.type = "button";
-    if (id === "activity") button.dataset.lcV4Activity = "true";
+    if (family === "business") button.dataset.lcBusinessView = id;
     else button.dataset.lcProduct = id;
     button.innerHTML = `<span class="lc-v2-rail-icon" aria-hidden="true">${icon}</span><span>${label}</span>`;
     return button;
@@ -138,9 +145,9 @@
 
     const nav = rail.querySelector(".lc-v2-rail-nav");
     if (nav) {
-      nav.replaceChildren(...BUSINESS_NAV.map(buildNavButton));
-      nav.querySelectorAll("[data-lc-product]").forEach((button) => {
-        const active = button.dataset.lcProduct === activeNav();
+      nav.replaceChildren(...BUSINESS_NAV.map((item) => buildNavButton(item, "business")));
+      nav.querySelectorAll("[data-lc-business-view]").forEach((button) => {
+        const active = button.dataset.lcBusinessView === activeNav();
         button.classList.toggle("active", active);
         if (active) button.setAttribute("aria-current", "page");
         else button.removeAttribute("aria-current");
@@ -164,15 +171,9 @@
 
     SOCIAL_NAV.forEach(([id, icon, label]) => {
       let button;
-      if (id === "activity") {
-        button = document.createElement("button");
-        button.type = "button";
-        button.dataset.lcV4Activity = "true";
-      } else {
-        button = existing.get(id) || document.createElement("button");
-        button.type = "button";
-        button.dataset.lcProduct = id;
-      }
+      button = existing.get(id) || document.createElement("button");
+      button.type = "button";
+      button.dataset.lcProduct = id;
       button.innerHTML = `<span class="lc-v4-social-icon" aria-hidden="true">${icon}</span><span>${label}</span>`;
       button.classList.toggle("active", active === id);
       if (active === id) button.setAttribute("aria-current", "page");
@@ -242,26 +243,6 @@
     root.dataset.lcScrolled = root.scrollTop > 10 ? "true" : "false";
   }
 
-  function openActivity() {
-    const root = productRoot();
-    if (!root) return;
-    const target = root.querySelector(".lc-v3-notifications,.lc-product-notifications,[data-lc-activity]");
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-      target.setAttribute("tabindex", "-1");
-      target.focus({ preventScroll: true });
-      return;
-    }
-    const home = root.querySelector("[data-lc-product='home']");
-    if (home) {
-      home.click();
-      window.setTimeout(() => {
-        const next = productRoot()?.querySelector(".lc-v3-notifications,.lc-product-notifications,[data-lc-activity]");
-        next?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 80);
-    }
-  }
-
   function upgrade() {
     ensureCss();
     ensureLoadingBar();
@@ -285,12 +266,6 @@
   const observer = new MutationObserver(scheduleUpgrade);
   observer.observe(document.documentElement, { childList:true, subtree:true, attributes:true, attributeFilter:["class","hidden","disabled","aria-hidden"] });
 
-  document.addEventListener("click", (event) => {
-    const activity = event.target.closest("[data-lc-v4-activity]");
-    if (!activity) return;
-    event.preventDefault();
-    openActivity();
-  });
   document.addEventListener("scroll", (event) => {
     if (event.target === productRoot()) requestAnimationFrame(syncScrollState);
   }, true);
