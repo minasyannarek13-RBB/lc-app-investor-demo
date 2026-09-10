@@ -300,6 +300,11 @@
   function setBusy(button, busy = true) {
     state.busy = busy;
     if (button) button.disabled = busy;
+    const root = q("#lcProductShell");
+    if (root) {
+      if (busy) root.setAttribute("aria-busy", "true");
+      else root.removeAttribute("aria-busy");
+    }
   }
 
   function values(form, name) {
@@ -524,7 +529,9 @@
   const visualTile = (image, label, title, body, large = false) => `<article class="lc-product-media-tile ${large ? "large" : ""}"><img src="${safe(image || visualMedia.fallback)}" alt=""><div class="lc-product-media-copy"><span class="lc-product-label">${safe(label)}</span><h3>${safe(title)}</h3><p>${safe(body)}</p></div></article>`;
 
   function renderLoading() {
-    shell().innerHTML = `${top()}<div class="lc-product-card lc-product-empty">Loading product experience...</div>`;
+    const root = shell();
+    root.setAttribute("aria-busy", "true");
+    root.innerHTML = `${top()}<section class="lc-product-card lc-product-empty lc-product-loading" role="status" aria-live="polite"><span class="lc-product-spinner" aria-hidden="true"></span><h2>Loading your LC experience</h2><p>Restoring your profile, social signals and saved context.</p></section>`;
     syncConnectivity();
   }
 
@@ -533,21 +540,32 @@
     if (!root) return;
     const existing = q("#lcProductConnectivity", root);
     if (navigator.onLine) {
-      existing?.remove();
+      if (existing && !existing.classList.contains("is-online")) {
+        existing.classList.add("is-online");
+        existing.textContent = "Back online. Refreshing your LC context.";
+        window.setTimeout(() => existing.isConnected && existing.remove(), 2200);
+      }
       return;
     }
-    if (existing) return;
+    if (existing) {
+      existing.classList.remove("is-online");
+      existing.textContent = "You are offline. Saved screens remain available; account changes need a connection.";
+      return;
+    }
     const banner = document.createElement("div");
     banner.id = "lcProductConnectivity";
     banner.className = "lc-product-connectivity";
     banner.setAttribute("role", "status");
-    banner.textContent = "You are offline. Your account data will reconnect automatically.";
+    banner.setAttribute("aria-live", "polite");
+    banner.textContent = "You are offline. Saved screens remain available; account changes need a connection.";
     root.prepend(banner);
   }
 
   function renderLoadError(error) {
     state.loadError = error || new Error("load");
-    shell().innerHTML = `${top()}<section class="lc-product-card lc-product-empty"><h2>Product experience unavailable</h2><p>${safe(err(error))}</p><div class="lc-product-actions"><button class="lc-product-btn" type="button" data-lc-retry>Retry</button></div><span class="lc-product-note">Your account data has not been changed.</span></section>`;
+    const root = shell();
+    root.removeAttribute("aria-busy");
+    root.innerHTML = `${top()}<section class="lc-product-card lc-product-empty lc-product-load-error" role="alert" aria-live="assertive"><h2>We could not load LC App</h2><p id="lcProductLoadError">${safe(err(error))}</p><div class="lc-product-actions"><button class="lc-product-btn" type="button" data-lc-retry aria-describedby="lcProductLoadError">TRY AGAIN</button></div><span class="lc-product-note">Your account data has not been changed.</span></section>`;
     syncConnectivity();
   }
 
@@ -560,6 +578,7 @@
       await loadState();
       state.loadError = null;
       renderProductTarget(productParts());
+      q("#lcProductShell")?.removeAttribute("aria-busy");
       syncConnectivity();
       if (!silent) toast("Product reconnected");
     } catch (error) {
@@ -1737,32 +1756,41 @@ ${isLive ? `<button class="lc-product-btn lc-v3-primary-wide" type="button" data
   }
 
   async function navigateProduct(value) {
-    if (["overview", "creators", "campaigns", "live", "performance", "integrations", "safety", "settings"].includes(value)) {
-      state.businessView = value;
-      return renderIndustryHome(value);
+    try {
+      if (["overview", "creators", "campaigns", "live", "performance", "integrations", "safety", "settings"].includes(value)) {
+        state.businessView = value;
+        return renderIndustryHome(value);
+      }
+      if (["profile", "account"].includes(value)) {
+        state.socialView = "profile";
+        return renderAccount();
+      }
+      if (["explore", "discover"].includes(value)) {
+        await loadCreators();
+        state.socialView = "explore";
+        return renderSocialExplore();
+      }
+      if (["create", "creator"].includes(value)) {
+        state.socialView = "create";
+        return renderSocialCreate();
+      }
+      if (value === "activity") {
+        state.socialView = "activity";
+        return renderSocialActivity();
+      }
+      if (value === "home") {
+        state.socialView = "home";
+        return renderPlayerHome();
+      }
+      return routeHome();
+    } finally {
+      window.requestAnimationFrame(() => {
+        const heading = q("#lcProductShell h1, #lcProductShell h2");
+        if (!heading) return;
+        heading.setAttribute("tabindex", "-1");
+        heading.focus({ preventScroll: true });
+      });
     }
-    if (["profile", "account"].includes(value)) {
-      state.socialView = "profile";
-      return renderAccount();
-    }
-    if (["explore", "discover"].includes(value)) {
-      await loadCreators();
-      state.socialView = "explore";
-      return renderSocialExplore();
-    }
-    if (["create", "creator"].includes(value)) {
-      state.socialView = "create";
-      return renderSocialCreate();
-    }
-    if (value === "activity") {
-      state.socialView = "activity";
-      return renderSocialActivity();
-    }
-    if (value === "home") {
-      state.socialView = "home";
-      return renderPlayerHome();
-    }
-    return routeHome();
   }
 
   async function handleClick(event) {
@@ -1820,9 +1848,8 @@ ${isLive ? `<button class="lc-product-btn lc-v3-primary-wide" type="button" data
       }
       if (businessView) {
         event.preventDefault();
-        state.businessView = businessView.dataset.lcBusinessView;
-        renderIndustryHome(state.businessView);
-        return;
+        event.stopPropagation();
+        return navigateProduct(businessView.dataset.lcBusinessView);
       }
       if (discoveryFilter) {
         event.preventDefault();
@@ -1942,26 +1969,9 @@ ${isLive ? `<button class="lc-product-btn lc-v3-primary-wide" type="button" data
       if (nav) {
         event.preventDefault();
         const value = nav.dataset.lcProduct;
-        if (["profile", "account"].includes(value)) {
-          state.socialView = "profile";
-          return renderAccount();
-        }
-        if (["explore", "discover"].includes(value)) {
-          await loadCreators();
-          state.socialView = "explore";
-          return renderSocialExplore();
-        }
-        if (["create", "creator"].includes(value)) {
-          state.socialView = "create";
-          return renderSocialCreate();
-        }
-        if (value === "activity") {
-          state.socialView = "activity";
-          return renderSocialActivity();
-        }
-        if (value === "home") {
-          state.socialView = "home";
-          return renderPlayerHome();
+        if (["profile", "account", "explore", "discover", "create", "creator", "activity", "home"].includes(value)) {
+          event.stopPropagation();
+          return navigateProduct(value);
         }
         if (value === "handoff") {
           if (state.demo && state.selectedSession && setProductHash(["demo", state.demoPersona, "handoff", state.selectedSession])) return;
@@ -2046,6 +2056,7 @@ ${isLive ? `<button class="lc-product-btn lc-v3-primary-wide" type="button" data
       await loadState();
       state.loadError = null;
       renderProductTarget(productParts(target));
+      q("#lcProductShell")?.removeAttribute("aria-busy");
       void trackProductEvent("product_open", { dedupeKey: "product_open" });
     } catch (error) {
       renderLoadError(error);
