@@ -49,7 +49,7 @@
       v4.rel = "stylesheet";
       document.head.appendChild(v4);
     }
-    if (!/product-shell-v4\.css\?v=3$/.test(v4.href)) v4.href = "product-shell-v4.css?v=3";
+    if (!/product-shell-v4\.css\?v=4$/.test(v4.href)) v4.href = "product-shell-v4.css?v=4";
 
     let socialFeed = document.getElementById(SOCIAL_FEED_CSS_ID);
     if (!socialFeed) {
