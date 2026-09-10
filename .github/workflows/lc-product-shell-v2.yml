@@ -55,13 +55,13 @@ jobs:
           business_console = (root/'business-console-v4.css').read_text(encoding='utf-8')
           sw = (root/'sw.js').read_text(encoding='utf-8')
           assert html.lstrip().lower().startswith('<!doctype html>')
-          assert '<script src="product-shell-v2.js?v=12" defer></script>' in html
-          assert './app-product.js?v=105' in html
+          assert '<script src="product-shell-v2.js?v=13" defer></script>' in html
+          assert './app-product.js?v=106' in html
           assert 'product-shell-v2.css?v=5' in js
           assert 'product-shell-v4.css?v=3' in js
           assert 'social-feed-v4.css?v=1' in js
           assert 'creator-studio-v4.css?v=1' in js
-          assert 'social-account-v4.css?v=1' in js
+          assert 'social-account-v4.css?v=2' in js
           assert 'business-console-v4.css?v=1' in js
           assert 'SOCIAL_NAV' in js and 'BUSINESS_NAV' in js
           assert 'lc-v4-social' in css4 and 'lc-v4-business' in css4

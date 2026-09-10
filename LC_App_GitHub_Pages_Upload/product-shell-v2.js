@@ -75,7 +75,7 @@
       socialAccount.rel = "stylesheet";
       document.head.appendChild(socialAccount);
     }
-    if (!/social-account-v4\.css\?v=1$/.test(socialAccount.href)) socialAccount.href = "social-account-v4.css?v=1";
+    if (!/social-account-v4\.css\?v=1$/.test(socialAccount.href)) socialAccount.href = "social-account-v4.css?v=2";
 
     let businessConsole = document.getElementById(BUSINESS_CONSOLE_CSS_ID);
     if (!businessConsole) {

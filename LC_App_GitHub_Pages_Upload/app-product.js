@@ -569,6 +569,13 @@
     syncConnectivity();
   }
 
+  function renderAccountDenied() {
+    const status = String(state.profile?.account_status || "unavailable");
+    const root = shell();
+    root.removeAttribute("aria-busy");
+    root.innerHTML = `${top("Account unavailable", "Protected account state")}<section class="lc-product-card lc-product-empty lc-product-account-denied" role="alert" aria-live="assertive"><span class="lc-product-label">ACCESS DENIED</span><h1>This LC account cannot open the product.</h1><p>Account status is <b>${safe(status)}</b>. Product access remains fail-closed and cannot be changed from this device.</p><div class="lc-product-actions"><button class="lc-product-btn secondary" type="button" data-auth-route="logout">SIGN OUT</button></div><span class="lc-product-note">Contact the authorized account administrator if you believe this state is incorrect.</span></section>`;
+  }
+
   async function retryLoad(button = null, silent = false) {
     if (state.retrying || !state.client || !state.profile) return;
     state.retrying = true;
@@ -1213,7 +1220,7 @@
 
         ${item.sessions.length > 1 ? `<section class="lc-v3-section"><div class="lc-v3-section-head"><div><span class="lc-v3-kicker">SCHEDULE</span><h2>Upcoming</h2></div></div>${item.sessions.slice(1).map((s) => `<div class="lc-v3-session-row"><div><b>${safe(s.game)} · ${safe(s.title || "Live session")}</b><span>${safe(sessionLine(s))}</span></div>${s.status === "scheduled" ? `<button class="lc-product-chip ${state.reminders.has(s.id) ? "active" : ""}" type="button" data-lc-reminder="${safe(s.id)}">${state.reminders.has(s.id) ? "Saved" : "Remind me"}</button>` : `<button class="lc-product-chip" type="button" data-lc-live="${safe(s.id)}">Open</button>`}</div>`).join("")}</section>` : ""}
 
-        ${!state.demo ? `<section class="lc-v3-safety-footer"><button type="button" data-lc-creator-safety="report" data-lc-creator-id="${safe(id)}">Report</button><span>·</span><button type="button" data-lc-creator-safety="block" data-lc-creator-id="${safe(id)}">Block</button></section>` : ""}
+        <section class="lc-v3-safety-footer" aria-label="Creator safety actions"><button type="button" data-lc-creator-safety="report" data-lc-creator-id="${safe(id)}">Report</button><span>·</span><button type="button" data-lc-creator-safety="block" data-lc-creator-id="${safe(id)}">Block</button></section>
       </div>${tabs("explore")}`;
   }
 
@@ -1225,8 +1232,26 @@
     shell().innerHTML = `${top(report ? "Report Creator" : "Block Creator", "Safety control")}
       <div class="lc-product-stack">
         <section class="lc-product-card"><div class="lc-product-row"><img src="${safe(avatar(item.profile))}" alt=""><div class="lc-product-row-main"><b>${safe(name)}</b><span>${safe(item.profile.username ? "@" + item.profile.username : "Creator profile")}</span></div></div></section>
-        ${report ? `<form class="lc-product-card lc-product-form" data-lc-form="creator-report" data-lc-creator-id="${safe(id)}"><h2>Why are you reporting this profile?</h2><select class="lc-product-select" name="reason">${reportReasons.map(([value, label]) => `<option value="${safe(value)}">${safe(label)}</option>`).join("")}</select><textarea class="lc-product-textarea" name="description" maxlength="500" placeholder="Optional context for the moderation team"></textarea><span class="lc-product-note">Your report is private. Submission does not automatically remove or penalize the profile.</span><div class="lc-product-actions"><button class="lc-product-btn" type="submit">SUBMIT REPORT</button><button class="lc-product-chip" type="button" data-lc-open-creator="${safe(id)}">Cancel</button></div></form>` : `<section class="lc-product-card"><h2>Remove ${safe(name)} from your experience?</h2><p>You will no longer see this Creator in LC discovery. New follow interactions between your accounts will be denied while the block is active.</p><span class="lc-product-note">Blocking is private and can be reversed from Account → Safety.</span><div class="lc-product-actions"><button class="lc-product-btn" type="button" data-lc-confirm-block="${safe(id)}">BLOCK CREATOR</button><button class="lc-product-chip" type="button" data-lc-open-creator="${safe(id)}">Cancel</button></div></section>`}
+        ${report ? `<form class="lc-product-card lc-product-form" data-lc-form="creator-report" data-lc-creator-id="${safe(id)}"><h2>Why are you reporting this profile?</h2><select class="lc-product-select" name="reason" ${state.demo ? "disabled" : ""}>${reportReasons.map(([value, label]) => `<option value="${safe(value)}">${safe(label)}</option>`).join("")}</select><textarea class="lc-product-textarea" name="description" maxlength="500" placeholder="Optional context for the moderation team" ${state.demo ? "disabled" : ""}></textarea><span class="lc-product-note">${state.demo ? "Preview only. Sign in to send a private report; no report is created here." : "Your report is private. Submission does not automatically remove or penalize the profile."}</span><div class="lc-product-actions"><button class="lc-product-btn" type="submit" ${state.demo ? "disabled" : ""}>${state.demo ? "SIGN IN REQUIRED" : "SUBMIT REPORT"}</button><button class="lc-product-chip" type="button" data-lc-open-creator="${safe(id)}">Cancel</button></div></form>` : `<section class="lc-product-card"><h2>Remove ${safe(name)} from your experience?</h2><p>You will no longer see this Creator in LC discovery. New follow interactions between your accounts will be denied while the block is active.</p><span class="lc-product-note">${state.demo ? "Preview only. Sign in to create a private block; the demo does not change any account." : "Blocking is private and can be reversed from Profile → Safety center."}</span><div class="lc-product-actions"><button class="lc-product-btn" type="button" data-lc-confirm-block="${safe(id)}" ${state.demo ? "disabled" : ""}>${state.demo ? "SIGN IN REQUIRED" : "BLOCK CREATOR"}</button><button class="lc-product-chip" type="button" data-lc-open-creator="${safe(id)}">Cancel</button></div></section>`}
       </div>${tabs("explore")}`;
+  }
+
+  function renderSocialSafety() {
+    const status = state.demo ? "Illustrative active state" : String(state.profile?.account_status || "unavailable");
+    shell().innerHTML = `${top("Safety center", "Private controls and account boundaries")}
+      <div class="lc-product-stack lc-v4-safety-center">
+        <section class="lc-v4-safety-hero"><span class="lc-v3-kicker">TRUST & SAFETY</span><h1>You control who reaches your social experience.</h1><p>Reports, blocks, notification preferences and account access remain private and isolated from business workspaces.</p></section>
+        <section class="lc-v4-safety-cards">
+          <article><span>ACCOUNT STATUS</span><b>${safe(status)}</b><p>Access is enforced by the backend. A suspended or disabled account cannot continue into LC.</p></article>
+          <article><span>REPORTS</span><b>Private submission</b><p>A report does not automatically remove or penalize a Creator. Moderation visibility remains role-scoped.</p></article>
+          <article><span>BLOCKING</span><b>Relationship boundary</b><p>Blocked profiles leave discovery, and new follow or return interactions are denied.</p></article>
+          <article><span>BUSINESS ACCESS</span><b>Separated</b><p>Operator and Provider tenants cannot read personal reports, blocks or notification settings.</p></article>
+        </section>
+        <section class="lc-v4-profile-controls"><div class="lc-v4-social-section-head"><div><span>YOUR CONTROLS</span><h2>Privacy and signals</h2></div></div><div class="lc-v4-settings-list">
+          ${state.demo ? `<button type="button" disabled><span><b>Live creator signals</b><small>Preview only · in-app delivery</small></span><i>○</i></button><button type="button" disabled><span><b>Blocked creators</b><small>Sign in to manage private blocks</small></span><i>›</i></button><button type="button" data-lc-demo-exit><span><b>Secure account settings</b><small>Sign in for password, privacy and deletion</small></span><i>›</i></button>` : `<button type="button" data-lc-live-signals ${state.returnSignalsAvailable ? "" : "disabled"}><span><b>Live creator signals</b><small>${state.returnSignalsAvailable ? (state.liveSignalsEnabled ? "On · in-app only" : "Muted") : "Not available"}</small></span><i>${state.liveSignalsEnabled ? "●" : "○"}</i></button><button type="button" data-lc-blocked-list><span><b>Blocked creators</b><small>${state.blockedIds.size} blocked</small></span><i>›</i></button><button type="button" data-auth-route="profile"><span><b>Privacy, password and deletion</b><small>Secure account settings</small></span><i>›</i></button>`}
+        </div></section>
+        <button class="lc-product-btn secondary" type="button" data-lc-product="profile">BACK TO PROFILE</button>
+      </div>${tabs("profile")}`;
   }
 
   function renderBlockedCreators() {
@@ -1302,7 +1327,8 @@ ${isLive ? `<button class="lc-product-btn lc-v3-primary-wide" type="button" data
         ${persona === "player" && state.player ? `<section class="lc-v4-profile-preferences"><div class="lc-v4-social-section-head"><div><span>YOUR FEED</span><h2>Discovery preferences</h2></div></div><div><article><small>GAMES</small><p>${safe((state.player.favorite_games || []).join(" · ") || "Not set")}</p></article><article><small>LANGUAGES</small><p>${safe((state.player.preferred_languages || []).join(" · ") || "Not set")}</p></article></div></section>` : ""}
         <section class="lc-v4-profile-controls"><div class="lc-v4-social-section-head"><div><span>ACCOUNT</span><h2>Settings and safety</h2></div></div>
           <div class="lc-v4-settings-list">
-            ${state.demo ? "" : `<button type="button" data-lc-live-signals ${state.returnSignalsAvailable ? "" : "disabled"}><span><b>Live creator signals</b><small>${state.returnSignalsAvailable ? (state.liveSignalsEnabled ? "On · in-app only" : "Muted") : "Not available"}</small></span><i>${state.liveSignalsEnabled ? "●" : "○"}</i></button><button type="button" data-lc-blocked-list><span><b>Blocked creators</b><small>${state.blockedIds.size} blocked</small></span><i>›</i></button><button type="button" data-auth-route="profile"><span><b>Privacy, password and deletion</b><small>Secure account settings</small></span><i>›</i></button>`}
+            <button type="button" data-lc-safety-center><span><b>Safety center</b><small>Reports, blocks, signals and account state</small></span><i>›</i></button>
+            ${state.demo ? "" : `<button type="button" data-auth-route="profile"><span><b>Privacy, password and deletion</b><small>Secure account settings</small></span><i>›</i></button>`}
             <div class="lc-v4-account-boundary"><span><b>Account security role</b><small>Separate from the product experience</small></span><em>${safe(state.profile.role || "user")}</em></div>
           </div>
         </section>
@@ -1818,6 +1844,7 @@ ${isLive ? `<button class="lc-product-btn lc-v3-primary-wide" type="button" data
     const sessionVisibility = target.closest("[data-lc-session-visibility]");
     const sessionStatus = target.closest("[data-lc-session-status]");
     const creatorSafety = target.closest("[data-lc-creator-safety]");
+    const safetyCenter = target.closest("[data-lc-safety-center]");
     const confirmBlock = target.closest("[data-lc-confirm-block]");
     const blockedList = target.closest("[data-lc-blocked-list]");
     const unblock = target.closest("[data-lc-unblock]");
@@ -1871,6 +1898,10 @@ ${isLive ? `<button class="lc-product-btn lc-v3-primary-wide" type="button" data
       if (creatorSafety) {
         event.preventDefault();
         return renderCreatorSafety(creatorSafety.dataset.lcCreatorId, creatorSafety.dataset.lcCreatorSafety);
+      }
+      if (safetyCenter) {
+        event.preventDefault();
+        return renderSocialSafety();
       }
       if (confirmBlock) {
         event.preventDefault();
@@ -2051,6 +2082,10 @@ ${isLive ? `<button class="lc-product-btn lc-v3-primary-wide" type="button" data
     state.creatorStudioView = "overview";
     state.businessView = "overview";
     state.ready = true;
+    if (!profile || profile.account_status !== "active") {
+      renderAccountDenied();
+      return;
+    }
     renderLoading();
     try {
       await loadState();

@@ -50,7 +50,7 @@ assert.match(socialFeedCss, /lc-v4-feed-post/);
 assert.match(socialFeedCss, /lc-v4-live-rail/);
 assert.match(shell, /social-feed-v4\.css\?v=1/);
 assert.match(shell, /creator-studio-v4\.css\?v=1/);
-assert.match(shell, /social-account-v4\.css\?v=1/);
+assert.match(shell, /social-account-v4\.css\?v=2/);
 assert.match(shell, /business-console-v4\.css\?v=1/);
 assert.match(businessConsoleCss, /lc-v4-ops-queue/);
 assert.match(businessConsoleCss, /lc-v4-ops-toolbar/);
@@ -59,14 +59,14 @@ assert.match(socialAccountCss, /lc-v4-profile-media-grid/);
 assert.match(creatorStudioCss, /lc-v4-studio-nav/);
 assert.match(creatorStudioCss, /lc-v4-live-control/);
 assert.match(css, /lc-v4-business-workspace/);
-assert.match(html, /app-product\.js\?v=105/);
-assert.match(html, /product-shell-v2\.js\?v=12/);
+assert.match(html, /app-product\.js\?v=106/);
+assert.match(html, /product-shell-v2\.js\?v=13/);
 assert.match(shell, /const routePersona = currentRoute\(\)\[0\] === "demo" \? currentRoute\(\)\[1\] : "";/);
 assert.ok(
   shell.indexOf("const routePersona") < shell.indexOf("const explicit"),
   "demo route and freshly rendered persona chip must override stale shell dataset state"
 );
-assert.match(sw, /lc-app-investor-demo-v114/);
+assert.match(sw, /lc-app-investor-demo-v115/);
 assert.match(sw, /creator-studio-v4\.css/);
 assert.match(sw, /social-account-v4\.css/);
 assert.match(sw, /business-console-v4\.css/);

@@ -22,5 +22,11 @@ assert.match(app, /from\("user_blocks"\)\.insert\(\{ blocker_id: state\.profile\
 assert.match(app, /from\("user_blocks"\)\.delete\(\)\.eq\("blocker_id", state\.profile\.id\)\.eq\("blocked_id", id\)/);
 assert.match(app, /data-lc-blocked-list/);
 assert.match(app, /Report submitted privately/);
+assert.match(app, /function renderSocialSafety\(\)/);
+assert.match(app, /data-lc-safety-center/);
+assert.match(app, /Operator and Provider tenants cannot read personal reports, blocks or notification settings/);
+assert.match(app, /Preview only\. Sign in to send a private report; no report is created here/);
+assert.match(app, /profile\.account_status !== "active"[\s\S]+renderAccountDenied\(\)/);
+assert.match(app, /Product access remains fail-closed and cannot be changed from this device/);
 
 console.log("product safety contract: PASS");
