@@ -6,6 +6,7 @@
   const SOCIAL_FEED_CSS_ID = "lcSocialFeedV4Css";
   const CREATOR_STUDIO_CSS_ID = "lcCreatorStudioV4Css";
   const SOCIAL_ACCOUNT_CSS_ID = "lcSocialAccountV4Css";
+  const SOCIAL_JOURNEY_CSS_ID = "lcSocialJourneyV4Css";
   const BUSINESS_CONSOLE_CSS_ID = "lcBusinessConsoleV4Css";
   const RAIL_ID = "lcProductV2Rail";
   const LOAD_ID = "lcProductV2Loading";
@@ -75,7 +76,16 @@
       socialAccount.rel = "stylesheet";
       document.head.appendChild(socialAccount);
     }
-    if (!/social-account-v4\.css\?v=1$/.test(socialAccount.href)) socialAccount.href = "social-account-v4.css?v=2";
+    if (!/social-account-v4\.css\?v=2$/.test(socialAccount.href)) socialAccount.href = "social-account-v4.css?v=2";
+
+    let socialJourney = document.getElementById(SOCIAL_JOURNEY_CSS_ID);
+    if (!socialJourney) {
+      socialJourney = document.createElement("link");
+      socialJourney.id = SOCIAL_JOURNEY_CSS_ID;
+      socialJourney.rel = "stylesheet";
+      document.head.appendChild(socialJourney);
+    }
+    if (!/social-journey-v4\.css\?v=1$/.test(socialJourney.href)) socialJourney.href = "social-journey-v4.css?v=1";
 
     let businessConsole = document.getElementById(BUSINESS_CONSOLE_CSS_ID);
     if (!businessConsole) {
@@ -84,7 +94,7 @@
       businessConsole.rel = "stylesheet";
       document.head.appendChild(businessConsole);
     }
-    if (!/business-console-v4\.css\?v=1$/.test(businessConsole.href)) businessConsole.href = "business-console-v4.css?v=2";
+    if (!/business-console-v4\.css\?v=2$/.test(businessConsole.href)) businessConsole.href = "business-console-v4.css?v=2";
   }
 
   const productRoot = () => document.querySelector(PRODUCT_SELECTOR);

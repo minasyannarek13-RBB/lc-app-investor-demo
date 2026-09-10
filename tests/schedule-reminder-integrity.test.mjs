@@ -24,7 +24,7 @@ assert.match(app, /function savedScheduleEntries\(\)/);
 assert.match(app, /function renderSavedSchedule\(\)/);
 assert.match(app, /<h2>My schedule<\/h2>/);
 assert.match(app, /push, email and SMS are not enabled/);
-assert.match(app, /s\.status === "scheduled"[\s\S]+data-lc-reminder/);
+assert.match(app, /const scheduled = item\.sessions\.filter\(\(session\) => session\.status === "scheduled"\)[\s\S]+data-lc-reminder/);
 assert.match(app, /found\.session\.status !== "scheduled"/);
 assert.match(app, /new Date\(starts\)\.getTime\(\) <= Date\.now\(\)/);
 assert.match(app, /const localDateTimeInput = \(date\)/);
