@@ -84,7 +84,7 @@
       businessConsole.rel = "stylesheet";
       document.head.appendChild(businessConsole);
     }
-    if (!/business-console-v4\.css\?v=1$/.test(businessConsole.href)) businessConsole.href = "business-console-v4.css?v=1";
+    if (!/business-console-v4\.css\?v=1$/.test(businessConsole.href)) businessConsole.href = "business-console-v4.css?v=2";
   }
 
   const productRoot = () => document.querySelector(PRODUCT_SELECTOR);
