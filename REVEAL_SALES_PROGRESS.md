@@ -1,15 +1,15 @@
 # LC Reveal Sales Progress
 
-## v0.8.3 — Rendered desktop and semantic navigation
+## v0.8.4 — Mobile closing handoff
 
 Branch: `reveal-sales-v1`
 Production `main`: untouched
 
 Latest verified branch checkpoint:
-- `26ddf2403b22bd3f2a9c134f625d92dfb66d3843` — moved the regulated ownership boundary into the 90-second executive story.
+- `bbb799ef003bacf2db53b0eb2b87111a52853a4a` — corrected the Industry route heading hierarchy after rendered desktop QA.
 
 Previous verified checkpoint:
-- `7384b5db0da1fd9dfe415fdd61746928181ddfaa` — recorded the Business reveal editorial-hierarchy checkpoint.
+- `26ddf2403b22bd3f2a9c134f625d92dfb66d3843` — moved the regulated ownership boundary into the 90-second executive story.
 
 Previous checkpoints:
 - `a81ffede88f09bbb9ef6a0d7253c20c0c6816cba` — expanded both creator growth engines into complete, explicitly bounded journeys.
@@ -19,13 +19,13 @@ Previous checkpoints:
 - `fa4faeddc039e9c6f6182026606b2d16084e49cb` — v0.1 business reveal candidate.
 
 ### What changed in this checkpoint
-- Rendered the exact `26ddf24` Business reveal and Industry route at a 1363 × 936 desktop viewport.
-- Confirmed zero horizontal overflow, loaded fonts and images, correct early story order and a clear first viewport.
-- Corrected the Industry route's semantic heading outline from `h1 → h3` to `h1 → h2` for screen-reader and self-guided navigation.
-- Preserved the visual hierarchy and all commercial, factual and regulatory wording.
+- Audited the mobile closing path after the exact desktop candidate passed.
+- Replaced the undersized secondary footer-link target with a full-width 44 px minimum tap target at mobile widths.
+- Stacked both closing actions into one clear mobile action rail: product experience first, Industry return second.
+- Preserved desktop layout, copy, commercial claims and regulatory wording.
 
 ### Why
-The exact candidate looked correct on desktop, but rendered inspection exposed a skipped heading level in the Industry route. This pass fixes that evidence-backed accessibility defect without introducing visual or narrative churn.
+The reveal's final action should be as usable as its opening thesis. The primary CTA already met mobile touch guidance, while the secondary return link relied on text height alone. This pass removes that uneven closing handoff without adding content.
 
 ### Stakeholder improved
 Operator: ownership boundary appears before detailed value proof
@@ -47,6 +47,7 @@ Responsive CSS contract review: PASS
 Rendered Mobile Safari QA: PENDING — runner still lacks usable browser runtime/system libraries
 Rendered desktop QA for `26ddf24`: PASS — 1363 × 936, zero horizontal overflow, no missing page resources, correct executive sequence
 Industry semantic outline: PASS — one `h1` followed by two `h2` section headings
+Mobile closing tap targets: PASS — both actions have a 44 px minimum target and full-width layout
 
 ### Current score
 Product thesis: 9.4/10
@@ -64,7 +65,7 @@ Memorability: 9.4/10 working score
 Overall working score: 9.41/10
 
 ### Next highest-impact gap
-Rendered Mobile Safari QA for the exact branch candidate; fix only evidence-backed P0/P1 layout or comprehension issues. Do not add more business copy unless rendered evidence shows a real gap.
+Rendered Mobile Safari QA for the exact branch candidate; fix only evidence-backed P0/P1 layout or comprehension issues. Browser-binary download timed out in this runner, so no Safari pass is claimed.
 
 Freeze Gate: NOT READY
 First Review Candidate: NOT READY because rendered QA on the exact candidate remains open.
