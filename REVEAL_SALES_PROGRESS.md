@@ -1,15 +1,15 @@
 # LC Reveal Sales Progress
 
-## v0.8.1 — Business reveal editorial hierarchy
+## v0.8.2 — Regulated boundary in the executive story
 
 Branch: `reveal-sales-v1`
 Production `main`: untouched
 
-Latest branch checkpoint:
-- `ec651cae8f247570c3a29e4d216e5ebc254bf762` — reduced Business reveal card-wall density and strengthened editorial hierarchy.
+Latest verified branch checkpoint:
+- `7384b5db0da1fd9dfe415fdd61746928181ddfaa` — recorded the Business reveal editorial-hierarchy checkpoint.
 
 Previous verified checkpoint:
-- `d4ff3fcf243bf362543822da19bcc9dd8b6176f5` — moved both creator growth engines into the 45–90 second executive story.
+- `ec651cae8f247570c3a29e4d216e5ebc254bf762` — reduced Business reveal card-wall density and strengthened editorial hierarchy.
 
 Previous checkpoints:
 - `a81ffede88f09bbb9ef6a0d7253c20c0c6816cba` — expanded both creator growth engines into complete, explicitly bounded journeys.
@@ -19,23 +19,20 @@ Previous checkpoints:
 - `fa4faeddc039e9c6f6182026606b2d16084e49cb` — v0.1 business reveal candidate.
 
 ### What changed in this checkpoint
-- Replaced the six-card Operator feature wall with one mechanism comparison plus a three-part `Discover → Attribute → Return` proof strip.
-- Replaced the four-card Provider wall with one dominant operating-model hypothesis and three supporting value lines.
-- Replaced the four-card operational-capability wall with a quieter four-step execution rail.
-- Preserved the commercial thesis, both creator engines, monetization hypotheses, pilot-validation boundary and regulated ownership boundary.
-- Changed overly broad `Most casino acquisition today` wording to the more defensible `Common acquisition path`.
-- Kept unvalidated CAC, retention, GGR, revenue and ROI explicitly outside current claims.
-- Reduced visual repetition so each section has one dominant commercial idea instead of behaving like a generic SaaS dashboard.
+- Moved the full regulated-ownership boundary directly after the two creator growth engines.
+- The 90-second sequence is now `Shift → Commercial map → Business model → Growth engines → Regulated boundary` before Operator and Provider proof.
+- Kept all ownership language unchanged: LC owns discovery, identity, audience, content, follow, schedule, live intent, attribution and return; licensed infrastructure keeps the regulated transaction.
+- Preserved the later Operator, Provider and proposed operational-capability sections as evidence depth rather than prerequisites for understanding the model.
 
 ### Why
-The deep Business & Monetization reveal had the right substance but contradicted the visual brief: too many same-weight cards made the page feel like a feature matrix rather than a premium executive sales narrative. This pass changes information architecture, not just cosmetics.
+The two growth engines were already early, but their regulatory boundary remained after every deep-dive section. The reveal now explains both how LC grows and where LC stops before asking an executive to inspect the detailed commercial proof.
 
 ### Stakeholder improved
-Operator: stronger mechanism clarity
-Provider: stronger operating-model hierarchy
-Dealer/Creator: unchanged, already strong
-External Influencer: unchanged, already strong
-Executive/Investor: stronger scanability and memorability
+Operator: ownership boundary appears before detailed value proof
+Provider: regulated role is explicit before operating-model hypotheses
+Dealer/Creator: both creator journeys remain complete
+External Influencer: complete journey remains intact
+Executive/Investor: faster comprehension of model and risk boundary
 
 ### QA / factuality
 Branch-only write: PASS
