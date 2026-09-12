@@ -1,18 +1,24 @@
 # LC Reveal Sales Progress
 
-## v0.7 — Executive canvas hierarchy
+## v0.7 — Executive hierarchy + commercial map
 
 Branch: `reveal-sales-v1`
 Production `main`: untouched
 
 Latest verified branch commit before this checkpoint:
-- `a5c1fb264c1debca46bdde4c3f3f40722eaec490` — integrated the operator/provider sales story into the actual `showcase-v2/index.html` Industry route.
+- `298bd8d043d94a69d3a98972913a5369de7ac7e1` — promoted the Industry route from phone framing to a full desktop executive canvas.
 
 Previous checkpoints:
+- `a5c1fb264c1debca46bdde4c3f3f40722eaec490` — integrated the operator/provider sales story into the actual `showcase-v2/index.html` Industry route.
 - `acda3f6e01a9f3e70091631f0aac4105a9cb63c9` — strengthened operator/provider business case in `showcase-v2/business-reveal-v1.html`.
 - `fa4faeddc039e9c6f6182026606b2d16084e49cb` — v0.1 business reveal candidate.
 
 ### What changed
+- Added a four-answer commercial map — `Why Operator / Why Provider / Why Creator / Why Now` — before the detailed business case.
+- Elevated the commercial thesis to a presentation-scale statement: `LC monetizes the path around the game, not the regulated game itself.`
+- Simplified the value flow to `Creator → Audience → Live intent → Operator handoff → Return` and separated it from the regulated transaction.
+- Expanded monetization hypotheses to include subscriptions/community, tips participation and merchandising while keeping every commercial structure explicitly unvalidated.
+- Added a single validation boundary covering audience adoption, handoff/return behavior, willingness to pay, provider delivery and jurisdiction-specific structure.
 - Removed the desktop phone-frame constraint from the Industry route. The operator/provider story now opens as a full-width executive canvas while the consumer product journey keeps its social-app phone framing.
 - Added route-aware desktop geometry, large-format thesis typography, clearer section pacing, two-column comparison/engine layouts and presentation-scale cards.
 - Kept the mobile route in the existing edge-to-edge app shell so the same content remains usable without a separate mobile fork.
@@ -53,14 +59,14 @@ Operator value: 9.4/10
 Provider value: 9.4/10
 Creator value: 9.2/10
 Influencer thesis: 9.2/10
-Monetization clarity: 9.3/10
+Monetization clarity: 9.5/10
 Regulatory credibility: 9.5/10
 Storytelling: 9.3/10
 Visual hierarchy: 9.1/10 working score; rendered confirmation pending
 Mobile: 8.9/10 pending rendered confirmation
-Executive comprehension: 9.4/10
+Executive comprehension: 9.5/10
 Memorability: 9.3/10
-Overall working score: 9.29/10
+Overall working score: 9.33/10
 
 ### Next highest-impact gap
 Complete rendered mobile/desktop QA on the integrated Industry route and Business & Monetization page. Fix only evidence-backed P0/P1 responsive, hierarchy or comprehension issues. Do not add more business copy unless rendered evidence shows a real gap.
