@@ -1,12 +1,12 @@
 # LC Reveal Sales Progress
 
-## v0.8.5 — Regulated value-loop clarity
+## v0.8.6 — Self-contained Industry ownership boundary
 
 Branch: `reveal-sales-v1`
 Production `main`: untouched
 
 Latest verified branch checkpoint:
-- `94d29999a77646ee3275a736e8c51e083825a518` — clarified the Business & Monetization value loop so operator handoff leads explicitly to regulated gaming activity before return.
+- `a9486e515f364ad971d85262cb72d9f0f05e102c` — recorded the regulated value-loop checkpoint.
 
 Previous verified checkpoints:
 - `67ce4d0f1c216bcefd6489097102c298c3c191b0` — improved the mobile closing handoff and touch targets.
@@ -17,19 +17,19 @@ Previous verified checkpoints:
 - `a5c1fb264c1debca46bdde4c3f3f40722eaec490` — integrated the operator/provider sales story into the actual `showcase-v2/index.html` Industry route.
 
 ### What changed in this checkpoint
-- Business value flow is now `Creator → Audience → Live intent → Operator handoff → Gaming activity → Return`.
-- Operator mechanism is now `Creator → Audience → Live intent → Operator → Regulated play → Return`.
-- Pilot evidence path now explicitly includes regulated play between handoff and attributable return.
-- No new monetization claim, metric, integration or regulatory claim was introduced.
+- Added a compact ownership boundary to the short Industry route immediately after both creator growth engines.
+- The route now states in one view what LC owns around the game and what remains with licensed operator/provider infrastructure.
+- Kept operational capability and monetization after the boundary as optional evidence depth.
+- No new product feature, monetization claim, metric, integration or regulatory claim was introduced.
 
 ### Why
-The prior narrative jumped from operator handoff directly to return. That made the commercial loop look incomplete and obscured the fact that the regulated transaction happens with the licensed operator/provider. This pass makes the economic mechanism and product boundary explicit without adding a new feature or claim.
+The full Business reveal already explained the ownership split, but the shorter Industry route required the viewer to infer it from scattered sentences. The primary executive path is now self-contained before it hands off to the deeper commercial reveal.
 
 ### Stakeholder improved
-Operator: clearer path from creator-led intent to regulated play and measurable return
-Provider: regulated activity remains visibly inside licensed infrastructure
-Dealer/Creator: creator relationship remains the return mechanism after play
-Executive/Investor: cleaner causal chain from attention to commercial activity to return
+Operator: regulated ownership is explicit before commercial depth
+Provider: distribution and regulated infrastructure roles are clearly separated
+Dealer/Creator: relationship-layer scope is visible without implying gameplay ownership
+Executive/Investor: no inference required to understand where LC stops
 
 ### QA / factuality
 Branch-only write: PASS
@@ -51,13 +51,13 @@ Provider value: 9.5/10 working score
 Creator value: 9.4/10
 Influencer thesis: 9.4/10
 Monetization clarity: 9.6/10 working score
-Regulatory credibility: 9.6/10
+Regulatory credibility: 9.7/10 working score
 Storytelling: 9.5/10 working score
 Visual hierarchy: 9.4/10 desktop rendered score
 Mobile: 9.1/10 working score; rendered confirmation pending
-Executive comprehension: 9.5/10
+Executive comprehension: 9.6/10 working score
 Memorability: 9.4/10 working score
-Overall working score: 9.44/10
+Overall working score: 9.46/10
 
 ### Next highest-impact gap
 Rendered Mobile Safari QA for the exact branch candidate. Fix only evidence-backed P0/P1 layout or comprehension issues; do not add content merely to keep changing the page.
