@@ -6,7 +6,7 @@ Branch: `reveal-sales-v1`
 Production `main`: untouched
 
 Latest verified branch commit before this checkpoint:
-- `e37535e25c774a6dad79c306c8ae583237be8598` — synchronized the concise Industry route with the full commercial thesis and LC value-flow boundary.
+- `240d480247007cdada2584b4884dbb2de3c5b083` — moved Business & Monetization into the early executive sequence and recorded rendered desktop QA.
 
 Previous checkpoints:
 - `298bd8d043d94a69d3a98972913a5369de7ac7e1` — promoted the Industry route from phone framing to a full desktop executive canvas.
@@ -15,6 +15,10 @@ Previous checkpoints:
 - `fa4faeddc039e9c6f6182026606b2d16084e49cb` — v0.1 business reveal candidate.
 
 ### What changed
+- Expanded the professional-dealer engine to the complete chain: `Dealer → Persistent identity → Creator → Content → Followers → Community → Schedule → Live sessions → Operator → Return`.
+- Expanded the existing-influencer engine to the complete chain: `Influencer → Existing audience → Live Casino persona / host → Dedicated table / event → Live intent → Licensed operator → Play → Creator relationship → Return`.
+- Made the operator boundary explicit inside the influencer engine: the creator may bring attention and live intent, while regulated play remains with the licensed operator/provider.
+- Kept both engines framed as commercial hypotheses rather than validated acquisition, revenue or retention claims.
 - Moved the complete Business & Monetization section directly after the four-answer Commercial Map in the standalone executive reveal.
 - The commercial thesis, value flow, monetization hypotheses and validation boundary now arrive before detailed Operator, Creator-engine, Provider and operational proof.
 - Preserved every detailed section and factual qualifier; this is a sequencing correction, not a reduction of the regulatory or commercial evidence.
@@ -66,15 +70,15 @@ Primary/deep commercial-thesis consistency: PASS
 LC/regulated-game value-flow boundary: PASS
 Local server/content load: PASS
 Cloud browser access to localhost: BLOCKED BY CLIENT ENVIRONMENT
-Mobile Safari rendered QA: PENDING
+Mobile Safari rendered QA: PENDING — WebKit downloaded, but the automation runner cannot install the required system libraries; device-level confirmation remains external to this runner
 Desktop rendered QA: PASS on `7200758b516d47bdebe4a8925b3e9bc32d85cd51`; no horizontal overflow or missing resources, and Business & Monetization now begins around 2,255 px instead of 6,650 px
 
 ### Current score
 Product thesis: 9.4/10
 Operator value: 9.4/10
 Provider value: 9.4/10
-Creator value: 9.2/10
-Influencer thesis: 9.2/10
+Creator value: 9.4/10 working score
+Influencer thesis: 9.4/10 working score
 Monetization clarity: 9.5/10
 Regulatory credibility: 9.5/10
 Storytelling: 9.3/10
@@ -82,7 +86,7 @@ Visual hierarchy: 9.1/10 working score; rendered confirmation pending
 Mobile: 9.1/10 working score; rendered confirmation pending
 Executive comprehension: 9.5/10
 Memorability: 9.3/10
-Overall working score: 9.35/10
+Overall working score: 9.38/10
 
 ### Next highest-impact gap
 Complete Mobile Safari QA. Fix only evidence-backed P0/P1 responsive, hierarchy or comprehension issues. Do not add more business copy unless rendered evidence shows a real gap.
