@@ -1,66 +1,54 @@
 # LC Reveal Sales Progress
 
-## v0.8.7 — Complete growth engines in the executive route
+## v0.8.8 — Rendered QA gate
 
 Branch: `reveal-sales-v1`
 Production `main`: untouched
 
-Latest verified branch checkpoint:
-- `1ac5a4c9a89fb17e8142243110470ae1958a296c` — made the short Industry route's ownership boundary self-contained.
+Latest product checkpoint before QA harness:
+- `2ed6eb33b8455d558738a33025d443ef359503e5` — completed both Industry growth-engine loops through licensed operator handoff and Return.
 
-Previous verified checkpoints:
-- `67ce4d0f1c216bcefd6489097102c298c3c191b0` — improved the mobile closing handoff and touch targets.
-- `bbb799ef003bacf2db53b0eb2b87111a52853a4a` — corrected Industry route heading hierarchy after rendered desktop QA.
-- `26ddf2403b22bd3f2a9c134f625d92dfb66d3843` — moved the regulated ownership boundary into the 90-second executive story.
-- `a81ffede88f09bbb9ef6a0d7253c20c0c6816cba` — expanded both creator growth engines into complete, explicitly bounded journeys.
-- `298bd8d043d94a69d3a98972913a5369de7ac7e1` — promoted the Industry route from phone framing to a full desktop executive canvas.
-- `a5c1fb264c1debca46bdde4c3f3f40722eaec490` — integrated the operator/provider sales story into the actual `showcase-v2/index.html` Industry route.
-
-### What changed in this checkpoint
-- Expanded both growth-engine diagrams in the short Industry route through licensed operator handoff and Return.
-- Dealer now reads: Dealer → Persistent identity → Creator → Content → Followers → Community → Schedule → Live sessions → Operator → Return.
-- Influencer now reads: Influencer → Existing audience → Live Casino host → Dedicated table/event → Live intent → Licensed operator → Play → Creator relationship → Return.
-- No new product feature, monetization claim, metric, integration or regulatory claim was introduced.
-
-### Why
-The short route named both engines but compressed each flow before the relationship returned to the creator. Executives can now understand both complete acquisition-and-return mechanisms without opening the deeper Business reveal.
-
-### Stakeholder improved
-Operator: both creator-led intent routes visibly culminate in licensed operator handoff
-Provider: dedicated formats and sessions connect to demand without replacing infrastructure
-Dealer/Creator: persistent identity now visibly continues through audience, Live and Return
-Executive/Investor: both growth engines are complete in the primary route
+### Current narrative state
+- Core thesis: `LIVE CASINO THROUGH PEOPLE` / `GAME-TABLE → PERSON` is explicit.
+- Operator-first value mechanism is explicit: Creator → Audience → Live intent → Operator handoff → Regulated play → creator-led reason to return.
+- Provider story includes creator-led distribution, dedicated formats, talent economics and controlled operating-model innovation.
+- Dealer → Creator and Influencer → Live Casino are both complete end-to-end loops.
+- Regulated ownership boundary is self-contained in the short Industry route.
+- Business & Monetization is framed as working hypotheses, not signed economics or proven performance.
 
 ### QA / factuality
-Branch-only write: PASS
+Branch-only writes: PASS
 Production isolation: PASS (`main` remains untouched)
 Required thesis preserved: PASS
-Two complete creator engines in short Industry route: PASS
+Two complete creator engines: PASS
 Operator value mechanism: PASS
-Provider operating-model thesis preserved: PASS
-Monetization qualifiers preserved: PASS
+Provider operating-model thesis: PASS
+Monetization qualifiers: PASS
 Regulatory-boundary wording: PASS
 Static HTML structure review: PASS
-Rendered desktop QA of exact prior layout baseline: PASS
-Rendered Mobile Safari QA on latest candidate: PENDING — local browser runtime unavailable in this execution environment
+Rendered desktop QA on prior exact layout baseline: PASS
+Latest exact-candidate Mobile Safari/WebKit rendered QA: IN PROGRESS
 
-### Current score
+### Rendered QA harness
+A branch-only GitHub Actions workflow now renders the Industry route locally with Playwright WebKit at 390×844 and 430×932 plus Chromium at 1440×900. It checks HTTP/render success, route visibility, horizontal overflow, element viewport overflow, console/page errors, visible touch targets, headings and section geometry, and uploads full-page screenshots plus JSON evidence. It does not deploy or modify any production target.
+
+### Working score before exact-candidate rendered confirmation
 Product thesis: 9.4/10
-Operator value: 9.6/10 working score
-Provider value: 9.5/10 working score
-Creator value: 9.6/10 working score
-Influencer thesis: 9.6/10 working score
-Monetization clarity: 9.6/10 working score
-Regulatory credibility: 9.7/10 working score
-Storytelling: 9.5/10 working score
+Operator value: 9.6/10
+Provider value: 9.5/10
+Creator value: 9.6/10
+Influencer thesis: 9.6/10
+Monetization clarity: 9.6/10
+Regulatory credibility: 9.7/10
+Storytelling: 9.5/10
 Visual hierarchy: 9.4/10 desktop rendered score
-Mobile: 9.1/10 working score; rendered confirmation pending
-Executive comprehension: 9.7/10 working score
-Memorability: 9.4/10 working score
+Mobile: 9.1/10 working score; exact rendered confirmation pending
+Executive comprehension: 9.7/10
+Memorability: 9.4/10
 Overall working score: 9.50/10
 
 ### Next highest-impact gap
-Rendered Mobile Safari QA for the exact branch candidate. Fix only evidence-backed P0/P1 layout or comprehension issues; do not add content merely to keep changing the page.
+Use exact-candidate WebKit/mobile evidence. Fix only evidence-backed P0/P1 layout, touch-target, console or comprehension issues. Do not add content merely to keep changing the page.
 
 Freeze Gate: NOT READY
-First Review Candidate: NOT READY because rendered Mobile Safari QA on the exact candidate remains open.
+First Review Candidate: NOT READY until exact-candidate rendered mobile QA passes with P0=0 and P1=0.
