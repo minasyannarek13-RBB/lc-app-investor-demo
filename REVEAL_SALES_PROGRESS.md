@@ -1,19 +1,24 @@
 # LC Reveal Sales Progress
 
-## v0.7 — Executive hierarchy + commercial map
+## v0.8 — Mobile narrative continuity
 
 Branch: `reveal-sales-v1`
 Production `main`: untouched
 
 Latest verified branch commit before this checkpoint:
-- `298bd8d043d94a69d3a98972913a5369de7ac7e1` — promoted the Industry route from phone framing to a full desktop executive canvas.
+- `0f2380127a39f4243da0ac2f468ffa936c0a1b48` — added the executive commercial map and strengthened Business & Monetization.
 
 Previous checkpoints:
+- `298bd8d043d94a69d3a98972913a5369de7ac7e1` — promoted the Industry route from phone framing to a full desktop executive canvas.
 - `a5c1fb264c1debca46bdde4c3f3f40722eaec490` — integrated the operator/provider sales story into the actual `showcase-v2/index.html` Industry route.
 - `acda3f6e01a9f3e70091631f0aac4105a9cb63c9` — strengthened operator/provider business case in `showcase-v2/business-reveal-v1.html`.
 - `fa4faeddc039e9c6f6182026606b2d16084e49cb` — v0.1 business reveal candidate.
 
 ### What changed
+- Converted major business, growth-engine and value-flow sequences into vertical mobile timelines so arrows cannot detach from steps or create ambiguous wrapping.
+- Added Mobile Safari safe-area spacing on every edge and a more compact mobile section rhythm.
+- Gave the primary Industry route a mobile-specific thesis stage, sticky compact header, presentation-scale headings, readable card typography and full-width actions.
+- Preserved the desktop executive canvas and consumer-product phone framing without creating a separate content fork.
 - Added a four-answer commercial map — `Why Operator / Why Provider / Why Creator / Why Now` — before the detailed business case.
 - Elevated the commercial thesis to a presentation-scale statement: `LC monetizes the path around the game, not the regulated game itself.`
 - Simplified the value flow to `Creator → Audience → Live intent → Operator handoff → Return` and separated it from the regulated transaction.
@@ -63,10 +68,10 @@ Monetization clarity: 9.5/10
 Regulatory credibility: 9.5/10
 Storytelling: 9.3/10
 Visual hierarchy: 9.1/10 working score; rendered confirmation pending
-Mobile: 8.9/10 pending rendered confirmation
+Mobile: 9.1/10 working score; rendered confirmation pending
 Executive comprehension: 9.5/10
 Memorability: 9.3/10
-Overall working score: 9.33/10
+Overall working score: 9.35/10
 
 ### Next highest-impact gap
 Complete rendered mobile/desktop QA on the integrated Industry route and Business & Monetization page. Fix only evidence-backed P0/P1 responsive, hierarchy or comprehension issues. Do not add more business copy unless rendered evidence shows a real gap.

@@ -1137,6 +1137,50 @@
       .section-head span { display: none; }
       .pill, .label { white-space: normal; height: auto; padding-top: 5px; padding-bottom: 5px; line-height: 1.15; }
       .bottom-nav { left: 14px; right: 14px; }
+      .stage[data-route="industry"] #industry.screen {
+        padding-top: max(12px, env(safe-area-inset-top));
+        padding-right: max(16px, env(safe-area-inset-right));
+        padding-bottom: calc(30px + env(safe-area-inset-bottom));
+        padding-left: max(16px, env(safe-area-inset-left));
+      }
+      .stage[data-route="industry"] .industry-top {
+        position: sticky;
+        top: max(8px, env(safe-area-inset-top));
+        z-index: 24;
+        padding: 8px;
+        border: 1px solid rgba(255,255,255,.09);
+        border-radius: 16px;
+        background: rgba(2,7,6,.88);
+        backdrop-filter: blur(20px);
+      }
+      .stage[data-route="industry"] .industry-intro {
+        min-height: 60svh;
+        align-content: center;
+        gap: 16px;
+      }
+      .stage[data-route="industry"] .industry-intro h1 {
+        max-width: 9ch;
+        font-size: clamp(46px, 13vw, 62px);
+        line-height: .92;
+        letter-spacing: -.045em;
+      }
+      .stage[data-route="industry"] .industry-intro p {
+        max-width: 34ch;
+        font-size: 16px;
+      }
+      .stage[data-route="industry"] #industry .section {
+        margin-top: 0;
+        padding: 36px 0;
+        border-bottom: 1px solid var(--line);
+        gap: 14px;
+      }
+      .stage[data-route="industry"] .role-card,
+      .stage[data-route="industry"] .flow-card,
+      .stage[data-route="industry"] .core-line { padding: 18px; }
+      .stage[data-route="industry"] .role-card b { font-size: 20px; line-height: 1.08; }
+      .stage[data-route="industry"] .role-card p,
+      .stage[data-route="industry"] .core-line p { font-size: 14px; }
+      .stage[data-route="industry"] #industry .section > .btn { width: 100%; }
     }
     @media (max-width: 395px) {
       .screen { padding-left: 12px; padding-right: 12px; }
@@ -1153,6 +1197,8 @@
       .creator-actions { grid-template-columns: 1fr; }
       .room-stage { min-height: 382px; }
       .sticky-top { font-size: 8px; }
+      .stage[data-route="industry"] #industry .section { padding: 30px 0; }
+      .stage[data-route="industry"] .industry-intro { min-height: 56svh; }
     }
   </style>
 </head>
