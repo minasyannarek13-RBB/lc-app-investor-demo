@@ -67,7 +67,7 @@ LC/regulated-game value-flow boundary: PASS
 Local server/content load: PASS
 Cloud browser access to localhost: BLOCKED BY CLIENT ENVIRONMENT
 Mobile Safari rendered QA: PENDING
-Desktop rendered QA: PASS for the prior branch render; reordered candidate requires final commit-render confirmation
+Desktop rendered QA: PASS on `7200758b516d47bdebe4a8925b3e9bc32d85cd51`; no horizontal overflow or missing resources, and Business & Monetization now begins around 2,255 px instead of 6,650 px
 
 ### Current score
 Product thesis: 9.4/10
@@ -85,7 +85,7 @@ Memorability: 9.3/10
 Overall working score: 9.35/10
 
 ### Next highest-impact gap
-Complete final commit-render confirmation for the reordered desktop reveal and Mobile Safari QA. Fix only evidence-backed P0/P1 responsive, hierarchy or comprehension issues. Do not add more business copy unless rendered evidence shows a real gap.
+Complete Mobile Safari QA. Fix only evidence-backed P0/P1 responsive, hierarchy or comprehension issues. Do not add more business copy unless rendered evidence shows a real gap.
 
 Freeze Gate: NOT READY
 First Review Candidate: NOT READY because rendered mobile QA remains open; working visual/mobile scores are not yet verified evidence.
