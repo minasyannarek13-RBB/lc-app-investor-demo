@@ -1,0 +1,60 @@
+name: Reveal sales integrate Industry
+on:
+  workflow_dispatch:
+  push:
+    branches: [reveal-sales-v1]
+    paths:
+      - '.github/workflows/reveal-sales-integrate-industry.yml'
+
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: reveal-sales-v1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Integrate operator/provider sales story into Industry route
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const file = 'showcase-v2/index.html';
+          let s = fs.readFileSync(file, 'utf8');
+          const start = s.indexOf('    function industry() {');
+          const end = s.indexOf('    const screens =', start);
+          if (start < 0 || end < 0) throw new Error('industry function anchor missing');
+          const replacement = `    function industry() {
+      $("industry").innerHTML = \`<div class="industry-top">\${simpleTopbar()}<button class="chip" type="button" data-go="discover">Explore Live</button></div><div class="section industry-intro" style="margin-top:0"><span class="label">CONCEPT VISION — TO BE VALIDATED</span><h1>Live Casino through people.</h1><p>The shift is simple: from GAME / TABLE to PERSON. LC creates creator-led discovery and return around existing licensed Live Casino infrastructure.</p></div><div class="section"><div class="flow-grid"><article class="flow-card"><span>Traditional Live Casino</span><div class="flow-steps"><div class="flow-step"><i>1</i><b>Casino</b><em>→</em></div><div class="flow-step"><i>2</i><b>Lobby</b><em>→</em></div><div class="flow-step"><i>3</i><b>Game</b><em>→</em></div><div class="flow-step"><i>4</i><b>Table</b><em>→</em></div><div class="flow-step"><i>5</i><b>Seat</b><em>→</em></div></div></article><article class="flow-card hypothesis"><span>LC hypothesis</span><div class="flow-steps"><div class="flow-step"><i>1</i><b>Discover</b><em>→</em></div><div class="flow-step"><i>2</i><b>Person</b><em>→</em></div><div class="flow-step"><i>3</i><b>Follow</b><em>→</em></div><div class="flow-step"><i>4</i><b>Live intent</b><em>→</em></div><div class="flow-step"><i>5</i><b>Licensed Operator</b><em>→</em></div><div class="flow-step"><i>6</i><b>Return</b><em>→</em></div></div></article></div></div><div class="section"><article class="core-line"><h3>Why should an operator care?</h3><p>Creator → audience → live intent → operator handoff → regulated play → creator-led reason to return.</p></article><div class="role-grid"><article class="role-card"><strong>Operator · Primary commercial audience</strong><b>Turn attention into attributable live intent.</b><p>Potential new discovery, creator-led acquisition, differentiation and return path without LC owning regulated play.</p><div class="mini-flow"><span>Creator</span><span>Audience</span><span>Live intent</span><span>Handoff</span><span>Return</span></div></article><article class="role-card"><strong>Provider · More than distribution</strong><b>Potential to change Live Casino operating economics.</b><p>Creator-led formats can add audience-bearing talent, dedicated sessions and controlled studio activations around existing provider infrastructure.</p><div class="mini-flow"><span>Creator / Dealer</span><span>Dedicated session</span><span>Audience</span><span>Operator</span></div></article></div></div><div class="section"><article class="core-line"><h3>Two creator engines</h3><p>Build an audience from Live Casino talent, or bring an existing audience into Live Casino.</p></article><div class="role-grid"><article class="role-card"><strong>Dealer → Creator</strong><b>The dealer should not disappear when the shift ends.</b><p>Persistent identity, content, followers and schedule can turn Live Casino talent into a reason to return.</p><div class="mini-flow"><span>Dealer</span><span>Identity</span><span>Content</span><span>Followers</span><span>Live</span></div></article><article class="role-card"><strong>Influencer → Live Casino</strong><b>Start with someone who already owns attention.</b><p>An external creator can potentially become the center of a dedicated Live format for an operator/provider partner.</p><div class="mini-flow"><span>Influencer</span><span>Audience</span><span>Live format</span><span>Operator</span></div></article></div></div><div class="section"><article class="role-card"><strong>Proposed operational capability</strong><b>From creator idea to controlled Live environment.</b><p>Define requirements, design a dedicated creator/influencer table or studio setup, prepare workflow and launch framework, then connect through an authorized operator/provider partner.</p><span class="demo-note">Proposed capability · To be validated. Any distributed or mini-studio model remains subject to jurisdiction, licensing, certification, surveillance, equipment controls, game integrity, responsible gaming and partner approval.</span></article><article class="role-card"><strong>Business & Monetization</strong><b>Value flow first. Revenue streams second.</b><p>Potential LC economics can sit around operator service/SaaS, partnership revenue share, creator economy participation and studio/activation services where legally and commercially appropriate.</p><div class="mini-flow"><span>Creator</span><span>Audience</span><span>Live intent</span><span>Operator</span><span>Gaming activity</span><span>Return</span></div></article><a class="btn" href="business-reveal-v1.html">OPEN BUSINESS & MONETIZATION</a><span class="demo-note">Illustrative concept. No confirmed customers, integrations, partnerships, revenue, CAC reduction, retention uplift, GGR uplift or ROI are claimed.</span><button class="btn secondary" type="button" data-go="discover">EXPLORE PRODUCT</button></div>\`;
+    }
+`;
+          s = s.slice(0, start) + replacement + s.slice(end);
+          const oldSide = 'industry: ["WHY LC APP", "Social layer for\\nLive Casino", "Players, dealers, operators and providers each get a clear reason to use it."]';
+          const newSide = 'industry: ["BUSINESS THESIS", "Live Casino through\\npeople", "Operator-first value. Provider operating-model upside. Two creator engines."]';
+          if (!s.includes(oldSide)) throw new Error('industry side copy anchor missing');
+          s = s.replace(oldSide, newSide);
+          fs.writeFileSync(file, s);
+          NODE
+          node - <<'NODE'
+          const fs = require('fs');
+          const html = fs.readFileSync('showcase-v2/index.html','utf8');
+          const script = html.match(/<script>([\s\S]*)<\/script>/)?.[1];
+          if (!script) throw new Error('script block missing');
+          fs.writeFileSync('/tmp/lc-reveal-script.js', script);
+          NODE
+          node --check /tmp/lc-reveal-script.js
+          grep -q 'Why should an operator care?' showcase-v2/index.html
+          grep -q 'Potential to change Live Casino operating economics.' showcase-v2/index.html
+          grep -q 'The dealer should not disappear when the shift ends.' showcase-v2/index.html
+          grep -q 'OPEN BUSINESS & MONETIZATION' showcase-v2/index.html
+      - name: Commit verified branch-only integration
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add showcase-v2/index.html
+          git diff --cached --quiet && exit 0
+          git commit -m 'Integrate operator/provider sales story into Industry route'
+          git push origin HEAD:reveal-sales-v1
