@@ -6,7 +6,7 @@ Branch: `reveal-sales-v1`
 Production `main`: untouched
 
 Latest verified branch commit before this checkpoint:
-- `240d480247007cdada2584b4884dbb2de3c5b083` — moved Business & Monetization into the early executive sequence and recorded rendered desktop QA.
+- `a81ffede88f09bbb9ef6a0d7253c20c0c6816cba` — expanded both creator growth engines into complete, explicitly bounded journeys.
 
 Previous checkpoints:
 - `298bd8d043d94a69d3a98972913a5369de7ac7e1` — promoted the Industry route from phone framing to a full desktop executive canvas.
@@ -15,6 +15,9 @@ Previous checkpoints:
 - `fa4faeddc039e9c6f6182026606b2d16084e49cb` — v0.1 business reveal candidate.
 
 ### What changed
+- Moved both complete creator growth engines directly after Business & Monetization and before the detailed Operator deep dive.
+- The executive sequence is now `Shift → Commercial map → Business model → Two growth engines → Operator proof → Provider proof → Operational concept → Regulated boundary`.
+- This keeps the 45–90 second story focused on how value is created and who can bring the audience; detailed stakeholder evidence follows after the core thesis is already understood.
 - Expanded the professional-dealer engine to the complete chain: `Dealer → Persistent identity → Creator → Content → Followers → Community → Schedule → Live sessions → Operator → Return`.
 - Expanded the existing-influencer engine to the complete chain: `Influencer → Existing audience → Live Casino persona / host → Dedicated table / event → Live intent → Licensed operator → Play → Creator relationship → Return`.
 - Made the operator boundary explicit inside the influencer engine: the creator may bring attention and live intent, while regulated play remains with the licensed operator/provider.
