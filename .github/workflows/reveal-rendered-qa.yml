@@ -1,0 +1,132 @@
+name: Reveal rendered QA
+
+on:
+  push:
+    branches: [reveal-sales-v1]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rendered-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Playwright browsers
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps webkit chromium
+
+      - name: Start static server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/lc-reveal-http.log 2>&1 &
+          echo $! > /tmp/lc-reveal-http.pid
+          for i in {1..20}; do
+            curl -fsS http://127.0.0.1:4173/showcase-v2/ >/dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/lc-reveal-http.log
+          exit 1
+
+      - name: Render mobile WebKit and desktop Chromium
+        run: |
+          mkdir -p qa-artifacts
+          cat > /tmp/reveal-qa.cjs <<'NODE'
+          const { webkit, chromium } = require('playwright');
+          const fs = require('fs');
+
+          const cases = [
+            { name: 'webkit-390x844', engine: webkit, viewport: { width: 390, height: 844 }, mobile: true },
+            { name: 'webkit-430x932', engine: webkit, viewport: { width: 430, height: 932 }, mobile: true },
+            { name: 'chromium-1440x900', engine: chromium, viewport: { width: 1440, height: 900 }, mobile: false }
+          ];
+
+          const results = [];
+          let failed = false;
+
+          for (const c of cases) {
+            const browser = await c.engine.launch();
+            const context = await browser.newContext({
+              viewport: c.viewport,
+              isMobile: c.mobile,
+              hasTouch: c.mobile,
+              deviceScaleFactor: c.mobile ? 3 : 1,
+              colorScheme: 'dark',
+              locale: 'en-US'
+            });
+            const page = await context.newPage();
+            const consoleErrors = [];
+            const pageErrors = [];
+            page.on('console', msg => { if (msg.type() === 'error') consoleErrors.push(msg.text()); });
+            page.on('pageerror', err => pageErrors.push(String(err)));
+
+            const response = await page.goto('http://127.0.0.1:4173/showcase-v2/#industry', { waitUntil: 'networkidle' });
+            await page.waitForTimeout(500);
+
+            const metrics = await page.evaluate(() => {
+              const industry = document.querySelector('#industry');
+              const intro = document.querySelector('.industry-intro');
+              const visible = el => !!el && getComputedStyle(el).display !== 'none' && el.getBoundingClientRect().width > 0 && el.getBoundingClientRect().height > 0;
+              const doc = document.documentElement;
+              const viewportWidth = doc.clientWidth;
+              const overflowNodes = [...document.querySelectorAll('#industry *')].filter(el => {
+                if (!visible(el)) return false;
+                const r = el.getBoundingClientRect();
+                return r.left < -1 || r.right > viewportWidth + 1;
+              }).slice(0, 20).map(el => ({ tag: el.tagName, class: el.className, text: (el.textContent || '').trim().slice(0, 80), rect: el.getBoundingClientRect().toJSON() }));
+              const tinyTargets = [...document.querySelectorAll('#industry button, #industry a')].filter(visible).map(el => {
+                const r = el.getBoundingClientRect();
+                return { text: (el.textContent || '').trim().slice(0, 80), width: Math.round(r.width), height: Math.round(r.height) };
+              }).filter(x => x.height < 40 || x.width < 40);
+              const headings = [...document.querySelectorAll('#industry h1, #industry h2, #industry h3')].filter(visible).map(el => {
+                const r = el.getBoundingClientRect();
+                return { text: el.textContent.trim(), width: Math.round(r.width), scrollWidth: el.scrollWidth, clientWidth: el.clientWidth, fontSize: getComputedStyle(el).fontSize };
+              });
+              const sections = [...document.querySelectorAll('#industry .section')].filter(visible).map((el, i) => {
+                const r = el.getBoundingClientRect();
+                return { index: i, top: Math.round(r.top + window.scrollY), height: Math.round(r.height) };
+              });
+              return {
+                route: document.querySelector('.stage')?.dataset.route || null,
+                industryVisible: visible(industry),
+                introVisible: visible(intro),
+                viewportWidth,
+                scrollWidth: doc.scrollWidth,
+                horizontalOverflow: doc.scrollWidth > viewportWidth + 1,
+                overflowNodes,
+                tinyTargets,
+                headings,
+                sections,
+                bodyHeight: document.body.scrollHeight
+              };
+            });
+
+            await page.screenshot({ path: `qa-artifacts/${c.name}.png`, fullPage: true });
+
+            const status = response?.status() || 0;
+            const caseFailed = status >= 400 || !metrics.industryVisible || !metrics.introVisible || metrics.horizontalOverflow || metrics.overflowNodes.length > 0 || consoleErrors.length > 0 || pageErrors.length > 0 || metrics.tinyTargets.length > 0;
+            failed ||= caseFailed;
+            results.push({ case: c.name, status, caseFailed, consoleErrors, pageErrors, metrics });
+            await browser.close();
+          }
+
+          fs.writeFileSync('qa-artifacts/report.json', JSON.stringify({ failed, results }, null, 2));
+          console.log(JSON.stringify({ failed, results }, null, 2));
+          if (failed) process.exit(1);
+          NODE
+          node /tmp/reveal-qa.cjs
+
+      - name: Upload rendered QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reveal-rendered-qa
+          path: qa-artifacts/
+          retention-days: 14
