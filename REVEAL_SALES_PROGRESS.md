@@ -1,12 +1,12 @@
 # LC Reveal Sales Progress
 
-## v0.8 — Mobile narrative continuity + commercial route consistency
+## v0.8 — Responsive continuity + executive sequencing
 
 Branch: `reveal-sales-v1`
 Production `main`: untouched
 
 Latest verified branch commit before this checkpoint:
-- `775efcc7aef85fe3c90011b58c54af3b172f47a5` — added mobile-safe timelines, safe-area handling and responsive Industry framing.
+- `e37535e25c774a6dad79c306c8ae583237be8598` — synchronized the concise Industry route with the full commercial thesis and LC value-flow boundary.
 
 Previous checkpoints:
 - `298bd8d043d94a69d3a98972913a5369de7ac7e1` — promoted the Industry route from phone framing to a full desktop executive canvas.
@@ -15,6 +15,10 @@ Previous checkpoints:
 - `fa4faeddc039e9c6f6182026606b2d16084e49cb` — v0.1 business reveal candidate.
 
 ### What changed
+- Moved the complete Business & Monetization section directly after the four-answer Commercial Map in the standalone executive reveal.
+- The commercial thesis, value flow, monetization hypotheses and validation boundary now arrive before detailed Operator, Creator-engine, Provider and operational proof.
+- Preserved every detailed section and factual qualifier; this is a sequencing correction, not a reduction of the regulatory or commercial evidence.
+- Rendered desktop evidence showed why the change was needed: the full reveal was 9,585 px tall and Business & Monetization began around 6,650 px, too late for the intended 45–90 second executive comprehension window.
 - Synchronized the primary Industry route with the full Business & Monetization reveal: both now use the exact thesis `LC monetizes the path around the game, not the regulated game itself.`
 - Removed `Gaming activity` from the LC value-flow card. The concise route now ends `Creator → Audience → Live intent → Operator handoff → Return`, keeping regulated play outside LC's commercial layer.
 - Marked the concise monetization card as `Working hypotheses` and explicitly kept terms and outcomes `to be validated`.
@@ -63,7 +67,7 @@ LC/regulated-game value-flow boundary: PASS
 Local server/content load: PASS
 Cloud browser access to localhost: BLOCKED BY CLIENT ENVIRONMENT
 Mobile Safari rendered QA: PENDING
-Desktop rendered QA: PENDING
+Desktop rendered QA: PASS for the prior branch render; reordered candidate requires final commit-render confirmation
 
 ### Current score
 Product thesis: 9.4/10
@@ -81,7 +85,7 @@ Memorability: 9.3/10
 Overall working score: 9.35/10
 
 ### Next highest-impact gap
-Complete rendered mobile/desktop QA on the integrated Industry route and Business & Monetization page. Fix only evidence-backed P0/P1 responsive, hierarchy or comprehension issues. Do not add more business copy unless rendered evidence shows a real gap.
+Complete final commit-render confirmation for the reordered desktop reveal and Mobile Safari QA. Fix only evidence-backed P0/P1 responsive, hierarchy or comprehension issues. Do not add more business copy unless rendered evidence shows a real gap.
 
 Freeze Gate: NOT READY
 First Review Candidate: NOT READY because rendered mobile QA remains open; working visual/mobile scores are not yet verified evidence.
