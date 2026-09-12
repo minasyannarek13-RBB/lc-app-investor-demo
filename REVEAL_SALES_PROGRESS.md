@@ -1,12 +1,12 @@
 # LC Reveal Sales Progress
 
-## v0.8 — Mobile narrative continuity
+## v0.8 — Mobile narrative continuity + commercial route consistency
 
 Branch: `reveal-sales-v1`
 Production `main`: untouched
 
 Latest verified branch commit before this checkpoint:
-- `0f2380127a39f4243da0ac2f468ffa936c0a1b48` — added the executive commercial map and strengthened Business & Monetization.
+- `775efcc7aef85fe3c90011b58c54af3b172f47a5` — added mobile-safe timelines, safe-area handling and responsive Industry framing.
 
 Previous checkpoints:
 - `298bd8d043d94a69d3a98972913a5369de7ac7e1` — promoted the Industry route from phone framing to a full desktop executive canvas.
@@ -15,6 +15,11 @@ Previous checkpoints:
 - `fa4faeddc039e9c6f6182026606b2d16084e49cb` — v0.1 business reveal candidate.
 
 ### What changed
+- Synchronized the primary Industry route with the full Business & Monetization reveal: both now use the exact thesis `LC monetizes the path around the game, not the regulated game itself.`
+- Removed `Gaming activity` from the LC value-flow card. The concise route now ends `Creator → Audience → Live intent → Operator handoff → Return`, keeping regulated play outside LC's commercial layer.
+- Marked the concise monetization card as `Working hypotheses` and explicitly kept terms and outcomes `to be validated`.
+- Completed the dealer continuity idea in the primary route with `A table session ends. The audience does not have to.`
+- Made the Industry integration script idempotent so the canonical reveal generator can be rerun without failing on already-integrated side copy.
 - Converted major business, growth-engine and value-flow sequences into vertical mobile timelines so arrows cannot detach from steps or create ambiguous wrapping.
 - Added Mobile Safari safe-area spacing on every edge and a more compact mobile section rhythm.
 - Gave the primary Industry route a mobile-specific thesis stage, sticky compact header, presentation-scale headings, readable card typography and full-width actions.
@@ -53,6 +58,8 @@ Regulatory-boundary wording: PASS
 Production isolation: PASS (`main` remains untouched)
 Working-branch policy: PASS
 Route-aware layout contract: PASS
+Primary/deep commercial-thesis consistency: PASS
+LC/regulated-game value-flow boundary: PASS
 Local server/content load: PASS
 Cloud browser access to localhost: BLOCKED BY CLIENT ENVIRONMENT
 Mobile Safari rendered QA: PENDING
@@ -77,4 +84,4 @@ Overall working score: 9.35/10
 Complete rendered mobile/desktop QA on the integrated Industry route and Business & Monetization page. Fix only evidence-backed P0/P1 responsive, hierarchy or comprehension issues. Do not add more business copy unless rendered evidence shows a real gap.
 
 Freeze Gate: NOT READY
-First Review Candidate: NOT READY because rendered mobile/desktop QA remains open and Visual hierarchy/Mobile are still below 9.0.
+First Review Candidate: NOT READY because rendered mobile QA remains open; working visual/mobile scores are not yet verified evidence.
