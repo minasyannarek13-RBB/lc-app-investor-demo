@@ -1,11 +1,11 @@
 # LC Reveal Sales Progress
 
-## v0.5 — Primary Industry route integrated
+## v0.7 — Executive canvas hierarchy
 
 Branch: `reveal-sales-v1`
 Production `main`: untouched
 
-Latest verified branch commit before this log update:
+Latest verified branch commit before this checkpoint:
 - `a5c1fb264c1debca46bdde4c3f3f40722eaec490` — integrated the operator/provider sales story into the actual `showcase-v2/index.html` Industry route.
 
 Previous checkpoints:
@@ -13,6 +13,9 @@ Previous checkpoints:
 - `fa4faeddc039e9c6f6182026606b2d16084e49cb` — v0.1 business reveal candidate.
 
 ### What changed
+- Removed the desktop phone-frame constraint from the Industry route. The operator/provider story now opens as a full-width executive canvas while the consumer product journey keeps its social-app phone framing.
+- Added route-aware desktop geometry, large-format thesis typography, clearer section pacing, two-column comparison/engine layouts and presentation-scale cards.
+- Kept the mobile route in the existing edge-to-edge app shell so the same content remains usable without a separate mobile fork.
 - Replaced the older generic Industry route with the core thesis `Live Casino through people` and `GAME / TABLE → PERSON`.
 - Made Operator the primary commercial audience with a direct creator → audience → live intent → operator handoff → regulated play → return mechanism.
 - Added Provider value beyond generic distribution: audience-bearing talent, dedicated creator sessions, controlled studio activation and the explicit hypothesis `Potential to change Live Casino operating economics.`
@@ -38,7 +41,9 @@ Narrative factuality: PASS
 Regulatory-boundary wording: PASS
 Production isolation: PASS (`main` remains untouched)
 Working-branch policy: PASS
-Rendered browser QA: PENDING
+Route-aware layout contract: PASS
+Local server/content load: PASS
+Cloud browser access to localhost: BLOCKED BY CLIENT ENVIRONMENT
 Mobile Safari rendered QA: PENDING
 Desktop rendered QA: PENDING
 
@@ -51,14 +56,14 @@ Influencer thesis: 9.2/10
 Monetization clarity: 9.3/10
 Regulatory credibility: 9.5/10
 Storytelling: 9.3/10
-Visual hierarchy: 8.9/10 pending rendered QA
-Mobile: 8.8/10 pending rendered QA
+Visual hierarchy: 9.1/10 working score; rendered confirmation pending
+Mobile: 8.9/10 pending rendered confirmation
 Executive comprehension: 9.4/10
 Memorability: 9.3/10
-Overall working score: 9.26/10
+Overall working score: 9.29/10
 
 ### Next highest-impact gap
-Run rendered mobile/desktop QA on the integrated Industry route and Business & Monetization page. Fix only P0/P1 responsive, hierarchy or comprehension issues. Do not add more business copy unless rendered evidence shows a real gap.
+Complete rendered mobile/desktop QA on the integrated Industry route and Business & Monetization page. Fix only evidence-backed P0/P1 responsive, hierarchy or comprehension issues. Do not add more business copy unless rendered evidence shows a real gap.
 
 Freeze Gate: NOT READY
 First Review Candidate: NOT READY because rendered mobile/desktop QA remains open and Visual hierarchy/Mobile are still below 9.0.
