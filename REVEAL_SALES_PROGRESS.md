@@ -1,54 +1,49 @@
 # LC Reveal Sales Progress
 
-## v0.8.8 — Rendered QA gate
+## v0.9 — First Review Candidate
 
 Branch: `reveal-sales-v1`
 Production `main`: untouched
+Exact rendered candidate: `63235b3da619937b1fb313784f476e0`
 
-Latest product checkpoint before QA harness:
-- `2ed6eb33b8455d558738a33025d443ef359503e5` — completed both Industry growth-engine loops through licensed operator handoff and Return.
+### Executive narrative
 
-### Current narrative state
-- Core thesis: `LIVE CASINO THROUGH PEOPLE` / `GAME-TABLE → PERSON` is explicit.
-- Operator-first value mechanism is explicit: Creator → Audience → Live intent → Operator handoff → Regulated play → creator-led reason to return.
-- Provider story includes creator-led distribution, dedicated formats, talent economics and controlled operating-model innovation.
-- Dealer → Creator and Influencer → Live Casino are both complete end-to-end loops.
-- Regulated ownership boundary is self-contained in the short Industry route.
-- Business & Monetization is framed as working hypotheses, not signed economics or proven performance.
+- `LIVE CASINO THROUGH PEOPLE` and `GAME/TABLE → PERSON` are immediate.
+- Player loop: Discover Sofia → Follow → Live → licensed operator → Return.
+- Dealer engine: Dealer → Persistent identity → Creator → Content → Followers → Community → Schedule → Live sessions → Operator → Return.
+- Influencer engine: Influencer → Existing audience → Live Casino host → Dedicated table/event → Live intent → Licensed operator → Play → Creator relationship → Return.
+- Operator/provider payoff, monetization hypotheses and the regulated ownership boundary appear inside the short Industry route.
+- Gameplay, wallet, KYC/AML, responsible gaming, wagering and settlement remain with the licensed operator/provider.
+- No partnership, pilot, revenue, CAC, GGR, retention or ROI claims are presented as validated.
 
-### QA / factuality
-Branch-only writes: PASS
-Production isolation: PASS (`main` remains untouched)
-Required thesis preserved: PASS
-Two complete creator engines: PASS
-Operator value mechanism: PASS
-Provider operating-model thesis: PASS
-Monetization qualifiers: PASS
-Regulatory-boundary wording: PASS
-Static HTML structure review: PASS
-Rendered desktop QA on prior exact layout baseline: PASS
-Latest exact-candidate Mobile Safari/WebKit rendered QA: IN PROGRESS
+### Exact-candidate QA evidence
 
-### Rendered QA harness
-A branch-only GitHub Actions workflow now renders the Industry route locally with Playwright WebKit at 390×844 and 430×932 plus Chromium at 1440×900. It checks HTTP/render success, route visibility, horizontal overflow, element viewport overflow, console/page errors, visible touch targets, headings and section geometry, and uploads full-page screenshots plus JSON evidence. It does not deploy or modify any production target.
+GitHub Actions run: `34728223657` — PASS
 
-### Working score before exact-candidate rendered confirmation
-Product thesis: 9.4/10
-Operator value: 9.6/10
-Provider value: 9.5/10
-Creator value: 9.6/10
-Influencer thesis: 9.6/10
-Monetization clarity: 9.6/10
-Regulatory credibility: 9.7/10
-Storytelling: 9.5/10
-Visual hierarchy: 9.4/10 desktop rendered score
-Mobile: 9.1/10 working score; exact rendered confirmation pending
-Executive comprehension: 9.7/10
-Memorability: 9.4/10
-Overall working score: 9.50/10
+- WebKit 390×844: HTTP 200; Industry route and intro visible; 390px document width; no horizontal or element overflow; no undersized visible targets; no console/page errors.
+- WebKit 430×932: HTTP 200; Industry route and intro visible; 430px document width; no horizontal or element overflow; no undersized visible targets; no console/page errors.
+- Chromium 1440×900: HTTP 200; Industry route and intro visible; 1440px document width; no horizontal or element overflow; no undersized visible targets; no console/page errors.
+- Six Industry sections render in order at every tested viewport.
+- 20/20 repository contract suites passed on the restored candidate content.
+- P0: 0. P1: 0.
 
-### Next highest-impact gap
-Use exact-candidate WebKit/mobile evidence. Fix only evidence-backed P0/P1 layout, touch-target, console or comprehension issues. Do not add content merely to keep changing the page.
+### Quality score
 
-Freeze Gate: NOT READY
-First Review Candidate: NOT READY until exact-candidate rendered mobile QA passes with P0=0 and P1=0.
+Idea clarity: 9.7
+0–5 sec comprehension: 9.7
+Player loop: 9.5
+Creator/Dealer story: 9.6
+Influencer engine: 9.6
+Operator value: 9.6
+Provider value: 9.5
+Business & Monetization: 9.6
+Regulatory/factual discipline: 9.7
+Executive storytelling: 9.6
+Premium/cinematic visual quality: 9.4
+Mobile quality: 9.3 (WebKit rendered)
+Self-guided comprehension: 9.6
+Handoff/return loop: 9.6
+Overall: 9.57
+
+First Review Candidate: READY
+Freeze Gate: NOT READY — native-device Mobile Safari review remains the final external verification. No further narrative or cosmetic churn is justified without evidence from that review.
