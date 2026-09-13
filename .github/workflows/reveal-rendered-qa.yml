@@ -42,6 +42,7 @@ jobs:
           const { webkit, chromium } = require('playwright');
           const fs = require('fs');
 
+          (async () => {
           const cases = [
             { name: 'webkit-390x844', engine: webkit, viewport: { width: 390, height: 844 }, mobile: true },
             { name: 'webkit-430x932', engine: webkit, viewport: { width: 430, height: 932 }, mobile: true },
@@ -120,6 +121,10 @@ jobs:
           fs.writeFileSync('qa-artifacts/report.json', JSON.stringify({ failed, results }, null, 2));
           console.log(JSON.stringify({ failed, results }, null, 2));
           if (failed) process.exit(1);
+          })().catch(error => {
+            console.error(error);
+            process.exit(1);
+          });
           NODE
           node /tmp/reveal-qa.cjs
 
