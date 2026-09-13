@@ -68,7 +68,7 @@ jobs:
             page.on('console', msg => { if (msg.type() === 'error') consoleErrors.push(msg.text()); });
             page.on('pageerror', err => pageErrors.push(String(err)));
 
-            const response = await page.goto('http://127.0.0.1:4173/showcase-v2/#/industry', { waitUntil: 'networkidle' });
+            const response = await page.goto('http://127.0.0.1:4173/showcase-v2/', { waitUntil: 'networkidle' });
             await page.waitForSelector('.stage[data-route="industry"] #industry.screen.active', { state: 'visible' });
             await page.waitForTimeout(500);
 
