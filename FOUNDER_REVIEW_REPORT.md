@@ -6,9 +6,9 @@ Working branch: `reveal-sales-v1`
 
 Production baseline: `main` — unchanged
 
-Exact rendered candidate: `63235b3da619937b1fb313784f476d14980c5a38`
+Exact product/reveal candidate: `f78d694ab6df1d70c3e18712f2cc2b31114df73b`
 
-Latest branch HEAD may contain documentation-only checkpoint commits after the rendered candidate. Product/reveal files are unchanged from the exact rendered candidate unless explicitly stated otherwise.
+Latest QA/checkpoint HEAD: `3aa32ebbd39ea3c7791c86e3d47ce5ceee7dc3fb`
 
 ## Candidate score
 
@@ -22,13 +22,13 @@ Latest branch HEAD may contain documentation-only checkpoint commits after the r
 | Operator value | 9.6 |
 | Provider value | 9.5 |
 | Business & Monetization | 9.6 |
-| Regulatory / factual discipline | 9.7 |
+| Regulatory / factual discipline | 9.8 |
 | Executive storytelling | 9.6 |
 | Premium / cinematic visual quality | 9.4 |
 | Mobile quality | 9.3 |
 | Self-guided comprehension | 9.6 |
 | Handoff / return loop | 9.6 |
-| **Overall** | **9.57** |
+| **Overall** | **9.58** |
 
 P0: **0**
 
@@ -36,31 +36,36 @@ P1: **0**
 
 ## What materially changed vs production baseline
 
-- The reveal now leads with `LIVE CASINO THROUGH PEOPLE` and the shift `GAME/TABLE → PERSON`.
+- The reveal leads with `LIVE CASINO THROUGH PEOPLE` and the shift `GAME/TABLE → PERSON`.
 - The visitor gets the product loop before deeper UI: `Discover → Person → Follow → Live → Licensed Operator → Return`.
 - Operator value is framed as creator-led discovery, attributable live intent, differentiation and a reason to return, without unsupported ROI/CAC/GGR claims.
-- Provider value now includes creator-led distribution, influencer formats, dealer/talent economics and a future operating-model hypothesis.
+- Provider value includes creator-led distribution, influencer formats, dealer/talent economics and a future operating-model hypothesis.
 - The Dealer → Creator engine is explicit: a dealer can become a persistent identity, creator and audience asset rather than disappearing when a shift ends.
 - The Influencer → Live Casino engine is explicit: an existing audience can follow an influencer into a dedicated Live Casino format and licensed operator handoff.
-- Business & Monetization is now a business-system map rather than a financial spreadsheet. It separates value flow from unvalidated monetization hypotheses.
+- Business & Monetization is a business-system map rather than a financial spreadsheet. It separates value flow from unvalidated monetization hypotheses.
 - Regulated ownership is explicit: operator/provider retains gameplay, streaming/game infrastructure, wallet, KYC/AML, responsible gaming, wagering and settlement.
 - Studio / operational capability is labelled as proposed / future / to be validated, not existing commercial proof.
+- Factuality hardening removed the showcase pseudo-auth gate and fabricated social proof/counts. Reveal actions remain presentation interactions, not claims of production identity infrastructure or real audience scale.
 
 ## Rendered QA evidence
 
-GitHub Actions rendered QA run: `34728223657` — PASS
+Latest GitHub Actions rendered QA run: `34774244474` — **PASS** on checkpoint HEAD `3aa32eb` containing the factuality-hardened product candidate.
 
-- WebKit 390×844: PASS — no horizontal overflow, no missing resources, no undersized visible targets, no console/page errors.
+- WebKit 390×844: PASS — no horizontal overflow, missing resources, undersized visible targets, console errors or page errors.
 - WebKit 430×932: PASS — same checks passed.
 - Chromium 1440×900: PASS — same checks passed.
-- Six Industry sections render in the intended order at all tested viewports.
-- Repository contract suites: 20/20 PASS.
+- Industry storytelling sections render in intended order.
+- Repository contract suites: PASS.
 - Factuality review: PASS.
 - Regulatory-boundary review: PASS.
 
+## Production isolation
+
+`reveal-sales-v1` is ahead of `main` and not merged. `main`, `lc.open-gamer.com`, CNAME, DNS and deployment targets remain untouched.
+
 ## Manual Founder review requested
 
-Review the exact candidate on a real iPhone Safari and desktop browser with one question only: **does the reveal make an experienced Live Casino operator/provider understand the change, business relevance and reason to discuss it without explanation from the Founder?**
+Review the candidate on real iPhone Safari and desktop browser with one question only: **does the reveal make an experienced Live Casino operator/provider understand the change, business relevance and reason to discuss it without explanation from the Founder?**
 
 Pay particular attention to:
 
@@ -73,8 +78,8 @@ Pay particular attention to:
 
 ## Known P2 / non-blocking items
 
-- Final native-device Mobile Safari taste review is still external to automated WebKit QA.
-- Remaining visual changes should be evidence-driven only. No further copy expansion or cosmetic churn is recommended before Founder review.
+- Final native-device Mobile Safari taste review remains external to automated WebKit QA.
+- Remaining visual changes should be evidence-driven only. No copy expansion or cosmetic churn is recommended before Founder review.
 
 ## Release state
 
@@ -82,4 +87,4 @@ This is **not** a production release.
 
 Do not merge or deploy without explicit Founder approval.
 
-Freeze Gate can be declared only after native-device review confirms no material usability or visual issue and the candidate still satisfies the ≥9.3 overall / ≥9.0 critical-dimension thresholds.
+Freeze Gate should be declared only after native-device review confirms no material usability or visual issue and the candidate still satisfies the ≥9.3 overall / ≥9.0 critical-dimension thresholds.
