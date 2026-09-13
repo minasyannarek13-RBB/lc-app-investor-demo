@@ -1,5 +1,19 @@
 # LC Reveal Sales Progress
 
+## v0.9.2 — Operator-first entry
+
+Branch: `reveal-sales-v1`
+Product change commit: `7eceaea06a20f5c4ae366324fc5dd307357974cc`
+
+- The unqualified `showcase-v2/` entry now opens the Industry narrative instead of the product welcome screen.
+- Product exploration remains available as the secondary route; direct hash routes are unchanged.
+- The rendered gate now tests the bare entrypoint, preventing a prefilled `#/industry` hash from masking routing regressions.
+- GitHub Actions run `34783641945`: PASS in WebKit 390×844, WebKit 430×932 and Chromium 1440×900.
+- All tested viewports resolved to `industry`; HTTP 200; no horizontal/element overflow, undersized visible targets, console errors or page errors.
+- 20/20 repository contract suites: PASS. P0: 0. P1: 0.
+
+Conversion readiness: 9.7/10 (+0.2). Overall working score: 9.60/10.
+
 ## v0.9.1 — Factuality / public-demo hardening
 
 Branch: `reveal-sales-v1`

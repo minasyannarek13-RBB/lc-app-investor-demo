@@ -6,9 +6,9 @@ Working branch: `reveal-sales-v1`
 
 Production baseline: `main` — unchanged
 
-Exact product/reveal candidate: `f78d694ab6df1d70c3e18712f2cc2b31114df73b`
+Exact product/reveal candidate: `7eceaea06a20f5c4ae366324fc5dd307357974cc`
 
-Latest QA/checkpoint HEAD: `3aa32ebbd39ea3c7791c86e3d47ce5ceee7dc3fb`
+Latest rendered QA run: `34783641945`
 
 ## Candidate score
 
@@ -28,7 +28,7 @@ Latest QA/checkpoint HEAD: `3aa32ebbd39ea3c7791c86e3d47ce5ceee7dc3fb`
 | Mobile quality | 9.3 |
 | Self-guided comprehension | 9.6 |
 | Handoff / return loop | 9.6 |
-| **Overall** | **9.58** |
+| **Overall** | **9.60** |
 
 P0: **0**
 
@@ -46,15 +46,17 @@ P1: **0**
 - Regulated ownership is explicit: operator/provider retains gameplay, streaming/game infrastructure, wallet, KYC/AML, responsible gaming, wagering and settlement.
 - Studio / operational capability is labelled as proposed / future / to be validated, not existing commercial proof.
 - Factuality hardening removed the showcase pseudo-auth gate and fabricated social proof/counts. Reveal actions remain presentation interactions, not claims of production identity infrastructure or real audience scale.
+- The bare reveal entry now opens the operator-first Industry narrative; product exploration is the secondary proof layer rather than the default destination.
 
 ## Rendered QA evidence
 
-Latest GitHub Actions rendered QA run: `34774244474` — **PASS** on checkpoint HEAD `3aa32eb` containing the factuality-hardened product candidate.
+Latest GitHub Actions rendered QA run: `34783641945` — **PASS** on product commit `7eceaea`.
 
 - WebKit 390×844: PASS — no horizontal overflow, missing resources, undersized visible targets, console errors or page errors.
 - WebKit 430×932: PASS — same checks passed.
 - Chromium 1440×900: PASS — same checks passed.
 - Industry storytelling sections render in intended order.
+- The gate opens the bare `showcase-v2/` entry and confirms it resolves to the Industry route, rather than supplying the route in advance.
 - Repository contract suites: PASS.
 - Factuality review: PASS.
 - Regulatory-boundary review: PASS.
