@@ -1,0 +1,75 @@
+name: Reveal v0.9 factuality cleanup
+
+on:
+  push:
+    branches: [reveal-sales-v1]
+    paths:
+      - '.github/workflows/reveal-v09-factuality-cleanup.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: reveal-sales-v1
+          fetch-depth: 0
+
+      - name: Remove public auth gating and fabricated social metrics
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p = Path('showcase-v2/index.html')
+          s = p.read_text()
+
+          replacements = {
+            '<title>LC App — Live Casino. Social Experience.</title>': '<title>LC App — Live Casino Through People</title>',
+            'function requireIdentity() {\n      if (state.identityPreview) return false;\n      sheet("authGate");\n      return true;\n    }': 'function requireIdentity() { return false; }',
+            'const protectedRoute = ["following", "player", "creator"].includes(active) && !state.identityPreview;\n      const visible = protectedRoute ? "welcome" : active;': 'const protectedRoute = false;\n      const visible = active;',
+            '      if (protectedRoute) sheet("authGate");\n': '',
+            '<span>${s.table} · ${s.operator}<br>${d.viewers} watching</span>': '<span>${s.table} · ${s.operator}<br>Creator-led live room</span>',
+            '<div><b>${d.audience} followers</b><span>${d.language} · ${d.game}</span></div>': '<div><b>Follow this creator</b><span>${d.language} · ${d.game}</span></div>',
+            '<div class="room-social"><div class="social-stat"><b>${Number(String(d.viewers).replace(/\\\\D/g, "")) + (state.comments || []).length}</b><span>watching now</span></div><div class="social-stat"><b>${d.audience}</b><span>followers</span></div><div class="social-stat"><b>${s.operator}</b><span>where to play</span></div></div>': '<div class="room-social"><div class="social-stat"><b>Live</b><span>creator-led session</span></div><div class="social-stat"><b>Follow</b><span>relationship continues</span></div><div class="social-stat"><b>${s.operator}</b><span>where regulated play continues</span></div></div>',
+            '<div class="creator-card"><b>${d.audience}</b><span>Illustrative followers</span></div>': '<div class="creator-card"><b>Audience</b><span>Creator following</span></div>',
+            'const count = Number((state.reactions || {})[key] || 0) + (label === "Nice table" ? 14 : label === "Good pace" ? 9 : 7);\n      return `<button class="chip" type="button" data-react="${key}">${label} · ${count}</button>`;': 'const active = Number((state.reactions || {})[key] || 0) > 0;\n      return `<button class="chip ${active ? "active" : ""}" type="button" data-react="${key}">${label}</button>`;'
+          }
+
+          missing = []
+          for old, new in replacements.items():
+              if old not in s:
+                  missing.append(old[:120])
+              else:
+                  s = s.replace(old, new)
+          if missing:
+              raise SystemExit('Expected source patterns missing:\n' + '\n---\n'.join(missing))
+
+          p.write_text(s)
+          PY
+
+      - name: Factuality and scope checks
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          s = Path('showcase-v2/index.html').read_text()
+          assert 'function requireIdentity() { return false; }' in s
+          assert 'const protectedRoute = false;' in s
+          assert '${d.viewers} watching' not in s
+          assert '${d.audience} followers' not in s
+          assert 'Illustrative followers' not in s
+          assert 'Nice table" ? 14' not in s
+          assert '<title>LC App — Live Casino Through People</title>' in s
+          print('scope/factuality cleanup PASS')
+          PY
+
+      - name: Commit cleanup
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add showcase-v2/index.html
+          git diff --cached --quiet && exit 0
+          git commit -m 'Remove reveal auth gate and fabricated social metrics'
+          git push origin HEAD:reveal-sales-v1
