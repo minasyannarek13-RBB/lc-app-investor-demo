@@ -1,9 +1,30 @@
 # LC Reveal Sales Progress
 
-## v0.9 — First Review Candidate
+## v0.9.1 — Factuality / public-demo hardening
 
 Branch: `reveal-sales-v1`
 Production `main`: untouched
+Product change commit: `f78d694ab6df1d70c3e18712f2cc2b31114df73b`
+
+### Material cleanup
+
+- Removed the public identity/auth gate from reveal navigation. Following, Creator and Profile surfaces are reviewable directly; auth remains outside this public concept scope.
+- Removed fabricated viewer/follower/reaction counts from visible product surfaces. Social behavior remains demonstrable without implying real audience traction or usage metrics.
+- Browser title aligned to `Live Casino Through People`.
+
+### Why
+
+This removes two trust-breaking contradictions with the reveal brief: the public concept should not behave like an auth product, and illustrative UI should not look like invented traction.
+
+### QA gate
+
+- Scope/factuality patch assertions: PASS in GitHub Actions patch workflow.
+- Full rendered QA: required on this exact product state before Freeze Gate.
+- P0: 0 known.
+- P1: 0 known pending rendered regression QA.
+
+## v0.9 — First Review Candidate
+
 Exact rendered candidate: `63235b3da619937b1fb313784f476d14980c5a38`
 
 ### Executive narrative
