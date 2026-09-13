@@ -109,7 +109,14 @@ jobs:
               };
             });
 
-            await page.screenshot({ path: `qa-artifacts/${c.name}.png`, fullPage: true });
+            // Keep evidence below browser bitmap limits. Metrics still inspect the entire document.
+            await page.screenshot({ path: `qa-artifacts/${c.name}-hero.png`, fullPage: false });
+            const businessHeading = page.getByText('Business & Monetization', { exact: false }).first();
+            if (await businessHeading.count()) {
+              await businessHeading.scrollIntoViewIfNeeded();
+              await page.waitForTimeout(150);
+              await page.screenshot({ path: `qa-artifacts/${c.name}-business.png`, fullPage: false });
+            }
 
             const status = response?.status() || 0;
             const caseFailed = status >= 400 || !metrics.industryVisible || !metrics.introVisible || metrics.horizontalOverflow || metrics.overflowNodes.length > 0 || consoleErrors.length > 0 || pageErrors.length > 0 || metrics.tinyTargets.length > 0;
