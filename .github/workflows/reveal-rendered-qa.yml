@@ -38,7 +38,7 @@ jobs:
       - name: Render mobile WebKit and desktop Chromium
         run: |
           mkdir -p qa-artifacts
-          cat > /tmp/reveal-qa.cjs <<'NODE'
+          cat > qa-artifacts/reveal-qa.cjs <<'NODE'
           const { webkit, chromium } = require('playwright');
           const fs = require('fs');
 
@@ -126,7 +126,7 @@ jobs:
             process.exit(1);
           });
           NODE
-          node /tmp/reveal-qa.cjs
+          node qa-artifacts/reveal-qa.cjs
 
       - name: Upload rendered QA evidence
         if: always()
