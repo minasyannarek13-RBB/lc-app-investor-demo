@@ -4,7 +4,7 @@
 
 Branch: `reveal-sales-v1`
 Production `main`: untouched
-Exact rendered candidate: `63235b3da619937b1fb313784f476e0`
+Exact rendered candidate: `63235b3da619937b1fb313784f476d14980c5a38`
 
 ### Executive narrative
 
