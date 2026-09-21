@@ -35,7 +35,7 @@ create index if not exists industry_org_members_user_idx
 alter table public.industry_organizations enable row level security;
 alter table public.industry_organization_members enable row level security;
 
-create or replace function public.is_industry_org_member(org_id uuid, member_id uuid default auth.uid())
+create or replace function public.is_industry_org_member(org_id uuid)
 returns boolean
 language sql
 stable
@@ -48,27 +48,27 @@ as $$
     join public.industry_organizations o on o.id = m.organization_id
     join public.profiles p on p.id = m.user_id
     where m.organization_id = org_id
-      and m.user_id = member_id
+      and m.user_id = auth.uid()
       and m.status = 'active'
       and o.status = 'active'
       and p.account_status = 'active'
   );
 $$;
 
-revoke all on function public.is_industry_org_member(uuid, uuid) from public;
-grant execute on function public.is_industry_org_member(uuid, uuid) to authenticated;
+revoke all on function public.is_industry_org_member(uuid) from public;
+grant execute on function public.is_industry_org_member(uuid) to authenticated;
 
 drop policy if exists "industry_organizations_member_select" on public.industry_organizations;
 create policy "industry_organizations_member_select"
   on public.industry_organizations for select
   to authenticated
-  using (public.is_industry_org_member(id, auth.uid()));
+  using (public.is_industry_org_member(id));
 
 drop policy if exists "industry_organization_members_member_select" on public.industry_organization_members;
 create policy "industry_organization_members_member_select"
   on public.industry_organization_members for select
   to authenticated
-  using (public.is_industry_org_member(organization_id, auth.uid()));
+  using (public.is_industry_org_member(organization_id));
 
 -- No INSERT/UPDATE/DELETE RLS policies are granted to authenticated clients.
 -- Provisioning and membership changes must cross a privileged backend boundary.
