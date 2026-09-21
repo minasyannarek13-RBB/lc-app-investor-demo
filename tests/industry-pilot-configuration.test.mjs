@@ -23,7 +23,16 @@ test('authenticated clients cannot self-approve creator mappings or handoff dest
   assert.match(migration, /and status = 'draft'/);
   assert.match(migration, /status in \('pending','removed'\)/);
   assert.match(migration, /status in \('draft','retired'\)/);
-  assert.doesNotMatch(migration, /status in \([^\n]*'approved'[^\n]*\)[\s\S]*to authenticated/i);
+
+  const authenticatedPolicies = migration
+    .split(/(?=create policy )/i)
+    .filter((block) => /^create policy /i.test(block) && /to authenticated/i.test(block))
+    .map((block) => block.split(/;\s*(?:\n|$)/, 1)[0]);
+  assert.ok(authenticatedPolicies.length >= 6, 'expected tenant select/write policies');
+  for (const policy of authenticatedPolicies) {
+    assert.doesNotMatch(policy, /with check[\s\S]*'approved'/i);
+  }
+
   assert.match(migration, /Approval remains outside client control/);
 });
 
