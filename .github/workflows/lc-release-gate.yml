@@ -59,6 +59,16 @@ jobs:
             exit 1
           fi
 
+      - name: Canonical database migration source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -d supabase/migrations
+          if find LC_App_GitHub_Pages_Upload/supabase/migrations -type f -name '*.sql' -print -quit 2>/dev/null | grep -q .; then
+            echo 'Packaged app contains duplicate database migrations. supabase/migrations is the only canonical migration source.' >&2
+            exit 1
+          fi
+
       - name: No public QA harness
         shell: bash
         run: |
