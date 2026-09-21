@@ -1,0 +1,79 @@
+name: LC App Release Gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lc-release-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  static-release-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -d '' files < <(find . -type f -name '*.js' -not -path './.git/*' -print0)
+          for file in "${files[@]}"; do
+            node --check "$file"
+          done
+
+      - name: Block private runtime credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          if grep -RInE --exclude-dir=.git --exclude='*.md' --exclude='*.yml' --exclude='*.yaml' \
+            '(SUPABASE_SERVICE_ROLE_KEY|service_role[[:space:]]*[:=]|postgres(ql)?://[^[:space:]]+:[^[:space:]]+@|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY)' .; then
+            echo 'Private credential material or privileged runtime key reference detected.' >&2
+            exit 1
+          fi
+
+      - name: Preserve LC product boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f index.html
+          test -f LC_App_GitHub_Pages_Upload/index.html
+          test -f LC_App_GitHub_Pages_Upload/auth.js
+          test -f LC_App_GitHub_Pages_Upload/social.js
+          test -f LC_App_GitHub_Pages_Upload/sw.js
+          if grep -RInE --include='*.html' --include='*.js' \
+            '(LC App (processes|handles|executes) (deposits|withdrawals|wagers|bets|settlement|KYC|AML)|deposit with LC App|withdraw with LC App)' \
+            index.html LC_App_GitHub_Pages_Upload; then
+            echo 'Potential gambling-operator boundary regression detected.' >&2
+            exit 1
+          fi
+
+      - name: No public QA harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e qa-live.html
+          test ! -e qa-live.js
+          test ! -e LC_App_GitHub_Pages_Upload/qa-live.html
+          test ! -e LC_App_GitHub_Pages_Upload/qa-live.js
+
+      - name: Root and canonical app parity
+        shell: bash
+        run: |
+          set -euo pipefail
+          for file in index.html auth.js social.js sw.js; do
+            if [[ -f "$file" && -f "LC_App_GitHub_Pages_Upload/$file" ]]; then
+              cmp "$file" "LC_App_GitHub_Pages_Upload/$file"
+            fi
+          done
