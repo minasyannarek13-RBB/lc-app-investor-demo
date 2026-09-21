@@ -68,11 +68,14 @@ jobs:
           test ! -e LC_App_GitHub_Pages_Upload/qa-live.html
           test ! -e LC_App_GitHub_Pages_Upload/qa-live.js
 
-      - name: Root and canonical app parity
+      - name: Shared runtime parity where duplicated
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html auth.js social.js sw.js; do
+          # Root index.html is intentionally the investor/reveal shell while the
+          # nested index.html is the canonical product app. Only duplicated
+          # runtime modules are required to stay byte-identical.
+          for file in auth.js social.js sw.js; do
             if [[ -f "$file" && -f "LC_App_GitHub_Pages_Upload/$file" ]]; then
               cmp "$file" "LC_App_GitHub_Pages_Upload/$file"
             fi
