@@ -1,4 +1,4 @@
-const CACHE_NAME = "lc-app-investor-demo-v90";
+const CACHE_NAME = "lc-app-investor-demo-v118";
 
 const FILES_TO_CACHE = [
   "./",
@@ -6,6 +6,14 @@ const FILES_TO_CACHE = [
   "./auth.js",
   "./social.js",
   "./app-product.js",
+  "./product-shell-v4.css",
+  "./social-feed-v4.css",
+  "./creator-studio-v4.css",
+  "./social-account-v4.css",
+  "./social-journey-v4.css",
+  "./business-console-v4.css",
+  "./product-shell-v2.css",
+  "./product-shell-v2.js",
   "./?app=1",
   "./02_OPEN_STATIC_PREVIEW.html",
   "./manifest.webmanifest",
@@ -61,11 +69,13 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+          }
           return response;
         })
-        .catch(() => caches.match(event.request))
+        .catch(() => caches.match(event.request).then((cached) => cached || (acceptsHtml ? caches.match("./index.html") : undefined)))
     );
     return;
   }
@@ -74,8 +84,10 @@ self.addEventListener("fetch", (event) => {
     caches.match(event.request).then((cached) => {
       if (cached) return cached;
       return fetch(event.request).then((response) => {
-        const copy = response.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+        if (response.ok) {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+        }
         return response;
       });
     })
