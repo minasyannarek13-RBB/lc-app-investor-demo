@@ -6,6 +6,10 @@ const migration = fs.readFileSync(
   new URL('../supabase/migrations/202609220043_industry_creator_table_mapping.sql', import.meta.url),
   'utf8'
 );
+const pauseHardening = fs.readFileSync(
+  new URL('../supabase/migrations/202609220044_harden_creator_table_mapping_pause.sql', import.meta.url),
+  'utf8'
+);
 
 test('creator table mappings are tenant scoped and direct browser mutation is closed', () => {
   assert.match(migration, /enable row level security/i);
@@ -23,6 +27,10 @@ test('only active tenant managers can configure or pause mappings', () => {
   assert.match(migration, /organization_manager_required/i);
   assert.match(migration, /not public\.is_active_profile\(auth\.uid\(\)\)/i);
   assert.match(migration, /not public\.is_industry_org_manager\(org_id\)[\s\S]*update public\.industry_creator_table_mappings/i);
+  assert.match(pauseHardening, /auth\.uid\(\) is null or not public\.is_active_profile\(auth\.uid\(\)\)/i);
+  assert.match(pauseHardening, /active_account_required/i);
+  assert.match(pauseHardening, /not found or not public\.is_industry_org_manager\(org_id\)/i);
+  assert.match(pauseHardening, /revoke all on function public\.pause_industry_creator_table_mapping\(uuid\) from public, anon/i);
 });
 
 test('mapping fails closed unless creator identity is verified and published', () => {
