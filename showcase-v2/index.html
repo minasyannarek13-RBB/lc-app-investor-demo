@@ -837,6 +837,41 @@
       text-transform: uppercase;
     }
     .role-card b { font-size: 16px; }
+    .pilot-offer {
+      position: relative;
+      overflow: hidden;
+      padding: 22px;
+      border: 1px solid rgba(150,255,215,.3);
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 90% 8%, rgba(150,255,215,.16), transparent 34%),
+        linear-gradient(145deg, rgba(7,61,50,.68), rgba(2,8,7,.96) 62%);
+      box-shadow: 0 22px 60px rgba(0,0,0,.24), inset 0 0 0 1px rgba(255,255,255,.025);
+      display: grid;
+      gap: 18px;
+    }
+    .pilot-offer-copy { display: grid; gap: 9px; }
+    .pilot-offer-copy strong {
+      color: var(--mint);
+      font-size: 10px;
+      font-weight: 950;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+    .pilot-offer-copy h2 { max-width: 18ch; }
+    .pilot-offer-copy p { max-width: 60ch; }
+    .pilot-scope { display: grid; gap: 10px; }
+    .pilot-scope article {
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 16px;
+      background: rgba(255,255,255,.045);
+      display: grid;
+      gap: 6px;
+    }
+    .pilot-scope strong { color: var(--soft); font-size: 10px; text-transform: uppercase; }
+    .pilot-scope b { font-size: 14px; line-height: 1.3; }
+    .pilot-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
     .search-list { display: grid; gap: 9px; margin-top: 12px; }
     .sheet .activity-row {
       width: 100%;
@@ -937,7 +972,8 @@
         gap: 20px;
       }
       .stage[data-route="industry"] .flow-grid,
-      .stage[data-route="industry"] .role-grid {
+      .stage[data-route="industry"] .role-grid,
+      .stage[data-route="industry"] .pilot-scope {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 16px;
       }
@@ -975,6 +1011,9 @@
       }
       .stage[data-route="industry"] .section > .btn,
       .stage[data-route="industry"] .section > .demo-note { max-width: 620px; }
+      .stage[data-route="industry"] .pilot-offer { padding: clamp(26px, 3vw, 38px); }
+      .stage[data-route="industry"] .pilot-offer-copy h2 { font-size: clamp(32px, 4vw, 52px); line-height: .98; }
+      .stage[data-route="industry"] .pilot-offer-copy p { font-size: 17px; }
     }
     .trust-line {
       display: inline-flex;
@@ -1182,6 +1221,9 @@
       .stage[data-route="industry"] .role-card p,
       .stage[data-route="industry"] .core-line p { font-size: 14px; }
       .stage[data-route="industry"] #industry .section > .btn { width: 100%; }
+      .stage[data-route="industry"] .pilot-offer { padding: 20px; }
+      .stage[data-route="industry"] .pilot-actions { display: grid; }
+      .stage[data-route="industry"] .pilot-actions .btn { width: 100%; }
     }
     @media (max-width: 395px) {
       .screen { padding-left: 12px; padding-right: 12px; }
@@ -1646,7 +1688,11 @@
     function industry() {
       $("industry").innerHTML = `<div class="industry-top">${simpleTopbar()}<button class="chip" type="button" data-go="discover">Explore Live</button></div><div class="section industry-intro" style="margin-top:0"><span class="label">CONCEPT VISION — TO BE VALIDATED</span><h1>Live Casino through people.</h1><p>The shift is simple: from GAME / TABLE to PERSON. LC creates creator-led discovery and return around existing licensed Live Casino infrastructure.</p></div><div class="section"><div class="flow-grid"><article class="flow-card"><span>Traditional Live Casino</span><div class="flow-steps"><div class="flow-step"><i>1</i><b>Casino</b><em>→</em></div><div class="flow-step"><i>2</i><b>Lobby</b><em>→</em></div><div class="flow-step"><i>3</i><b>Game</b><em>→</em></div><div class="flow-step"><i>4</i><b>Table</b><em>→</em></div><div class="flow-step"><i>5</i><b>Seat</b><em>→</em></div></div></article><article class="flow-card hypothesis"><span>LC hypothesis</span><div class="flow-steps"><div class="flow-step"><i>1</i><b>Discover</b><em>→</em></div><div class="flow-step"><i>2</i><b>Person</b><em>→</em></div><div class="flow-step"><i>3</i><b>Follow</b><em>→</em></div><div class="flow-step"><i>4</i><b>Live intent</b><em>→</em></div><div class="flow-step"><i>5</i><b>Licensed Operator</b><em>→</em></div><div class="flow-step"><i>6</i><b>Return</b><em>→</em></div></div></article></div></div><div class="section"><article class="core-line"><h2>Why should an operator care?</h2><p>Creator → audience → live intent → operator handoff → regulated play → creator-led reason to return.</p></article><div class="role-grid"><article class="role-card"><strong>Operator · Primary commercial audience</strong><b>Turn attention into attributable live intent.</b><p>Potential new discovery, creator-led acquisition, differentiation and return path without LC owning regulated play.</p><div class="mini-flow"><span>Creator</span><span>Audience</span><span>Live intent</span><span>Handoff</span><span>Return</span></div></article><article class="role-card"><strong>Provider · More than distribution</strong><b>Potential to change Live Casino operating economics.</b><p>Creator-led formats can add audience-bearing talent, dedicated sessions and controlled studio activations around existing provider infrastructure.</p><div class="mini-flow"><span>Creator / Dealer</span><span>Dedicated session</span><span>Audience</span><span>Operator</span></div></article></div></div><div class="section"><article class="core-line"><h2>Two creator engines</h2><p>Build an audience from Live Casino talent, or bring an existing audience into Live Casino.</p></article><div class="role-grid"><article class="role-card"><strong>Dealer → Creator</strong><b>The dealer should not disappear when the shift ends.</b><p>Persistent identity, content, followers and schedule can turn Live Casino talent into a reason to return. A table session ends. The audience does not have to.</p><div class="mini-flow"><span>Dealer</span><span>Persistent identity</span><span>Creator</span><span>Content</span><span>Followers</span><span>Community</span><span>Schedule</span><span>Live sessions</span><span>Operator</span><span>Return</span></div></article><article class="role-card"><strong>Influencer → Live Casino</strong><b>Start with someone who already owns attention.</b><p>An external creator can potentially become the center of a dedicated Live format for an operator/provider partner.</p><div class="mini-flow"><span>Influencer</span><span>Existing audience</span><span>Live Casino host</span><span>Dedicated table / event</span><span>Live intent</span><span>Licensed operator</span><span>Play</span><span>Creator relationship</span><span>Return</span></div></article></div></div><div class="section"><article class="core-line"><h2>New discovery path, same licensed infrastructure.</h2><p>LC owns the relationship layer around the game. Licensed operator/provider infrastructure keeps the regulated transaction.</p></article><div class="role-grid"><article class="role-card"><strong>LC relationship layer</strong><b>Discovery · Creator identity · Social context · Content · Follow · Schedule · Reminders · Attribution · Handoff · Return</b></article><article class="role-card"><strong>Licensed operator / provider</strong><b>Gameplay · Live stream · Wallet · Deposits / withdrawals · Wagering · Settlement · KYC / AML · Responsible gaming</b></article></div></div><div class="section"><article class="role-card"><strong>Proposed operational capability</strong><b>From creator idea to controlled Live environment.</b><p>Define requirements, design a dedicated creator/influencer table or studio setup, prepare workflow and launch framework, then connect through an authorized operator/provider partner.</p><span class="demo-note">Proposed capability · To be validated. Any distributed or mini-studio model remains subject to jurisdiction, licensing, certification, surveillance, equipment controls, game integrity, responsible gaming and partner approval.</span></article><article class="role-card"><strong>Business & Monetization · Working hypotheses</strong><b>LC monetizes the path around the game, not the regulated game itself.</b><p>Potential economics include operator service/SaaS, legally and commercially appropriate partnership revenue share, creator participation and studio/activation services. Terms and outcomes remain to be validated.</p><div class="mini-flow"><span>Creator</span><span>Audience</span><span>Live intent</span><span>Operator handoff</span><span>Return</span></div></article><a class="btn" href="business-reveal-v1.html">OPEN BUSINESS & MONETIZATION</a><span class="demo-note">Illustrative concept. No confirmed customers, integrations, partnerships, revenue, CAC reduction, retention uplift, GGR uplift or ROI are claimed.</span><button class="btn secondary" type="button" data-go="discover">EXPLORE PRODUCT</button></div>`;
     }
-    const screens = { welcome, discover, dealer: dealerProfile, live: liveRoom, following, creator: creatorView, player: playerProfile, industry };
+    function industryWithPilot() {
+      industry();
+      $("industry").insertAdjacentHTML("beforeend", `<div class="section"><article class="pilot-offer"><div class="pilot-offer-copy"><strong>Partner invitation · Pilot hypothesis</strong><h2>Shape the first controlled creator-led Live Casino pilot.</h2><p>We are seeking one licensed operator or provider partner to test whether a person-led discovery and return layer can create measurable live intent around an authorized Live Casino environment.</p></div><div class="pilot-scope"><article><strong>LC contributes</strong><b>Creator identity, discovery, follow, content, schedule, reminders, live-intent context, handoff and pilot measurement.</b></article><article><strong>Partner retains</strong><b>Gameplay, streaming infrastructure, wallet, wagering, settlement, KYC / AML, responsible gaming and jurisdictional approval.</b></article></div><div class="pilot-scope"><article><strong>Signals to observe</strong><b>Profile discovery → follow → schedule or reminder → live intent → operator handoff → attributable return.</b></article><article><strong>Partner input</strong><b>An authorized environment, compliance review, eligible creator or dealer format, and agreed access to pilot-level event data.</b></article></div><div class="pilot-actions"><a class="btn" href="mailto:mn@open-gamer.com?subject=LC%20App%20controlled%20pilot">DISCUSS A CONTROLLED PILOT</a><a class="btn secondary" href="business-reveal-v1.html">REVIEW BUSINESS LOGIC</a></div><span class="demo-note">Pilot scope, economics, success criteria and timing remain to be agreed. No performance outcome is claimed.</span></article></div>`);
+    }
+    const screens = { welcome, discover, dealer: dealerProfile, live: liveRoom, following, creator: creatorView, player: playerProfile, industry: industryWithPilot };
     const sideCopy = {
       welcome: ["LIVE CASINO. SOCIAL EXPERIENCE.", "The social discovery layer\nfor Live Casino.", "Live Casino through people."],
       discover: ["LIVE CASINO. SOCIAL EXPERIENCE.", "The social discovery layer\nfor Live Casino.", "Live Casino through people."],
