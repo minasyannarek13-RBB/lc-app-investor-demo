@@ -17,6 +17,11 @@ assert.match(app, /trackProductEvent\("creator_impression"[\s\S]+surface: "creat
 assert.match(app, /trackProductEvent\("discovery_search"[\s\S]+result_count:/);
 assert.match(app, /trackProductEvent\("creator_follow"[\s\S]+action:/);
 assert.match(app, /trackProductEvent\("notification_response"/);
+assert.match(
+  app,
+  /target\.closest\("button\[data-lc-persona\], \[role='button'\]\[data-lc-persona\]"\)/,
+  "Clicks inside a persona-scoped product shell must not be mistaken for persona switches",
+);
 
 // Discovery must remain people-first and personalization must be explainable, not opaque claimed AI.
 assert.match(app, /Find the person behind the table\./);

@@ -327,7 +327,9 @@
     root.setAttribute("aria-label", productFamily() === "business" ? "LC App business back office" : "LC App social experience");
 
     root.querySelectorAll("img").forEach((img) => {
-      if (!img.hasAttribute("loading")) img.loading = "lazy";
+      const critical = Boolean(img.closest(".lc-v4-creator-hero,.lc-v4-live-stage,.lc-v4-handoff-hero"));
+      if (!img.hasAttribute("loading")) img.loading = critical ? "eager" : "lazy";
+      if (critical) img.fetchPriority = "high";
       if (!img.hasAttribute("decoding")) img.decoding = "async";
       if (!img.getAttribute("alt")) {
         const card = img.closest(".lc-product-row,.lc-product-cinema,.lc-product-media-tile,.lc-v3-live-card,.lc-v3-creator-row");
@@ -381,7 +383,12 @@
     ensureRouteStatus();
     document.documentElement.classList.toggle("lc-product-v2", isProductRoute());
     const root = productRoot();
-    if (!root || !isProductRoute()) return;
+    if (!root || !isProductRoute()) {
+      const status = document.getElementById(ROUTE_STATUS_ID);
+      if (status) status.textContent = "";
+      lastRouteAnnouncement = "";
+      return;
+    }
     syncRouteState(root);
     syncRail();
     syncSocialTabs(root);
