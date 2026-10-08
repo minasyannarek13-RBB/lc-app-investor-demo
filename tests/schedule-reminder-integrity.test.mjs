@@ -28,7 +28,7 @@ assert.match(app, /const scheduled = item\.sessions\.filter\(\(session\) => sess
 assert.match(app, /found\.session\.status !== "scheduled"/);
 assert.match(app, /new Date\(starts\)\.getTime\(\) <= Date\.now\(\)/);
 assert.match(app, /const localDateTimeInput = \(date\)/);
-assert.match(app, /next\.status === "live" \? "Watch live" : "View schedule"/);
+assert.match(app, /next\.status === "live" \? \(isIllustrativeSession\(next\) \? "Open demo session" : "Watch live"\) : "View schedule"/);
 assert.match(app, /if \(session\.status !== "live"\) return renderMissing\("Handoff unavailable"|if \(session\.status !== "live"\) return renderMissing\("Session not Live"/);
 assert.match(app, /isLive \? `<button[\s\S]+data-lc-product="handoff"[\s\S]+data-lc-reminder/);
 

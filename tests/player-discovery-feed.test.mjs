@@ -12,7 +12,8 @@ assert.match(app, /metadata: \{ surface: "creator_feed", position: index \+ 1, f
 assert.match(app, /experience: "social_explore"/);
 assert.match(app, /Join the person, then choose where to play/);
 assert.match(app, /Save a reason to return/);
-assert.match(app, /Recommendations explain the signals used/);
+assert.match(app, /Explore illustrative creators and preview the path to participating licensed operators/);
+assert.match(app, /find creators relevant to your interests/);
 assert.match(app, /data-lc-reminder="\$\{safe\(session\.id\)\}"/);
 assert.match(app, /\$\{session \? \(isLive/);
 assert.match(app, /data-lc-live="\$\{safe\(session\.id\)\}"/);
