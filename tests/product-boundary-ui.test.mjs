@@ -22,8 +22,10 @@ test('player product keeps wagering and settlement outside LC', () => {
 
 test('demo content is explicit without changing real-session labels', () => {
   assert.equal(deployedSource, source, 'deployed and contract-tested product sources must stay aligned');
+  assert.match(source, /if \(isSessionPreview\(session\)\) return "SESSION PREVIEW"/);
   assert.match(source, /isIllustrativeSession\(session\) \? "DEMO LIVE" : "LIVE NOW"/);
-  assert.match(source, /isIllustrativeSession\(session\) \? "SESSION PREVIEW" : "UPCOMING"/);
+  assert.match(source, /demo-session-sofia[\s\S]+status: "scheduled"/);
+  assert.match(source, /demo-session-alex[\s\S]+status: "scheduled"/);
   assert.match(source, /DEMO EXPERIENCE · \$\{safe\(\(state\.demoPersona/);
   assert.match(source, /Illustrative profile/);
   assert.match(source, /ILLUSTRATIVE PROFILE/);
@@ -39,5 +41,7 @@ test('viewer handoff copy avoids internal instrumentation language', () => {
   assert.ok(start >= 0 && end > start, 'handoff view must be present');
   assert.doesNotMatch(handoffView, /LC records intent|handoff intent|attributable inside LC/i);
   assert.match(handoffView, /Your session context stays connected/);
+  assert.match(handoffView, /ILLUSTRATIVE HANDOFF PREVIEW/);
   assert.match(source, /"handoff_intent"/);
+  assert.doesNotMatch(source, /trackProductEvent\("handoff_intent"/);
 });
