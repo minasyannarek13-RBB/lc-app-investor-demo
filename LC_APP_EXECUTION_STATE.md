@@ -1,8 +1,16 @@
 # Current Release Checkpoint — 2026-10-09
 
-Project: LC App | Version: v0.4 | Status: Local RC security audit verified; staging blocked
+Project: LC App | Version: v0.5 | Status: Migration forensics verified locally; staging migration blocked
 Owner: Narek / Engineering | Audience: founder and release engineer
 Sources: current code, tests, migrations, PR #18 read-only metadata; historical notes below are not current release evidence.
+
+## Migration forensics checkpoint
+- Starting checkpoint `433b6f9378f0402866d81391507a8a9324808a86` verified on `codex/lc-app-p1-stabilization` with a clean worktree.
+- Full branch/tag/reflog/object audit found 57 SQL files: 001–051 and 055–060. Versions 052–054 are MISSING with no authoritative SQL; no placeholders were created.
+- 057–058 are VERIFIED RECONSTRUCTIONS from the documented foundation contract and application usage; hosted equivalence remains unverified.
+- Current run: Node 117/117 PASS; PostgreSQL clean-room chain PASS; recovery replay 057–060 PASS; schema audit PASS; DB security matrix 40/40 PASS.
+- Staging ref `dnpizrjuxkcnmdgmvnks` endpoint exists and is absent from repository/deployment configuration. User-supplied zero-table/migration/function status is not independently verified. No hosted migration ran.
+- Canonical evidence: `MIGRATION_FORENSICS_REPORT.md`, `MIGRATION_PROVENANCE_MATRIX.md`, `STAGING_MIGRATION_EXECUTION_PLAN.md`.
 
 ## Current RC and verified fixes
 - Branch: `codex/lc-app-p1-stabilization`; preserved starting SHA `501c3f1fdfc2073ba896e991ef0ea7680003b42e` and cache/route checkpoint `1ec4618ab4315c76efdc77200abc97e6780c5fda`. Current review SHA: `git rev-parse HEAD` after the local checkpoint commit.

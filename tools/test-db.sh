@@ -28,6 +28,15 @@ while IFS= read -r migration; do
   "${PSQL[@]}" -f "$migration" >/dev/null
 done < <(find "$ROOT_DIR/supabase/migrations" -type f -name '*.sql' -print | sort)
 
+for migration in \
+  "$ROOT_DIR/supabase/migrations/202610090057_foundation_contract_recovery.sql" \
+  "$ROOT_DIR/supabase/migrations/202610090058_avatar_storage_contract_recovery.sql" \
+  "$ROOT_DIR/supabase/migrations/202610090059_private_profile_policy_compatibility.sql" \
+  "$ROOT_DIR/supabase/migrations/202610090060_foundation_privilege_and_suspension_hardening.sql"; do
+  printf 'reapply %s\n' "$(basename "$migration")"
+  "${PSQL[@]}" -f "$migration" >/dev/null
+done
+
 "${PSQL[@]}" -f "$ROOT_DIR/tests/db/schema-security-audit.sql"
 "${PSQL[@]}" -f "$ROOT_DIR/tests/db/security-matrix.sql"
 
