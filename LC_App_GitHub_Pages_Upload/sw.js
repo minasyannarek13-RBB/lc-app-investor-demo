@@ -1,4 +1,4 @@
-const CACHE_NAME = "lc-app-investor-demo-v122";
+const CACHE_NAME = "lc-app-investor-demo-v123";
 
 const FILES_TO_CACHE = [
   "./",
@@ -47,7 +47,7 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys()
       .then((keys) => Promise.all(keys.map((key) => {
-        if (key !== CACHE_NAME) return caches.delete(key);
+        if (key.startsWith("lc-app-investor-demo-") && key !== CACHE_NAME) return caches.delete(key);
         return undefined;
       })))
       .then(() => self.clients.claim())
@@ -58,10 +58,20 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
-  if (url.pathname.endsWith("/qa-live.html") || url.pathname.endsWith("/qa-live.js")) {
-    event.respondWith(fetch(event.request));
-    return;
-  }
+  const scope = new URL(self.registration.scope);
+  const relativePath = url.pathname.startsWith(scope.pathname)
+    ? url.pathname.slice(scope.pathname.length) : null;
+  const shellPath = relativePath === "" || relativePath === "index.html";
+  const staticAsset = FILES_TO_CACHE.some((file) => new URL(file, scope).pathname === url.pathname)
+    || (relativePath !== null && /^app_prototype_assets\/[A-Za-z0-9_./-]+\.(?:png|jpe?g|webp|svg)$/i.test(relativePath));
+  const safeQuery = !url.search || (shellPath && url.search === "?app=1");
+  if (!staticAsset || !safeQuery || event.request.headers.has("authorization")
+      || event.request.cache === "no-store") return;
+
+  const cacheable = (response) => response.ok && !response.redirected
+    && !/(?:no-store|private)/i.test(response.headers.get("cache-control") || "")
+    && !(response.headers.get("vary") || "").split(",")
+      .some((header) => /^(?:\*|authorization|cookie)$/i.test(header.trim()));
 
   const acceptsHtml = event.request.headers.get("accept")?.includes("text/html");
   const currentAsset = acceptsHtml || /\.(?:html|js|css)$/i.test(url.pathname);
@@ -69,9 +79,9 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
-          if (response.ok) {
+          if (cacheable(response)) {
             const copy = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+            event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy)));
           }
           return response;
         })
@@ -84,9 +94,9 @@ self.addEventListener("fetch", (event) => {
     caches.match(event.request).then((cached) => {
       if (cached) return cached;
       return fetch(event.request).then((response) => {
-        if (response.ok) {
+        if (cacheable(response)) {
           const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+          event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy)));
         }
         return response;
       });

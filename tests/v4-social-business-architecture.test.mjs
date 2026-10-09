@@ -88,7 +88,7 @@ assert.ok(
   shell.indexOf("const routePersona") < shell.indexOf("const explicit"),
   "demo route and freshly rendered persona chip must override stale shell dataset state"
 );
-assert.match(sw, /lc-app-investor-demo-v122/);
+assert.match(sw, /lc-app-investor-demo-v123/);
 assert.match(sw, /creator-studio-v4\.css/);
 assert.match(sw, /social-account-v4\.css/);
 assert.match(sw, /social-journey-v4\.css/);

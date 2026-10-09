@@ -24,7 +24,8 @@ assert.doesNotMatch(shell, /button:disabled:not\(/, "disabled empty-state action
 assert.match(css, /lc-product-connectivity\.is-online/);
 assert.match(css, /lc-product-spinner/);
 assert.match(sw, /acceptsHtml \? caches\.match\("\.\/index\.html"\)/);
-assert.match(sw, /if \(response\.ok\)/);
+assert.match(sw, /const cacheable = \(response\) => response\.ok/);
+assert.match(sw, /if \(cacheable\(response\)\)/);
 assert.match(app, /loading="lazy" decoding="async"/, "offscreen demo media must use deferred decoding");
 
 const demoMedia = [...app.matchAll(/app_prototype_assets\/dealers\/v2_polish\/[A-Za-z0-9_.-]+/g)]

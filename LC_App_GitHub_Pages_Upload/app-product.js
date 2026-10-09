@@ -2279,9 +2279,17 @@
   }
 
   function renderProductTarget(parts = []) {
-    if (parts[0] === "creator" && parts[1]) return renderCreatorDetail(decodeURIComponent(parts[1]));
-    if (parts[0] === "live" && parts[1]) return renderLive(decodeURIComponent(parts[1]));
-    if (parts[0] === "handoff" && parts[1]) return renderHandoff(decodeURIComponent(parts[1]));
+    let targetId;
+    if (["creator", "live", "handoff"].includes(parts[0]) && parts[1]) {
+      try {
+        targetId = decodeURIComponent(parts[1]);
+      } catch {
+        return renderMissing("Invalid link", "This product link is malformed.", "Back to Discover");
+      }
+    }
+    if (parts[0] === "creator" && targetId) return renderCreatorDetail(targetId);
+    if (parts[0] === "live" && targetId) return renderLive(targetId);
+    if (parts[0] === "handoff" && targetId) return renderHandoff(targetId);
     if (parts[0] && !["demo"].includes(parts[0])) return renderMissing("Route not found", "This product link is not available.", "Back to Discover");
     return routeHome();
   }

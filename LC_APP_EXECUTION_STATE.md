@@ -1,3 +1,54 @@
+# Current Release Checkpoint — 2026-10-09
+
+Project: LC App | Version: v0.2 | Status: Local hardening verified; staging blocked
+Owner: Narek / Engineering | Audience: founder and release engineer
+Sources: current code, tests, migrations, PR #18 read-only metadata; historical notes below are not current release evidence.
+
+## Current RC and verified fixes
+- Branch: `codex/lc-app-p1-stabilization`; preserved starting SHA `501c3f1fdfc2073ba896e991ef0ea7680003b42e`. Current review SHA: `git rev-parse HEAD` after the local checkpoint commit.
+- Service worker v123 permits only scoped public assets and the explicit `?app=1` shell. API paths, auth callback queries, Authorization/no-store requests bypass caching; private/no-store, redirected and identity-varying responses cannot be stored. Activation preserves unrelated applications' caches; cache writes extend worker lifetime.
+- Malformed creator/live/handoff route identifiers now render Invalid link instead of throwing URIError and retaining a stale screen.
+- Launcher is executable and binds to loopback. `.gitignore` excludes local secrets, Vercel state and test artifacts; `.env.example` remains shareable.
+- Root/nested app-product.js and sw.js remain identical. Existing stabilization and all existing tests preserved.
+
+## Validation actually executed
+- `node --test tests/*.test.mjs`: 114/114 PASS (baseline: 108/108). New executable VM tests cover caching/activation privacy and malformed route handling. Most pre-existing database tests are static contracts, not authenticated database tests.
+- `node --check` on all 9 JavaScript files; `bash -n run-local.sh`; `git diff --check`: PASS.
+- Installed Chrome via Playwright: 63 route/viewport checks across player, creator, operator, provider, creator profile, live preview and handoff preview at 320/375/390/430/768/1024/1440/1920/2560 px. No document horizontal overflow, broken visible images or page JS errors after the route fix. This is structural smoke, not full visual/a11y signoff.
+- Chrome interactions: demo follow, schedule reminder, handoff without external outbound CTA, simulated return, browser back, service-worker offline shell and online recovery: PASS. Demo state is simulated; these results do not verify persisted authenticated data.
+- Scoped privileged-credential pattern scan of JS/HTML/SQL/JSON: zero matches; not an exhaustive secrets audit.
+- Migration filenames/ordering unique and dollar-quote structure balanced across 47 migrations. No PostgreSQL parser or real database execution available; SQL syntax/RLS behavior not certified.
+- Local review: `PORT=4187 ./run-local.sh`, http://localhost:4187/?app=1#/product/demo/player . Default 4173 already in use during QA; no existing service was stopped.
+
+## External release blockers and gate status
+- Gate 1 NOT PASSED: Chrome demo smoke passes, but authenticated player/creator/tenant/admin journeys, adversarial database matrix and comprehensive accessibility verification remain unverified. WebKit binary absent; Chrome executable available.
+- Gate 2 BLOCKED: no psql/Supabase CLI/Docker in PATH, no verified isolated staging configuration or authorized staging credentials. Checked-in migrations start at 007; prerequisites 001–006/base schema are absent. `.env.example` identifies the existing hosted project; its environment cannot be inferred to be staging. No hosted database request or migration was executed.
+- Migration 012 changes existing unverified published creator profiles to draft and user-generated public sessions to private. Snapshot those rows before staging application; do not auto-restore public visibility on rollback. Depends on existing personas, creator profiles/sessions, auth and active-profile contracts.
+- Migration 056 replaces two trigger functions, revokes browser execution and recreates the metadata trigger. Existing event rows are not rewritten. Depends on the prior event schema/context/state/return migrations and creator/block contracts. Trigger behavior and existing metadata compatibility require a real staging database.
+- Migration recovery: take a verified database snapshot and capture pre-migration function/trigger/policy definitions and affected 012 row states; apply ordered migrations transactionally to isolated staging; run authenticated role matrix before signoff. On failure, rollback the transaction. After commit, prefer a reviewed forward repair; restore captured definitions/snapshot only in isolated staging with compatible frontend. Reopening unapproved public rows is not an acceptable rollback. No tested database rollback is claimed.
+- PR #18 OPEN at `edb98dd1fc3c3e65ca703399ccde6f0646c2f5e0` on `rc/session-handoff-binding`; regression and static-release-gate CI SUCCESS from 2026-10-07. Those checks do not cover this local branch.
+- GitHub deployments metadata lists recent Preview deployments at `7695a61` and `9f378e3`, and Production at `3a9d200`. Vercel project linkage/settings absent locally; automatic deployment risk is unresolved. No push, merge, deployment, domain/marketing edit or production migration performed.
+- Gate 3 NOT PASSED; Gate 4 founder approval required. PRODUCTION READY: NO.
+
+## Release/rollback procedure and next action
+1. Provide an isolated staging schema snapshot (including missing base schema) and authorized access without posting secrets to chat. Verify project identity and environment before any migration.
+2. Snapshot, apply 012 through 056 as appropriate to the verified migration history, then execute real auth/RLS/tenant/approval/notifications/handoff/return/adversarial integration tests using approved staging destinations.
+3. Complete browser authenticated journeys, WebKit, keyboard/focus/a11y, account lifecycle, rate-limit and monitoring validation. Do not treat regex/static tests as release security certification.
+4. Review exact local SHA and deploy policy before requesting push/deployment authorization. Preserve immutable prior frontend artifact; rollback frontend to the prior reviewed artifact only after checking schema compatibility. These local changes can be reverted by a new local git revert commit; never reset the preserved RC or automatically roll back production.
+
+## Consolidated AI_SYNC entry
+Date: 2026-10-09 | AI: Codex | Project: LC App
+Task: Preserve RC, verify baseline, fix cache privacy and malformed routes, execute local browser smoke.
+Files created: .gitignore; tests/service-worker-privacy.test.mjs; tests/product-route-validation.test.mjs.
+Files updated: root/nested sw.js and app-product.js; run-local.sh; two existing tests; this checkpoint.
+Decisions: local-only release hardening; no product positioning/architecture change; no external writes.
+Assumptions introduced: none about staging identity or production readiness.
+Contradictions: historical execution-state claims below and remote PR CI do not describe current authenticated release readiness.
+Open questions: staging identity/base schema/access, Vercel deployment policy, actual persisted role/security behavior.
+Next action: unblock isolated staging verification. Historical log follows for traceability.
+
+---
+
 # LC App Execution State
 
 Date: 2026-08-31

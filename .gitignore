@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+.vercel/
+node_modules/
+playwright-report/
+test-results/
+*.pem
+*.key
+*.p12
+*.pfx
+.DS_Store
