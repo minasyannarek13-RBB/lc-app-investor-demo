@@ -553,7 +553,7 @@
   async function ensureProfile() {
     if (!STATE.client || !STATE.session?.user) return null;
     const user = STATE.session.user;
-    const { data, error } = await STATE.client.from("profiles").select("*").eq("id", user.id).maybeSingle();
+    const { data, error } = await STATE.client.rpc("get_own_profile");
     if (error) throw error;
     STATE.profile = data;
     await loadDeletionRequest();
@@ -659,10 +659,9 @@
   }
 
   async function updateProfile(payload) {
-    const { data, error } = await STATE.client.from("profiles").update(payload).eq("id", STATE.session.user.id).select("*").single();
+    const { error } = await STATE.client.from("profiles").update(payload).eq("id", STATE.session.user.id);
     if (error) throw error;
-    STATE.profile = data;
-    return data;
+    return ensureProfile();
   }
 
   async function saveRequiredOnboarding(formData) {
