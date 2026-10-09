@@ -28,6 +28,7 @@ while IFS= read -r migration; do
   "${PSQL[@]}" -f "$migration" >/dev/null
 done < <(find "$ROOT_DIR/supabase/migrations" -type f -name '*.sql' -print | sort)
 
+"${PSQL[@]}" -f "$ROOT_DIR/tests/db/schema-security-audit.sql"
 "${PSQL[@]}" -f "$ROOT_DIR/tests/db/security-matrix.sql"
 
 pass_count=0
@@ -51,6 +52,18 @@ begin;
 set local role ${role_name};
 set local "request.jwt.claim.sub" = '${actor_id}';
 set local "request.jwt.claim.role" = '${role_name}';
+${statement}
+commit;
+SQL
+}
+
+as_service_role_commit() {
+  local statement="$1"
+  "${PSQL[@]}" -Atq <<SQL
+begin;
+set local role service_role;
+set local "request.jwt.claim.sub" = '';
+set local "request.jwt.claim.role" = 'service_role';
 ${statement}
 commit;
 SQL
@@ -162,5 +175,27 @@ expect_denied "duplicate return replay rejected" authenticated 11111111-1111-411
   "insert into public.product_events(user_id,event_name,event_key,journey_id,creator_id,creator_session_id,metadata) values ('11111111-1111-4111-8111-111111111111','handoff_return','eeeeeeee-eeee-4eee-8eee-eeeeeeeeeee5','ffffffff-ffff-4fff-8fff-fffffffffff3','33333333-3333-4333-8333-333333333333','aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1','{}');"
 expect_denied "return without prior intent rejected" authenticated 22222222-2222-4222-8222-222222222222 \
   "insert into public.product_events(user_id,event_name,event_key,journey_id,creator_id,creator_session_id,metadata) values ('22222222-2222-4222-8222-222222222222','handoff_return','eeeeeeee-eeee-4eee-8eee-eeeeeeeeeee6','ffffffff-ffff-4fff-8fff-fffffffffff4','33333333-3333-4333-8333-333333333333','aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1','{}');"
+
+as_service_role_commit \
+  "select public.admin_set_profile_account_status('22222222-2222-4222-8222-222222222222','suspended');" >/dev/null
+expect_value "suspended player can read own account status" authenticated 22222222-2222-4222-8222-222222222222 suspended \
+  "select public.get_own_profile()->>'account_status';"
+expect_denied "suspended player cannot create post" authenticated 22222222-2222-4222-8222-222222222222 \
+  "insert into public.posts(author_id,body) values ('22222222-2222-4222-8222-222222222222','blocked');"
+expect_denied "suspended player cannot create report" authenticated 22222222-2222-4222-8222-222222222222 \
+  "insert into public.reports(reporter_id,target_type,target_id,reason) values ('22222222-2222-4222-8222-222222222222','profile','11111111-1111-4111-8111-111111111111','other');"
+expect_denied "suspended player cannot upload avatar" authenticated 22222222-2222-4222-8222-222222222222 \
+  "insert into storage.objects(bucket_id,name,owner_id) values ('avatars','22222222-2222-4222-8222-222222222222/suspended.png','22222222-2222-4222-8222-222222222222');"
+expect_denied "suspended player cannot create product event" authenticated 22222222-2222-4222-8222-222222222222 \
+  "insert into public.product_events(user_id,event_name,event_key,journey_id,metadata) values ('22222222-2222-4222-8222-222222222222','product_open',gen_random_uuid(),gen_random_uuid(),'{}');"
+
+as_service_role_commit \
+  "select public.admin_set_profile_account_status('77777777-7777-4777-8777-777777777777','suspended');" >/dev/null
+expect_value "suspended admin loses moderator capability" authenticated 77777777-7777-4777-8777-777777777777 f \
+  "select public.is_moderator();"
+expect_value "suspended admin cannot read moderation queue" authenticated 77777777-7777-4777-8777-777777777777 0 \
+  "select count(*) from public.reports where id = '99999999-9999-4999-8999-999999999999';"
+expect_value "suspended admin cannot update moderation queue" authenticated 77777777-7777-4777-8777-777777777777 0 \
+  "with changed as (update public.reports set status = 'actioned' where id = '99999999-9999-4999-8999-999999999999' returning 1) select count(*) from changed;"
 
 printf 'DB SECURITY MATRIX: %s PASS\n' "$pass_count"

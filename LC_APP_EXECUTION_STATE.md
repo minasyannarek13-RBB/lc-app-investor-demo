@@ -1,6 +1,6 @@
 # Current Release Checkpoint — 2026-10-09
 
-Project: LC App | Version: v0.3 | Status: Local RC verified; staging blocked
+Project: LC App | Version: v0.4 | Status: Local RC security audit verified; staging blocked
 Owner: Narek / Engineering | Audience: founder and release engineer
 Sources: current code, tests, migrations, PR #18 read-only metadata; historical notes below are not current release evidence.
 
@@ -12,20 +12,22 @@ Sources: current code, tests, migrations, PR #18 read-only metadata; historical 
 - Root/nested app-product.js and sw.js remain identical. Existing stabilization and all existing tests preserved.
 - Original migrations 001–006 were recovered byte-for-byte from the authoritative local `LC_App_GitHub_Pages_Upload` package identified by its API contract. Git history and unreachable-object inspection contained no copies; these are classified as recovered local source files, not Git originals.
 - Migrations 057–059 reconstruct the documented auth/profile/avatar foundation, keep sensitive profile columns outside direct browser SELECT, expose owner-only full-profile RPC access, and make dependent RLS policies compatible with the restricted grants. Root/nested `auth.js` now uses the owner RPC.
+- Migration 060 closes confirmed suspension gaps: inactive moderators lose moderation access, suspended users cannot create reports or mutate avatars, foundation ACLs are explicit, browser roles cannot create objects in `public`, and the account-status admin function is explicitly service-role-only.
+- Staging handoff is defined in `STAGING_READINESS_REPORT.md`, `STAGING_SETUP_RUNBOOK.md` and `RELEASE_SECURITY_MATRIX.md`; these documents distinguish local simulation from required hosted evidence.
 
 ## Validation actually executed
-- `node --test tests/*.test.mjs`: 114/114 PASS (baseline: 108/108). Executable VM tests cover caching/activation privacy and malformed route handling; pre-existing SQL contract tests remain static checks.
-- PostgreSQL 17 clean-room execution: ordered migrations 001–059 applied successfully to a fresh temporary loopback cluster. Authenticated RLS/adversarial matrix: 32/32 PASS across profile privacy, moderation, Creator approval, tenant isolation/audit, handoff ambiguity and attribution, avatar ownership, event metadata/rate limit, notifications and replay protection. Test-only Supabase platform primitives are isolated in `tests/db/supabase-platform-shim.sql`.
+- `node --test tests/*.test.mjs`: 117/117 PASS (baseline: 108/108). Recovery-integrity tests pin authoritative 001–006 hashes, require reconstruction labels and assert migration-060 suspension controls.
+- PostgreSQL 17 clean-room execution: ordered migrations 001–060 applied successfully to a fresh temporary loopback cluster. Schema ACL audit PASS. Authenticated RLS/adversarial matrix: 40/40 PASS across profile privacy, moderation, Creator approval, tenant isolation/audit, handoff ambiguity and attribution, avatar ownership, event metadata/rate limit, notifications, replay protection and suspended Player/Admin behavior. Test-only Supabase platform primitives are isolated in `tests/db/supabase-platform-shim.sql`.
 - `node --check` on all 9 JavaScript files; `bash -n run-local.sh`; `git diff --check`: PASS.
 - Installed Chrome via Playwright: 63 route/viewport checks across player, creator, operator, provider, creator profile, live preview and handoff preview at 320/375/390/430/768/1024/1440/1920/2560 px. No document horizontal overflow, broken visible images or page JS errors after the route fix. This is structural smoke, not full visual/a11y signoff.
 - Chrome interactions: demo follow, schedule reminder, handoff without external outbound CTA, simulated return, browser back, service-worker offline shell and online recovery: PASS. Demo state is simulated; these results do not verify persisted authenticated data.
 - Playwright WebKit 26.5: 21 route/viewport checks at 320/768/1440 px, no overflow, broken visible images or page errors; first keyboard focus is visible, outlined and labelled. This is focused keyboard smoke, not a WCAG audit.
 - Scoped privileged-credential pattern scan of JS/HTML/SQL/JSON: zero matches; not an exhaustive secrets audit.
-- Migration filenames/ordering unique; the full chain was parsed and executed by PostgreSQL 17. This proves the isolated reconstructed contract, not schema compatibility with a hosted Supabase project.
+- Migration filenames/ordering unique; the full chain was parsed and executed by PostgreSQL 17. Versions 052–054 are absent locally and in local Git history. This proves the isolated reconstructed contract, not schema compatibility with a hosted Supabase project.
 - Local review: `PORT=4187 ./run-local.sh`, http://localhost:4187/?app=1#/product/demo/player . Default 4173 already in use during QA; no existing service was stopped.
 
 ## External release blockers and gate status
-- Gate 1 LOCAL PASS: Chrome/WebKit demo smoke and isolated authenticated database matrix pass. Hosted auth/browser journeys and comprehensive accessibility verification remain staging work.
+- Gate 1 LOCAL PASS: Chrome/WebKit demo smoke, isolated schema audit and authenticated database matrix pass. Hosted Auth/PostgREST/Storage/browser journeys and comprehensive accessibility verification remain staging work.
 - Gate 2 BLOCKED: PostgreSQL 17 and Supabase CLI 2.120.0 are installed, but Docker, verified isolated staging identity and authorized staging credentials are absent. `.env.example` identifies an existing hosted project and cannot be assumed to be staging. No hosted database request or migration was executed.
 - Migration 012 changes existing unverified published creator profiles to draft and user-generated public sessions to private. Snapshot those rows before staging application; do not auto-restore public visibility on rollback. Depends on existing personas, creator profiles/sessions, auth and active-profile contracts.
 - Migration 056 replaces two trigger functions, revokes browser execution and recreates the metadata trigger. Existing event rows are not rewritten. Depends on the prior event schema/context/state/return migrations and creator/block contracts. Trigger behavior and existing metadata compatibility require a real staging database.
@@ -42,14 +44,14 @@ Sources: current code, tests, migrations, PR #18 read-only metadata; historical 
 
 ## Consolidated AI_SYNC entry
 Date: 2026-10-09 | AI: Codex | Project: LC App
-Task: Recover the migration foundation and execute local release security/browser verification.
-Files created: migrations 001–006 and 057–059; DB platform shim, fixtures and test runner.
-Files updated: root/nested auth.js; this checkpoint.
-Decisions: classify 001–006 as authoritative local recovery and 057–059 as explicit reconstruction; keep hosted systems untouched.
-Assumptions introduced: the documented local API contract is the intended foundation contract; staging must validate schema drift.
-Contradictions: recovered 001 documents live objects it does not define; restricted profile grants broke legacy policy subqueries until migration 059.
-Open questions: staging identity/schema/access, Vercel deployment policy and hosted authenticated behavior.
-Next action: verify and run the package in an isolated Supabase staging project. Historical log follows for traceability.
+Task: Audit the local RC for isolated Supabase staging readiness and close confirmed release-security gaps.
+Files created: migration 060; executable schema audit and foundation-integrity test; staging readiness report, setup runbook and release security matrix.
+Files updated: DB test runner; this checkpoint.
+Decisions: staging remains blocked until project isolation, schema drift, hosted authenticated journeys, observability and recovery rehearsal have evidence.
+Assumptions introduced: none about hosted schema, credentials or readiness.
+Contradictions: prior local matrix allowed suspended moderation/report/avatar paths; migration 060 closes them. Recovered 001 documents live objects it does not define; 057–058 remain reconstructions requiring drift review.
+Open questions: authorised isolated staging identity/schema/access and approved synthetic handoff destination.
+Next action: execute `STAGING_SETUP_RUNBOOK.md` against a newly isolated Supabase staging project. Historical log follows for traceability.
 
 ---
 
