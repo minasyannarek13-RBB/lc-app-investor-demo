@@ -1,15 +1,35 @@
 # Current Release Checkpoint — 2026-10-10
 
-Project: LC App | Version: v0.11 | Status: Local investor demo ready; hosted baseline PASS; hosted release blocked
+Project: LC App | Version: v0.12 | Status: Local investor demo ready; hosted baseline PASS; hosted release blocked
 Owner: Narek / Engineering | Audience: founder and release engineer
 Sources: ChatGPT connected Supabase external baseline 2026-10-10 (relayed by Narek), current code, tests, migrations, PR #18 read-only metadata; historical notes below are not current release evidence.
+
+## Staging configuration and migration gate — latest follow-up
+
+- Continue from ce40223; application runtime unchanged. No Safari/regression rerun and no hosted connection, user creation, SQL/config write, merge/push/deployment.
+- Complete local production project-ref inventory recorded in `STAGING_READINESS_REPORT.md`: sample env, two Auth fallbacks, inline entry, two defensive test-runner constants. Dynamic external config/localStorage sources also require isolation checks.
+- `.env.example` now prepares staging URL with blank publishable-key placeholder. Static app does not load dotenv; inline production config/fallbacks remain an activation blocker. No actual environment/credential changed.
+- Detailed 052–054 source gap and 057–058 dependency/overwrite/rollback audit added to existing migration plan. Ordered immutable 57-file chain stays 001–051, 055–060; no migration file changed or placeholder invented.
+- Existing security matrix extended with synthetic fixtures and Auth/RLS/Storage/tenant/Admin/cleanup positive/negative E2E scenarios, all NOT RUN. Manual Dashboard Auth redirects/providers/SMTP/hooks/integration evidence checklist prepared.
+- STAGING READY NO. Accepted hosted baseline remains PASS with its original evidence attribution; configuration/provenance, recovery and hosted acceptance still block execution.
+
+### AI_SYNC — staging configuration and migration gate
+Date: 2026-10-10 | AI: Codex | Project: LC App
+Task: Local reference inventory, staging environment template, dependency/rollback review and synthetic E2E/manual settings gates.
+Files created: None; existing canonical files reused.
+Files updated: .env.example, STAGING_MIGRATION_EXECUTION_PLAN.md, RELEASE_SECURITY_MATRIX.md, STAGING_READINESS_REPORT.md, LC_APP_EXECUTION_STATE.md.
+Decisions: template prepared only; full-product runtime not activated; denylist production refs retained.
+Assumptions: independently confirmed empty staging baseline is accepted without repeat audit.
+Contradictions found: production sample config corrected; actual inline/default targeting still unresolved.
+Open questions: 052–054 provenance, settings evidence, staging-only credential/mapping activation, hosted E2E and recovery authorization.
+Recommended next action: collect Dashboard evidence and resolve provenance decision before approving exact staging activation/execution scope.
 
 ## Final QA and staging preparation — latest 2026-10-10
 
 - Application code baseline 146b166 unchanged; previous 127/127 remains valid, no regression rerun.
 - Native clean Safari profile LC QA isolated: both extensions off; zero observed permission errors on Inspector open/reload/reopen. Browser-environment dependence confirmed; exact source-map request attribution remains unverified. Primary remaining keyboard cycles completed (216 records). VoiceOver process access timed out; retries stopped. Physical iPhone BLOCKED. Investor Device Ready NO.
 - Current read-only staging connector refresh PASS: ACTIVE_HEALTHY, PostgreSQL 17.11, all listed application counts zero, no migration ledger/Edge Functions/advisor findings. Receipt `evidence/staging-readonly-2026-10-10.json`; historical ChatGPT source remains separately identified.
-- Full-product config targets production in inline entry, mirrored Auth fallback and `.env.example`. No environment/secret/config modification. Auth URL/provider/SMTP/hooks settings unavailable through connector; dashboard requires login. Storage buckets/objects/policies and custom Auth-user triggers absent.
+- At the earlier ce40223 checkpoint, full-product config targeted production in inline entry, mirrored Auth fallback and `.env.example`; current template change is recorded above. No environment/secret/config modification. Auth URL/provider/SMTP/hooks settings unavailable through connector; dashboard requires login. Storage buckets/objects/policies and custom Auth-user triggers absent.
 - Present 57 migration hashes match; 052–054 provenance unresolved; 057–058 still verified local reconstructions, not hosted acceptance. Ordered application/recovery/environment requirements updated in canonical plan. Staging Ready NO; Full Product Ready NO.
 
 ### Safe branch reconciliation plan

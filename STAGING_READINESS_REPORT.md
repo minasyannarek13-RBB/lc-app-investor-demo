@@ -1,7 +1,7 @@
 # LC App Staging Readiness Report
 
 - Project: LC App
-- Version: v0.7
+- Version: v0.8
 - Status: Hosted baseline inspection PASS; migration and release readiness blocked
 - Last updated: 2026-10-10
 - Owner: Narek / Engineering
@@ -14,6 +14,26 @@
 
 **HOSTED BASELINE INSPECTION: PASS. STAGING READY: NO. STAGING MIGRATION READY: NO. PRODUCTION READY: NO.** Empty application state is verified externally; it does not establish integration isolation, application correctness, backup/recovery or browser readiness.
 
+## Staging configuration and migration gate — local follow-up
+
+Starting checkpoint **ce40223**. No hosted requests, migrations, settings changes, users or regression/Safari reruns in this follow-up. Independent empty staging baseline remains accepted; no new production connection was made.
+
+Complete literal project-reference inventory in executable/config files at the starting checkpoint:
+
+| Location | Meaning / disposition |
+|---|---|
+| `.env.example:1` | Production URL in sample environment. Replaced with staging URL and blank publishable-key credential; template only, no active environment created. |
+| `auth.js:4` and `LC_App_GitHub_Pages_Upload/auth.js:4` | Production fallback URL used when higher-priority config/storage is missing. Unchanged; blocks authenticated staging use without reviewed fail-closed mapping. |
+| `LC_App_GitHub_Pages_Upload/index.html` inline `LC_APP_CONFIG` | Production URL plus production publishable client credential. Unchanged; overrides URL/key fallbacks and would override an earlier staging injection. Never copy its credential into the staging template. |
+| `tools/hosted-e2e.py:12` | PRODUCTION denylist constant; retain as protection, not a test target. |
+| `tools/disposable-migration.sh:9` | Production/staging forbidden targets for disposable runner; retain. This runner is not the nominated-staging migration workflow. |
+
+Documentation/evidence references describe the protected ref or historical findings; they are not connection configuration. Dynamic URL/key sources also exist in `window.LC_APP_CONFIG`, `window.__LC_APP_CONFIG__`, window overrides and `lc-app:supabase-*` localStorage. Their external runtime values cannot be proven safe by a literal repository scan. Inline config wins over these fallback values. Use a fresh staging profile and verify effective origin before Auth/client creation; investor demo isolation remains unchanged.
+
+No real credential was retrieved, printed or modified. Current `.env.example` has the exact staging origin and an empty credential placeholder; it is not automatically loaded by the static app. No privileged credentials belong in browser output. Prepared mapping, Dashboard checklist, detailed 052–054/057–058 dependencies/rollback risks and exact ordered manifest are in `STAGING_MIGRATION_EXECUTION_PLAN.md` v1.3. Synthetic-user Auth/RLS/Storage/tenant scenarios are in `RELEASE_SECURITY_MATRIX.md` v1.1; existing smoke script remains NOT RUN.
+
+**Configuration preparation complete; activation/migration gate remains BLOCKED.** 052–054 source/provenance decision, Dashboard Auth/OAuth/SMTP/hooks/integration evidence, approved isolated runtime mapping, recovery rehearsal and hosted acceptance are still required. All readiness remains NO.
+
 ## Current read-only staging audit — 2026-10-10
 
 Source: **Codex connected Supabase**, current session, restricted to `dnpizrjuxkcnmdgmvnks`. This refresh is separate from the historical ChatGPT inspection below. Raw connector receipt: `evidence/staging-readonly-2026-10-10.json`. Production was not queried. Project `lc-app-staging`, region `ap-southeast-2`, ACTIVE_HEALTHY; direct database identity `db.dnpizrjuxkcnmdgmvnks.supabase.co`, engine PostgreSQL 17.11. All public table/policy/view/function, Auth-user, Storage-bucket/object counts remain zero. Migration ledger absent; migration list, Edge Functions and Security Advisor findings empty. A separate SELECT returned storage policies=[], buckets=[], auth-user custom triggers=[]. Platform Auth migration history is distinct from the absent application migration ledger.
@@ -21,7 +41,7 @@ Source: **Codex connected Supabase**, current session, restricted to `dnpizrjuxk
 | Gate | Current finding |
 |---|---|
 | Read-only project/schema identity | PASS; connector calls explicitly target staging. |
-| Application staging targeting | FAIL. `.env.example`, both `auth.js` defaults and nested `index.html` inline configuration still target production. The inline publishable key is public client configuration, not a service secret; it nevertheless belongs to the production configuration and must not be reused for staging. No configuration changed. |
+| Application staging targeting | FAIL. Both `auth.js` defaults and nested `index.html` inline configuration still target production. `.env.example` is now a staging-only prepared template, not active runtime. The inline publishable key is public client configuration, not a service secret; it nevertheless belongs to the production configuration and must not be reused for staging. No configuration changed. |
 | Auth URL/provider/email settings | BLOCKED by missing management-setting access. Connector exposes project/SQL metadata but no Auth configuration endpoint; dashboard fallback redirects to sign-in. Site URL, redirect allowlist, providers, SMTP, hooks, signup and confirmation settings remain unverified. Zero Auth users does not verify these settings. |
 | Storage | Empty buckets/objects and zero Storage policies confirmed. Hosted API enforcement still untested. |
 | 052–054 | Still absent from available migration paths/history. Empty staging cannot supply their source or establish intentional omission. No replacement SQL invented. |

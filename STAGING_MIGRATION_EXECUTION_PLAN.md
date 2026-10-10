@@ -1,7 +1,7 @@
 # LC App Staging Migration Execution Plan
 
 - Project: LC App
-- Version: v1.2
+- Version: v1.3
 - Status: Reviewable plan; execution not authorised
 - Date: 2026-10-10
 - Target ref: `dnpizrjuxkcnmdgmvnks`
@@ -25,7 +25,7 @@ This plan contains no authority to apply SQL. All hosted actions in this task st
 
 ## Configuration and environment preflight — current checkpoint
 
-Current repository is **not staging-configured**: `.env.example`, mirrored Auth fallback URL and nested entry inline config point to protected production. No local Supabase link/config file exists. Do not run full-product Auth with these defaults. Auth callback code derives signup/resend redirects from the current page and password recovery uses `#/reset-password`; exact staging origins/paths must be checked against the hosted redirect allowlist. Dashboard/management settings access is currently missing.
+Current runtime is **not staging-configured**: mirrored Auth fallback URL and nested entry inline config still point to protected production. `.env.example` is now a prepared staging-only template with a blank publishable credential; it does not change runtime. No local Supabase link/config file exists. Do not run full-product Auth with these defaults. Auth callback code derives signup/resend redirects from the current page and password recovery uses `#/reset-password`; exact staging origins/paths must be checked against the hosted redirect allowlist. Dashboard/management settings access is currently missing.
 
 | Purpose | Minimum inputs; values remain private where applicable |
 |---|---|
@@ -37,6 +37,49 @@ Current repository is **not staging-configured**: `.env.example`, mirrored Auth 
 Ordered release sequence: (1) obtain read-only Auth/redirect/integration settings evidence; (2) resolve 052–054 source or approve only a present-chain experiment on a separately authorised disposable target; (3) prepare/review isolated staging config, no production destinations or shared secrets; (4) pin the 57-file manifest below (current checksum comparison: zero mismatches); (5) obtain and rehearse an explicit recovery point before writes; (6) fresh baseline and reviewed dry-run/version comparison; (7) target-specific authorization, then ledger-managed staging apply in exact manifest order 001–051, 055–060; (8) post-catalog/security/history checks; (9) hosted role/tenant/Auth/Storage/browser/integration acceptance. None of steps involving remote changes was executed.
 
 Rollback is a recovery plan, not an invented down-migration chain. Each failed transaction rolls back its uncommitted statements; earlier committed migrations can remain. Stop immediately, capture redacted logs and compare applied versions. Before traffic prefer a reviewed forward repair. Rebuild a disposable target from its verified empty baseline for experiments; populated staging requires a proven backup/restore point covering database, Auth and Storage/config separately. Do not assume a database-only backup restores object binaries or Auth/provider settings. No restore/recreate, ledger repair, destructive reset or automated Creator publication reversal is authorised.
+
+## Focused migration gate audit — checkpoint ce40223
+
+This is a local source/dependency review, not another hosted audit or SQL execution. Accepted empty staging baseline remains the pre-apply source; refresh it only immediately before separately authorised execution. All 57 manifest files remain unchanged.
+
+| Migration | Provenance / dependencies | Mutation and rollback risk | Gate |
+|---|---|---|---|
+| 052–054 | No files or reachable migration-history entries found; previous deeper forensic report remains the source for reflog/unreachable-object checks. Neither empty staging nor executable lexical ordering proves intentional omission. | Unknown operations cannot have a valid reverse migration invented. Later 055 depends on existing follows/reminders/product events; successful local execution does not establish historical intent. | BLOCKED: recover authoritative source, or record an explicit scoped provenance decision. Existing permission for a disposable experiment is not permission for staging execution. |
+| 057 | Verified local reconstruction: documented foundation in 001, frontend `get_own_profile`/profile updates, prior clean-room evidence. Requires `profiles`/`user_settings` (001), active-profile helper (008), auth.users/auth.uid and anon/authenticated roles. Profile update field guards from 007/011 remain relevant. | CREATE OR REPLACE functions and DROP/CREATE Auth trigger/policies replace same-name objects; column grants alter access. Trigger applies only to future Auth inserts; no backfill of existing identities. Rollback must restore captured definitions/ACLs, never drop shared foundation tables or expose private columns. | Empty accepted staging has no custom Auth-user trigger/application objects, reducing known name conflicts; platform privileges/helpers must be checked before apply. No signup/test-user creation until the complete reviewed chain is applied. |
+| 058 | Verified local reconstruction: 001 avatar notes plus auth.js 5 MB PNG/JPEG/WebP upload and owner-path logic. Requires storage.buckets/storage.objects/storage.foldername, auth.uid, browser roles and hosted Storage RLS platform contract. | Upsert overwrites an existing avatars bucket's public flag/limits; DROP/CREATE policies replace same-name policies. Public avatars are intentional, not private customer documents. SQL rollback does not restore deleted object bytes; no blanket bucket/object removal is prepared. | Capture bucket/policy definitions and object state; accepted baseline currently empty. Validate real Storage API ownership/MIME/size after separate fixture approval. |
+| 059–060 after reconstruction | 059 depends on earlier posts/comments/likes and tenant mapping/audit objects/helpers; 060 depends on 001/008/011/reports plus 058 storage policies. | 059 restores private-column-compatible RLS; 060 restricts ACL/schema CREATE and adds suspension checks. Reversing only 057/058 after these changes can leave incompatible grants/policies or remove suspension protection. | Review final state as the whole chain; do not stop at 058 or roll back a reconstruction in isolation. |
+
+Staging-only execution order remains **001–051 → 055 → 056 → 057 → 058 → 059 → 060**, exact paths/hashes in the existing manifest. Missing numbers stay absent. Before apply: resolve provenance decision, verify Auth/Storage platform dependencies and configuration isolation, capture a recovery point, select a ledger-managed workflow, compare remote versions and obtain target-specific authorization. No `migration repair`, placeholder gap files, production linking or test traffic.
+
+On failure stop at the first error and record exactly which versions committed. Transactional 057/058 must roll back their own uncommitted work; earlier migrations or non-transaction-wrapped statements may remain committed depending on the reviewed runner. Do not assume a whole-chain rollback. Prefer reviewed forward repair; restore/rebuild only the authorised staging/disposable target using the rehearsed recovery method. Keep Auth/user creation closed to the test workflow until final schema/ACL verification completes.
+
+### Prepared static runtime mapping — not installed
+
+The environment template is an input contract, not a loader. In the isolated staging copy, the production inline config must be replaced before auth.js executes; adding a later script or changing dotenv alone is insufficient. Review a fail-closed mapping equivalent to:
+
+```javascript
+window.LC_APP_CONFIG = {
+  SUPABASE_URL: "https://dnpizrjuxkcnmdgmvnks.supabase.co",
+  SUPABASE_PUBLISHABLE_KEY: "" // staging publishable credential supplied privately
+};
+```
+
+Require exact staging origin and a nonempty staging-bound browser credential before enabling the authenticated product. Do not fall through to Auth's production default or persisted `lc-app:supabase-url` / `lc-app:supabase-anon-key` from another profile. Use fresh staging browser storage; do not copy production sessions. Server/test credentials remain separate runtime-only inputs already listed above. No mapping, credential or localStorage modification was performed here.
+
+### Manual Supabase Dashboard evidence required
+
+All reviews below target **dnpizrjuxkcnmdgmvnks** only. Record non-secret settings/screenshots and reviewer/date; redact credential values. Dashboard sign-in is needed because the available connector did not expose these configuration fields.
+
+| Settings | Required acceptance evidence |
+|---|---|
+| Auth URL Configuration | Exact staging Site URL and permitted callback origins/paths; localhost only if approved for full-product testing. Signup/resend callback derives current page URL; reset uses `#/reset-password`. Verify return route, recovery session and disallowed redirect behavior. No production callback or broad wildcard accepted without review. |
+| Auth signup/email/session | Email confirmation, signup access, password/reset settings, session/refresh behavior, rate limits and test-user lifecycle. Zero users is not configuration evidence. |
+| OAuth providers | Enabled providers, staging callback/project identity, separate client registrations and test accounts. Review secret presence/separation without exposing values; production identity scopes/callbacks must not be reused for tests. |
+| SMTP/email templates | Staging-controlled sender and test recipient routing, confirmation/reset template destination, delivery/rate limits; no production mailing credentials or real-user emails. |
+| Auth hooks | Enabled hook names, endpoint origins and signing-secret separation; verify no production webhook or side effect destination. Disabled hooks also need recorded evidence. |
+| Integrations/platform | Webhooks, custom domains, external operator destinations, project secrets, Realtime/Data API exposure, logging and backup controls. Verify staging-owned destinations and synthetic-only traffic. Empty public tables/Edge Functions do not prove these settings are isolated. |
+
+Prepared hosted test scenarios and fixture acceptance are canonical in `RELEASE_SECURITY_MATRIX.md`, staging scenario section. They are NOT RUN.
 
 ## Ordered immutable manifest
 
