@@ -142,13 +142,39 @@
     return `#/${authReturnRoute() || fallback}`;
   }
 
+  const STAGING_PROJECT = "dnpizrjuxkcnmdgmvnks";
+  const STAGING_ACTIVATION_APPROVED = false;
+
+  function stagingConfig(provided) {
+    if (!STAGING_ACTIVATION_APPROVED) throw new Error("Staging activation requires explicit approval.");
+    if (JSON.stringify(provided).includes("aspbwgsfkebduvviyeuo")) throw new Error("Production configuration is forbidden in staging.");
+    const url = provided.SUPABASE_URL || provided.supabaseUrl;
+    const anon = provided.SUPABASE_ANON_KEY || provided.supabaseAnonKey;
+    if (url !== `https://${STAGING_PROJECT}.supabase.co`) throw new Error("Explicit staging URL required.");
+    if (provided.SUPABASE_PUBLISHABLE_KEY || provided.supabasePublishableKey || provided.SUPABASE_SERVICE_ROLE_KEY || provided.serviceRoleKey) throw new Error("Staging requires a project-bound public anon JWT; secret and opaque keys are rejected.");
+    try {
+      const parts = anon.split(".");
+      if (parts.length !== 3 || !parts.every(p => /^[A-Za-z0-9_-]+$/.test(p))) throw new Error();
+      const claims = JSON.parse(atob(parts[1].replace(/-/g, "+").replace(/_/g, "/")));
+      if (claims.ref !== STAGING_PROJECT || claims.role !== "anon" || !Number.isFinite(claims.exp) || claims.exp <= Date.now() / 1000) throw new Error();
+    } catch { throw new Error("Missing, invalid, expired or non-staging public anon credential."); }
+    return { url, anon };
+  }
+
   function config() {
     const provided = window.LC_APP_CONFIG || window.__LC_APP_CONFIG__ || {};
+    const requested = new URLSearchParams(window.location.search).get("environment");
+    const environment = requested || provided.ENVIRONMENT || provided.environment;
+    if (requested && (provided.ENVIRONMENT || provided.environment) && requested !== (provided.ENVIRONMENT || provided.environment)) throw new Error("Conflicting runtime environment.");
+    if (environment && !["staging", "production"].includes(environment)) throw new Error("Invalid runtime environment.");
+    if (environment === "staging" || JSON.stringify(provided).includes(STAGING_PROJECT)) return stagingConfig(provided);
     const publishableKey = provided.SUPABASE_PUBLISHABLE_KEY || provided.supabasePublishableKey;
-    return {
+    const resolved = {
       url: provided.SUPABASE_URL || provided.supabaseUrl || window.LC_APP_SUPABASE_URL || localStorage.getItem("lc-app:supabase-url") || LIVE_SUPABASE_URL,
       anon: publishableKey || provided.SUPABASE_ANON_KEY || provided.supabaseAnonKey || window.LC_APP_SUPABASE_ANON_KEY || localStorage.getItem("lc-app:supabase-anon-key") || ""
     };
+    if (resolved.url.includes(STAGING_PROJECT)) return stagingConfig(provided);
+    return resolved;
   }
 
   function markReady() {
@@ -980,7 +1006,13 @@
   }
 
   async function initClient() {
-    const cfg = config();
+    let cfg;
+    try { cfg = config(); }
+    catch (error) {
+      setLocked(true);
+      card("Staging configuration blocked", "No Supabase client was created.", `<div class="lc-auth-alert error">${safe(error.message)}</div>`);
+      return false;
+    }
     if (!cfg.anon || !window.supabase?.createClient) {
       renderConfigMissing();
       return false;

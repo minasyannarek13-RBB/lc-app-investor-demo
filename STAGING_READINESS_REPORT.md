@@ -1,7 +1,7 @@
 # LC App Staging Readiness Report
 
 - Project: LC App
-- Version: v0.8
+- Version: v0.9
 - Status: Hosted baseline inspection PASS; migration and release readiness blocked
 - Last updated: 2026-10-10
 - Owner: Narek / Engineering
@@ -9,6 +9,14 @@
 - Sources: branch `codex/lc-app-p1-stabilization`, migrations 001–060, local PostgreSQL 17 evidence, Node and browser tests; ChatGPT connected Supabase external inspection dated 2026-10-10, relayed by Narek
 - Assumptions: Historical ChatGPT evidence remains separately attributed. Current read-only Codex connector evidence is stored in `evidence/staging-readonly-2026-10-10.json`; no remote writes were performed.
 - Open question: Integrations/configuration isolation, provenance 052–054, hosted E2E and recovery evidence; separate execution authorization
+
+## Local runtime safety closure — 2026-10-10
+
+Starting checkpoint `279c5e2`. Explicit staging mode (`?environment=staging` or `LC_APP_CONFIG.ENVIRONMENT=staging`) fails closed before SDK client creation. `STAGING_ACTIVATION_APPROVED=false` is a code gate, not an environment/query override. Staging URL hints also cannot fall through the legacy production path. Production inline configuration is unchanged; it is rejected when staging is requested. No active environment, credential or hosted setting was changed.
+
+After separately approved activation, configuration requires the exact staging URL and an explicit public legacy anon JWT with staging `ref`, `anon` role and future expiry. Missing/malformed/expired credentials, production references, service-role/secret fields and opaque publishable keys are rejected. JWT claim validation is structural; authenticity is checked by Supabase, not inferred locally. Opaque keys remain unsupported because local code cannot establish their project binding. Staging ignores legacy credential fallbacks. The isolated staging entry must replace existing inline production config before activation; `.env.example` is preparatory and is not loaded by this static application.
+
+Targeted Node tests: **42/42 PASS** across staging runtime, investor isolation, service-worker privacy, release stabilization and migration integrity. Auth/SW syntax checks and mirrored runtime parity pass. Browser/hosted credential validity was not retested. Source recovery findings: see `MIGRATION_FORENSICS_REPORT.md`, current follow-up; 052–054 remain BLOCKED.
 
 ## Decision
 
@@ -30,7 +38,7 @@ Complete literal project-reference inventory in executable/config files at the s
 
 Documentation/evidence references describe the protected ref or historical findings; they are not connection configuration. Dynamic URL/key sources also exist in `window.LC_APP_CONFIG`, `window.__LC_APP_CONFIG__`, window overrides and `lc-app:supabase-*` localStorage. Their external runtime values cannot be proven safe by a literal repository scan. Inline config wins over these fallback values. Use a fresh staging profile and verify effective origin before Auth/client creation; investor demo isolation remains unchanged.
 
-No real credential was retrieved, printed or modified. Current `.env.example` has the exact staging origin and an empty credential placeholder; it is not automatically loaded by the static app. No privileged credentials belong in browser output. Prepared mapping, Dashboard checklist, detailed 052–054/057–058 dependencies/rollback risks and exact ordered manifest are in `STAGING_MIGRATION_EXECUTION_PLAN.md` v1.3. Synthetic-user Auth/RLS/Storage/tenant scenarios are in `RELEASE_SECURITY_MATRIX.md` v1.1; existing smoke script remains NOT RUN.
+No real credential was retrieved, printed or modified. Current `.env.example` has the exact staging origin and an empty credential placeholder; it is not automatically loaded by the static app. No privileged credentials belong in browser output. Prepared mapping, Dashboard checklist, detailed 052–054/057–058 dependencies/rollback risks and exact ordered manifest are in `STAGING_MIGRATION_EXECUTION_PLAN.md` v1.4. Synthetic-user Auth/RLS/Storage/tenant scenarios are in `RELEASE_SECURITY_MATRIX.md` v1.1; existing smoke script remains NOT RUN.
 
 **Configuration preparation complete; activation/migration gate remains BLOCKED.** 052–054 source/provenance decision, Dashboard Auth/OAuth/SMTP/hooks/integration evidence, approved isolated runtime mapping, recovery rehearsal and hosted acceptance are still required. All readiness remains NO.
 
@@ -41,7 +49,7 @@ Source: **Codex connected Supabase**, current session, restricted to `dnpizrjuxk
 | Gate | Current finding |
 |---|---|
 | Read-only project/schema identity | PASS; connector calls explicitly target staging. |
-| Application staging targeting | FAIL. Both `auth.js` defaults and nested `index.html` inline configuration still target production. `.env.example` is now a staging-only prepared template, not active runtime. The inline publishable key is public client configuration, not a service secret; it nevertheless belongs to the production configuration and must not be reused for staging. No configuration changed. |
+| Application staging targeting | Local fail-closed guard PASS; activation BLOCKED. Historical configuration finding: Both `auth.js` defaults and nested `index.html` inline configuration still target production. `.env.example` is now a staging-only prepared template, not active runtime. The inline publishable key is public client configuration, not a service secret; it nevertheless belongs to the production configuration and must not be reused for staging. Production configuration unchanged; staging guard now rejects it before client creation. |
 | Auth URL/provider/email settings | BLOCKED by missing management-setting access. Connector exposes project/SQL metadata but no Auth configuration endpoint; dashboard fallback redirects to sign-in. Site URL, redirect allowlist, providers, SMTP, hooks, signup and confirmation settings remain unverified. Zero Auth users does not verify these settings. |
 | Storage | Empty buckets/objects and zero Storage policies confirmed. Hosted API enforcement still untested. |
 | 052–054 | Still absent from available migration paths/history. Empty staging cannot supply their source or establish intentional omission. No replacement SQL invented. |

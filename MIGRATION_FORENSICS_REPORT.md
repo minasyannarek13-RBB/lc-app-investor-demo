@@ -77,3 +77,9 @@ The PostgreSQL shim validates SQL, RLS, grants, actors and negative paths. It do
 3. Hosted migration history cannot resolve whether `052–054` ever existed remotely.
 4. Hosted drift against reconstructed `057–058` is unknown.
 5. Backup/restore rehearsal and hosted Auth/PostgREST/Storage/Chrome/WebKit security journeys have not run.
+
+## Recovery follow-up — 2026-10-10, starting 279c5e2
+
+Current audit searched all six local/tracking branch refs, no tags, all-version path history and 18 unique reflog commit trees. `git fsck --full --no-reflogs --unreachable` returned only three blobs (2af349dd, 2856fcd1, 96ce2619; 5084/7629/4855 bytes); none contains SQL CREATE TABLE/FUNCTION or ALTER TABLE markers. Recursive file/archive search covered the Social App LC workspace and available downloaded LC_APP_SORTED_WORKSPACE package: 126 SQL files and 12 ZIP archives, zero 052–054 SQL candidates. No remote fetch/access performed. No original, rename/removal record or authoritative checksum recovered. Intentional omission versus loss cannot be determined. Gate remains BLOCKED despite accepted hosted empty baseline. No migration restored or reconstructed.
+
+057 requires 001 profile/settings foundation and 008 is_active_profile plus hosted Auth users/uid/roles; 058 requires hosted Storage buckets/objects/foldername and Auth uid/roles. Neither exposes a direct identifiable 052–054 dependency; missing operations and historical intent remain unknown. Existing SHA-256 values remain c3eeb58854d17736937375809c03f2797981d90409b3c0fa5140afe3bbde43fa and 754a946a37d05c7b22e804d9fc101d760557ef8ff4994887508e43ecf38e5096. Reconstruction classification is unchanged. Rollback risks and downstream 059–060 coupling remain in STAGING_MIGRATION_EXECUTION_PLAN.md.

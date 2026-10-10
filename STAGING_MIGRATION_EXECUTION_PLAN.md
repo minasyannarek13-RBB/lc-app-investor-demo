@@ -1,7 +1,7 @@
 # LC App Staging Migration Execution Plan
 
 - Project: LC App
-- Version: v1.3
+- Version: v1.4
 - Status: Reviewable plan; execution not authorised
 - Date: 2026-10-10
 - Target ref: `dnpizrjuxkcnmdgmvnks`
@@ -25,11 +25,11 @@ This plan contains no authority to apply SQL. All hosted actions in this task st
 
 ## Configuration and environment preflight — current checkpoint
 
-Current runtime is **not staging-configured**: mirrored Auth fallback URL and nested entry inline config still point to protected production. `.env.example` is now a prepared staging-only template with a blank publishable credential; it does not change runtime. No local Supabase link/config file exists. Do not run full-product Auth with these defaults. Auth callback code derives signup/resend redirects from the current page and password recovery uses `#/reset-password`; exact staging origins/paths must be checked against the hosted redirect allowlist. Dashboard/management settings access is currently missing.
+Staging activation is disabled by `STAGING_ACTIVATION_APPROVED=false` in both Auth copies. Explicit staging mode fails before client creation, including the unchanged inline production configuration. After separate activation approval, replace that inline config only in an isolated staging entry with `ENVIRONMENT=staging`, exact staging URL and explicit staging legacy anon JWT. No production fallback or localStorage credential is accepted on the staging path. Opaque publishable and service keys are rejected. `.env.example` is a blank preparatory template, not an active environment. Keep production configuration unchanged. Hosted Auth redirect/provider/SMTP/hooks/integration review and recovery gates remain mandatory.
 
 | Purpose | Minimum inputs; values remain private where applicable |
 |---|---|
-| Static browser runtime | `SUPABASE_URL` = staging URL; `SUPABASE_PUBLISHABLE_KEY` = staging publishable key. Legacy `SUPABASE_ANON_KEY` is a compatibility alternative, not an additional requirement. Provide through the reviewed `LC_APP_CONFIG` mechanism; this repository does not automatically consume dotenv. Never include service keys. |
+| Static browser runtime | `SUPABASE_URL` = staging URL; `ENVIRONMENT` = staging; `SUPABASE_ANON_KEY` = staging legacy public anon JWT (ref/role/expiry validated; signature validity requires hosted verification after authorization). Opaque publishable keys are not supported by the staging guard. Provide through the reviewed `LC_APP_CONFIG` mechanism; this repository does not automatically consume dotenv. Never include service keys. |
 | Authorised migration connection | Verified project ref and direct database host; runtime-only `PGPASSWORD` and verified TLS. Use staging-specific credentials; no production fallback, ambient service files or shared secrets. |
 | Hosted synthetic E2E, after separate authorization | `LC_TEST_PROJECT_REF`, `LC_TEST_ANON_KEY`, `LC_TEST_SERVICE_KEY`; target-specific `LC_HOSTED_WRITE_APPROVAL`, `LC_SYNTHETIC_FIXTURE_APPROVAL`, and staging-only `LC_STAGING_E2E_APPROVAL`. Service credential is server/test-runner only. |
 | Separate disposable rehearsal | `LC_TEST_PROJECT_REF`, `LC_DISPOSABLE_DATABASE_HOST`, `PGPASSWORD`, `LC_DISPOSABLE_REHEARSAL_APPROVAL`, `LC_PRESENT_CHAIN_APPROVAL`; existing runner rejects both staging and production refs. |
@@ -44,7 +44,7 @@ This is a local source/dependency review, not another hosted audit or SQL execut
 
 | Migration | Provenance / dependencies | Mutation and rollback risk | Gate |
 |---|---|---|---|
-| 052–054 | No files or reachable migration-history entries found; previous deeper forensic report remains the source for reflog/unreachable-object checks. Neither empty staging nor executable lexical ordering proves intentional omission. | Unknown operations cannot have a valid reverse migration invented. Later 055 depends on existing follows/reminders/product events; successful local execution does not establish historical intent. | BLOCKED: recover authoritative source, or record an explicit scoped provenance decision. Existing permission for a disposable experiment is not permission for staging execution. |
+| 052–054 | No files or reachable migration-history entries found; current forensic follow-up checked 18 reflog trees, three unreachable blobs, local package files and 12 ZIP archives without an original. Neither empty staging nor executable lexical ordering proves intentional omission. | Unknown operations cannot have a valid reverse migration invented. Later 055 depends on existing follows/reminders/product events; successful local execution does not establish historical intent. | BLOCKED: recover authoritative source, or record an explicit scoped provenance decision. Existing permission for a disposable experiment is not permission for staging execution. |
 | 057 | Verified local reconstruction: documented foundation in 001, frontend `get_own_profile`/profile updates, prior clean-room evidence. Requires `profiles`/`user_settings` (001), active-profile helper (008), auth.users/auth.uid and anon/authenticated roles. Profile update field guards from 007/011 remain relevant. | CREATE OR REPLACE functions and DROP/CREATE Auth trigger/policies replace same-name objects; column grants alter access. Trigger applies only to future Auth inserts; no backfill of existing identities. Rollback must restore captured definitions/ACLs, never drop shared foundation tables or expose private columns. | Empty accepted staging has no custom Auth-user trigger/application objects, reducing known name conflicts; platform privileges/helpers must be checked before apply. No signup/test-user creation until the complete reviewed chain is applied. |
 | 058 | Verified local reconstruction: 001 avatar notes plus auth.js 5 MB PNG/JPEG/WebP upload and owner-path logic. Requires storage.buckets/storage.objects/storage.foldername, auth.uid, browser roles and hosted Storage RLS platform contract. | Upsert overwrites an existing avatars bucket's public flag/limits; DROP/CREATE policies replace same-name policies. Public avatars are intentional, not private customer documents. SQL rollback does not restore deleted object bytes; no blanket bucket/object removal is prepared. | Capture bucket/policy definitions and object state; accepted baseline currently empty. Validate real Storage API ownership/MIME/size after separate fixture approval. |
 | 059–060 after reconstruction | 059 depends on earlier posts/comments/likes and tenant mapping/audit objects/helpers; 060 depends on 001/008/011/reports plus 058 storage policies. | 059 restores private-column-compatible RLS; 060 restricts ACL/schema CREATE and adds suspension checks. Reversing only 057/058 after these changes can leave incompatible grants/policies or remove suspension protection. | Review final state as the whole chain; do not stop at 058 or roll back a reconstruction in isolation. |
@@ -60,7 +60,8 @@ The environment template is an input contract, not a loader. In the isolated sta
 ```javascript
 window.LC_APP_CONFIG = {
   SUPABASE_URL: "https://dnpizrjuxkcnmdgmvnks.supabase.co",
-  SUPABASE_PUBLISHABLE_KEY: "" // staging publishable credential supplied privately
+  ENVIRONMENT: "staging",
+  SUPABASE_ANON_KEY: "" // staging public anon JWT supplied privately
 };
 ```
 
@@ -185,3 +186,7 @@ Using staging-only synthetic accounts, run Player, approved/unapproved Creator, 
 ## Acceptance decision
 
 Approve staging migration only after every precondition, schema/security query, hosted journey, observability check and recovery rehearsal passes. Production requires a separate drift audit, plan and explicit authorization.
+
+## Current recovery/runtime validation receipt
+
+No migration content or manifest checksum changed. Original 052–054 SQL/checksums/dependencies remain unknown; no evidence establishes intentional removal or renaming. 057 directly requires profiles/user_settings from 001, active-profile helper from 008, Auth platform roles/users; 058 requires Storage platform buckets/objects/foldername and Auth uid. Neither names an object known to originate in 052–054, which cannot prove absent unknown side effects. Both remain reconstructions with unchanged pinned hashes. Hosted apply remains blocked; do not invent rollback for unknown migrations. Local targeted tests 42/42 PASS; no hosted command executed.

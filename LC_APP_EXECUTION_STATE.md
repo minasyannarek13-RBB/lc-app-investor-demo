@@ -1,8 +1,19 @@
 # Current Release Checkpoint — 2026-10-10
 
-Project: LC App | Version: v0.12 | Status: Local investor demo ready; hosted baseline PASS; hosted release blocked
+Project: LC App | Version: v0.13 | Status: Local investor demo ready; hosted baseline PASS; hosted release blocked
 Owner: Narek / Engineering | Audience: founder and release engineer
 Sources: ChatGPT connected Supabase external baseline 2026-10-10 (relayed by Narek), current code, tests, migrations, PR #18 read-only metadata; historical notes below are not current release evidence.
+
+## Latest checkpoint — migration recovery and runtime safety
+
+- Starting 279c5e2; no 052–054 original recovered from branches/history, 18 reflog trees, unreachable blobs, 126 local SQL files and 12 ZIP archives. No SQL changed; provenance gate remains BLOCKED. 057–058 reconstructions and hashes unchanged.
+- Mirrored Auth runtime now rejects staging before client creation with code activation disabled. Approved-path tests reject missing/invalid/expired, production and service credentials; staging URL is pinned. Production config preserved; investor isolation preserved. Prepared `.env.example` requires explicit staging mode and public project-bound anon JWT; opaque publishable keys rejected.
+- Targeted regression 42/42 PASS, Auth/SW syntax and mirror parity PASS. Cache revision v135 / Auth asset v75 invalidates stale runtime. No Safari/accessibility rerun, hosted connection/write/user creation, push, merge or deployment.
+- STAGING READY NO: provenance, disabled activation, settings/isolation review, hosted E2E/integrations and backup/recovery remain unresolved.
+
+### AI_SYNC — migration recovery/runtime guard
+
+Date: 2026-10-10. AI: Codex. Project: LC App. Updated mirrored Auth/SW, nested application Auth asset revision, prepared template, staging reports/plan and migration forensics; created staging runtime safety tests. Decision: keep activation disabled; recover originals only, reject opaque staging credentials lacking project binding. No new product feature or active credential. Next: obtain authoritative 052–054 source before authorizing staging activation or remote execution. Earlier entries below are historical.
 
 ## Staging configuration and migration gate — latest follow-up
 
