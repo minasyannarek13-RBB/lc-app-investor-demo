@@ -6,7 +6,7 @@ const nested = readFileSync(new URL("../LC_App_GitHub_Pages_Upload/app-product.j
 const sql = readFileSync(new URL("../supabase/migrations/202609080027_creator_public_surface_integrity.sql", import.meta.url), "utf8");
 
 assert.equal(app, nested, "root and deployed product modules must stay synchronized");
-assert.match(app, /eligibleSessions[\s\S]+session\.status === "live" \|\| new Date\(session\.starts_at\)\.getTime\(\) > Date\.now\(\)/);
+assert.match(app, /eligibleSessions[\s\S]+session\.status === "live" \|\| new Date\(session\.starts_at\)\.getTime\(\) > productNow\(\)/);
 assert.match(app, /a\.status === "live" \? -1[\s\S]+b\.status === "live" \? -1/, "Live must sort before scheduled sessions");
 assert.match(app, /publication\.publicReady \? `<form class="lc-v4-post-composer" data-lc-form="post"/);
 assert.match(app, /Content unlocks after verification and publication/);

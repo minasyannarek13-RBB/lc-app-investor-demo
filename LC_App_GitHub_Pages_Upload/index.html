@@ -11361,7 +11361,11 @@
       });
     }
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    if (new URLSearchParams(location.search).get("demo") !== "investor") {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"><\/script>');
+    }
+  </script>
   <script>
     window.LC_APP_CONFIG = {
       SUPABASE_URL: "https://aspbwgsfkebduvviyeuo.supabase.co",
@@ -11369,8 +11373,8 @@
     };
   </script>
   <script src="./social.js"></script>
-  <script src="./app-product.js?v=112"></script>
-  <script src="./auth.js?v=73"></script>
+  <script src="./app-product.js?v=116"></script>
+  <script src="./auth.js?v=74"></script>
   <script src="product-shell-v2.js?v=16" defer></script>
 </body>
 </html>

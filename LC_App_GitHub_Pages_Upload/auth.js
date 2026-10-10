@@ -1013,6 +1013,14 @@
 
   async function renderAuthState() {
     const target = route();
+    if (new URLSearchParams(window.location.search).get("demo") === "investor") {
+      setLocked(false);
+      STATE.booted = true;
+      if (!isProductRoute(target)) { setRoute("product/demo/player"); return; }
+      window.LCAppProduct?.mountDemoEntry();
+      markReady();
+      return;
+    }
     if (!STATE.booted) renderLoading();
     if (["privacy", "terms"].includes(target)) {
       markReady();

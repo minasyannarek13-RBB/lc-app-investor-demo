@@ -1,0 +1,327 @@
+{
+  "date": "2026-10-10",
+  "browser": "Codex in-app Browser",
+  "runtime": "app-product.js?v=115",
+  "checks": [
+    {
+      "scene": "entry",
+      "width": 320,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "lobby",
+      "width": 320,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "dealer",
+      "width": 320,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "room",
+      "width": 320,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "profile",
+      "width": 320,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "activity",
+      "width": 320,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "operator",
+      "width": 320,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "provider",
+      "width": 320,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "entry",
+      "width": 390,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "lobby",
+      "width": 390,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "dealer",
+      "width": 390,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "room",
+      "width": 390,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "profile",
+      "width": 390,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "activity",
+      "width": 390,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "operator",
+      "width": 390,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "provider",
+      "width": 390,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "entry",
+      "width": 430,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "lobby",
+      "width": 430,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "dealer",
+      "width": 430,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "room",
+      "width": 430,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "profile",
+      "width": 430,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "activity",
+      "width": 430,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "operator",
+      "width": 430,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "provider",
+      "width": 430,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "entry",
+      "width": 768,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "lobby",
+      "width": 768,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "dealer",
+      "width": 768,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "room",
+      "width": 768,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "profile",
+      "width": 768,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "activity",
+      "width": 768,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "operator",
+      "width": 768,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "provider",
+      "width": 768,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "entry",
+      "width": 1440,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "lobby",
+      "width": 1440,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "dealer",
+      "width": 1440,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "room",
+      "width": 1440,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "profile",
+      "width": 1440,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "activity",
+      "width": 1440,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "operator",
+      "width": 1440,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    },
+    {
+      "scene": "provider",
+      "width": 1440,
+      "brokenLoadedImages": [],
+      "documentOverflow": 0,
+      "productOverflow": 0,
+      "status": "PASS"
+    }
+  ]
+}

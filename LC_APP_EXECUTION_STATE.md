@@ -1,8 +1,29 @@
 # Current Release Checkpoint — 2026-10-10
 
-Project: LC App | Version: v0.6 | Status: Hosted baseline inspection PASS; staging migration and release blocked
+Project: LC App | Version: v0.7 | Status: Local investor demo ready; hosted baseline PASS; hosted release blocked
 Owner: Narek / Engineering | Audience: founder and release engineer
 Sources: ChatGPT connected Supabase external baseline 2026-10-10 (relayed by Narek), current code, tests, migrations, PR #18 read-only metadata; historical notes below are not current release evidence.
+
+## Local investor-demo checkpoint — 2026-10-10
+- Actual application: `http://localhost:4187/investor.html` → `/?app=1&demo=investor#/product/demo/player`; loopback server serves `LC_App_GitHub_Pages_Upload/`.
+- Local self-guided demo ready in the tested Codex in-app browser: three scenarios, Blackjack/Baccarat lobby, profiles/follows, visible likes/comments, example notifications/reminders, scripted card room, local chat/reactions, handoff/return and safe reset.
+- Investor mode bypasses Auth bootstrap/config/session reads and skips Supabase SDK. Five-profile/session seed uses a fixed virtual clock. No real game engine, stream, partner destination or wagering is implied.
+- Fixed actual browser defects: stale business metadata intercepted social actions after role switch; Like lacked a visible update; comments showed only counts; demo sticky CTA overlapped chat; guide skip could leave the selected room.
+- Evidence: `INVESTOR_DEMO_READINESS.md`, four inspected screenshots and QA JSON under `evidence/investor-demo-2026-10-10/`. Browser layouts 40/40 PASS, interactions 24 PASS, console errors 0; fresh Node suite 122/122 PASS. Native Safari/iPhone and full accessibility NOT VERIFIED.
+- Cache v126, app-product asset v116; root/nested auth.js, app-product.js and sw.js remain identical. Marketing files unchanged.
+- LOCAL INVESTOR DEMO READY: YES; STAGING MIGRATION READY / PRODUCTION READY: NO. Prior external hosted baseline PASS and 052–054/Auth/RLS/Storage/integration/recovery/browser blockers remain intact.
+- Isolated static deployment proposal prepared only. No hosted writes, production change, push, deployment, DNS or environment change. Pre-existing untracked package-lock.json and STAGING_HANDOFF.zip excluded from this work.
+
+## AI_SYNC — investor sprint 2026-10-10
+Date: 2026-10-10 | AI: Codex | Project: LC App
+Task: Complete and browser-verify the local self-guided investor product demo.
+Files created: investor.html entry; investor isolation/regression tests; INVESTOR_DEMO_READINESS.md; screenshot and QA evidence package.
+Files updated: mirrored product/auth/service-worker runtimes, nested app shell, affected tests, README and this checkpoint.
+Decisions: local illustrative investor demo ready; hosted release remains blocked; publication requires a reviewed sanitised isolated artifact and separate approval.
+Assumptions: illustrative seed/virtual schedule; benefits remain pilot hypotheses. No production capability or integration invented.
+Contradictions found: business-view metadata acted like navigation controls after persona switch; fixed and regression-tested.
+Open questions: native Safari/device acceptance, isolated publication target; pre-existing hosted blockers unchanged.
+Next action: validate the investor journey in native Safari on the intended device.
 
 ## Migration forensics checkpoint
 - Starting checkpoint `433b6f9378f0402866d81391507a8a9324808a86` verified on `codex/lc-app-p1-stabilization` with a clean worktree.
@@ -14,7 +35,7 @@ Sources: ChatGPT connected Supabase external baseline 2026-10-10 (relayed by Nar
 
 ## Current RC and verified fixes
 - Branch: `codex/lc-app-p1-stabilization`; preserved starting SHA `501c3f1fdfc2073ba896e991ef0ea7680003b42e` and cache/route checkpoint `1ec4618ab4315c76efdc77200abc97e6780c5fda`. Current review SHA: `git rev-parse HEAD` after the local checkpoint commit.
-- Service worker v123 permits only scoped public assets and the explicit `?app=1` shell. API paths, auth callback queries, Authorization/no-store requests bypass caching; private/no-store, redirected and identity-varying responses cannot be stored. Activation preserves unrelated applications' caches; cache writes extend worker lifetime.
+- Service worker v126 permits only scoped public assets and the explicit `?app=1` shell. API paths, auth callback queries, Authorization/no-store requests bypass caching; private/no-store, redirected and identity-varying responses cannot be stored. Activation preserves unrelated applications' caches; cache writes extend worker lifetime.
 - Malformed creator/live/handoff route identifiers now render Invalid link instead of throwing URIError and retaining a stale screen.
 - Launcher is executable and binds to loopback. `.gitignore` excludes local secrets, Vercel state and test artifacts; `.env.example` remains shareable.
 - Root/nested app-product.js and sw.js remain identical. Existing stabilization and all existing tests preserved.
@@ -23,7 +44,7 @@ Sources: ChatGPT connected Supabase external baseline 2026-10-10 (relayed by Nar
 - Migration 060 closes confirmed suspension gaps: inactive moderators lose moderation access, suspended users cannot create reports or mutate avatars, foundation ACLs are explicit, browser roles cannot create objects in `public`, and the account-status admin function is explicitly service-role-only.
 - Staging handoff is defined in `STAGING_READINESS_REPORT.md`, `STAGING_SETUP_RUNBOOK.md` and `RELEASE_SECURITY_MATRIX.md`; these documents distinguish local simulation from required hosted evidence.
 
-## Validation actually executed
+## Prior release validation — 2026-10-09 (historical)
 - `node --test tests/*.test.mjs`: 117/117 PASS (baseline: 108/108). Recovery-integrity tests pin authoritative 001–006 hashes, require reconstruction labels and assert migration-060 suspension controls.
 - PostgreSQL 17 clean-room execution: ordered migrations 001–060 applied successfully to a fresh temporary loopback cluster. Schema ACL audit PASS. Authenticated RLS/adversarial matrix: 40/40 PASS across profile privacy, moderation, Creator approval, tenant isolation/audit, handoff ambiguity and attribution, avatar ownership, event metadata/rate limit, notifications, replay protection and suspended Player/Admin behavior. Test-only Supabase platform primitives are isolated in `tests/db/supabase-platform-shim.sql`.
 - `node --check` on all 9 JavaScript files; `bash -n run-local.sh`; `git diff --check`: PASS.

@@ -4,11 +4,19 @@ Public review build for LC App.
 
 ## Open
 
-Open `showcase-v2/index.html` for the management review experience.
+For the actual social application, serve `LC_App_GitHub_Pages_Upload/` on loopback and open `http://localhost:4187/investor.html`:
+
+```bash
+python3 -m http.server 4187 --bind 127.0.0.1 --directory LC_App_GitHub_Pages_Upload
+```
+
+The investor entry resolves to `/?app=1&demo=investor#/product/demo/player`. It uses isolated local demo state, skips Supabase Auth initialisation and requires no registration. Feature inventory, actual browser evidence, screenshots, limitations and the unexecuted isolated deployment proposal are in [INVESTOR_DEMO_READINESS.md](INVESTOR_DEMO_READINESS.md).
+
+`showcase-v2/index.html` remains a separate historical management-review surface.
 
 ## GitHub Pages
 
-Repository settings:
+Historical repository settings (not an instruction or approval to publish the new investor demo):
 
 - Pages source: `Deploy from a branch`
 - Branch: `main`

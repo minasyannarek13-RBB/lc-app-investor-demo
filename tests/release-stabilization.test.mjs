@@ -10,7 +10,7 @@ test("future illustrative sessions remain previews rather than live broadcasts",
   assert.equal(deployed, app);
   assert.match(app, /demo-session-sofia[\s\S]+status: "scheduled"/);
   assert.match(app, /demo-session-alex[\s\S]+status: "scheduled"/);
-  assert.match(app, /const isPresentedLive = [\s\S]+new Date\(session\.starts_at\)\.getTime\(\) <= Date\.now\(\)/);
+  assert.match(app, /const isPresentedLive = [\s\S]+new Date\(session\.starts_at\)\.getTime\(\) <= productNow\(\)/);
   assert.match(app, /if \(isSessionPreview\(session\)\) return "SESSION PREVIEW"/);
   assert.doesNotMatch(app, /Sofia's demo session is live/);
   assert.match(app, /No live broadcast or operator connection is implied/);

@@ -55,7 +55,17 @@
   const PRODUCT_EVENTS = new Set(["product_open", "creator_impression", "discovery_search", "creator_profile_open", "creator_follow", "live_session_open", "schedule_reminder", "handoff_intent", "handoff_return", "notification_response"]);
   const PILOT_EVENTS = [["creator_impression", "Creator impression"], ["creator_profile_open", "Profile open"], ["creator_follow", "Follow"], ["live_session_open", "Live open"], ["schedule_reminder", "Schedule reminder"], ["handoff_intent", "Handoff intent"], ["handoff_return", "Return visit"], ["notification_response", "Signal response"]];
   const PILOT_HYPOTHESES = [["creator_handoff", "Creator-led discovery produces operator handoff intent"], ["creator_return", "Following a Creator contributes to return activity"], ["live_signal_response", "Live signals prompt measurable player response"], ["creator_source_attribution", "Creator source remains attributable through handoff and return"]];
-  const demoStore = { follows: new Set(), creatorLiveAlerts: new Map(), reminders: new Set(), likes: new Set(), comments: [], posts: [], sessions: [], sessionOverrides: new Map(), notifications: [], requests: new Set(), pilotBriefs: [] };
+  const investorMode = new URLSearchParams(window.location.search).get("demo") === "investor";
+  const DEMO_EPOCH = Date.UTC(2026, 9, 10, 18, 0);
+  const productNow = () => state.demo ? DEMO_EPOCH : Date.now();
+  let demoSequence = 0;
+  let tourStep = investorMode ? 0 : -1;
+  const tourScenarios = [
+    ["Meet your next dealer", "LC App is a social layer for Live Casino. Meet Blackjack and Baccarat dealers, follow them and return to their tables.", "Explore the lobby"],
+    ["Turn discovery into a relationship", "Like a post, leave a comment and follow a dealer. Open their session preview to try the scripted table, room chat and operator-return journey.", "Meet Sofia"],
+    ["See the integration value", "Operators can connect discovery to licensed play and measure return journeys. Providers can give existing tables a creator-led distribution channel. These benefits still require pilot validation.", "Inspect operator workspace"]
+  ];
+  const demoStore = { roomMessages: new Map(), roomRounds: new Map(), roomReactions: new Set(), follows: new Set(), creatorLiveAlerts: new Map(), reminders: new Set(), likes: new Set(), comments: [], posts: [], sessions: [], sessionOverrides: new Map(), notifications: [], requests: new Set(), pilotBriefs: [] };
   const demoProfiles = [
     { id: "demo-sofia", username: "sofia_live", display_name: "Sofia Laurent", avatar_url: "app_prototype_assets/dealers/v2_polish/sofia_avatar_public.jpg", bio: "Blackjack dealer building a followable Live Casino audience.", country: "Malta", languages: ["English", "French"] },
     { id: "demo-mia", username: "mia_tables", display_name: "Mia Novak", avatar_url: "app_prototype_assets/dealers/dealer_mia_avatar_v1.jpg", bio: "Roulette and baccarat sessions with a calm table style.", country: "Latvia", languages: ["English", "Italian"] },
@@ -71,18 +81,18 @@
     { user_id: "demo-lilit", headline: "Blackjack and poker table explainer", games: ["Blackjack", "Poker"], languages: ["English", "Armenian"], affiliation_name: "Demo Studio", affiliation_verification_status: "unverified", verification_status: "unverified", profile_status: "published" }
   ];
   const demoSessions = [
-    { id: "demo-session-sofia", creator_id: "demo-sofia", title: "Evening Blackjack table", game: "Blackjack", operator_name: "Demo Casino", starts_at: new Date(Date.now() + 3600000).toISOString(), status: "scheduled", visibility: "public", provenance: "illustrative_demo_data" },
-    { id: "demo-session-mia", creator_id: "demo-mia", title: "Roulette community hour", game: "Roulette", operator_name: "Demo Casino", starts_at: new Date(Date.now() + 7200000).toISOString(), status: "scheduled", visibility: "public", provenance: "illustrative_demo_data" },
-    { id: "demo-session-marcus", creator_id: "demo-marcus", title: "Game Show warm-up", game: "Game Show", operator_name: "Demo Provider", starts_at: new Date(Date.now() + 10800000).toISOString(), status: "scheduled", visibility: "public", provenance: "illustrative_demo_data" },
-    { id: "demo-session-alex", creator_id: "demo-alex", title: "Premium Baccarat room", game: "Baccarat", operator_name: "Demo Casino", starts_at: new Date(Date.now() + 1800000).toISOString(), status: "scheduled", visibility: "public", provenance: "illustrative_demo_data" },
-    { id: "demo-session-lilit", creator_id: "demo-lilit", title: "Blackjack strategy table", game: "Blackjack", operator_name: "Demo Studio", starts_at: new Date(Date.now() + 14400000).toISOString(), status: "scheduled", visibility: "public", provenance: "illustrative_demo_data" }
+    { id: "demo-session-sofia", creator_id: "demo-sofia", title: "Evening Blackjack table", game: "Blackjack", operator_name: "Demo Casino", starts_at: new Date(DEMO_EPOCH + 3600000).toISOString(), status: "scheduled", visibility: "public", provenance: "illustrative_demo_data" },
+    { id: "demo-session-mia", creator_id: "demo-mia", title: "Roulette community hour", game: "Roulette", operator_name: "Demo Casino", starts_at: new Date(DEMO_EPOCH + 7200000).toISOString(), status: "scheduled", visibility: "public", provenance: "illustrative_demo_data" },
+    { id: "demo-session-marcus", creator_id: "demo-marcus", title: "Game Show warm-up", game: "Game Show", operator_name: "Demo Provider", starts_at: new Date(DEMO_EPOCH + 10800000).toISOString(), status: "scheduled", visibility: "public", provenance: "illustrative_demo_data" },
+    { id: "demo-session-alex", creator_id: "demo-alex", title: "Premium Baccarat room", game: "Baccarat", operator_name: "Demo Casino", starts_at: new Date(DEMO_EPOCH + 1800000).toISOString(), status: "scheduled", visibility: "public", provenance: "illustrative_demo_data" },
+    { id: "demo-session-lilit", creator_id: "demo-lilit", title: "Blackjack strategy table", game: "Blackjack", operator_name: "Demo Studio", starts_at: new Date(DEMO_EPOCH + 14400000).toISOString(), status: "scheduled", visibility: "public", provenance: "illustrative_demo_data" }
   ];
   const demoPosts = [
-    { id: "demo-post-sofia", author_id: "demo-sofia", body: "Demo session preview: tonight's Blackjack table. Follow Sofia and return for the scheduled experience.", created_at: new Date(Date.now() - 900000).toISOString(), status: "active", deleted_at: null },
-    { id: "demo-post-mia", author_id: "demo-mia", body: "Roulette players asked for a slower table pace today. I added it to the next session.", created_at: new Date(Date.now() - 3600000).toISOString(), status: "active", deleted_at: null },
-    { id: "demo-post-marcus", author_id: "demo-marcus", body: "Game Show preview: new community challenge format for returning players.", created_at: new Date(Date.now() - 5400000).toISOString(), status: "active", deleted_at: null },
-    { id: "demo-post-alex", author_id: "demo-alex", body: "Session preview: a slower Baccarat room hosted by Alex tonight.", created_at: new Date(Date.now() - 2700000).toISOString(), status: "active", deleted_at: null },
-    { id: "demo-post-lilit", author_id: "demo-lilit", body: "Posted a quick Blackjack note for players joining my next session.", created_at: new Date(Date.now() - 7200000).toISOString(), status: "active", deleted_at: null }
+    { id: "demo-post-sofia", author_id: "demo-sofia", body: "An example Blackjack session with Sofia. Follow her profile and save a reason to return.", created_at: new Date(DEMO_EPOCH - 900000).toISOString(), status: "active", deleted_at: null },
+    { id: "demo-post-mia", author_id: "demo-mia", body: "Example update: a quieter Roulette and Baccarat session preview. Follow Mia to explore the return journey.", created_at: new Date(DEMO_EPOCH - 3600000).toISOString(), status: "active", deleted_at: null },
+    { id: "demo-post-marcus", author_id: "demo-marcus", body: "Example Game Show update. Explore how a creator can bring followers back.", created_at: new Date(DEMO_EPOCH - 5400000).toISOString(), status: "active", deleted_at: null },
+    { id: "demo-post-alex", author_id: "demo-alex", body: "Example Baccarat session with Alex. Save the preview and try the local table room.", created_at: new Date(DEMO_EPOCH - 2700000).toISOString(), status: "active", deleted_at: null },
+    { id: "demo-post-lilit", author_id: "demo-lilit", body: "Example Blackjack note. Meet Lilit and explore a scheduled preview.", created_at: new Date(DEMO_EPOCH - 7200000).toISOString(), status: "active", deleted_at: null }
   ];
   const visualMedia = {
     "demo-sofia": "app_prototype_assets/dealers/v2_polish/sofia_profile_public.jpg",
@@ -135,6 +145,10 @@
     return true;
   };
   const resetDemoStore = () => {
+    demoSequence = 0;
+    demoStore.roomMessages.clear();
+    demoStore.roomRounds.clear();
+    demoStore.roomReactions.clear();
     demoStore.follows.clear();
     demoStore.creatorLiveAlerts.clear();
     demoStore.reminders.clear();
@@ -150,9 +164,9 @@
   const isIllustrativeProfile = (profile) => Boolean(profile?.id?.startsWith("demo-"));
   const isIllustrativeSession = (session) => Boolean(state.demo || session?.provenance === "illustrative_demo_data" || session?.id?.startsWith("demo-"));
   const isPresentedLive = (session) => Boolean(session?.status === "live"
-    && (!isIllustrativeSession(session) || new Date(session.starts_at).getTime() <= Date.now()));
+    && (!isIllustrativeSession(session) || new Date(session.starts_at).getTime() <= productNow()));
   const isSessionPreview = (session) => Boolean(session && isIllustrativeSession(session)
-    && (session.status === "scheduled" || new Date(session.starts_at).getTime() > Date.now()));
+    && (session.status === "scheduled" || new Date(session.starts_at).getTime() > productNow()));
   const sessionStatusLabel = (session) => {
     if (!session) return "NO SESSION";
     if (isSessionPreview(session)) return "SESSION PREVIEW";
@@ -183,7 +197,7 @@
     return null;
   };
   const addDemoNotification = (text, targetId = null) => {
-    demoStore.notifications.unshift({ id: `demo-note-${Date.now()}`, text, target_id: targetId, created_at: new Date().toISOString() });
+    demoStore.notifications.unshift({ id: `demo-note-${++demoSequence}`, text, target_id: targetId, created_at: new Date(DEMO_EPOCH).toISOString() });
     demoStore.notifications = demoStore.notifications.slice(0, 6);
   };
 
@@ -312,8 +326,53 @@
     document.head.appendChild(style);
   }
 
+  function injectInvestorStyles() {
+    if (q("#lcInvestorStyles")) return;
+    const style = document.createElement("style");
+    style.id = "lcInvestorStyles";
+    style.textContent = `
+      .lc-investor-guide{max-width:980px;margin:0 auto 18px;padding:18px;border:1px solid #37665c;border-radius:20px;background:linear-gradient(135deg,#102924,#071512);color:#eefcf5}
+      .lc-investor-guide h2{font-size:22px;margin:8px 0}.lc-investor-guide p{max-width:760px;line-height:1.55;color:#b6cfc7;margin:8px 0 14px}
+      .lc-investor-steps{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.lc-investor-steps button{min-height:36px;border:1px solid #45665c;border-radius:12px;background:transparent;color:#cfebe1;padding:7px 12px}.lc-investor-steps button[aria-current=step]{background:#cbf5df;color:#082419}
+      .lc-demo-games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.lc-demo-games button{min-height:95px;text-align:left;border:1px solid #355c50;border-radius:18px;background:linear-gradient(130deg,#142b22,#08140e);color:#eafff3;padding:18px}.lc-demo-games b{display:block;font-size:21px}.lc-demo-games span{display:block;font-size:12px;color:#b9d3c6;margin-top:7px}
+      .lc-demo-table{border:1px solid #597b5c;border-radius:24px;padding:22px;background:radial-gradient(ellipse at top,#214b37,#07150f);color:#effaef}.lc-demo-table h2{margin:8px 0}.lc-demo-hands{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:20px 0}.lc-demo-hand{padding:14px;border:1px solid #688c73;border-radius:16px}.lc-demo-hand strong{display:block;margin-bottom:12px}.lc-demo-card{display:inline-flex;align-items:center;justify-content:center;width:48px;height:65px;margin:0 5px 7px 0;background:#f7f2e7;color:#14251c;border-radius:7px;font-size:21px;font-family:Georgia,serif;box-shadow:0 5px 18px #0004}.lc-demo-chat ul{list-style:none;padding:0}.lc-demo-chat li{padding:10px 0;border-bottom:1px solid #304a40;overflow-wrap:anywhere}.lc-demo-chat form{display:flex;gap:8px}.lc-demo-chat input{flex:1;min-width:0}
+      .lc-demo-room .lc-v4-live-actions{position:static}.lc-demo-room .lc-v4-live-stage{min-height:360px}#lcProductShell img{max-width:100%}.lc-product-demo-banner{max-width:980px}.lc-investor-guide .lc-product-actions{flex-wrap:wrap}.lc-demo-table small{display:block;color:#c0d6c8;line-height:1.5}
+      @media(max-width:430px){.lc-investor-guide{padding:14px}.lc-investor-steps button{padding:7px 9px;font-size:12px}.lc-investor-guide h2{font-size:20px}.lc-demo-games{gap:8px}.lc-demo-games button{padding:13px}.lc-demo-hands{gap:8px}.lc-demo-hand{padding:10px}.lc-demo-card{width:35px;height:50px;font-size:17px}.lc-demo-table{padding:15px}.lc-demo-chat form{flex-wrap:wrap}}
+    `;
+    document.head.appendChild(style);
+  }
+
+  function investorGuide() {
+    if (!investorMode || !state.demo || tourStep < 0) return "";
+    const [title, body, action] = tourScenarios[tourStep];
+    return `<section class="lc-investor-guide" aria-label="Investor walkthrough"><nav class="lc-investor-steps" aria-label="Guided scenarios">${tourScenarios.map((step, index) => `<button type="button" data-lc-tour-step="${index}" aria-label="${index + 1} · ${safe(step[0])}" ${tourStep === index ? 'aria-current="step"' : ""}>${index + 1} · ${["Discover", "Social", "Business"][index]}</button>`).join("")}</nav><h2>${safe(title)}</h2><p>${safe(body)}</p><div class="lc-product-actions"><button class="lc-product-btn" type="button" data-lc-tour-action>${safe(action)}</button><button class="lc-product-chip" type="button" data-lc-tour-next>${tourStep === 2 ? "Finish walkthrough" : "Next scenario"}</button><button class="lc-product-chip" type="button" data-lc-tour-skip>Skip walkthrough</button></div></section>`;
+  }
+
+  function renderDemoTable(session) {
+    if (!state.demo || !["Blackjack", "Baccarat"].includes(session.game)) return "";
+    const round = (demoStore.roomRounds.get(session.id) || 0) % 3;
+    const blackjack = session.game === "Blackjack";
+    const hands = blackjack ? [["A♠", "K♦", "10♣", "7♥"], ["10♥", "8♣", "Q♠", "9♦"], ["9♠", "7♥", "10♦", "6♣"]] : [["4♠", "3♥", "5♣", "2♦"], ["A♥", "6♣", "4♠", "5♦"], ["2♠", "3♥", "A♦", "7♣"]];
+    const labels = blackjack ? ["Player hand", "Dealer hand"] : ["Player side", "Banker side"];
+    const cards = hands[round];
+    const messages = demoStore.roomMessages.get(session.id) || [];
+    return `<section class="lc-demo-table" aria-label="Scripted ${safe(session.game)} table"><span class="lc-product-label">SCRIPTED TABLE PREVIEW · NO WAGERS</span><h2>${safe(session.game)} with ${safe(profileName(demoProfile(session.creator_id)))}</h2><small>Example round ${round + 1} of 3. Fixed cards demonstrate the room presentation, not a playable casino engine or broadcast.</small><div class="lc-demo-hands">${labels.map((label, index) => `<div class="lc-demo-hand"><strong>${label}</strong>${cards.slice(index * 2, index * 2 + 2).map(card => `<span class="lc-demo-card">${safe(card)}</span>`).join("")}</div>`).join("")}</div><button class="lc-product-btn secondary" type="button" data-lc-demo-round="${safe(session.id)}">Show next demo round</button></section><section class="lc-product-card lc-demo-chat"><h2>Room conversation</h2><p>Only your local demo messages appear here. There are no connected players.</p><button class="lc-product-chip" type="button" data-lc-demo-react="${safe(session.id)}">${demoStore.roomReactions.has(session.id) ? "♥ Reaction added" : "♡ React to this room"}</button><ul aria-live="polite">${messages.length ? messages.map(message => `<li><b>You</b> · ${safe(message)}</li>`).join("") : "<li>No messages yet. Start the conversation.</li>"}</ul><form data-lc-form="room-chat" data-session-id="${safe(session.id)}"><input class="lc-product-input" name="body" maxlength="240" required aria-label="Message the demo room" placeholder="Write a message"><button class="lc-product-btn" type="submit">Send</button></form></section>`;
+  }
+
+  function refreshDemoRoom(id) {
+    const root = q("#lcProductShell");
+    const found = findSessionEntry(id);
+    if (!root || !found || !root.querySelector(".lc-demo-table")) return renderLive(id);
+    const scrollTop = root.scrollTop;
+    const content = document.createElement("div");
+    content.innerHTML = renderDemoTable(found.session);
+    for (const selector of [".lc-demo-table", ".lc-demo-chat"]) root.querySelector(selector)?.replaceWith(content.querySelector(selector));
+    root.scrollTop = scrollTop;
+  }
+
   function shell() {
     injectStyles();
+    injectInvestorStyles();
     let node = q("#lcProductShell");
     if (!node) {
       node = document.createElement("section");
@@ -322,6 +381,7 @@
       q("#screen")?.appendChild(node);
     }
     q("#screen")?.classList.add("lc-product-mode");
+    if (state.current?.persona !== "industry") delete node.dataset.lcBusinessView;
     node.hidden = false;
     node.scrollTop = 0;
     window.scrollTo(0, 0);
@@ -494,7 +554,7 @@
     if (posts.error) throw posts.error;
     const profileMap = new Map((profiles.data || []).map((profile) => [profile.id, profile]));
     const eligibleSessions = (sessions.data || [])
-      .filter((session) => session.status === "live" || new Date(session.starts_at).getTime() > Date.now())
+      .filter((session) => session.status === "live" || new Date(session.starts_at).getTime() > productNow())
       .sort((a, b) => (a.status === "live" ? -1 : 0) - (b.status === "live" ? -1 : 0) || new Date(a.starts_at) - new Date(b.starts_at));
     state.creators = (creatorRows || []).map((creator) => ({
       creator,
@@ -542,7 +602,8 @@
         <div class="lc-product-brand"><span class="lc-product-logo">LC</span><div><strong>${safe(title)}</strong><span>${safe(subtitle)}</span></div></div>
         <button class="lc-product-chip" type="button" ${accountTarget}>${safe(persona)}</button>
       </div>
-      ${state.demo ? `<div class="lc-product-demo-banner"><strong>DEMO EXPERIENCE · ${safe((state.demoPersona || "preview").toUpperCase())} · ILLUSTRATIVE CONTENT</strong><div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-demo-switch>Switch</button><button class="lc-product-chip" type="button" data-lc-demo-reset>Reset</button><button class="lc-product-chip" type="button" data-lc-demo-exit>Opening</button></div></div>` : ""}
+      ${state.demo ? `<div class="lc-product-demo-banner"><strong>DEMO EXPERIENCE · ${safe((state.demoPersona || "preview").toUpperCase())} · LOCAL DATA</strong><div class="lc-product-actions"><button class="lc-product-chip" type="button" data-lc-demo-switch>Switch</button><button class="lc-product-chip" type="button" data-lc-demo-reset>Reset</button><button class="lc-product-chip" type="button" data-lc-demo-exit>Roles</button>${investorMode ? `<button class="lc-product-chip" type="button" data-lc-tour-restart>Guide</button>` : ""}</div></div>` : ""}
+      ${investorGuide()}
     `;
   }
 
@@ -939,7 +1000,7 @@
 
   function savedScheduleEntries() {
     return state.creators.flatMap((entry) => entry.sessions
-      .filter((session) => session.status === "scheduled" && new Date(session.starts_at).getTime() > Date.now() && state.reminders.has(session.id))
+      .filter((session) => session.status === "scheduled" && new Date(session.starts_at).getTime() > productNow() && state.reminders.has(session.id))
       .map((session) => ({ entry, session })))
       .sort((a, b) => new Date(a.session.starts_at) - new Date(b.session.starts_at));
   }
@@ -969,7 +1030,7 @@
     const creatorId = item.profile.id;
     const following = state.follows.has(creatorId);
     const liked = Boolean(post && demoStore.likes.has(post.id));
-    const comments = post ? demoStore.comments.filter((comment) => comment.post_id === post.id).length : 0;
+    const comments = post ? demoStore.comments.filter((comment) => comment.post_id === post?.id).length : 0;
     const isLive = isPresentedLive(session);
     const preview = isSessionPreview(session);
     const reminderSet = Boolean(session && state.reminders.has(session.id));
@@ -998,13 +1059,14 @@
             : `<button class="lc-product-chip ${reminderSet ? "active" : ""}" type="button" data-lc-reminder="${safe(session.id)}">${reminderSet ? "REMINDER SET" : "REMIND ME"}</button>`) : ""}
       </div>
       <div class="lc-v4-feed-caption"><b>${safe(profileName(item.profile))}</b><p>${safe(post?.body || item.profile.bio || "Follow this creator to see their next Live session.")}</p><time datetime="${safe(post?.created_at || session?.starts_at || "")}">${safe(new Date(post?.created_at || session?.starts_at || Date.now()).toLocaleString())}</time></div>
-      ${post ? `<form class="lc-v4-feed-comment" data-lc-form="comment" data-post-id="${safe(post.id)}"><label class="sr-only" for="comment-${safe(post.id)}">Comment on ${safe(profileName(item.profile))}'s post</label><input id="comment-${safe(post.id)}" class="lc-product-input" name="body" maxlength="500" placeholder="Add a comment…"><button type="submit">Post</button>${comments ? `<span>${comments} demo comment${comments === 1 ? "" : "s"}</span>` : ""}</form>` : ""}
+      ${post ? `<form class="lc-v4-feed-comment" data-lc-form="comment" data-post-id="${safe(post.id)}"><label class="sr-only" for="comment-${safe(post.id)}">Comment on ${safe(profileName(item.profile))}'s post</label><input id="comment-${safe(post.id)}" class="lc-product-input" name="body" maxlength="500" placeholder="Add a comment…"><button type="submit">Post</button>${comments ? `<span>${comments} demo comment${comments === 1 ? "" : "s"}</span>` : ""}</form>${state.demo ? demoStore.comments.filter(comment => comment.post_id === post?.id).map(comment => `<p class="lc-product-note"><b>You:</b> ${safe(comment.body)}</p>`).join("") : ""}` : ""}
     </article>`;
   }
 
   function renderPlayerHome() {
     const creators = suggestedCreators();
     const liveCreators = creators.filter((item) => isPresentedLive(item.sessions[0]));
+    const railCreators = state.demo ? creators.filter(item => isSessionPreview(item.sessions[0])) : liveCreators;
     const feed = socialFeedEntries();
     const unread = state.notifications.filter((item) => !item.read_at).length;
     shell().innerHTML = `${top("Home", unread ? `${unread} new signal${unread === 1 ? "" : "s"}` : "Live Casino through people")}
@@ -1012,7 +1074,7 @@
         <div class="sr-only" aria-label="LC core loop"><span>Discover</span><span>Creator</span><span>Follow</span><span>Live</span><span>Return</span></div>
         <section class="lc-v4-live-rail" aria-label="${state.demo ? "Creators in demo live sessions" : "Creators live now"}">
           <button class="lc-v4-live-orb lc-v4-explore-orb" type="button" data-lc-product="explore"><span>+</span><small>Explore</small></button>
-          ${liveCreators.slice(0, 8).map((item) => `<button class="lc-v4-live-orb" type="button" data-lc-live="${safe(item.sessions[0].id)}"><span><img src="${safe(avatar(item.profile))}" alt=""><i>${safe(sessionStatusLabel(item.sessions[0]))}</i></span><small>${safe(profileName(item.profile).split(" ")[0])}</small></button>`).join("")}
+          ${railCreators.slice(0, 8).map((item) => `<button class="lc-v4-live-orb" type="button" data-lc-live="${safe(item.sessions[0].id)}"><span><img src="${safe(avatar(item.profile))}" alt=""><i>${safe(sessionStatusLabel(item.sessions[0]))}</i></span><small>${safe(profileName(item.profile).split(" ")[0])}</small></button>`).join("")}
         </section>
         <div class="lc-v4-home-switch"><button class="${state.discoveryFilter === "for_you" ? "active" : ""}" type="button" data-lc-home-filter="for_you">For you</button><button class="${state.discoveryFilter === "following" ? "active" : ""}" type="button" data-lc-home-filter="following">Following</button></div>
         <section class="lc-v4-social-feed" aria-label="Creator feed">
@@ -1046,7 +1108,8 @@
     };
     shell().innerHTML = `${top("Explore", "Find the person behind the table.")}
       <div class="lc-product-stack lc-v4-explore">
-        <section class="lc-v4-explore-hero"><div><span>DISCOVER PEOPLE</span><h1>Find your next Live table through a Creator.</h1><p>${state.demo ? "Explore illustrative creators and preview the path to participating licensed operators." : "Search by person, game or language and find creators relevant to your interests."}</p></div><div class="lc-v4-explore-state"><b>${liveCreators.length}</b><span>${state.demo ? "Verified live broadcasts" : "Live in this view"}</span></div></section>
+        ${state.demo ? `<section class="lc-demo-games" aria-label="Live Casino lobby"><button type="button" data-lc-demo-game="Blackjack"><b>Blackjack</b><span>Discover dealers · scripted table preview</span></button><button type="button" data-lc-demo-game="Baccarat"><b>Baccarat</b><span>Discover dealers · scripted table preview</span></button></section>` : ""}
+        <section class="lc-v4-explore-hero"><div><span>DISCOVER PEOPLE</span><h1>Find your next Live table through a Creator.</h1><p>${state.demo ? "Explore illustrative creators and preview the path to participating licensed operators." : "Search by person, game or language and find creators relevant to your interests."}</p></div><div class="lc-v4-explore-state"><b>${liveCreators.length}</b><span>${state.demo ? "Connected broadcasts (demo has none)" : "Live in this view"}</span></div></section>
         <form class="lc-v4-explore-search" data-lc-form="search"><input class="lc-product-input" name="search" maxlength="80" aria-label="Search creators, games or languages" placeholder="Search creators, games or languages" value="${safe(state.search)}"><button class="lc-product-btn" type="submit">SEARCH</button>${state.search ? `<button class="lc-product-chip" type="button" data-lc-clear-search>Clear</button>` : ""}</form>
         <div class="lc-v4-explore-controls"><div class="lc-v4-filter-row" aria-label="Explore filters">${Object.entries(filters).map(([value, label]) => `<button class="lc-product-chip ${state.discoveryFilter === value ? "active" : ""}" type="button" data-lc-discovery-filter="${value}">${label}</button>`).join("")}</div><p aria-live="polite">${resultContext}</p></div>
         ${liveCreators.length ? `<section class="lc-v4-discovery-section lc-v4-live-discovery"><div class="lc-v4-social-section-head"><div><span>${state.demo ? "DEMO LIVE" : "LIVE NOW"}</span><h2>Join the person, then choose where to play.</h2></div><b>${liveCreators.length}</b></div><div class="lc-v4-live-discovery-row">${liveCreators.map((item) => { const session = item.sessions[0]; return `<article><button type="button" data-lc-live="${safe(session.id)}"><img src="${safe(visualImage(item.profile))}" alt="${safe(profileName(item.profile))} ${safe(sessionStatusLabel(session))} session"><span class="lc-v4-feed-gradient"></span><i>${safe(sessionStatusLabel(session))}</i><div><b>${safe(profileName(item.profile))}</b><small>${safe(session.game || "Live Casino")}</small></div></button></article>`; }).join("")}</div></section>` : ""}
@@ -1322,7 +1385,7 @@
         <section class="lc-v4-creator-facts" aria-label="Creator profile activity"><article><b>${item.posts.length}</b><span>Updates</span></article><article><b>${scheduled.length}</b><span>Upcoming</span></article><article><b>${(item.creator.games || []).length}</b><span>Games</span></article></section>
         <section class="lc-v4-creator-about"><div><span>ABOUT</span><h2>${safe(item.profile.bio || item.creator.headline || "Follow this creator to keep their identity, schedule and Live status connected across sessions.")}</h2></div><div class="lc-v4-creator-tags"><span>${safe(gamesLabel)}</span><span>${safe(languageLabel)}</span>${item.profile.country ? `<span>${safe(item.profile.country)}</span>` : ""}<span>${safe(item.creator.affiliation_name || "Affiliation not listed")} · ${safe(item.creator.affiliation_verification_status || "unverified")}</span></div></section>
         ${next ? `<section class="lc-v4-next-live ${isLive ? "is-live" : ""}"><div><span>${safe(sessionStatusLabel(next))}</span><h2>${safe(next.title || "Live session")}</h2><p>${safe(next.game)} · ${safe(sessionLine(next))}</p><small>${safe(next.operator_name || "Operator context not set")} · operator context is not an LC approval</small></div>${isLive ? `<button class="lc-product-btn" type="button" data-lc-live="${safe(next.id)}">${state.demo ? "OPEN DEMO SESSION" : "OPEN LIVE"}</button>` : `<button class="lc-product-btn ${state.reminders.has(next.id) ? "secondary" : ""}" type="button" data-lc-reminder="${safe(next.id)}">${state.reminders.has(next.id) ? "REMINDER SET" : "REMIND ME"}</button>`}</section>` : `<section class="lc-v4-creator-empty"><h2>No session scheduled</h2><p>Follow this creator to keep them in your feed when a new session appears.</p></section>`}
-        <section class="lc-v4-creator-content"><div class="lc-v4-social-section-head"><div><span>CONTENT</span><h2>Recent updates</h2></div><b>${item.posts.length}</b></div>${item.posts.length ? `<div class="lc-v4-creator-content-grid">${item.posts.slice(0,6).map((post) => `<article><img src="${safe(visualImage(item.profile))}" alt="" loading="lazy" decoding="async"><div><time>${safe(new Date(post.created_at).toLocaleString())}</time><p>${safe(post.body)}</p></div></article>`).join("")}</div>` : `<div class="lc-v4-creator-empty"><p>No public updates yet.</p></div>`}</section>
+        <section class="lc-v4-creator-content"><div class="lc-v4-social-section-head"><div><span>CONTENT</span><h2>Recent updates</h2></div><b>${item.posts.length}</b></div>${item.posts.length ? `<div class="lc-v4-creator-content-grid">${item.posts.slice(0,6).map((post) => `<article><img src="${safe(visualImage(item.profile))}" alt="" loading="lazy" decoding="async"><div><time>${safe(new Date(post.created_at).toLocaleString())}</time><p>${safe(post.body)}</p>${state.demo ? `<button class="lc-product-chip" type="button" data-lc-like="${safe(post.id)}">${demoStore.likes.has(post.id) ? "♥ Liked" : "♡ Like post"}</button><form data-lc-form="comment" data-post-id="${safe(post.id)}"><label for="profile-comment-${safe(post.id)}">Comment on this update</label><input class="lc-product-input" id="profile-comment-${safe(post.id)}" name="body" maxlength="500" required><button class="lc-product-chip" type="submit">Post comment</button></form>${demoStore.comments.filter(comment => comment.post_id === post.id).map(comment => `<p><b>You:</b> ${safe(comment.body)}</p>`).join("")}` : ""}</div></article>`).join("")}</div>` : `<div class="lc-v4-creator-empty"><p>No public updates yet.</p></div>`}</section>
         ${scheduled.length > (isLive ? 0 : 1) ? `<section class="lc-v4-creator-schedule"><div class="lc-v4-social-section-head"><div><span>SCHEDULE</span><h2>More return moments</h2></div></div>${scheduled.filter((session) => session.id !== next?.id).map((session) => `<article><div><span>${safe(session.game)}</span><b>${safe(session.title || "Live session")}</b><small>${safe(sessionLine(session))}</small></div><button class="lc-product-chip ${state.reminders.has(session.id) ? "active" : ""}" type="button" data-lc-reminder="${safe(session.id)}">${state.reminders.has(session.id) ? "Saved" : "Remind me"}</button></article>`).join("")}</section>` : ""}
         <section class="lc-v4-creator-safety" aria-label="Creator safety actions"><span>Keep your experience safe</span><div><button type="button" data-lc-creator-safety="report" data-lc-creator-id="${safe(id)}">Report</button><button type="button" data-lc-creator-safety="block" data-lc-creator-id="${safe(id)}">Block</button></div></section>
       </div>${tabs("explore")}`;
@@ -1390,8 +1453,9 @@
             ? `<button class="lc-product-btn lc-v4-live-primary" type="button" disabled>OPERATOR DESTINATION UNAVAILABLE</button>`
             : `<button class="lc-product-btn lc-v4-live-primary ${state.reminders.has(session.id) ? "secondary" : ""}" type="button" data-lc-reminder="${safe(session.id)}">${state.reminders.has(session.id) ? "REMINDER SET" : "REMIND ME WHEN IT STARTS"}</button>`;
     shell().innerHTML = `${top(sessionStatusLabel(session), profileName(item.profile))}
-      <div class="lc-product-stack lc-v4-live-page">
+      <div class="lc-product-stack lc-v4-live-page ${state.demo ? "lc-demo-room" : ""}">
         <section class="lc-v4-live-stage"><img src="${safe(visualImage(item.profile))}" alt="${safe(profileName(item.profile))} Live session"><div class="lc-v4-live-stage-shade"></div><div class="lc-v4-live-stage-top"><span class="lc-v3-live-pill ${isLive ? "is-live" : ""}">${safe(sessionStatusLabel(session))}</span><span>${safe(session.game)}</span></div><div class="lc-v4-live-identity"><img src="${safe(avatar(item.profile))}" alt=""><div><span>${safe(session.title || "Live table session")}</span><h1>${safe(profileName(item.profile))}</h1><p>${safe(new Date(session.starts_at).toLocaleString())}</p></div></div></section>
+        ${renderDemoTable(session)}
         <section class="lc-v4-live-actions">${primaryAction}<button class="lc-product-btn secondary ${following ? "active" : ""}" type="button" data-lc-follow="${safe(item.profile.id)}">${following ? "FOLLOWING" : "FOLLOW CREATOR"}</button></section>
         <section class="lc-v4-live-context"><div><span>CREATOR CONTEXT</span><b>${safe(profileName(item.profile))} · ${safe(session.game)}</b><p>Follow and return context stays in LC.</p></div><div><span>OPERATOR CONTEXT</span><b>${safe(session.operator_name || "Not configured")}</b><p>This label is not proof of integration, approval or availability.</p></div></section>
         <section class="lc-v4-live-boundary"><b>LC connects the person to the Live moment.</b><p>The licensed operator remains responsible for gameplay, wallet, KYC/AML, wagering, settlement and responsible-gaming operations.</p></section>
@@ -1780,7 +1844,7 @@
   async function toggleReminder(id) {
     const wasSet = state.reminders.has(id);
     const found = findSessionEntry(id);
-    if (!wasSet && (!found || found.session.status !== "scheduled" || new Date(found.session.starts_at).getTime() <= Date.now())) throw new Error("not_eligible");
+    if (!wasSet && (!found || found.session.status !== "scheduled" || new Date(found.session.starts_at).getTime() <= productNow())) throw new Error("not_eligible");
     if (wasSet) {
       state.reminders.delete(id);
       if (state.demo) {
@@ -1809,8 +1873,11 @@
 
   async function likePost(id) {
     if (state.demo) {
-      demoStore.likes.add(id);
-      toast("Demo reaction saved");
+      if (demoStore.likes.has(id)) demoStore.likes.delete(id);
+      else demoStore.likes.add(id);
+      if (q(".lc-v4-creator-page") && state.selectedCreator) renderCreatorDetail(state.selectedCreator);
+      else renderPlayerHome();
+      toast("Demo reaction updated");
       return;
     }
     const { error } = await state.client.from("post_likes").insert({ post_id: id, user_id: state.profile.id });
@@ -1821,7 +1888,7 @@
   async function commentPost(form) {
     const body = String(new FormData(form).get("body") || "").trim();
     const postId = form.dataset.postId;
-    if (!body || !postId) throw new Error("validation");
+    if (!body || body.length > 500 || !postId) throw new Error("validation");
     if (state.demo) {
       demoStore.comments.push({ post_id: postId, body, created_at: new Date().toISOString() });
       form.reset();
@@ -1858,6 +1925,15 @@
     setBusy(button, true);
     try {
       const type = form.dataset.lcForm;
+      if (type === "room-chat" && state.demo) {
+        const body = String(new FormData(form).get("body") || "").trim().slice(0, 240);
+        const id = form.dataset.sessionId;
+        if (!body || !findSessionEntry(id)) throw new Error("validation");
+        const messages = demoStore.roomMessages.get(id) || [];
+        demoStore.roomMessages.set(id, [...messages, body].slice(-20));
+        refreshDemoRoom(id);
+        return;
+      }
       if (type === "player") await savePlayer(form);
       if (type === "creator") await saveCreator(form);
       if (type === "industry") await saveIndustry(form);
@@ -1881,7 +1957,8 @@
       }
       if (state.demo) {
         refreshDemoData();
-        routeHome();
+        if (type === "comment" && q(".lc-v4-creator-page") && state.selectedCreator) renderCreatorDetail(state.selectedCreator);
+        else routeHome();
         toast("Demo action saved");
         return;
       }
@@ -1897,6 +1974,8 @@
 
   async function navigateProduct(value) {
     try {
+      state.selectedCreator = null;
+      state.selectedSession = null;
       if (["overview", "creators", "campaigns", "live", "performance", "integrations", "safety", "settings"].includes(value)) {
         state.businessView = value;
         return renderIndustryHome(value);
@@ -1935,6 +2014,27 @@
 
   async function handleClick(event) {
     const target = event.target;
+    const tour = target.closest("[data-lc-tour-step], [data-lc-tour-action], [data-lc-tour-next], [data-lc-tour-skip], [data-lc-tour-restart]");
+    if (tour && investorMode && state.demo) {
+      event.preventDefault();
+      if (tour.hasAttribute("data-lc-tour-skip")) tourStep = -1;
+      else if (tour.hasAttribute("data-lc-tour-restart")) { tourStep = 0; setupDemo("player", true); }
+      else if (tour.hasAttribute("data-lc-tour-step")) tourStep = Number(tour.dataset.lcTourStep);
+      else if (tour.hasAttribute("data-lc-tour-next")) tourStep = tourStep === 2 ? -1 : tourStep + 1;
+      if (tour.hasAttribute("data-lc-tour-action")) {
+        if (tourStep === 0) { state.search = ""; return navigateProduct("explore"); }
+        if (tourStep === 1) { setupDemo("player", false); if (setProductHash(["demo", "player", "creator", "demo-sofia"])) return; return renderCreatorDetail("demo-sofia"); }
+        if (tourStep === 2) return enterDemo("operator");
+      }
+      if (tour.hasAttribute("data-lc-tour-restart")) { if (setProductHash(["demo", "player"])) return; }
+      return renderProductTarget(productParts().slice(2));
+    }
+    const gameChoice = target.closest("[data-lc-demo-game]");
+    if (gameChoice && state.demo) { event.preventDefault(); state.search = gameChoice.dataset.lcDemoGame; state.discoveryFilter = "for_you"; return navigateProduct("explore"); }
+    const demoRound = target.closest("[data-lc-demo-round]");
+    if (demoRound && state.demo) { event.preventDefault(); const id = demoRound.dataset.lcDemoRound; demoStore.roomRounds.set(id, (demoStore.roomRounds.get(id) || 0) + 1); return refreshDemoRoom(id); }
+    const demoReact = target.closest("[data-lc-demo-react]");
+    if (demoReact && state.demo) { event.preventDefault(); const id = demoReact.dataset.lcDemoReact; if (demoStore.roomReactions.has(id)) demoStore.roomReactions.delete(id); else demoStore.roomReactions.add(id); return refreshDemoRoom(id); }
     const persona = target.closest("button[data-lc-persona], [role='button'][data-lc-persona]");
     const industry = target.closest("[data-lc-industry]");
     const nav = target.closest("[data-lc-product]");
@@ -1967,7 +2067,7 @@
     const discoveryFilter = target.closest("[data-lc-discovery-filter]");
     const homeFilter = target.closest("[data-lc-home-filter]");
     const creatorStudio = target.closest("[data-lc-creator-studio]");
-    const businessView = target.closest("[data-lc-business-view]");
+    const businessView = target.closest("button[data-lc-business-view]");
     try {
       if (creatorStudio) {
         event.preventDefault();
