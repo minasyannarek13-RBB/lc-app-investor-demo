@@ -224,7 +224,7 @@
 
     const network = rail.querySelector("[data-lc-v2-network]");
     if (network) {
-      network.textContent = navigator.onLine ? `${currentPersonaLabel()} · Online` : `${currentPersonaLabel()} · Offline`;
+      network.textContent = root?.dataset?.lcInvestor === "true" ? `${currentPersonaLabel()} · Local demo` : navigator.onLine ? `${currentPersonaLabel()} · Online` : `${currentPersonaLabel()} · Offline`;
       network.classList.toggle("offline", !navigator.onLine);
     }
   }

@@ -337,7 +337,24 @@
       .lc-demo-games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.lc-demo-games button{min-height:95px;text-align:left;border:1px solid #355c50;border-radius:18px;background:linear-gradient(130deg,#142b22,#08140e);color:#eafff3;padding:18px}.lc-demo-games b{display:block;font-size:21px}.lc-demo-games span{display:block;font-size:12px;color:#b9d3c6;margin-top:7px}
       .lc-demo-table{border:1px solid #597b5c;border-radius:24px;padding:22px;background:radial-gradient(ellipse at top,#214b37,#07150f);color:#effaef}.lc-demo-table h2{margin:8px 0}.lc-demo-hands{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:20px 0}.lc-demo-hand{padding:14px;border:1px solid #688c73;border-radius:16px}.lc-demo-hand strong{display:block;margin-bottom:12px}.lc-demo-card{display:inline-flex;align-items:center;justify-content:center;width:48px;height:65px;margin:0 5px 7px 0;background:#f7f2e7;color:#14251c;border-radius:7px;font-size:21px;font-family:Georgia,serif;box-shadow:0 5px 18px #0004}.lc-demo-chat ul{list-style:none;padding:0}.lc-demo-chat li{padding:10px 0;border-bottom:1px solid #304a40;overflow-wrap:anywhere}.lc-demo-chat form{display:flex;gap:8px}.lc-demo-chat input{flex:1;min-width:0}
       .lc-demo-room .lc-v4-live-actions{position:static}.lc-demo-room .lc-v4-live-stage{min-height:360px}#lcProductShell img{max-width:100%}.lc-product-demo-banner{max-width:980px}.lc-investor-guide .lc-product-actions{flex-wrap:wrap}.lc-demo-table small{display:block;color:#c0d6c8;line-height:1.5}
-      @media(max-width:430px){.lc-investor-guide{padding:14px}.lc-investor-steps button{padding:7px 9px;font-size:12px}.lc-investor-guide h2{font-size:20px}.lc-demo-games{gap:8px}.lc-demo-games button{padding:13px}.lc-demo-hands{gap:8px}.lc-demo-hand{padding:10px}.lc-demo-card{width:35px;height:50px;font-size:17px}.lc-demo-table{padding:15px}.lc-demo-chat form{flex-wrap:wrap}}
+      #lcProductShell[data-lc-investor=true]:not([data-lc-business-view]) .lc-product-demo-banner{max-width:760px!important;margin-inline:auto;width:calc(100% - 20px);box-sizing:border-box}
+      #lcProductShell[data-lc-investor=true]:not([data-lc-business-view]) .lc-investor-guide{max-width:760px;box-sizing:border-box;width:calc(100% - 20px)}
+      #lcProductShell[data-lc-investor=true] .lc-v4-explore-hero{padding:22px;align-items:center;gap:18px}
+      #lcProductShell[data-lc-investor=true] .lc-v4-explore-hero h1{font-size:32px;max-width:20ch;line-height:1.12}
+      #lcProductShell[data-lc-investor=true] .lc-v4-explore-state{max-width:160px;flex-shrink:0}
+      #lcProductShell[data-lc-investor=true] .lc-v4-explore-state span{font-size:12px;letter-spacing:0;line-height:1.4;color:#b6cfc7}
+      #lcProductShell[data-lc-investor=true] .lc-v4-feed-media{aspect-ratio:16/9}#lcProductShell[data-lc-investor=true] .lc-v4-feed-media>img{object-position:center 20%}
+      #lcProductShell[data-lc-investor=true] .lc-v4-creator-hero{min-height:380px}
+      #lcProductShell[data-lc-investor=true] .lc-v4-live-orb>span{border-color:#68c8b7}
+      #lcProductShell[data-lc-investor=true] .lc-v4-live-orb i{font-size:10px;letter-spacing:0;background:#153b31;color:#d7fff0;padding:4px 6px}
+      #lcProductShell[data-lc-investor=true] .lc-v4-creator-hero>img,#lcProductShell[data-lc-investor=true] .lc-v4-live-stage>img{object-position:center 30%}
+      #lcProductShell[data-lc-investor=true] .lc-v4-feed-post>.lc-product-note{padding:0 16px 12px;font-size:14px;color:#d6e6df;line-height:1.5;overflow-wrap:anywhere}
+      #lcProductShell[data-lc-investor=true] .lc-v4-creator-content-grid article{min-height:0;border:1px solid #304a40}
+      #lcProductShell[data-lc-investor=true] .lc-v4-creator-content-grid article>img{position:static;display:block;height:180px;opacity:1;object-position:center 20%}
+      #lcProductShell[data-lc-investor=true] .lc-v4-creator-content-grid article>div{position:static;padding:16px;background:#0c1b17}
+      #lcProductShell[data-lc-investor=true] .lc-v4-creator-content-grid p{overflow-wrap:anywhere;color:#d6e6df;font-size:14px}
+      #lcProductShell[data-lc-investor=true] .lc-v4-creator-content-grid form{display:grid;gap:8px;margin-top:12px}#lcProductShell[data-lc-investor=true] .lc-v4-creator-content-grid label{font-size:13px;color:#c6dfd3}
+      @media(max-width:430px){#lcProductShell[data-lc-investor=true] .lc-investor-guide p{font-size:14px;line-height:1.4;margin:6px 0 10px}#lcProductShell[data-lc-investor=true] .lc-investor-guide .lc-product-actions{gap:6px}#lcProductShell[data-lc-investor=true] .lc-investor-guide .lc-product-actions button{min-height:36px;padding:8px 10px;font-size:11px}#lcProductShell[data-lc-investor=true] .lc-v4-feed-media{aspect-ratio:4/3}#lcProductShell[data-lc-investor=true] .lc-v4-creator-hero{min-height:320px}#lcProductShell[data-lc-investor=true] .lc-v4-explore-hero h1{font-size:27px}#lcProductShell[data-lc-investor=true] .lc-v4-explore-state{max-width:none;padding:10px 14px;display:flex;align-items:center;gap:12px}#lcProductShell[data-lc-investor=true] .lc-v4-explore-state b{font-size:22px}#lcProductShell[data-lc-investor=true] .lc-investor-guide{padding:14px}.lc-investor-steps button{padding:7px 9px;font-size:12px}.lc-investor-guide h2{font-size:20px}.lc-demo-games{gap:8px}.lc-demo-games button{padding:13px}.lc-demo-hands{gap:8px}.lc-demo-hand{padding:10px}.lc-demo-card{width:35px;height:50px;font-size:17px}.lc-demo-table{padding:15px}.lc-demo-chat form{flex-wrap:wrap}}
     `;
     document.head.appendChild(style);
   }
@@ -382,6 +399,7 @@
     }
     q("#screen")?.classList.add("lc-product-mode");
     if (state.current?.persona !== "industry") delete node.dataset.lcBusinessView;
+    node.dataset.lcInvestor = investorMode ? "true" : "false";
     node.hidden = false;
     node.scrollTop = 0;
     window.scrollTo(0, 0);
@@ -719,7 +737,12 @@
   }
 
   function setupDemo(persona, shouldReset = false) {
-    if (shouldReset) resetDemoStore();
+    if (shouldReset) {
+      resetDemoStore();
+      state.search = "";
+      state.selectedCreator = null;
+      state.selectedSession = null;
+    }
     if (shouldReset && persona === "player") {
       demoStore.follows.add("demo-sofia");
       demoStore.creatorLiveAlerts.set("demo-sofia", true);
@@ -1074,7 +1097,7 @@
         <div class="sr-only" aria-label="LC core loop"><span>Discover</span><span>Creator</span><span>Follow</span><span>Live</span><span>Return</span></div>
         <section class="lc-v4-live-rail" aria-label="${state.demo ? "Creators in demo live sessions" : "Creators live now"}">
           <button class="lc-v4-live-orb lc-v4-explore-orb" type="button" data-lc-product="explore"><span>+</span><small>Explore</small></button>
-          ${railCreators.slice(0, 8).map((item) => `<button class="lc-v4-live-orb" type="button" data-lc-live="${safe(item.sessions[0].id)}"><span><img src="${safe(avatar(item.profile))}" alt=""><i>${safe(sessionStatusLabel(item.sessions[0]))}</i></span><small>${safe(profileName(item.profile).split(" ")[0])}</small></button>`).join("")}
+          ${railCreators.slice(0, 8).map((item) => `<button class="lc-v4-live-orb" type="button" data-lc-live="${safe(item.sessions[0].id)}"><span><img src="${safe(avatar(item.profile))}" alt=""><i aria-label="${safe(sessionStatusLabel(item.sessions[0]))}">${state.demo ? "PREVIEW" : safe(sessionStatusLabel(item.sessions[0]))}</i></span><small>${safe(profileName(item.profile).split(" ")[0])}</small></button>`).join("")}
         </section>
         <div class="lc-v4-home-switch"><button class="${state.discoveryFilter === "for_you" ? "active" : ""}" type="button" data-lc-home-filter="for_you">For you</button><button class="${state.discoveryFilter === "following" ? "active" : ""}" type="button" data-lc-home-filter="following">Following</button></div>
         <section class="lc-v4-social-feed" aria-label="Creator feed">
@@ -1947,6 +1970,7 @@
         toast("Report submitted privately");
         return;
       }
+      const commentScroll = type === "comment" && state.demo ? q("#lcProductShell")?.scrollTop : null;
       if (type === "comment") await commentPost(form);
       if (type === "search") {
         state.search = String(new FormData(form).get("search") || "").trim().slice(0, 80);
@@ -1959,6 +1983,7 @@
         refreshDemoData();
         if (type === "comment" && q(".lc-v4-creator-page") && state.selectedCreator) renderCreatorDetail(state.selectedCreator);
         else routeHome();
+        if (commentScroll !== null) q("#lcProductShell").scrollTop = commentScroll;
         toast("Demo action saved");
         return;
       }

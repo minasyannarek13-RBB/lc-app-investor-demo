@@ -1,6 +1,6 @@
 # Current Release Checkpoint — 2026-10-10
 
-Project: LC App | Version: v0.7 | Status: Local investor demo ready; hosted baseline PASS; hosted release blocked
+Project: LC App | Version: v0.8 | Status: Local investor demo ready; hosted baseline PASS; hosted release blocked
 Owner: Narek / Engineering | Audience: founder and release engineer
 Sources: ChatGPT connected Supabase external baseline 2026-10-10 (relayed by Narek), current code, tests, migrations, PR #18 read-only metadata; historical notes below are not current release evidence.
 
@@ -9,10 +9,21 @@ Sources: ChatGPT connected Supabase external baseline 2026-10-10 (relayed by Nar
 - Local self-guided demo ready in the tested Codex in-app browser: three scenarios, Blackjack/Baccarat lobby, profiles/follows, visible likes/comments, example notifications/reminders, scripted card room, local chat/reactions, handoff/return and safe reset.
 - Investor mode bypasses Auth bootstrap/config/session reads and skips Supabase SDK. Five-profile/session seed uses a fixed virtual clock. No real game engine, stream, partner destination or wagering is implied.
 - Fixed actual browser defects: stale business metadata intercepted social actions after role switch; Like lacked a visible update; comments showed only counts; demo sticky CTA overlapped chat; guide skip could leave the selected room.
-- Evidence: `INVESTOR_DEMO_READINESS.md`, four inspected screenshots and QA JSON under `evidence/investor-demo-2026-10-10/`. Browser layouts 40/40 PASS, interactions 24 PASS, console errors 0; fresh Node suite 122/122 PASS. Native Safari/iPhone and full accessibility NOT VERIFIED.
-- Cache v126, app-product asset v116; root/nested auth.js, app-product.js and sw.js remain identical. Marketing files unchanged.
+- Latest visual acceptance: local PASS at 1440×1000 and 390×844 in Codex in-app browser. Evidence: `INVESTOR_DEMO_READINESS.md` and `evidence/investor-visual-acceptance-2026-10-10/`; BEFORE/AFTER screenshots, 14 layout checks, 49 functional browser checks PASS, console errors 0; Node suite 123/123 PASS. Native Safari/iPhone and full accessibility NOT VERIFIED. Earlier investor-sprint evidence retained separately.
+- Cache v131, app-product asset v121, product shell v17; root/nested auth.js, app-product.js and sw.js remain identical. Marketing files unchanged.
 - LOCAL INVESTOR DEMO READY: YES; STAGING MIGRATION READY / PRODUCTION READY: NO. Prior external hosted baseline PASS and 052–054/Auth/RLS/Storage/integration/recovery/browser blockers remain intact.
 - Isolated static deployment proposal prepared only. No hosted writes, production change, push, deployment, DNS or environment change. Pre-existing untracked package-lock.json and STAGING_HANDOFF.zip excluded from this work.
+
+## AI_SYNC — visual acceptance 2026-10-10
+Date: 2026-10-10 | AI: Codex | Project: LC App
+Task: Final visual and functional acceptance of the actual local investor app.
+Files created: BEFORE/AFTER screenshot evidence, browser-results.json and unit-tests.log in the visual acceptance evidence directory.
+Files updated: mirrored product/service-worker sources, nested product shell/entry versions, affected regression tests, INVESTOR_DEMO_READINESS.md and this checkpoint.
+Decisions: local visual acceptance PASS for tested browser/viewports; no hosted or native-device readiness upgrade.
+Assumptions: all seed people/content and cards remain illustrative; business benefits require pilot evidence.
+Contradictions found: Online label implied connectivity; fixed to Local demo. Profile comments overlaid images; reset retained search; fixed locally.
+Open questions: native Safari/iPhone acceptance and existing hosted blockers.
+Recommended next action: repeat this journey in native Safari and a physical iPhone.
 
 ## AI_SYNC — investor sprint 2026-10-10
 Date: 2026-10-10 | AI: Codex | Project: LC App
@@ -35,7 +46,7 @@ Next action: validate the investor journey in native Safari on the intended devi
 
 ## Current RC and verified fixes
 - Branch: `codex/lc-app-p1-stabilization`; preserved starting SHA `501c3f1fdfc2073ba896e991ef0ea7680003b42e` and cache/route checkpoint `1ec4618ab4315c76efdc77200abc97e6780c5fda`. Current review SHA: `git rev-parse HEAD` after the local checkpoint commit.
-- Service worker v126 permits only scoped public assets and the explicit `?app=1` shell. API paths, auth callback queries, Authorization/no-store requests bypass caching; private/no-store, redirected and identity-varying responses cannot be stored. Activation preserves unrelated applications' caches; cache writes extend worker lifetime.
+- Service worker v131 permits only scoped public assets and the explicit `?app=1` shell. API paths, auth callback queries, Authorization/no-store requests bypass caching; private/no-store, redirected and identity-varying responses cannot be stored. Activation preserves unrelated applications' caches; cache writes extend worker lifetime.
 - Malformed creator/live/handoff route identifiers now render Invalid link instead of throwing URIError and retaining a stale screen.
 - Launcher is executable and binds to loopback. `.gitignore` excludes local secrets, Vercel state and test artifacts; `.env.example` remains shareable.
 - Root/nested app-product.js and sw.js remain identical. Existing stabilization and all existing tests preserved.

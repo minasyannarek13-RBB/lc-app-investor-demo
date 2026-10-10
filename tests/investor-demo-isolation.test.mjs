@@ -72,3 +72,20 @@ test('seeded reminders stay eligible under the virtual demo clock after the cale
   assert.equal(state.reminders.has('seed-session'),true);
   assert.equal(store.reminders.has('seed-session'),true);
 });
+
+
+test('demo reset clears discovery query and stale detail context without creating a backend client', () => {
+  const start = app.indexOf('  function setupDemo(');
+  const setup = app.slice(start, app.indexOf('  function enterDemo(', start));
+  const state = { search: 'Baccarat', selectedCreator: 'old-dealer', selectedSession: 'old-room', handoffDestinations: new Map([['old', 'destination']]) };
+  let resets = 0;
+  vm.runInNewContext(`${setup}\nsetupDemo('operator', true)`, {
+    state, resetDemoStore: () => resets++, refreshDemoData: () => {}, interests: []
+  });
+  assert.equal(resets, 1);
+  assert.equal(state.search, '');
+  assert.equal(state.selectedCreator, null);
+  assert.equal(state.selectedSession, null);
+  assert.equal(state.handoffDestinations.size, 0);
+  assert.equal(state.client, null);
+});

@@ -18,7 +18,7 @@ function harness(response = new Response('public')) {
     caches: {
       open: async () => ({ put: async (request) => writes.push(request.url) }),
       match: async () => undefined,
-      keys: async () => ['other-app-cache', 'lc-app-investor-demo-v125', 'lc-app-investor-demo-v126'],
+      keys: async () => ['other-app-cache', 'lc-app-investor-demo-v130', 'lc-app-investor-demo-v131'],
       delete: async (key) => { deleted.push(key); }
     }
   });
@@ -80,6 +80,6 @@ test('public shell and creator assets remain cacheable', async () => {
 test('activation preserves unrelated applications caches and synchronized copies', async () => {
   const h = harness();
   await h.activate();
-  assert.deepEqual(h.deleted, ['lc-app-investor-demo-v125']);
+  assert.deepEqual(h.deleted, ['lc-app-investor-demo-v130']);
   assert.equal(source, readFileSync(new URL('../LC_App_GitHub_Pages_Upload/sw.js', import.meta.url), 'utf8'));
 });

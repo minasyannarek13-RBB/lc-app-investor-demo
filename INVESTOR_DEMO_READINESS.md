@@ -1,10 +1,34 @@
 # LC App investor demo readiness
 
-Project: LC App | Version: v0.9 | Status: Local investor demo ready; hosted release NOT ready
+Project: LC App | Version: v0.10 | Status: Local investor demo ready; hosted release NOT ready
 Updated: 2026-10-10 | Owner: Narek / product engineering | Audience: investor-demo reviewer and release engineer
 Sources: `LC_App_GitHub_Pages_Upload/index.html`, mirrored `app-product.js` / `auth.js` / `sw.js`, actual Codex in-app browser screenshots and QA JSON in `evidence/investor-demo-2026-10-10/`, fresh Node tests, `STAGING_READINESS_REPORT.md`.
 Assumptions: All people, content, session schedules and business records are illustrative. Operator/provider value is a hypothesis requiring pilot validation. No real broadcast, customer or partner is represented.
 Open questions: Native Safari/device QA, approved isolated hosting target and sanitised build; separate hosted release blockers remain unchanged.
+
+## Visual acceptance — 2026-10-10
+
+**PASS for the local investor demo in the tested Codex in-app browser.** This does not approve native Safari/iPhone, hosted release or production. Canonical evidence: `evidence/investor-visual-acceptance-2026-10-10/` (`before/`, `after/`, `browser-results.json`, `unit-tests.log`). Screenshots are real browser captures, not generated mockups.
+
+| Verified defect | Local correction | Evidence |
+|---|---|---|
+| Demo banner and guide widths diverged from the player content | Align both to the 760px player column; inset mobile guide | Desktop/mobile entry BEFORE/AFTER |
+| Lobby headline occupied four desktop lines and displaced discovery | Smaller headline, compact broadcast-state block | `before/desktop-lobby.jpg`, `after/1440-lobby.jpg` |
+| Mobile guide copy/actions consumed excessive vertical space | Compact readable copy and controls; skip remains available | `before/390-entry.jpg`, `after/390-entry.jpg` |
+| Preview rail used a 7px pink badge resembling live status | Readable mint PREVIEW badge with full accessible status | Entry BEFORE/AFTER |
+| Tall profile/feed imagery concealed identity and interactions | Shorter profile hero and responsive feed crops | Dealer and feed captures |
+| Profile comments/forms overlaid photography and could exceed a fixed card | Separate image/content blocks; cards grow with comments; wrap long text | Dealer-comments BEFORE/AFTER; long-comment browser check |
+| Feed comments were too small and comment submission jumped to the top | Readable comment styling; preserve scroll after local submission | Feed-comments AFTER; measured identical pre/post scroll at both widths |
+| Business sidebar said Online despite no integration | Label Local demo | Desktop operator/provider AFTER |
+| Reset retained search and stale detail context | Clear query/selected dealer/room during seed reset | Browser reset checks and new VM regression test |
+
+Coverage: 1440×1000 desktop and 390×844 responsive mobile. Inspected initial in-app entry, lobby, dealer profile and updates, feed/comments, Blackjack/Baccarat portraits/table/chat, operator/provider overviews, guided scenarios, skip/restart and primary navigation. The 14 recorded layout checks have zero page/app horizontal overflow and zero observed broken loaded images. The preview rail and mobile business navigation intentionally scroll horizontally. Long comments remain in normal document flow and can be scrolled below the fixed navigation.
+
+Functional browser regression: **49 checks PASS**, zero captured console errors. Checks cover likes, comments, follow/unfollow, both fixed table rounds, local chat/reaction, operator/provider navigation, game discovery, empty search recovery, guest profile, notifications, seed reset, walkthrough and local handoff/return. Evidence was captured incrementally during fixes (app assets v117–v121); final runtime is app-product v121, shell v17, cache v131. Final comment/reset fixes were exercised after loading the updated runtime. Node regression: **123/123 PASS**; syntax, mirrored runtime parity and diff whitespace checks PASS.
+
+Remaining limitations: native Safari/physical iPhone and full accessibility audit NOT VERIFIED; static imagery and scripted cards are intentional; real streams, wagering and integrations are unavailable. Business access status still uses an internal `not_requested` label (minor copy refinement). Hosted 052–054 provenance, Auth/RLS/Storage E2E, integrations, backup/recovery and hosted browser tests remain blocked. No Supabase, production, DNS, environment, push or deployment action occurred.
+
+Next acceptance gate: run the same journey in native Safari and on a physical iPhone before presenting that compatibility as verified. Earlier sprint evidence below is historical and retained for traceability.
 
 ## Product entry and execution
 
