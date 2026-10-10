@@ -1,16 +1,33 @@
 # Current Release Checkpoint — 2026-10-10
 
-Project: LC App | Version: v0.8 | Status: Local investor demo ready; hosted baseline PASS; hosted release blocked
+Project: LC App | Version: v0.9 | Status: Local investor demo ready; hosted baseline PASS; hosted release blocked
 Owner: Narek / Engineering | Audience: founder and release engineer
 Sources: ChatGPT connected Supabase external baseline 2026-10-10 (relayed by Narek), current code, tests, migrations, PR #18 read-only metadata; historical notes below are not current release evidence.
+
+## Final device gate — 2026-10-10
+- Native macOS Safari 26.6.2 functional smoke passed: guest/walkthrough/lobby/profile/follows/comments, both scripted rooms/chat, Home and reset. Real Safari RDM screenshots at nominal 320/390/768/1440; no physical iPhone validation.
+- Fixed hidden prototype keyboard target, Like AX state, avatar names/decorative alt, investor focus/metadata contrast, 320px comment input compression and stale detail URLs.
+- Accessibility PARTIAL: sampled keyboard/AX checks passed; full VoiceOver and runtime reduced-motion not verified. Two unattributed Safari resource-permission errors keep the clean-console gate BLOCKED. Physical iPhone BLOCKED (no connected test surface).
+- Final device readiness NO; 124/124 fresh Node tests PASS, syntax/parity/diff PASS. Evidence and precise scope: `INVESTOR_DEMO_READINESS.md`, `evidence/investor-device-acceptance-2026-10-10/acceptance-results.json`. Prior in-app-browser results below are historical.
+
+## AI_SYNC — native device acceptance 2026-10-10
+Date: 2026-10-10 | AI: Codex | Project: LC App
+Task: Native Safari, responsive and accessibility acceptance of the actual investor app.
+Files created: Native screenshots, AX/runtime evidence, acceptance-results.json and test log in the device acceptance evidence directory.
+Files updated: mirrored app/service-worker sources, nested shell/entry versions, relevant regression tests, canonical readiness and this checkpoint.
+Decisions: functional Safari smoke PASS; final investor device gate remains NO.
+Assumptions: Safari RDM is desktop engine evidence only; all demo content remains illustrative.
+Contradictions found: hidden menu in keyboard order, missing Like state, low-contrast metadata and stale detail hash; fixed locally.
+Open questions: two Safari resource permission errors; physical iPhone, full VoiceOver and runtime reduced-motion QA.
+Recommended next action: diagnose Safari errors in an isolated browser profile, then complete device/accessibility acceptance.
 
 ## Local investor-demo checkpoint — 2026-10-10
 - Actual application: `http://localhost:4187/investor.html` → `/?app=1&demo=investor#/product/demo/player`; loopback server serves `LC_App_GitHub_Pages_Upload/`.
 - Local self-guided demo ready in the tested Codex in-app browser: three scenarios, Blackjack/Baccarat lobby, profiles/follows, visible likes/comments, example notifications/reminders, scripted card room, local chat/reactions, handoff/return and safe reset.
 - Investor mode bypasses Auth bootstrap/config/session reads and skips Supabase SDK. Five-profile/session seed uses a fixed virtual clock. No real game engine, stream, partner destination or wagering is implied.
 - Fixed actual browser defects: stale business metadata intercepted social actions after role switch; Like lacked a visible update; comments showed only counts; demo sticky CTA overlapped chat; guide skip could leave the selected room.
-- Latest visual acceptance: local PASS at 1440×1000 and 390×844 in Codex in-app browser. Evidence: `INVESTOR_DEMO_READINESS.md` and `evidence/investor-visual-acceptance-2026-10-10/`; BEFORE/AFTER screenshots, 14 layout checks, 49 functional browser checks PASS, console errors 0; Node suite 123/123 PASS. Native Safari/iPhone and full accessibility NOT VERIFIED. Earlier investor-sprint evidence retained separately.
-- Cache v131, app-product asset v121, product shell v17; root/nested auth.js, app-product.js and sw.js remain identical. Marketing files unchanged.
+- Previous visual acceptance: local PASS at 1440×1000 and 390×844 in Codex in-app browser. Evidence: `INVESTOR_DEMO_READINESS.md` and `evidence/investor-visual-acceptance-2026-10-10/`; BEFORE/AFTER screenshots, 14 layout checks, 49 functional browser checks PASS, console errors 0; Node suite 123/123 PASS. Native Safari/iPhone and full accessibility NOT VERIFIED. Earlier investor-sprint evidence retained separately.
+- Cache v132, app-product asset v122, product shell v18; root/nested auth.js, app-product.js and sw.js remain identical. Marketing files unchanged.
 - LOCAL INVESTOR DEMO READY: YES; STAGING MIGRATION READY / PRODUCTION READY: NO. Prior external hosted baseline PASS and 052–054/Auth/RLS/Storage/integration/recovery/browser blockers remain intact.
 - Isolated static deployment proposal prepared only. No hosted writes, production change, push, deployment, DNS or environment change. Pre-existing untracked package-lock.json and STAGING_HANDOFF.zip excluded from this work.
 
@@ -46,7 +63,7 @@ Next action: validate the investor journey in native Safari on the intended devi
 
 ## Current RC and verified fixes
 - Branch: `codex/lc-app-p1-stabilization`; preserved starting SHA `501c3f1fdfc2073ba896e991ef0ea7680003b42e` and cache/route checkpoint `1ec4618ab4315c76efdc77200abc97e6780c5fda`. Current review SHA: `git rev-parse HEAD` after the local checkpoint commit.
-- Service worker v131 permits only scoped public assets and the explicit `?app=1` shell. API paths, auth callback queries, Authorization/no-store requests bypass caching; private/no-store, redirected and identity-varying responses cannot be stored. Activation preserves unrelated applications' caches; cache writes extend worker lifetime.
+- Service worker v132 permits only scoped public assets and the explicit `?app=1` shell. API paths, auth callback queries, Authorization/no-store requests bypass caching; private/no-store, redirected and identity-varying responses cannot be stored. Activation preserves unrelated applications' caches; cache writes extend worker lifetime.
 - Malformed creator/live/handoff route identifiers now render Invalid link instead of throwing URIError and retaining a stale screen.
 - Launcher is executable and binds to loopback. `.gitignore` excludes local secrets, Vercel state and test artifacts; `.env.example` remains shareable.
 - Root/nested app-product.js and sw.js remain identical. Existing stabilization and all existing tests preserved.

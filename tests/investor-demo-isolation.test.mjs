@@ -89,3 +89,18 @@ test('demo reset clears discovery query and stale detail context without creatin
   assert.equal(state.handoffDestinations.size, 0);
   assert.equal(state.client, null);
 });
+
+
+test('investor primary navigation clears detail URL without remounting demo data', async () => {
+  const start = app.indexOf('  async function navigateProduct(');
+  const code = app.slice(start, app.indexOf('  async function handleClick(', start));
+  const calls = [];
+  const state = {demo:true,demoPersona:'player',selectedCreator:'dealer',selectedSession:'room'};
+  await vm.runInNewContext(`${code}\nnavigateProduct('home')`, {
+    state, investorMode:true, q:()=>null, renderPlayerHome:()=>calls.push('home'),
+    window:{location:{hash:'#/product/demo/player/live/room'}, history:{replaceState:(a,b,url)=>calls.push(url)},requestAnimationFrame:fn=>fn()}
+  });
+  assert.deepEqual(calls,['#/product/demo/player','home']);
+  assert.equal(state.selectedCreator,null);
+  assert.equal(state.selectedSession,null);
+});

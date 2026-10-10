@@ -1,0 +1,14 @@
+The following is a diff from the previous accessibility tree for Window: "Main — LC App — Live Casino. Social Experience." with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 239-271
++							239 image
++							240 text JSON.stringify({width:innerWidth,height:innerHeight,overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,broken:[...document.images].filter(i=>i.complete&&!i.naturalWidth).length,version:[...document.scripts].map(s=>s.src).filter(s=>s.includes("app-product")||s.includes("product-shell")),timeColor:getComputedStyle(document.querySelector(".lc-v4-feed-caption time")).color,reducedMotion:matchMedia("(prefers-reduced-motion: reduce)").matches})
++							241 image
++							242 text "
++							243 text {\"width\":1440,\"height\":844,\"overflow\":0,\"broken\":0,\"version\":[\"
++							244 link http://localhost:4187/app-product.js?v=122\, Value: localhost:4187/app-product.js?v=122%5C
++							245 text ",\"
++							246 link http://localhost:4187/product-shell-v2.js?v=18\, Value: localhost:4187/product-shell-v2.js?v=18%5C
++							247 text "],\"timeColor\":\"rgb(182, 207, 199)\",\"reducedMotion\":false}
++							248 text "
++							249 text  = $1
+The focused UI element is 48 text entry area (settable) Console prompt, Value: [text entry area: Console prompt]

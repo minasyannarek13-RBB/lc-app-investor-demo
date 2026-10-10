@@ -1,10 +1,26 @@
 # LC App investor demo readiness
 
-Project: LC App | Version: v0.10 | Status: Local investor demo ready; hosted release NOT ready
+Project: LC App | Version: v0.11 | Status: Local investor demo ready; hosted release NOT ready
 Updated: 2026-10-10 | Owner: Narek / product engineering | Audience: investor-demo reviewer and release engineer
 Sources: `LC_App_GitHub_Pages_Upload/index.html`, mirrored `app-product.js` / `auth.js` / `sw.js`, actual Codex in-app browser screenshots and QA JSON in `evidence/investor-demo-2026-10-10/`, fresh Node tests, `STAGING_READINESS_REPORT.md`.
 Assumptions: All people, content, session schedules and business records are illustrative. Operator/provider value is a hypothesis requiring pilot validation. No real broadcast, customer or partner is represented.
-Open questions: Native Safari/device QA, approved isolated hosting target and sanitised build; separate hosted release blockers remain unchanged.
+Open questions: Clean Safari console, physical iPhone, full VoiceOver/reduced-motion QA, approved isolated hosting target and sanitised build; separate hosted release blockers remain unchanged.
+
+## Native Safari and device acceptance — 2026-10-10
+
+**Native Safari functional smoke PASS; final investor device gate NOT COMPLETE.** Actual macOS Safari 26.6.2 was operated through native UI automation. No Chromium results substitute for Safari. Canonical evidence: `evidence/investor-device-acceptance-2026-10-10/acceptance-results.json`, native PNG screenshots, `safari-runtime-all-widths.txt`, `safari-accessibility-final.txt` and fresh `unit-tests.log`.
+
+Verified in native Safari: guest entry, three guided scenarios, skip/Guide restart, lobby (including keyboard activation), Sofia profile, follow/unfollow/refollow, feed Like off/on, profile/feed comments, Blackjack/Baccarat scripted rounds and local chat, primary Home navigation, and seed reset. Operator walkthrough action opens the local back office with explicit unverified integration/value claims. Reset removes local comments and returns the base player route. No wagering, broadcast or production integration claim was added.
+
+Confirmed local defects fixed: hidden prototype Quick actions received the first keyboard focus; demo Like state was absent from AX; feed avatar buttons had generic names and decorative images received redundant alt text; focus outlines were inconsistent; timestamp/comment counts had low contrast; a comment count squeezed the input at 320px; Home left a stale dealer/room hash. Investor-scoped styling and a VM navigation regression preserve local demo isolation. Final runtime: app v122, shell v18, cache v132; mirrored sources remain identical.
+
+Layout coverage: real Safari Responsive Design Mode at nominal **320, 390, 768 and 1440 × 844**, 2x. Screenshots include the size controls. Selected feed, lobby, profile, room and entry screens were inspected; not every screen at every width. Zero observed horizontal page overflow and broken loaded images. Inspector docking at 13% scale rounded measured widths to 321/392/765 for the three smaller nominal widths; 1440 measured exactly, and an earlier 320 inspection measured exactly 320. This is macOS Safari responsive evidence, not iOS or physical iPhone validation.
+
+Accessibility is **PARTIAL**: sampled Option-Tab traversal, visible focus and Return activation passed; native AX exposes labelled inputs/buttons/main region and the Like pressed state. Decorative empty alt remains decorative. Feed metadata now computes to `rgb(182,207,199)` and 12px. Reduced-motion CSS is present and reviewed, but the runtime preference was false; reduce-mode behavior and a complete VoiceOver audio/rotor journey are **NOT VERIFIED**. No WCAG conformance claim.
+
+Safari console gate remains **BLOCKED**: two “Failed to load resource: You do not have permission to access the requested resource” errors appeared before and after fixes. Network includes a Web Translator for DeepL injected stylesheet, but both errors could not be attributed reliably. No JavaScript exception was observed; this is not exhaustive unhandled-rejection instrumentation. Physical iPhone testing is **BLOCKED** because no connected device surface is available.
+
+Regression: **124/124 Node tests PASS**, JavaScript syntax, root/nested runtime parity and `git diff --check` PASS. The new VM test verifies detail-hash clearing without remounting demo data. Earlier browser evidence below remains historical. Hosted baseline PASS and all hosted release blockers remain unchanged. **INVESTOR DEVICE READY: NO.** Next: isolate/resolve Safari resource errors, then complete physical iPhone and VoiceOver/reduced-motion checks.
 
 ## Visual acceptance — 2026-10-10
 

@@ -1,0 +1,86 @@
+{
+  "project": "LC App",
+  "date": "2026-10-10",
+  "baseline_commit": "ec8e969",
+  "result": "DEVICE ACCEPTANCE NOT COMPLETE",
+  "native_browser": "Safari 26.6.2 on macOS 26.6.2 (actual native app UI)",
+  "entry_url": "http://localhost:4187/investor.html",
+  "runtime": {
+    "app": 122,
+    "shell": 18,
+    "cache": 132
+  },
+  "checks": {
+    "initial_investor_entry": "PASS native Safari, guest, no registration",
+    "walkthrough": "PASS scenarios 1/2/3, operator action, skip, Guide restart",
+    "lobby": "PASS mouse and Option-Tab/Return activation",
+    "dealer_profile": "PASS Sofia identity, details, follow/unfollow/refollow",
+    "feed": "PASS accessible Like off/on and rendered local comments",
+    "blackjack": "PASS native Safari preview, fixed next round and local chat before accessibility-only fixes",
+    "baccarat": "PASS native Safari final preview, next round and local chat",
+    "home_navigation": "PASS final Home clears stale room hash and preserves local comment",
+    "reset": "PASS clears submitted comment and returns player base route",
+    "keyboard": "PASS sampled Option-Tab traversal, visible focus, Return lobby activation; not exhaustive all-control traversal",
+    "semantics": "PARTIAL native AX confirms labelled inputs/buttons, Like toggle state and main region; full VoiceOver audio/rotor journey not verified",
+    "reduced_motion": "PARTIAL CSS source inspected; runtime preference was false, reduce mode not exercised",
+    "console": "BLOCKED clean-console gate: two resource permission errors remain unattributed; Network includes Web Translator for DeepL injected stylesheet; causation not proven",
+    "exceptions": "No JavaScript exception observed in inspected console; no exhaustive rejection instrumentation",
+    "physical_iphone": "BLOCKED no connected physical iPhone test surface"
+  },
+  "layout_coverage": {
+    "nominal_RDM_widths": [
+      320,
+      390,
+      768,
+      1440
+    ],
+    "height": 844,
+    "pixel_ratio": 2,
+    "note": "Real Safari Responsive Design Mode, not iOS or physical device. Inspector-docked 13% scale produced innerWidth 321/392/765 for nominal 320/390/768; 1440 measured exact. Earlier 320 audit measured exactly 320. Screenshot controls record nominal sizes. Selected entry/feed/lobby/profile/room screens checked, not every screen at every width.",
+    "observed_horizontal_overflow": 0,
+    "observed_broken_loaded_images": 0
+  },
+  "fixes": [
+    "Remove visually hidden prototype Quick actions from investor keyboard/AX order",
+    "Expose demo Like pressed state",
+    "Name feed avatar profile buttons and preserve intentionally decorative empty alt",
+    "Stronger investor focus-visible outline",
+    "Readable feed timestamp/comment-count contrast and size",
+    "Wrap mobile comment count to avoid shrinking input at 320px",
+    "Clear stale detail hash on investor primary navigation without remounting demo"
+  ],
+  "regression": {
+    "node_tests": 124,
+    "passed": 124,
+    "syntax": "PASS",
+    "mirrored_runtime_parity": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "restrictions": "Local files and loopback app only. No hosted writes, production changes, push/merge, deployment, DNS or environment changes.",
+  "evidence_note": "Incremental BEFORE/AFTER evidence; safari-320-feed-after.png is the intermediate compressed input, safari-320-feed-final.png is repaired. Diff-only runtime-320/390/768 files contain no measurements; authoritative results are safari-runtime-all-widths.txt. Initial AX diff is not a semantic audit.",
+  "screenshots": [
+    "safari-1440-before.png",
+    "safari-1440-entry-after.png",
+    "safari-1440-entry-final.png",
+    "safari-1440-feed-after.png",
+    "safari-1440-operator-after.png",
+    "safari-1440-profile-after.png",
+    "safari-320-baccarat-after.png",
+    "safari-320-before.png",
+    "safari-320-feed-after.png",
+    "safari-320-feed-final.png",
+    "safari-390-before.png",
+    "safari-390-feed-after.png",
+    "safari-390-lobby-after.png",
+    "safari-390-profile-after.png",
+    "safari-768-before.png",
+    "safari-768-profile-after.png",
+    "safari-blackjack-chat-before.png",
+    "safari-console-before.png",
+    "safari-console-final.png",
+    "safari-desktop-entry-final.png",
+    "safari-entry-before.png",
+    "safari-keyboard-focus-after.png"
+  ],
+  "next": "Diagnose the two Safari resource permission errors in an isolated browser profile, then physical iPhone and VoiceOver/reduced-motion acceptance."
+}

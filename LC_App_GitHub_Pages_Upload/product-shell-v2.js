@@ -331,7 +331,7 @@
       if (!img.hasAttribute("loading")) img.loading = critical ? "eager" : "lazy";
       if (critical) img.fetchPriority = "high";
       if (!img.hasAttribute("decoding")) img.decoding = "async";
-      if (!img.getAttribute("alt")) {
+      if (!img.hasAttribute("alt")) {
         const card = img.closest(".lc-product-row,.lc-product-cinema,.lc-product-media-tile,.lc-v3-live-card,.lc-v3-creator-row");
         const name = card?.querySelector("h1,h2,h3,b,strong")?.textContent?.trim();
         img.alt = name ? `${name} visual` : "LC App creator visual";

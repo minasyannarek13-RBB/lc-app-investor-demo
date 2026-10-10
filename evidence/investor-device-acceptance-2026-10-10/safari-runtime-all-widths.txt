@@ -1,0 +1,218 @@
+Window: "Main — LC App — Live Casino. Social Experience.", App: Safari.
+0 standard window Main — LC App — Live Casino. Social Experience., ID: SafariWindow?IsSecure=false&UUID=B91B92C0-3111-44A5-8F78-DBE5DD654A74, Secondary Actions: Raise
+	1 split group
+		2 tab group
+			3 scroll area
+				4 HTML content inspector-resource:///Main.html
+					5 button Close
+					6 button Dock to left of window
+					7 button Dock to right of window
+					8 button Detach into separate window
+					9 button Start element selection (⇧⌘C)
+					10 button Device Settings
+					11 button Click to show 2 errors in the Console
+					12 tab group (selectable)
+						13 tab (selectable) Elements
+						14 tab (selected) Console
+						15 tab (selectable) Sources
+						16 tab (selectable) Network
+						17 tab (selectable) Timelines
+						18 tab (selectable) Storage
+						19 tab (selectable) Graphics
+						20 tab (selectable) Layers
+						21 tab (selectable) Audit
+						22 tab (selectable) Search (⇧⌘F)
+						23 tab (selectable) Settings (⌘,)
+					24 container Console
+						25 search text field (settable)  
+						26 button (disabled) Find Previous (⇧⌘G)
+						27 button (disabled) Find Next (⌘G)
+						28 text All
+						29 text Evaluations
+						30 text Errors
+						31 text Warnings
+						32 text Logs
+						33 container
+							34 text All Sources
+							35 pop up button All Sources
+							36 image
+						37 button Other filter options…
+						38 checkbox (settable, integer) Emulate User Gesture, Help: Run console commands as if inside a user gesture, Value: 0
+						39 button Run Console Snippet…
+						40 button Collect garbage
+						41 button Clear log (⌘K or ⌃L)
+						42 container
+							43 text Console opened at 16:31:13
+							44 image
+							45 text Failed to load resource: You do not have permission to access the requested resource.
+							46 image
+							47 text Failed to load resource: You do not have permission to access the requested resource.
+							48 image
+							49 text JSON.stringify({width:innerWidth,height:innerHeight,overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth,broken:[...document.images].filter(i=>i.complete&&!i.naturalWidth).length,version:[...document.scripts].map(s=>s.src).filter(s=>s.includes("app-product")||s.includes("product-shell")),timeColor:getComputedStyle(document.querySelector(".lc-v4-feed-caption time")).color,reducedMotion:matchMedia("(prefers-reduced-motion: reduce)").matches})
+							50 image
+							51 text "
+							52 text {\"width\":1440,\"height\":844,\"overflow\":0,\"broken\":0,\"version\":[\"
+							53 link http://localhost:4187/app-product.js?v=122\, Value: localhost:4187/app-product.js?v=122%5C
+							54 text ",\"
+							55 link http://localhost:4187/product-shell-v2.js?v=18\, Value: localhost:4187/product-shell-v2.js?v=18%5C
+							56 text "],\"timeColor\":\"rgb(182, 207, 199)\",\"reducedMotion\":false}
+							57 text "
+							58 text  = $1
+							59 image
+							60 text "
+							61 text {\"width\":321,\"height\":845,\"overflow\":0,\"broken\":0,\"version\":[\"
+							62 link http://localhost:4187/app-product.js?v=122\, Value: localhost:4187/app-product.js?v=122%5C
+							63 text ",\"
+							64 link http://localhost:4187/product-shell-v2.js?v=18\, Value: localhost:4187/product-shell-v2.js?v=18%5C
+							65 text "],\"timeColor\":\"rgb(182, 207, 199)\",\"reducedMotion\":false}
+							66 text "
+							67 text  = $2
+							68 image
+							69 text "
+							70 text {\"width\":392,\"height\":845,\"overflow\":0,\"broken\":0,\"version\":[\"
+							71 link http://localhost:4187/app-product.js?v=122\, Value: localhost:4187/app-product.js?v=122%5C
+							72 text ",\"
+							73 link http://localhost:4187/product-shell-v2.js?v=18\, Value: localhost:4187/product-shell-v2.js?v=18%5C
+							74 text "],\"timeColor\":\"rgb(182, 207, 199)\",\"reducedMotion\":false}
+							75 text "
+							76 text  = $3
+							77 image
+							78 text "
+							79 text {\"width\":765,\"height\":845,\"overflow\":0,\"broken\":0,\"version\":[\"
+							80 link http://localhost:4187/app-product.js?v=122\, Value: localhost:4187/app-product.js?v=122%5C
+							81 text ",\"
+							82 link http://localhost:4187/product-shell-v2.js?v=18\, Value: localhost:4187/product-shell-v2.js?v=18%5C
+							83 text "],\"timeColor\":\"rgb(182, 207, 199)\",\"reducedMotion\":false}
+							84 text "
+							85 text  = $4
+					86 text entry area (settable) Console prompt, Value: [text entry area: Console prompt]
+					87 container
+					88 container Execution context for $0
+						89 text Auto — Page
+			90 pop up button Description: Viewport Size, Value: Custom size, ID: ViewportPresetButton
+			91 toggle button Description: Rotate Left, Help: Rotate viewport, Value: off
+			92 text field (settable) Description: Width, Value: 768
+			93 text ×
+			94 text field (settable) Description: Height, Value: 844
+			95 text Description: Zoom Level, Value: ( 13% )
+			96 pop up button Description: Pixel Ratio, Value: 2x
+			97 menu button Open with Simulator, ID: OpenWithSimulatorButton
+			98 scroll area
+				99 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player
+					100 container LC App ideal mobile prototype
+						101 text Demo action saved
+						102 container LC App social experience
+							103 text LC
+							104 text Home
+							105 text 1 new signal
+							106 button player
+							107 container Illustrative preview mode
+								108 text DEMO EXPERIENCE · PLAYER · LOCAL DATA
+								109 button Switch
+								110 button Reset
+								111 button Roles
+								112 button Guide
+							113 container Investor walkthrough
+								114 container Guided scenarios
+									115 button 1 · Meet your next dealer
+									116 button 2 · Turn discovery into a relationship
+									117 button 3 · See the integration value
+								118 heading Meet your next dealer, Value: 2
+									119 text Meet your next dealer
+								120 text LC App is a social layer for Live Casino. Meet Blackjack and Baccarat dealers, follow them and return to their tables.
+								121 button Explore the lobby
+								122 button Next scenario
+								123 button Skip walkthrough
+							124 container LC core loop
+								125 text Discover Creator Follow Live Return
+							126 container Creators in demo live sessions
+								127 button + Explore
+								128 button SESSION PREVIEW Sofia
+								129 button SESSION PREVIEW Mia
+								130 button SESSION PREVIEW Lilit
+								131 button SESSION PREVIEW Alex
+								132 button SESSION PREVIEW Marcus
+							133 button For you
+							134 button Following
+							135 container Creator feed
+								136 container
+									137 button Open Sofia Laurent's profile
+									138 button Sofia Laurent Featured Blackjack creator · Illustrative profile
+									139 button Following
+									140 button Open upcoming session with Sofia Laurent
+									141 toggle button Like post, Value: off
+									142 button Open creator profile
+									143 button OPEN SESSION PREVIEW
+									144 text Sofia Laurent An example Blackjack session with Sofia. Follow her profile and save a reason to return. 10/10/2026, 21:45:00 Comment on Sofia Laurent's post
+									145 text field (settable) Comment on Sofia Laurent's post, Placeholder: Add a comment…
+									146 button Post
+								147 container
+									148 button Open Alex Moreau's profile
+									149 button Alex Moreau Baccarat creator for premium sessions · Illustrative profile
+									150 button Follow
+									151 button Open upcoming session with Alex Moreau
+									152 toggle button Like post, Value: off
+									153 button Open creator profile
+									154 button OPEN SESSION PREVIEW
+									155 text Alex Moreau Example Baccarat session with Alex. Save the preview and try the local table room. 10/10/2026, 21:15:00 Comment on Alex Moreau's post
+									156 text field (settable) Comment on Alex Moreau's post, Placeholder: Add a comment…
+									157 button Post
+								158 container
+									159 button Open Mia Novak's profile
+									160 button Mia Novak Roulette table personality · Illustrative profile
+									161 button Follow
+									162 button Open upcoming session with Mia Novak
+									163 toggle button Like post, Value: off
+									164 button Open creator profile
+									165 button OPEN SESSION PREVIEW
+									166 text Mia Novak Example update: a quieter Roulette and Baccarat session preview. Follow Mia to explore the return journey. 10/10/2026, 21:00:00 Comment on Mia Novak's post
+									167 text field (settable) Comment on Mia Novak's post, Placeholder: Add a comment…
+									168 button Post
+								169 container
+									170 button Open Marcus Reed's profile
+									171 button Marcus Reed Game Show host · Illustrative profile
+									172 button Follow
+									173 button Open upcoming session with Marcus Reed
+									174 toggle button Like post, Value: off
+									175 button Open creator profile
+									176 button OPEN SESSION PREVIEW
+									177 text Marcus Reed Example Game Show update. Explore how a creator can bring followers back. 10/10/2026, 20:30:00 Comment on Marcus Reed's post
+									178 text field (settable) Comment on Marcus Reed's post, Placeholder: Add a comment…
+									179 button Post
+								180 container
+									181 button Open Lilit Aram's profile
+									182 button Lilit Aram Blackjack and poker table explainer · Illustrative profile
+									183 button Follow
+									184 button Open upcoming session with Lilit Aram
+									185 toggle button Like post, Value: off
+									186 button Open creator profile
+									187 button OPEN SESSION PREVIEW
+									188 text Lilit Aram Example Blackjack note. Meet Lilit and explore a scheduled preview. 10/10/2026, 20:00:00 Comment on Lilit Aram's post
+									189 text field (settable) Comment on Lilit Aram's post, Placeholder: Add a comment…
+									190 button Post
+							191 text LC connects you to people, not funds. Gameplay and all regulated casino operations stay with the licensed operator.
+							192 container Social app navigation
+								193 button Home
+								194 button Explore
+								195 button Create
+								196 button Activity
+								197 button Profile
+					198 text Social app: Meet your next dealer
+	199 image WindowControlShadowView._shadowImageView
+	200 toolbar
+		201 button Description: Toggle sidebar, ID: SidebarButton, Secondary Actions: Move next, Remove from toolbar
+		202 menu button ID: TabGroupPickerButton?TabGroup=Main, Secondary Actions: Move next, Remove from toolbar
+		203 container BackForwardSegmentedControl
+			204 button Description: Go back, Help: Show the previous page, ID: BackButton
+			205 button (disabled) Description: Go forward, Help: Show the next page, ID: ForwardButton
+		206 button Description: Web Translator for DeepL, Secondary Actions: Move previous, Move next, Remove from toolbar
+		207 container Secondary Actions: Move previous, Move next, Remove from toolbar
+			208 button Page Menu, ID: AssistantButton
+			209 button Add page to Reading List, ID: OneStepBookmarkingButton
+			210 text field (settable) Description: smart search field, Value: localhost:4187/?app=1&demo=investor#/product/demo/player, ID: WEB_BROWSER_ADDRESS_AND_SEARCH_FIELD
+			211 button Translation Available, ID: TranslationButton
+			212 button Reload this page, ID: ReloadButton
+		213 button Description: Share, ID: ShareButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		214 button Description: New Tab, ID: NewTabButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		215 button Description: Tab Overview, ID: TabOverviewButton, Secondary Actions: Move previous, Remove from toolbar
+	216 

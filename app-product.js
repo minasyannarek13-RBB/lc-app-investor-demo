@@ -331,6 +331,9 @@
     const style = document.createElement("style");
     style.id = "lcInvestorStyles";
     style.textContent = `
+      #screen.lc-product-mode:has(#lcProductShell[data-lc-investor=true])>#appTop{display:none!important}
+      #lcProductShell[data-lc-investor=true] .lc-v4-feed-caption time,#lcProductShell[data-lc-investor=true] .lc-v4-feed-comment>span{color:#b6cfc7;font-size:12px}
+      #lcProductShell[data-lc-investor=true] :is(button,input,select,textarea,a):focus-visible{outline:3px solid #a7fff4;outline-offset:3px}
       .lc-investor-guide{max-width:980px;margin:0 auto 18px;padding:18px;border:1px solid #37665c;border-radius:20px;background:linear-gradient(135deg,#102924,#071512);color:#eefcf5}
       .lc-investor-guide h2{font-size:22px;margin:8px 0}.lc-investor-guide p{max-width:760px;line-height:1.55;color:#b6cfc7;margin:8px 0 14px}
       .lc-investor-steps{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.lc-investor-steps button{min-height:36px;border:1px solid #45665c;border-radius:12px;background:transparent;color:#cfebe1;padding:7px 12px}.lc-investor-steps button[aria-current=step]{background:#cbf5df;color:#082419}
@@ -354,7 +357,7 @@
       #lcProductShell[data-lc-investor=true] .lc-v4-creator-content-grid article>div{position:static;padding:16px;background:#0c1b17}
       #lcProductShell[data-lc-investor=true] .lc-v4-creator-content-grid p{overflow-wrap:anywhere;color:#d6e6df;font-size:14px}
       #lcProductShell[data-lc-investor=true] .lc-v4-creator-content-grid form{display:grid;gap:8px;margin-top:12px}#lcProductShell[data-lc-investor=true] .lc-v4-creator-content-grid label{font-size:13px;color:#c6dfd3}
-      @media(max-width:430px){#lcProductShell[data-lc-investor=true] .lc-investor-guide p{font-size:14px;line-height:1.4;margin:6px 0 10px}#lcProductShell[data-lc-investor=true] .lc-investor-guide .lc-product-actions{gap:6px}#lcProductShell[data-lc-investor=true] .lc-investor-guide .lc-product-actions button{min-height:36px;padding:8px 10px;font-size:11px}#lcProductShell[data-lc-investor=true] .lc-v4-feed-media{aspect-ratio:4/3}#lcProductShell[data-lc-investor=true] .lc-v4-creator-hero{min-height:320px}#lcProductShell[data-lc-investor=true] .lc-v4-explore-hero h1{font-size:27px}#lcProductShell[data-lc-investor=true] .lc-v4-explore-state{max-width:none;padding:10px 14px;display:flex;align-items:center;gap:12px}#lcProductShell[data-lc-investor=true] .lc-v4-explore-state b{font-size:22px}#lcProductShell[data-lc-investor=true] .lc-investor-guide{padding:14px}.lc-investor-steps button{padding:7px 9px;font-size:12px}.lc-investor-guide h2{font-size:20px}.lc-demo-games{gap:8px}.lc-demo-games button{padding:13px}.lc-demo-hands{gap:8px}.lc-demo-hand{padding:10px}.lc-demo-card{width:35px;height:50px;font-size:17px}.lc-demo-table{padding:15px}.lc-demo-chat form{flex-wrap:wrap}}
+      @media(max-width:430px){#lcProductShell[data-lc-investor=true] .lc-v4-feed-comment{flex-wrap:wrap}#lcProductShell[data-lc-investor=true] .lc-v4-feed-comment>span{flex-basis:100%}#lcProductShell[data-lc-investor=true] .lc-investor-guide p{font-size:14px;line-height:1.4;margin:6px 0 10px}#lcProductShell[data-lc-investor=true] .lc-investor-guide .lc-product-actions{gap:6px}#lcProductShell[data-lc-investor=true] .lc-investor-guide .lc-product-actions button{min-height:36px;padding:8px 10px;font-size:11px}#lcProductShell[data-lc-investor=true] .lc-v4-feed-media{aspect-ratio:4/3}#lcProductShell[data-lc-investor=true] .lc-v4-creator-hero{min-height:320px}#lcProductShell[data-lc-investor=true] .lc-v4-explore-hero h1{font-size:27px}#lcProductShell[data-lc-investor=true] .lc-v4-explore-state{max-width:none;padding:10px 14px;display:flex;align-items:center;gap:12px}#lcProductShell[data-lc-investor=true] .lc-v4-explore-state b{font-size:22px}#lcProductShell[data-lc-investor=true] .lc-investor-guide{padding:14px}.lc-investor-steps button{padding:7px 9px;font-size:12px}.lc-investor-guide h2{font-size:20px}.lc-demo-games{gap:8px}.lc-demo-games button{padding:13px}.lc-demo-hands{gap:8px}.lc-demo-hand{padding:10px}.lc-demo-card{width:35px;height:50px;font-size:17px}.lc-demo-table{padding:15px}.lc-demo-chat form{flex-wrap:wrap}}
     `;
     document.head.appendChild(style);
   }
@@ -1060,7 +1063,7 @@
     const mediaAlt = `${profileName(item.profile)} at a Live Casino table`;
     return `<article class="lc-v4-feed-post" data-lc-feed-position="${index + 1}">
       <header class="lc-v4-feed-author">
-        <button class="lc-v4-feed-avatar" type="button" data-lc-open-creator="${safe(creatorId)}"><img src="${safe(avatar(item.profile))}" alt="" loading="lazy" decoding="async"></button>
+        <button class="lc-v4-feed-avatar" type="button" aria-label="Open ${safe(profileName(item.profile))}'s profile" data-lc-open-creator="${safe(creatorId)}"><img src="${safe(avatar(item.profile))}" alt="" loading="lazy" decoding="async"></button>
         <button class="lc-v4-feed-identity" type="button" data-lc-open-creator="${safe(creatorId)}"><b>${safe(profileName(item.profile))}</b><span>${safe(item.creator.headline || (item.creator.games || []).join(" · ") || "Live Casino creator")}${isIllustrativeProfile(item.profile) ? " · Illustrative profile" : ""}</span></button>
         <button class="lc-product-chip ${following ? "active" : ""}" type="button" data-lc-follow="${safe(creatorId)}">${following ? "Following" : "Follow"}</button>
       </header>
@@ -1072,7 +1075,7 @@
       </button>
       <div class="lc-v4-feed-actions">
         <div>
-          ${post ? `<button class="lc-v4-icon-action ${liked ? "active" : ""}" type="button" data-lc-like="${safe(post.id)}" aria-label="Like post"><span aria-hidden="true">${liked ? "♥" : "♡"}</span><small>${liked ? "Liked" : "Like"}</small></button>` : ""}
+          ${post ? `<button class="lc-v4-icon-action ${liked ? "active" : ""}" type="button" data-lc-like="${safe(post.id)}" aria-label="Like post" ${state.demo ? `aria-pressed="${liked}"` : ""}><span aria-hidden="true">${liked ? "♥" : "♡"}</span><small>${liked ? "Liked" : "Like"}</small></button>` : ""}
           <button class="lc-v4-icon-action" type="button" data-lc-open-creator="${safe(creatorId)}" aria-label="Open creator profile"><span aria-hidden="true">◎</span><small>Profile</small></button>
         </div>
         ${session ? (isLive
@@ -1999,6 +2002,9 @@
 
   async function navigateProduct(value) {
     try {
+      if (state.demo && investorMode && /\/(creator|live|handoff)\//.test(window.location.hash)) {
+        window.history.replaceState(null, "", `#/product/demo/${state.demoPersona}`);
+      }
       state.selectedCreator = null;
       state.selectedSession = null;
       if (["overview", "creators", "campaigns", "live", "performance", "integrations", "safety", "settings"].includes(value)) {
