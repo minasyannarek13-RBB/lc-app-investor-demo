@@ -1,7 +1,7 @@
 # LC App Staging Migration Execution Plan
 
 - Project: LC App
-- Version: v1.4
+- Version: v1.5
 - Status: Reviewable plan; execution not authorised
 - Date: 2026-10-10
 - Target ref: `dnpizrjuxkcnmdgmvnks`
@@ -190,3 +190,7 @@ Approve staging migration only after every precondition, schema/security query, 
 ## Current recovery/runtime validation receipt
 
 No migration content or manifest checksum changed. Original 052–054 SQL/checksums/dependencies remain unknown; no evidence establishes intentional removal or renaming. 057 directly requires profiles/user_settings from 001, active-profile helper from 008, Auth platform roles/users; 058 requires Storage platform buckets/objects/foldername and Auth uid. Neither names an object known to originate in 052–054, which cannot prove absent unknown side effects. Both remain reconstructions with unchanged pinned hashes. Hosted apply remains blocked; do not invent rollback for unknown migrations. Local targeted tests 42/42 PASS; no hosted command executed.
+
+## Local full-chain replay gate — 2026-10-10
+
+57/57 available migrations apply on isolated PostgreSQL 17.11 with the test-only Supabase shim; 057–060 repeat with schema+ACL parity, schema catalog/audit PASS and security matrix 40/40 PASS. Full Node suite 144/144 PASS. Evidence and reproduction commands: MIGRATION_FORENSICS_REPORT.md, Reproducible local schema acceptance; dependency map: MIGRATION_PROVENANCE_MATRIX.md. No confirmed defect requires a corrective migration; future corrections must use a new unused version after 060, never invented gap SQL. No application SQL or hosted state changed. Production's earlier schema is not used as a full-schema reference. Staging activation remains disabled, provenance gap remains BLOCKED, and hosted Auth/RLS/Storage/integrations/settings/recovery acceptance remains required. These local results do not authorize staging apply.

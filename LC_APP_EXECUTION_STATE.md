@@ -1,8 +1,19 @@
 # Current Release Checkpoint — 2026-10-10
 
-Project: LC App | Version: v0.13 | Status: Local investor demo ready; hosted baseline PASS; hosted release blocked
+Project: LC App | Version: v0.14 | Status: Local investor demo ready; hosted baseline PASS; hosted release blocked
 Owner: Narek / Engineering | Audience: founder and release engineer
 Sources: ChatGPT connected Supabase external baseline 2026-10-10 (relayed by Narek), current code, tests, migrations, PR #18 read-only metadata; historical notes below are not current release evidence.
+
+## Latest local replay acceptance — 2026-10-10
+
+- Starting 0a98c3c; 57/57 available SQL migrations replayed into a fresh temporary PostgreSQL 17.11 cluster using test-only Supabase primitives. 057–060 reapplication schema+ACL parity PASS; schema audit and catalog integrity PASS; DB security matrix 40/40 PASS.
+- Public schema: 34 tables, all RLS enabled. Full local object catalog and schema-only dump retained under evidence/local-replay-2026-10-10; no fixture data exported. All 001–060 dependency slots mapped; 052–054 UNKNOWN. No errors attributable to the missing migrations reproduced. Historical completeness remains blocked.
+- Full Node suite 144/144 PASS after repairing two stale static assertions introduced by the preceding guard/cache update. No application behavior or migration SQL changed. Local runner isolates inherited PostgreSQL connection/password settings and can export repeatable evidence.
+- Staging/production/hosted Auth/secrets/DNS/site unchanged; staging activation disabled. No new forensic search, merge/push/deploy or hosted user creation. Remaining gates: provenance decision/original source, real Supabase runtime acceptance, Dashboard/integration isolation, hosted E2E and recovery rehearsal.
+
+### AI_SYNC — reproducible local migration chain
+
+Date: 2026-10-10. AI: Codex. Project: LC App. Updated local replay runner, two stale test assertions, dependency/provenance map and staging/execution reports. Added dependency analyzer, catalog audit and local schema/catalog/replay evidence. Decision: present chain is executable locally; no corrective migration is justified. Missing 052–054 remain UNKNOWN; production is not a full-schema reference. Next: authoritative provenance resolution and separately authorized disposable Supabase rehearsal.
 
 ## Latest checkpoint — migration recovery and runtime safety
 

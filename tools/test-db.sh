@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Inherited connection settings/password files must not influence this local cluster.
+unset PGHOST PGHOSTADDR PGPORT PGDATABASE PGUSER PGPASSWORD PGSERVICE PGSERVICEFILE PGOPTIONS
+export PGSSLMODE=disable
+LC_REPLAY_EVIDENCE_DIR="${LC_REPLAY_EVIDENCE_DIR:-}"
+
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 PG_BIN="${PG_BIN:-/opt/homebrew/opt/postgresql@17/bin}"
 PG_PORT="${PG_PORT:-55432}"
@@ -8,6 +13,9 @@ DB_ROOT="$(mktemp -d /private/tmp/lc-app-postgres.XXXXXX)"
 DB_DATA="$DB_ROOT/data"
 DB_LOG="$DB_ROOT/postgres.log"
 DB_NAME="lc_app_test"
+export PGPASSFILE="$DB_ROOT/empty.pgpass"
+: > "$PGPASSFILE"
+chmod 600 "$PGPASSFILE"
 
 cleanup() {
   "$PG_BIN/pg_ctl" -D "$DB_DATA" -m immediate stop >/dev/null 2>&1 || true
@@ -28,6 +36,11 @@ while IFS= read -r migration; do
   "${PSQL[@]}" -f "$migration" >/dev/null
 done < <(find "$ROOT_DIR/supabase/migrations" -type f -name '*.sql' -print | sort)
 
+if [[ -n "$LC_REPLAY_EVIDENCE_DIR" ]]; then
+  mkdir -p "$LC_REPLAY_EVIDENCE_DIR"
+  "$PG_BIN/pg_dump" -h 127.0.0.1 -p "$PG_PORT" -d "$DB_NAME" --schema-only --no-owner | sed '/^\\restrict /d; /^\\unrestrict /d' > "$LC_REPLAY_EVIDENCE_DIR/schema-initial.sql"
+fi
+
 for migration in \
   "$ROOT_DIR/supabase/migrations/202610090057_foundation_contract_recovery.sql" \
   "$ROOT_DIR/supabase/migrations/202610090058_avatar_storage_contract_recovery.sql" \
@@ -36,6 +49,17 @@ for migration in \
   printf 'reapply %s\n' "$(basename "$migration")"
   "${PSQL[@]}" -f "$migration" >/dev/null
 done
+
+if [[ -n "$LC_REPLAY_EVIDENCE_DIR" ]]; then
+  mkdir -p "$LC_REPLAY_EVIDENCE_DIR"
+  "$PG_BIN/pg_dump" -h 127.0.0.1 -p "$PG_PORT" -d "$DB_NAME" --schema-only --no-owner | sed '/^\\restrict /d; /^\\unrestrict /d' > "$LC_REPLAY_EVIDENCE_DIR/schema.sql"
+  cmp "$LC_REPLAY_EVIDENCE_DIR/schema-initial.sql" "$LC_REPLAY_EVIDENCE_DIR/schema.sql"
+  printf 'REAPPLY SCHEMA PARITY: PASS\n'
+  "${PSQL[@]}" -At -f "$ROOT_DIR/tests/db/schema-catalog.sql" > "$LC_REPLAY_EVIDENCE_DIR/catalog.json"
+  python3 "$ROOT_DIR/tools/migration-dependencies.py" --output "$LC_REPLAY_EVIDENCE_DIR/dependencies.json"
+else
+  "${PSQL[@]}" -At -f "$ROOT_DIR/tests/db/schema-catalog.sql" >/dev/null
+fi
 
 "${PSQL[@]}" -f "$ROOT_DIR/tests/db/schema-security-audit.sql"
 "${PSQL[@]}" -f "$ROOT_DIR/tests/db/security-matrix.sql"

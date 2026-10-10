@@ -1,7 +1,7 @@
 # LC App Staging Readiness Report
 
 - Project: LC App
-- Version: v0.9
+- Version: v0.10
 - Status: Hosted baseline inspection PASS; migration and release readiness blocked
 - Last updated: 2026-10-10
 - Owner: Narek / Engineering
@@ -38,7 +38,7 @@ Complete literal project-reference inventory in executable/config files at the s
 
 Documentation/evidence references describe the protected ref or historical findings; they are not connection configuration. Dynamic URL/key sources also exist in `window.LC_APP_CONFIG`, `window.__LC_APP_CONFIG__`, window overrides and `lc-app:supabase-*` localStorage. Their external runtime values cannot be proven safe by a literal repository scan. Inline config wins over these fallback values. Use a fresh staging profile and verify effective origin before Auth/client creation; investor demo isolation remains unchanged.
 
-No real credential was retrieved, printed or modified. Current `.env.example` has the exact staging origin and an empty credential placeholder; it is not automatically loaded by the static app. No privileged credentials belong in browser output. Prepared mapping, Dashboard checklist, detailed 052–054/057–058 dependencies/rollback risks and exact ordered manifest are in `STAGING_MIGRATION_EXECUTION_PLAN.md` v1.4. Synthetic-user Auth/RLS/Storage/tenant scenarios are in `RELEASE_SECURITY_MATRIX.md` v1.1; existing smoke script remains NOT RUN.
+No real credential was retrieved, printed or modified. Current `.env.example` has the exact staging origin and an empty credential placeholder; it is not automatically loaded by the static app. No privileged credentials belong in browser output. Prepared mapping, Dashboard checklist, detailed 052–054/057–058 dependencies/rollback risks and exact ordered manifest are in `STAGING_MIGRATION_EXECUTION_PLAN.md` v1.5. Synthetic-user Auth/RLS/Storage/tenant scenarios are in `RELEASE_SECURITY_MATRIX.md` v1.1; existing smoke script remains NOT RUN.
 
 **Configuration preparation complete; activation/migration gate remains BLOCKED.** 052–054 source/provenance decision, Dashboard Auth/OAuth/SMTP/hooks/integration evidence, approved isolated runtime mapping, recovery rehearsal and hosted acceptance are still required. All readiness remains NO.
 
@@ -119,3 +119,7 @@ Staging becomes ready only when all items below pass on a newly isolated, explic
 5. Cross-tenant, suspension, RLS, storage, attribution, idempotency and handoff negative tests pass through public APIs.
 6. No unexpected Postgres/Auth/Storage errors appear during the test window.
 7. Backup restore or disposable-project rebuild is rehearsed and timed.
+
+## Local full-chain replay gate — 2026-10-10
+
+57/57 available migrations apply on isolated PostgreSQL 17.11 with the test-only Supabase shim; 057–060 repeat with schema+ACL parity, schema catalog/audit PASS and security matrix 40/40 PASS. Full Node suite 144/144 PASS. Evidence and reproduction commands: MIGRATION_FORENSICS_REPORT.md, Reproducible local schema acceptance; dependency map: MIGRATION_PROVENANCE_MATRIX.md. No confirmed defect requires a corrective migration; future corrections must use a new unused version after 060, never invented gap SQL. No application SQL or hosted state changed. Production's earlier schema is not used as a full-schema reference. Staging activation remains disabled, provenance gap remains BLOCKED, and hosted Auth/RLS/Storage/integrations/settings/recovery acceptance remains required. These local results do not authorize staging apply.
