@@ -1,25 +1,26 @@
 # Current Release Checkpoint — 2026-10-10
 
-Project: LC App | Version: v0.9 | Status: Local investor demo ready; hosted baseline PASS; hosted release blocked
+Project: LC App | Version: v0.10 | Status: Local investor demo ready; hosted baseline PASS; hosted release blocked
 Owner: Narek / Engineering | Audience: founder and release engineer
 Sources: ChatGPT connected Supabase external baseline 2026-10-10 (relayed by Narek), current code, tests, migrations, PR #18 read-only metadata; historical notes below are not current release evidence.
 
-## Final device gate — 2026-10-10
-- Native macOS Safari 26.6.2 functional smoke passed: guest/walkthrough/lobby/profile/follows/comments, both scripted rooms/chat, Home and reset. Real Safari RDM screenshots at nominal 320/390/768/1440; no physical iPhone validation.
-- Fixed hidden prototype keyboard target, Like AX state, avatar names/decorative alt, investor focus/metadata contrast, 320px comment input compression and stale detail URLs.
-- Accessibility PARTIAL: sampled keyboard/AX checks passed; full VoiceOver and runtime reduced-motion not verified. Two unattributed Safari resource-permission errors keep the clean-console gate BLOCKED. Physical iPhone BLOCKED (no connected test surface).
-- Final device readiness NO; 124/124 fresh Node tests PASS, syntax/parity/diff PASS. Evidence and precise scope: `INVESTOR_DEMO_READINESS.md`, `evidence/investor-device-acceptance-2026-10-10/acceptance-results.json`. Prior in-app-browser results below are historical.
+## Final device gate — latest 2026-10-10
+- Native Safari investor journey exercised; final app v124 / shell v20 / cache v134 verified. Focus restoration, route-heading focus, toggle semantics, comment validation and inactive Following contrast fixed locally.
+- 127/127 Node tests PASS. Canonical findings and evidence: `INVESTOR_DEMO_READINESS.md`, `evidence/safari-accessibility-closure-2026-10-10/`.
+- Both resource-permission errors reproduce without LC JavaScript on static CSS and upon Inspector reopening. Extension source maps are likely; exact per-error request/initiator is unresolved. Private session retained DeepL and is not an extension-free control. No suppression applied.
+- Reduced-motion sampled native runtime PASS; preferences restored. Keyboard/contrast/text-scaling acceptance PARTIAL. VoiceOver walkthrough BLOCKED by inaccessible speech/cursor automation. Physical iPhone BLOCKED: no connected inspectable device.
+- INVESTOR DEVICE READY: NO. Earlier Safari RDM and in-app results below are historical; hosted baseline PASS and hosted release blockers remain unchanged.
 
-## AI_SYNC — native device acceptance 2026-10-10
+## AI_SYNC — Safari accessibility closure 2026-10-10
 Date: 2026-10-10 | AI: Codex | Project: LC App
-Task: Native Safari, responsive and accessibility acceptance of the actual investor app.
-Files created: Native screenshots, AX/runtime evidence, acceptance-results.json and test log in the device acceptance evidence directory.
-Files updated: mirrored app/service-worker sources, nested shell/entry versions, relevant regression tests, canonical readiness and this checkpoint.
-Decisions: functional Safari smoke PASS; final investor device gate remains NO.
-Assumptions: Safari RDM is desktop engine evidence only; all demo content remains illustrative.
-Contradictions found: hidden menu in keyboard order, missing Like state, low-contrast metadata and stale detail hash; fixed locally.
-Open questions: two Safari resource permission errors; physical iPhone, full VoiceOver and runtime reduced-motion QA.
-Recommended next action: diagnose Safari errors in an isolated browser profile, then complete device/accessibility acceptance.
+Task: Diagnose Safari permission errors and close confirmed accessibility defects without scope expansion.
+Files created: Native screenshots, AX/runtime/journey records and test log in safari-accessibility-closure evidence directory.
+Files updated: mirrored app/service worker, nested shell/entry, regression tests, readiness and execution checkpoint.
+Decisions: no error suppression; device gate remains NO; native Safari and physical iPhone evidence remain separate.
+Assumptions: extension source-map attribution is probable, not confirmed per error.
+Contradictions found: lost interaction focus, wrong heading focus, missing toggle states and low-contrast Following; corrected locally.
+Open questions: exact error request attribution, full VoiceOver/accessibility acceptance, physical iPhone.
+Recommended next action: native acceptance in an extension-free Safari profile with manual VoiceOver and connected iPhone.
 
 ## Local investor-demo checkpoint — 2026-10-10
 - Actual application: `http://localhost:4187/investor.html` → `/?app=1&demo=investor#/product/demo/player`; loopback server serves `LC_App_GitHub_Pages_Upload/`.

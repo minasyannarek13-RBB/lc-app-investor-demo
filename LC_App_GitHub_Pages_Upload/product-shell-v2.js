@@ -312,10 +312,19 @@
   }
 
   let lastRouteAnnouncement = "";
+  let lastFocusedRoute = window.location.hash;
   function announceRoute(root) {
-    const heading = root.querySelector("h1,h2")?.textContent?.trim();
+    const heading = (root.querySelector("h1") || root.querySelector("h2"))?.textContent?.trim();
     const label = heading || root.querySelector(".lc-product-brand strong")?.textContent?.trim() || "LC App";
     const announcement = `${productFamily() === "business" ? "Business back office" : "Social app"}: ${label}`;
+    if (root.dataset.lcInvestor === "true" && lastFocusedRoute !== window.location.hash) {
+      lastFocusedRoute = window.location.hash;
+      window.requestAnimationFrame(() => {
+        const destination = root.querySelector("h1") || root.querySelector("h2") || root;
+        destination.setAttribute("tabindex", "-1");
+        destination.focus({ preventScroll: true });
+      });
+    }
     if (announcement === lastRouteAnnouncement) return;
     lastRouteAnnouncement = announcement;
     const status = document.getElementById(ROUTE_STATUS_ID);
@@ -340,6 +349,8 @@
 
     root.querySelectorAll("button").forEach((button) => {
       if (!button.getAttribute("aria-label") && !String(button.textContent || "").trim()) button.setAttribute("aria-label", "LC App action");
+      if (root.dataset.lcInvestor === "true" && button.hasAttribute("data-lc-home-filter")) button.setAttribute("aria-pressed", String(button.classList.contains("active")));
+      if (root.dataset.lcInvestor === "true" && button.hasAttribute("data-lc-follow")) button.setAttribute("aria-pressed", String(/^following$/i.test(button.textContent.trim())));
       if (button.disabled) button.setAttribute("aria-disabled", "true");
       else button.removeAttribute("aria-disabled");
     });

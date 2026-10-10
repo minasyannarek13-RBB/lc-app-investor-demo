@@ -1,0 +1,2 @@
+There has been no change in the accessibility tree for Window: "LC App — Live Casino. Social Experience.".
+The focused UI element is 240 text entry area (settable) Console prompt, Value: [text entry area: Console prompt]

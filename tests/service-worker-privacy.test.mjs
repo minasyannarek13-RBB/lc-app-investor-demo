@@ -18,7 +18,7 @@ function harness(response = new Response('public')) {
     caches: {
       open: async () => ({ put: async (request) => writes.push(request.url) }),
       match: async () => undefined,
-      keys: async () => ['other-app-cache', 'lc-app-investor-demo-v130', 'lc-app-investor-demo-v132'],
+      keys: async () => ['other-app-cache', 'lc-app-investor-demo-v130', 'lc-app-investor-demo-v134'],
       delete: async (key) => { deleted.push(key); }
     }
   });

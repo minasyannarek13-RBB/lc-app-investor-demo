@@ -1,0 +1,2 @@
+There has been no change in the accessibility tree for Window: "LC App — Live Casino. Social Experience.".
+The focused UI element is 41 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player/creator/demo-sofia

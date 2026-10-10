@@ -1,0 +1,1151 @@
+
+ACTION Explore
+The following is a diff from the previous accessibility tree for Window: "LC App — Live Casino. Social Experience." with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 7-66
+~				4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player
++							101 text LC
++							102 text Explore
++							103 text Find the person behind the table.
++							104 button player
++							105 container Illustrative preview mode
++								106 text DEMO EXPERIENCE · PLAYER · LOCAL DATA
++								107 button Switch
++								108 button Reset
++								109 button Roles
++								110 button Guide
++							111 container Investor walkthrough
++								112 container Guided scenarios
++									113 button 1 · Meet your next dealer
++									114 button 2 · Turn discovery into a relationship
++									115 button 3 · See the integration value
++								116 heading Meet your next dealer, Value: 2
++									117 text Meet your next dealer
++								118 text LC App is a social layer for Live Casino. Meet Blackjack and Baccarat dealers, follow them and return to their tables.
++								119 button Explore the lobby
++								120 button Next scenario
++								121 button Skip walkthrough
++							122 container Live Casino lobby
++								123 button Blackjack Discover dealers · scripted table preview
++								124 button Baccarat Discover dealers · scripted table preview
++							125 text DISCOVER PEOPLE
++							126 heading Find your next Live table through a Creator., Value: 1
++								127 text Find your next Live table through a Creator.
++							128 text Explore illustrative creators and preview the path to participating licensed operators.
++							129 text 0 Connected broadcasts (demo has none)
++							130 container
++								131 search text field (settable) Search creators, games or languages
++								132 button SEARCH
++							133 container Explore filters
++								134 button For you
++								135 button Live
++								136 button Following
++								137 button Soon
++							138 text Based on your selected games, languages and follows
++							139 text FOR YOU
++							140 heading Creators matched to your social signals., Value: 2
++								141 text Creators matched to your social signals.
++							142 text 5
++							143 container
++								144 button Sofia Laurent creator profile SESSION PREVIEW
++								145 button Sofia Laurent Featured Blackjack creator · Illustrative profile
++								146 toggle button Following, Value: on
++								147 container Why this creator
++									148 text SESSION PREVIEW Following Matches Blackjack
++							149 container
++								150 button Mia Novak creator profile SESSION PREVIEW
++								151 button Mia Novak Roulette table personality · Illustrative profile
++								152 toggle button Follow, Value: off
++								153 container Why this creator
++									154 text SESSION PREVIEW Reminder set Matches Roulette
++							155 container
++								156 button Lilit Aram creator profile SESSION PREVIEW
++								157 button Lilit Aram Blackjack and poker table explainer · Illustrative profile
++								158 toggle button Follow, Value: off
++								159 container Why this creator
++									160 text SESSION PREVIEW Matches Blackjack English
++							161 container
++								162 button Alex Moreau creator profile SESSION PREVIEW
++								163 button Alex Moreau Baccarat creator for premium sessions · Illustrative profile
++								164 toggle button Follow, Value: off
++								165 container Why this creator
++									166 text SESSION PREVIEW English Starting soon
++							167 container
++								168 button Marcus Reed creator profile SESSION PREVIEW
++								169 button Marcus Reed Game Show host · Illustrative profile
++								170 toggle button Follow, Value: off
++								171 container Why this creator
++									172 text SESSION PREVIEW English Starting soon
++							173 text UP NEXT
++							174 heading Save a reason to return., Value: 2
++								175 text Save a reason to return.
++							176 text 5
++							177 container
++								178 button Sofia Laurent Evening Blackjack table
++								179 text SESSION PREVIEW · 10/10/2026, 23:00:00
++								180 button Remind me
++							181 container
++								182 button Mia Novak Roulette community hour
++								183 text SESSION PREVIEW · 11/10/2026, 00:00:00
++								184 button Saved
++							185 container
++								186 button Lilit Aram Blackjack strategy table
++								187 text SESSION PREVIEW · 11/10/2026, 02:00:00
++								188 button Remind me
++							189 container
++								190 button Alex Moreau Premium Baccarat room
++								191 text SESSION PREVIEW · 10/10/2026, 22:30:00
++								192 button Remind me
++							193 container
++								194 button Marcus Reed Game Show warm-up
++								195 text SESSION PREVIEW · 11/10/2026, 01:00:00
++								196 button Remind me
++							197 text RECENT CONTENT
++							198 heading Meet Creators before they go Live., Value: 2
++								199 text Meet Creators before they go Live.
++							200 button Sofia Laurent An example Blackjack session with Sofia. Follow her profile and save a reason to return.
++							201 button Mia Novak Example update: a quieter Roulette and Baccarat session preview. Follow Mia to explore the return journey.
++							202 button Lilit Aram Example Blackjack note. Meet Lilit and explore a scheduled preview.
++							203 button Alex Moreau Example Baccarat session with Alex. Save the preview and try the local table room.
++							204 button Marcus Reed Example Game Show update. Explore how a creator can bring followers back.
++							205 text Discovery stays inside LC. Gameplay does not. Any Play action continues through an eligible licensed operator destination; LC does not handle funds, KYC or wagering.
++							206 container Social app navigation
++								207 button Home
++								208 button Explore
++								209 button Create
++								210 button Activity
++								211 button Profile
++					212 text Social app: Find your next Live table through a Creator.
+~			80 text field (settable) Description: smart search field in a private window, Value: localhost:4187/?app=1&demo=investor#/product/demo/player, ID: WEB_BROWSER_ADDRESS_AND_SEARCH_FIELD
+The focused UI element is 126 heading Find your next Live table through a Creator., Value: 1
+ACTION Baccarat Discover dealers · scripted table preview
+The following is a diff from the previous accessibility tree for Window: "LC App — Live Casino. Social Experience." with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 7-117
++							153 text LC
++							154 text Explore
++							155 text Find the person behind the table.
++							156 button player
++							157 container Illustrative preview mode
++								158 text DEMO EXPERIENCE · PLAYER · LOCAL DATA
++								159 button Switch
++								160 button Reset
++								161 button Roles
++								162 button Guide
++							163 container Investor walkthrough
++								164 container Guided scenarios
++									165 button 1 · Meet your next dealer
++									166 button 2 · Turn discovery into a relationship
++									167 button 3 · See the integration value
++								168 heading Meet your next dealer, Value: 2
++									169 text Meet your next dealer
++								170 text LC App is a social layer for Live Casino. Meet Blackjack and Baccarat dealers, follow them and return to their tables.
++								171 button Explore the lobby
++								172 button Next scenario
++								173 button Skip walkthrough
++							174 container Live Casino lobby
++								175 button Blackjack Discover dealers · scripted table preview
++								176 button Baccarat Discover dealers · scripted table preview
++							177 text DISCOVER PEOPLE
++							178 heading Find your next Live table through a Creator., Value: 1
++								179 text Find your next Live table through a Creator.
++							180 text Explore illustrative creators and preview the path to participating licensed operators.
++							181 text 0 Connected broadcasts (demo has none)
++							182 container
++								183 search text field (settable) Search creators, games or languages, Value: Baccarat
++								184 button SEARCH
++								185 button Clear
++							186 container Explore filters
++								187 button For you
++								188 button Live
++								189 button Following
++								190 button Soon
++							191 text 3 results for “Baccarat”
++							192 text FOR YOU
++							193 heading Creators matched to your social signals., Value: 2
++								194 text Creators matched to your social signals.
++							195 text 3
++							196 container
++								197 button Sofia Laurent creator profile SESSION PREVIEW
++								198 button Sofia Laurent Featured Blackjack creator · Illustrative profile
++								199 toggle button Following, Value: on
++								200 container Why this creator
++									201 text SESSION PREVIEW Following Matches Blackjack
++							202 container
++								203 button Mia Novak creator profile SESSION PREVIEW
++								204 button Mia Novak Roulette table personality · Illustrative profile
++								205 toggle button Follow, Value: off
++								206 container Why this creator
++									207 text SESSION PREVIEW Reminder set Matches Roulette
++							208 container
++								209 button Alex Moreau creator profile SESSION PREVIEW
++								210 button Alex Moreau Baccarat creator for premium sessions · Illustrative profile
++								211 toggle button Follow, Value: off
++								212 container Why this creator
++									213 text SESSION PREVIEW English Starting soon
++							214 text UP NEXT
++							215 heading Save a reason to return., Value: 2
++								216 text Save a reason to return.
++							217 text 3
++							218 container
++								219 button Sofia Laurent Evening Blackjack table
++								220 text SESSION PREVIEW · 10/10/2026, 23:00:00
++								221 button Remind me
++							222 container
++								223 button Mia Novak Roulette community hour
++								224 text SESSION PREVIEW · 11/10/2026, 00:00:00
++								225 button Saved
++							226 container
++								227 button Alex Moreau Premium Baccarat room
++								228 text SESSION PREVIEW · 10/10/2026, 22:30:00
++								229 button Remind me
++							230 text RECENT CONTENT
++							231 heading Meet Creators before they go Live., Value: 2
++								232 text Meet Creators before they go Live.
++							233 button Sofia Laurent An example Blackjack session with Sofia. Follow her profile and save a reason to return.
++							234 button Mia Novak Example update: a quieter Roulette and Baccarat session preview. Follow Mia to explore the return journey.
++							235 button Alex Moreau Example Baccarat session with Alex. Save the preview and try the local table room.
++							236 text Discovery stays inside LC. Gameplay does not. Any Play action continues through an eligible licensed operator destination; LC does not handle funds, KYC or wagering.
++							237 container Social app navigation
++								238 button Home
++								239 button Explore
++								240 button Create
++								241 button Activity
++								242 button Profile
+The focused UI element is 178 heading Find your next Live table through a Creator., Value: 1
+ACTION Alex Moreau Premium Baccarat room
+The following is a diff from the previous accessibility tree for Window: "LC App — Live Casino. Social Experience." with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 7-97
+~				4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player/creator/demo-alex
++							132 text LC
++							133 text Alex Moreau
++							134 text Creator profile
++							135 button player
++							136 container Illustrative preview mode
++								137 text DEMO EXPERIENCE · PLAYER · LOCAL DATA
++								138 button Switch
++								139 button Reset
++								140 button Roles
++								141 button Guide
++							142 container Investor walkthrough
++								143 container Guided scenarios
++									144 button 1 · Meet your next dealer
++									145 button 2 · Turn discovery into a relationship
++									146 button 3 · See the integration value
++								147 heading Meet your next dealer, Value: 2
++									148 text Meet your next dealer
++								149 text LC App is a social layer for Live Casino. Meet Blackjack and Baccarat dealers, follow them and return to their tables.
++								150 button Explore the lobby
++								151 button Next scenario
++								152 button Skip walkthrough
++							153 image Alex Moreau at a Live Casino table
++							154 text SESSION PREVIEW @alex_baccarat · ILLUSTRATIVE PROFILE
++							155 heading Alex Moreau, Value: 1
++								156 text Alex Moreau
++							157 text Baccarat creator for premium sessions
++							158 toggle button FOLLOW, Value: off
++							159 button VIEW SESSION PREVIEW
++							160 container Creator profile activity
++								161 container
++									162 text 1 UPDATES
++								163 container
++									164 text 1 UPCOMING
++								165 container
++									166 text 1 GAMES
++							167 text ABOUT
++							168 heading Baccarat host connecting premium table rhythm with repeat players., Value: 2
++								169 text Baccarat host connecting premium table rhythm with repeat players.
++							170 text Baccarat English · French France Demo Casino · unverified SESSION PREVIEW
++							171 heading Premium Baccarat room, Value: 2
++								172 text Premium Baccarat room
++							173 text Baccarat · SESSION PREVIEW · 10/10/2026, 22:30:00
++							174 text Demo Casino · operator context is not an LC approval
++							175 button REMIND ME
++							176 text CONTENT
++							177 heading Recent updates, Value: 2
++								178 text Recent updates
++							179 text 1
++							180 container
++								181 text 10/10/2026, 21:15:00 Example Baccarat session with Alex. Save the preview and try the local table room.
++								182 toggle button Like post, Value: off
++								183 text Comment on this update
++								184 text field (settable) Comment on this update
++								185 button Post comment
++							186 container Creator safety actions
++								187 text Keep your experience safe
++								188 button Report
++								189 button Block
++							190 container Social app navigation
++								191 button Home
++								192 button Explore
++								193 button Create
++								194 button Activity
++								195 button Profile
++					196 text Social app: Alex Moreau
+~			111 text field (settable) Description: smart search field in a private window, Value: localhost:4187/?app=1&demo=investor#/product/demo/player/creator/demo-alex, ID: WEB_BROWSER_ADDRESS_AND_SEARCH_FIELD
+The focused UI element is 4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player/creator/demo-alex
+ACTION VIEW SESSION PREVIEW
+The following is a diff from the previous accessibility tree for Window: "LC App — Live Casino. Social Experience." with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 7-70
+~				4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player/live/demo-session-alex
++							106 text LC
++							107 text SESSION PREVIEW
++							108 text Alex Moreau
++							109 button player
++							110 container Illustrative preview mode
++								111 text DEMO EXPERIENCE · PLAYER · LOCAL DATA
++								112 button Switch
++								113 button Reset
++								114 button Roles
++								115 button Guide
++							116 container Investor walkthrough
++								117 container Guided scenarios
++									118 button 1 · Meet your next dealer
++									119 button 2 · Turn discovery into a relationship
++									120 button 3 · See the integration value
++								121 heading Meet your next dealer, Value: 2
++									122 text Meet your next dealer
++								123 text LC App is a social layer for Live Casino. Meet Blackjack and Baccarat dealers, follow them and return to their tables.
++								124 button Explore the lobby
++								125 button Next scenario
++								126 button Skip walkthrough
++							127 image Alex Moreau Live session
++							128 text SESSION PREVIEW Baccarat Premium Baccarat room
++							129 heading Alex Moreau, Value: 1
++								130 text Alex Moreau
++							131 text 10/10/2026, 22:30:00
++							132 container Scripted Baccarat table
++								133 text SCRIPTED TABLE PREVIEW · NO WAGERS
++								134 heading Baccarat with Alex Moreau, Value: 2
++									135 text Baccarat with Alex Moreau
++								136 text Example round 1 of 3. Fixed cards demonstrate the room presentation, not a playable casino engine or broadcast.
++								137 text Player side
++								138 text 4♠ 3♥
++								139 text Banker side
++								140 text 5♣ 2♦
++								141 button Show next demo round
++							142 heading Room conversation, Value: 2
++								143 text Room conversation
++							144 text Only your local demo messages appear here. There are no connected players.
++							145 toggle button React to this room, Value: off
++							146 container No messages yet. Start the conversation.
++							147 container
++								148 text field (settable) Message the demo room, Placeholder: Write a message
++								149 button Send
++							150 button PREVIEW HANDOFF
++							151 toggle button FOLLOW CREATOR, Value: off
++							152 text CREATOR CONTEXT Alex Moreau · Baccarat
++							153 text Follow and return context stays in LC.
++							154 text OPERATOR CONTEXT Demo Casino
++							155 text This label is not proof of integration, approval or availability.
++							156 text LC connects the person to the Live moment.
++							157 text The licensed operator remains responsible for gameplay, wallet, KYC/AML, wagering, settlement and responsible-gaming operations.
++							158 button ← Back to Alex Moreau
++							159 container Social app navigation
++								160 button Home
++								161 button Explore
++								162 button Create
++								163 button Activity
++								164 button Profile
+~			85 text field (settable) Description: smart search field in a private window, Value: localhost:4187/?app=1&demo=investor#/product/demo/player/live/demo-session-alex, ID: WEB_BROWSER_ADDRESS_AND_SEARCH_FIELD
+The focused UI element is 4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player/live/demo-session-alex
+ACTION Show next demo round
+The following is a diff from the previous accessibility tree for Window: "LC App — Live Casino. Social Experience." with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 33-50
++							101 container Scripted Baccarat table
++								102 text SCRIPTED TABLE PREVIEW · NO WAGERS
++								103 heading Baccarat with Alex Moreau, Value: 2
++									104 text Baccarat with Alex Moreau
++								105 text Example round 2 of 3. Fixed cards demonstrate the room presentation, not a playable casino engine or broadcast.
++								106 text Player side
++								107 text A♥ 6♣
++								108 text Banker side
++								109 text 4♠ 5♦
++								110 button Show next demo round
++							111 heading Room conversation, Value: 2
++								112 text Room conversation
++							113 text Only your local demo messages appear here. There are no connected players.
++							114 toggle button React to this room, Value: off
++							115 container No messages yet. Start the conversation.
++							116 container
++								117 text field (settable) Message the demo room, Placeholder: Write a message
++								118 button Send
+The focused UI element is 4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player/live/demo-session-alex
+ACTION Next scenario
+The following is a diff from the previous accessibility tree for Window: "LC App — Live Casino. Social Experience." with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 7-65
++							101 text LC
++							102 text SESSION PREVIEW
++							103 text Alex Moreau
++							104 button player
++							105 container Illustrative preview mode
++								106 text DEMO EXPERIENCE · PLAYER · LOCAL DATA
++								107 button Switch
++								108 button Reset
++								109 button Roles
++								110 button Guide
++							111 container Investor walkthrough
++								112 container Guided scenarios
++									113 button 1 · Meet your next dealer
++									114 button 2 · Turn discovery into a relationship
++									115 button 3 · See the integration value
++								116 heading Turn discovery into a relationship, Value: 2
++									117 text Turn discovery into a relationship
++								118 text Like a post, leave a comment and follow a dealer. Open their session preview to try the scripted table, room chat and operator-return journey.
++								119 button Meet Sofia
++								120 button Next scenario
++								121 button Skip walkthrough
++							122 image Alex Moreau Live session
++							123 text SESSION PREVIEW Baccarat Premium Baccarat room
++							124 heading Alex Moreau, Value: 1
++								125 text Alex Moreau
++							126 text 10/10/2026, 22:30:00
++							127 container Scripted Baccarat table
++								128 text SCRIPTED TABLE PREVIEW · NO WAGERS
++								129 heading Baccarat with Alex Moreau, Value: 2
++									130 text Baccarat with Alex Moreau
++								131 text Example round 2 of 3. Fixed cards demonstrate the room presentation, not a playable casino engine or broadcast.
++								132 text Player side
++								133 text A♥ 6♣
++								134 text Banker side
++								135 text 4♠ 5♦
++								136 button Show next demo round
++							137 heading Room conversation, Value: 2
++								138 text Room conversation
++							139 text Only your local demo messages appear here. There are no connected players.
++							140 toggle button React to this room, Value: off
++							141 container No messages yet. Start the conversation.
++							142 container
++								143 text field (settable) Message the demo room, Placeholder: Write a message
++								144 button Send
++							145 button PREVIEW HANDOFF
++							146 toggle button FOLLOW CREATOR, Value: off
++							147 text CREATOR CONTEXT Alex Moreau · Baccarat
++							148 text Follow and return context stays in LC.
++							149 text OPERATOR CONTEXT Demo Casino
++							150 text This label is not proof of integration, approval or availability.
++							151 text LC connects the person to the Live moment.
++							152 text The licensed operator remains responsible for gameplay, wallet, KYC/AML, wagering, settlement and responsible-gaming operations.
++							153 button ← Back to Alex Moreau
++							154 container Social app navigation
++								155 button Home
++								156 button Explore
++								157 button Create
++								158 button Activity
++								159 button Profile
+The focused UI element is 4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player/live/demo-session-alex
+ACTION Next scenario
+The following is a diff from the previous accessibility tree for Window: "LC App — Live Casino. Social Experience." with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 7-65
++							101 text LC
++							102 text SESSION PREVIEW
++							103 text Alex Moreau
++							104 button player
++							105 container Illustrative preview mode
++								106 text DEMO EXPERIENCE · PLAYER · LOCAL DATA
++								107 button Switch
++								108 button Reset
++								109 button Roles
++								110 button Guide
++							111 container Investor walkthrough
++								112 container Guided scenarios
++									113 button 1 · Meet your next dealer
++									114 button 2 · Turn discovery into a relationship
++									115 button 3 · See the integration value
++								116 heading See the integration value, Value: 2
++									117 text See the integration value
++								118 text Operators can connect discovery to licensed play and measure return journeys. Providers can give existing tables a creator-led distribution channel. These benefits still require pilot validation.
++								119 button Inspect operator workspace
++								120 button Finish walkthrough
++								121 button Skip walkthrough
++							122 image Alex Moreau Live session
++							123 text SESSION PREVIEW Baccarat Premium Baccarat room
++							124 heading Alex Moreau, Value: 1
++								125 text Alex Moreau
++							126 text 10/10/2026, 22:30:00
++							127 container Scripted Baccarat table
++								128 text SCRIPTED TABLE PREVIEW · NO WAGERS
++								129 heading Baccarat with Alex Moreau, Value: 2
++									130 text Baccarat with Alex Moreau
++								131 text Example round 2 of 3. Fixed cards demonstrate the room presentation, not a playable casino engine or broadcast.
++								132 text Player side
++								133 text A♥ 6♣
++								134 text Banker side
++								135 text 4♠ 5♦
++								136 button Show next demo round
++							137 heading Room conversation, Value: 2
++								138 text Room conversation
++							139 text Only your local demo messages appear here. There are no connected players.
++							140 toggle button React to this room, Value: off
++							141 container No messages yet. Start the conversation.
++							142 container
++								143 text field (settable) Message the demo room, Placeholder: Write a message
++								144 button Send
++							145 button PREVIEW HANDOFF
++							146 toggle button FOLLOW CREATOR, Value: off
++							147 text CREATOR CONTEXT Alex Moreau · Baccarat
++							148 text Follow and return context stays in LC.
++							149 text OPERATOR CONTEXT Demo Casino
++							150 text This label is not proof of integration, approval or availability.
++							151 text LC connects the person to the Live moment.
++							152 text The licensed operator remains responsible for gameplay, wallet, KYC/AML, wagering, settlement and responsible-gaming operations.
++							153 button ← Back to Alex Moreau
++							154 container Social app navigation
++								155 button Home
++								156 button Explore
++								157 button Create
++								158 button Activity
++								159 button Profile
+The focused UI element is 4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player/live/demo-session-alex
+ACTION Inspect operator workspace
+The following is a diff from the previous accessibility tree for Window: "LC App — Live Casino. Social Experience." with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 7-66
+~				4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/operator
+~						6 container LC App business back office
++							101 container LC App business navigation
++								102 text LC Business
++								103 text Operator & provider back office
++								104 container Business workspace
++									105 button Overview
++									106 button Creators
++									107 button Campaigns
++									108 button Live
++									109 button Performance
++									110 button Integrations
++									111 button Safety
++									112 button Settings
++								113 text Operator · Local demo
++								114 text LC manages discovery, creator relationships, configuration and observed attribution. Gameplay, funds, KYC/AML and settlement stay with licensed operator/provider infrastructure.
++							115 text LC
++							116 text Operator Back Office
++							117 text Overview
++							118 button operator
++							119 container Illustrative preview mode
++								120 text DEMO EXPERIENCE · OPERATOR · LOCAL DATA
++								121 button Switch
++								122 button Reset
++								123 button Roles
++								124 button Guide
++							125 container Investor walkthrough
++								126 container Guided scenarios
++									127 button 1 · Meet your next dealer
++									128 button 2 · Turn discovery into a relationship
++									129 button 3 · See the integration value
++								130 heading See the integration value, Value: 2
++									131 text See the integration value
++								132 text Operators can connect discovery to licensed play and measure return journeys. Providers can give existing tables a creator-led distribution channel. These benefits still require pilot validation.
++								133 button Inspect operator workspace
++								134 button Finish walkthrough
++								135 button Skip walkthrough
++							136 text OPERATOR OPERATIONS
++							137 heading Creator acquisition operations, Value: 1
++								138 text Creator acquisition operations
++							139 text Prepare creator, campaign and Live handoff context for a licensed operator environment.
++							140 text WORKSPACE ACCESS NOT_REQUESTED
++							141 container Workspace evidence scope
++								142 container
++									143 text CREATOR SCOPE Illustrative demo records Discovery records do not imply commercial approval.
++								144 container
++									145 text HANDOFF STATE No live connection No production operator destination is configured.
++								146 container
++									147 text OUTCOME To be validated CAC, retention, GGR and ROI require observed evidence.
++							148 text NEXT ACTIONS
++							149 heading Handoff readiness, Value: 2
++								150 text Handoff readiness
++							151 text Illustrative demo records
++							152 container
++								153 text 01 Review creator readiness Use only verified, published creator records. REVIEW REQUIRED
++							154 container
++								155 text 02 Define campaign source Attach campaign context before measuring handoffs. NOT CONFIGURED
++							156 container
++								157 text 03 Validate handoff route Licensed operator destination and return contract are required. NO CONNECTION
++							158 text LC RESPONSIBILITY Discovery · creator identity · social signals · handoff intent · attributable return LICENSED INFRASTRUCTURE Gameplay · wallet · KYC/AML · wagering · settlement · responsible gaming
++					159 text Business back office: Creator acquisition operations
+~			80 text field (settable) Description: smart search field in a private window, Value: localhost:4187/?app=1&demo=investor#/product/demo/operator, ID: WEB_BROWSER_ADDRESS_AND_SEARCH_FIELD
+The focused UI element is 4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/operator
+ACTION Finish walkthrough
+The following is a diff from the previous accessibility tree for Window: "LC App — Live Casino. Social Experience." with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 7-64
++							100 container LC App business navigation
++								101 text LC Business
++								102 text Operator & provider back office
++								103 container Business workspace
++									104 button Overview
++									105 button Creators
++									106 button Campaigns
++									107 button Live
++									108 button Performance
++									109 button Integrations
++									110 button Safety
++									111 button Settings
++								112 text Operator · Local demo
++								113 text LC manages discovery, creator relationships, configuration and observed attribution. Gameplay, funds, KYC/AML and settlement stay with licensed operator/provider infrastructure.
++							114 text LC
++							115 text Operator Back Office
++							116 text Overview
++							117 button operator
++							118 container Illustrative preview mode
++								119 text DEMO EXPERIENCE · OPERATOR · LOCAL DATA
++								120 button Switch
++								121 button Reset
++								122 button Roles
++								123 button Guide
++							124 text OPERATOR OPERATIONS
++							125 heading Creator acquisition operations, Value: 1
++								126 text Creator acquisition operations
++							127 text Prepare creator, campaign and Live handoff context for a licensed operator environment.
++							128 text WORKSPACE ACCESS NOT_REQUESTED
++							129 container Workspace evidence scope
++								130 container
++									131 text CREATOR SCOPE Illustrative demo records Discovery records do not imply commercial approval.
++								132 container
++									133 text HANDOFF STATE No live connection No production operator destination is configured.
++								134 container
++									135 text OUTCOME To be validated CAC, retention, GGR and ROI require observed evidence.
++							136 text NEXT ACTIONS
++							137 heading Handoff readiness, Value: 2
++								138 text Handoff readiness
++							139 text Illustrative demo records
++							140 container
++								141 text 01 Review creator readiness Use only verified, published creator records. REVIEW REQUIRED
++							142 container
++								143 text 02 Define campaign source Attach campaign context before measuring handoffs. NOT CONFIGURED
++							144 container
++								145 text 03 Validate handoff route Licensed operator destination and return contract are required. NO CONNECTION
++							146 text LC RESPONSIBILITY Discovery · creator identity · social signals · handoff intent · attributable return LICENSED INFRASTRUCTURE Gameplay · wallet · KYC/AML · wagering · settlement · responsible gaming
+The focused UI element is 4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/operator
+ACTION Guide
+The following is a diff from the previous accessibility tree for Window: "LC App — Live Casino. Social Experience." with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 7-54
+~				4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player
+~						6 container LC App social experience
++							89 text LC
++							90 text Home
++							91 text 1 new signal
++							92 button player
++							93 container Illustrative preview mode
++								94 text DEMO EXPERIENCE · PLAYER · LOCAL DATA
++								95 button Switch
++								96 button Reset
++								97 button Roles
++								98 button Guide
++							99 container Investor walkthrough
++								100 container Guided scenarios
++									101 button 1 · Meet your next dealer
++									102 button 2 · Turn discovery into a relationship
++									103 button 3 · See the integration value
++								104 heading Meet your next dealer, Value: 2
++									105 text Meet your next dealer
++								106 text LC App is a social layer for Live Casino. Meet Blackjack and Baccarat dealers, follow them and return to their tables.
++								107 button Explore the lobby
++								108 button Next scenario
++								109 button Skip walkthrough
++							110 container LC core loop
++								111 text Discover Creator Follow Live Return
++							112 container Creators in demo live sessions
++								113 button + Explore
++								114 button SESSION PREVIEW Sofia
++								115 button SESSION PREVIEW Mia
++								116 button SESSION PREVIEW Lilit
++								117 button SESSION PREVIEW Alex
++								118 button SESSION PREVIEW Marcus
++							119 button For you
++							120 button Following
++							121 container Creator feed
++								122 container
++									123 button Open Sofia Laurent's profile
++									124 button Sofia Laurent Featured Blackjack creator · Illustrative profile
++									125 toggle button Following, Value: on
++									126 button Open upcoming session with Sofia Laurent
++									127 toggle button Like post, Value: off
++									128 button Open creator profile
++									129 button OPEN SESSION PREVIEW
++									130 text Sofia Laurent An example Blackjack session with Sofia. Follow her profile and save a reason to return. 10/10/2026, 21:45:00 Comment on Sofia Laurent's post
++									131 text field (settable) Comment on Sofia Laurent's post, Placeholder: Add a comment…
++									132 button Post
++								133 container
++									134 button Open Alex Moreau's profile
++									135 button Alex Moreau Baccarat creator for premium sessions · Illustrative profile
++									136 toggle button Follow, Value: off
++									137 button Open upcoming session with Alex Moreau
++									138 toggle button Like post, Value: off
++									139 button Open creator profile
++									140 button OPEN SESSION PREVIEW
++									141 text Alex Moreau Example Baccarat session with Alex. Save the preview and try the local table room. 10/10/2026, 21:15:00 Comment on Alex Moreau's post
++									142 text field (settable) Comment on Alex Moreau's post, Placeholder: Add a comment…
++									143 button Post
++								144 container
++									145 button Open Mia Novak's profile
++									146 button Mia Novak Roulette table personality · Illustrative profile
++									147 toggle button Follow, Value: off
++									148 button Open upcoming session with Mia Novak
++									149 toggle button Like post, Value: off
++									150 button Open creator profile
++									151 button OPEN SESSION PREVIEW
++									152 text Mia Novak Example update: a quieter Roulette and Baccarat session preview. Follow Mia to explore the return journey. 10/10/2026, 21:00:00 Comment on Mia Novak's post
++									153 text field (settable) Comment on Mia Novak's post, Placeholder: Add a comment…
++									154 button Post
++								155 container
++									156 button Open Marcus Reed's profile
++									157 button Marcus Reed Game Show host · Illustrative profile
++									158 toggle button Follow, Value: off
++									159 button Open upcoming session with Marcus Reed
++									160 toggle button Like post, Value: off
++									161 button Open creator profile
++									162 button OPEN SESSION PREVIEW
++									163 text Marcus Reed Example Game Show update. Explore how a creator can bring followers back. 10/10/2026, 20:30:00 Comment on Marcus Reed's post
++									164 text field (settable) Comment on Marcus Reed's post, Placeholder: Add a comment…
++									165 button Post
++								166 container
++									167 button Open Lilit Aram's profile
++									168 button Lilit Aram Blackjack and poker table explainer · Illustrative profile
++									169 toggle button Follow, Value: off
++									170 button Open upcoming session with Lilit Aram
++									171 toggle button Like post, Value: off
++									172 button Open creator profile
++									173 button OPEN SESSION PREVIEW
++									174 text Lilit Aram Example Blackjack note. Meet Lilit and explore a scheduled preview. 10/10/2026, 20:00:00 Comment on Lilit Aram's post
++									175 text field (settable) Comment on Lilit Aram's post, Placeholder: Add a comment…
++									176 button Post
++							177 text LC connects you to people, not funds. Gameplay and all regulated casino operations stay with the licensed operator.
++							178 container Social app navigation
++								179 button Home
++								180 button Explore
++								181 button Create
++								182 button Activity
++								183 button Profile
++					184 text Social app: Meet your next dealer
+~			68 text field (settable) Description: smart search field in a private window, Value: localhost:4187/?app=1&demo=investor#/product/demo/player, ID: WEB_BROWSER_ADDRESS_AND_SEARCH_FIELD
+The focused UI element is 4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player
+ACTION Skip walkthrough
+The following is a diff from the previous accessibility tree for Window: "LC App — Live Casino. Social Experience." with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 7-102
++							137 text LC
++							138 text Home
++							139 text 1 new signal
++							140 button player
++							141 container Illustrative preview mode
++								142 text DEMO EXPERIENCE · PLAYER · LOCAL DATA
++								143 button Switch
++								144 button Reset
++								145 button Roles
++								146 button Guide
++							147 container LC core loop
++								148 text Discover Creator Follow Live Return
++							149 container Creators in demo live sessions
++								150 button + Explore
++								151 button SESSION PREVIEW Sofia
++								152 button SESSION PREVIEW Mia
++								153 button SESSION PREVIEW Lilit
++								154 button SESSION PREVIEW Alex
++								155 button SESSION PREVIEW Marcus
++							156 button For you
++							157 button Following
++							158 container Creator feed
++								159 container
++									160 button Open Sofia Laurent's profile
++									161 button Sofia Laurent Featured Blackjack creator · Illustrative profile
++									162 toggle button Following, Value: on
++									163 button Open upcoming session with Sofia Laurent
++									164 toggle button Like post, Value: off
++									165 button Open creator profile
++									166 button OPEN SESSION PREVIEW
++									167 text Sofia Laurent An example Blackjack session with Sofia. Follow her profile and save a reason to return. 10/10/2026, 21:45:00 Comment on Sofia Laurent's post
++									168 text field (settable) Comment on Sofia Laurent's post, Placeholder: Add a comment…
++									169 button Post
++								170 container
++									171 button Open Alex Moreau's profile
++									172 button Alex Moreau Baccarat creator for premium sessions · Illustrative profile
++									173 toggle button Follow, Value: off
++									174 button Open upcoming session with Alex Moreau
++									175 toggle button Like post, Value: off
++									176 button Open creator profile
++									177 button OPEN SESSION PREVIEW
++									178 text Alex Moreau Example Baccarat session with Alex. Save the preview and try the local table room. 10/10/2026, 21:15:00 Comment on Alex Moreau's post
++									179 text field (settable) Comment on Alex Moreau's post, Placeholder: Add a comment…
++									180 button Post
++								181 container
++									182 button Open Mia Novak's profile
++									183 button Mia Novak Roulette table personality · Illustrative profile
++									184 toggle button Follow, Value: off
++									185 button Open upcoming session with Mia Novak
++									186 toggle button Like post, Value: off
++									187 button Open creator profile
++									188 button OPEN SESSION PREVIEW
++									189 text Mia Novak Example update: a quieter Roulette and Baccarat session preview. Follow Mia to explore the return journey. 10/10/2026, 21:00:00 Comment on Mia Novak's post
++									190 text field (settable) Comment on Mia Novak's post, Placeholder: Add a comment…
++									191 button Post
++								192 container
++									193 button Open Marcus Reed's profile
++									194 button Marcus Reed Game Show host · Illustrative profile
++									195 toggle button Follow, Value: off
++									196 button Open upcoming session with Marcus Reed
++									197 toggle button Like post, Value: off
++									198 button Open creator profile
++									199 button OPEN SESSION PREVIEW
++									200 text Marcus Reed Example Game Show update. Explore how a creator can bring followers back. 10/10/2026, 20:30:00 Comment on Marcus Reed's post
++									201 text field (settable) Comment on Marcus Reed's post, Placeholder: Add a comment…
++									202 button Post
++								203 container
++									204 button Open Lilit Aram's profile
++									205 button Lilit Aram Blackjack and poker table explainer · Illustrative profile
++									206 toggle button Follow, Value: off
++									207 button Open upcoming session with Lilit Aram
++									208 toggle button Like post, Value: off
++									209 button Open creator profile
++									210 button OPEN SESSION PREVIEW
++									211 text Lilit Aram Example Blackjack note. Meet Lilit and explore a scheduled preview. 10/10/2026, 20:00:00 Comment on Lilit Aram's post
++									212 text field (settable) Comment on Lilit Aram's post, Placeholder: Add a comment…
++									213 button Post
++							214 text LC connects you to people, not funds. Gameplay and all regulated casino operations stay with the licensed operator.
++							215 container Social app navigation
++								216 button Home
++								217 button Explore
++								218 button Create
++								219 button Activity
++								220 button Profile
++					221 text Social app: Home
+The focused UI element is 4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player
+ACTION Reset
+The following is a diff from the previous accessibility tree for Window: "LC App — Live Casino. Social Experience." with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 7-90
++						126 text Demo reset
++							127 text LC
++							128 text Home
++							129 text 1 new signal
++							130 button player
++							131 container Illustrative preview mode
++								132 text DEMO EXPERIENCE · PLAYER · LOCAL DATA
++								133 button Switch
++								134 button Reset
++								135 button Roles
++								136 button Guide
++							137 container LC core loop
++								138 text Discover Creator Follow Live Return
++							139 container Creators in demo live sessions
++								140 button + Explore
++								141 button SESSION PREVIEW Sofia
++								142 button SESSION PREVIEW Mia
++								143 button SESSION PREVIEW Lilit
++								144 button SESSION PREVIEW Alex
++								145 button SESSION PREVIEW Marcus
++							146 button For you
++							147 button Following
++							148 container Creator feed
++								149 container
++									150 button Open Sofia Laurent's profile
++									151 button Sofia Laurent Featured Blackjack creator · Illustrative profile
++									152 toggle button Following, Value: on
++									153 button Open upcoming session with Sofia Laurent
++									154 toggle button Like post, Value: off
++									155 button Open creator profile
++									156 button OPEN SESSION PREVIEW
++									157 text Sofia Laurent An example Blackjack session with Sofia. Follow her profile and save a reason to return. 10/10/2026, 21:45:00 Comment on Sofia Laurent's post
++									158 text field (settable) Comment on Sofia Laurent's post, Placeholder: Add a comment…
++									159 button Post
++								160 container
++									161 button Open Alex Moreau's profile
++									162 button Alex Moreau Baccarat creator for premium sessions · Illustrative profile
++									163 toggle button Follow, Value: off
++									164 button Open upcoming session with Alex Moreau
++									165 toggle button Like post, Value: off
++									166 button Open creator profile
++									167 button OPEN SESSION PREVIEW
++									168 text Alex Moreau Example Baccarat session with Alex. Save the preview and try the local table room. 10/10/2026, 21:15:00 Comment on Alex Moreau's post
++									169 text field (settable) Comment on Alex Moreau's post, Placeholder: Add a comment…
++									170 button Post
++								171 container
++									172 button Open Mia Novak's profile
++									173 button Mia Novak Roulette table personality · Illustrative profile
++									174 toggle button Follow, Value: off
++									175 button Open upcoming session with Mia Novak
++									176 toggle button Like post, Value: off
++									177 button Open creator profile
++									178 button OPEN SESSION PREVIEW
++									179 text Mia Novak Example update: a quieter Roulette and Baccarat session preview. Follow Mia to explore the return journey. 10/10/2026, 21:00:00 Comment on Mia Novak's post
++									180 text field (settable) Comment on Mia Novak's post, Placeholder: Add a comment…
++									181 button Post
++								182 container
++									183 button Open Marcus Reed's profile
++									184 button Marcus Reed Game Show host · Illustrative profile
++									185 toggle button Follow, Value: off
++									186 button Open upcoming session with Marcus Reed
++									187 toggle button Like post, Value: off
++									188 button Open creator profile
++									189 button OPEN SESSION PREVIEW
++									190 text Marcus Reed Example Game Show update. Explore how a creator can bring followers back. 10/10/2026, 20:30:00 Comment on Marcus Reed's post
++									191 text field (settable) Comment on Marcus Reed's post, Placeholder: Add a comment…
++									192 button Post
++								193 container
++									194 button Open Lilit Aram's profile
++									195 button Lilit Aram Blackjack and poker table explainer · Illustrative profile
++									196 toggle button Follow, Value: off
++									197 button Open upcoming session with Lilit Aram
++									198 toggle button Like post, Value: off
++									199 button Open creator profile
++									200 button OPEN SESSION PREVIEW
++									201 text Lilit Aram Example Blackjack note. Meet Lilit and explore a scheduled preview. 10/10/2026, 20:00:00 Comment on Lilit Aram's post
++									202 text field (settable) Comment on Lilit Aram's post, Placeholder: Add a comment…
++									203 button Post
++							204 text LC connects you to people, not funds. Gameplay and all regulated casino operations stay with the licensed operator.
++							205 container Social app navigation
++								206 button Home
++								207 button Explore
++								208 button Create
++								209 button Activity
++								210 button Profile
+The focused UI element is 4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player
+ACTION Explore the lobby
+The following is a diff from the previous accessibility tree for Window: "LC App — Live Casino. Social Experience." with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 64, 69-164
++						199 text Auto — Page
++							200 text LC
++							201 text Explore
++							202 text Find the person behind the table.
++							203 button player
++							204 container Illustrative preview mode
++								205 text DEMO EXPERIENCE · PLAYER · LOCAL DATA
++								206 button Switch
++								207 button Reset
++								208 button Roles
++								209 button Guide
++							210 container Investor walkthrough
++								211 container Guided scenarios
++									212 button 1 · Meet your next dealer
++									213 button 2 · Turn discovery into a relationship
++									214 button 3 · See the integration value
++								215 heading Meet your next dealer, Value: 2
++									216 text Meet your next dealer
++								217 text LC App is a social layer for Live Casino. Meet Blackjack and Baccarat dealers, follow them and return to their tables.
++								218 button Explore the lobby
++								219 button Next scenario
++								220 button Skip walkthrough
++							221 container Live Casino lobby
++								222 button Blackjack Discover dealers · scripted table preview
++								223 button Baccarat Discover dealers · scripted table preview
++							224 text DISCOVER PEOPLE
++							225 heading Find your next Live table through a Creator., Value: 1
++								226 text Find your next Live table through a Creator.
++							227 text Explore illustrative creators and preview the path to participating licensed operators.
++							228 text 0 Connected broadcasts (demo has none)
++							229 container
++								230 search text field (settable) Search creators, games or languages
++								231 button SEARCH
++							232 container Explore filters
++								233 button For you
++								234 button Live
++								235 button Following
++								236 button Soon
++							237 text Based on your selected games, languages and follows
++							238 text FOR YOU
++							239 heading Creators matched to your social signals., Value: 2
++								240 text Creators matched to your social signals.
++							241 text 5
++							242 container
++								243 button Sofia Laurent creator profile SESSION PREVIEW
++								244 button Sofia Laurent Featured Blackjack creator · Illustrative profile
++								245 toggle button Following, Value: on
++								246 container Why this creator
++									247 text SESSION PREVIEW Following Matches Blackjack
++							248 container
++								249 button Mia Novak creator profile SESSION PREVIEW
++								250 button Mia Novak Roulette table personality · Illustrative profile
++								251 toggle button Follow, Value: off
++								252 container Why this creator
++									253 text SESSION PREVIEW Reminder set Matches Roulette
++							254 container
++								255 button Lilit Aram creator profile SESSION PREVIEW
++								256 button Lilit Aram Blackjack and poker table explainer · Illustrative profile
++								257 toggle button Follow, Value: off
++								258 container Why this creator
++									259 text SESSION PREVIEW Matches Blackjack English
++							260 container
++								261 button Alex Moreau creator profile SESSION PREVIEW
++								262 button Alex Moreau Baccarat creator for premium sessions · Illustrative profile
++								263 toggle button Follow, Value: off
++								264 container Why this creator
++									265 text SESSION PREVIEW English Starting soon
++							266 container
++								267 button Marcus Reed creator profile SESSION PREVIEW
++								268 button Marcus Reed Game Show host · Illustrative profile
++								269 toggle button Follow, Value: off
++								270 container Why this creator
++									271 text SESSION PREVIEW English Starting soon
++							272 text UP NEXT
++							273 heading Save a reason to return., Value: 2
++								274 text Save a reason to return.
++							275 text 5
++							276 container
++								277 button Sofia Laurent Evening Blackjack table
++								278 text SESSION PREVIEW · 10/10/2026, 23:00:00
++								279 button Remind me
++							280 container
++								281 button Mia Novak Roulette community hour
++								282 text SESSION PREVIEW · 11/10/2026, 00:00:00
++								283 button Saved
++							284 container
++								285 button Lilit Aram Blackjack strategy table
++								286 text SESSION PREVIEW · 11/10/2026, 02:00:00
++								287 button Remind me
++							288 container
++								289 button Alex Moreau Premium Baccarat room
++								290 text SESSION PREVIEW · 10/10/2026, 22:30:00
++								291 button Remind me
++							292 container
++								293 button Marcus Reed Game Show warm-up
++								294 text SESSION PREVIEW · 11/10/2026, 01:00:00
++								295 button Remind me
++							296 text RECENT CONTENT
++							297 heading Meet Creators before they go Live., Value: 2
++								298 text Meet Creators before they go Live.
++							299 button Sofia Laurent An example Blackjack session with Sofia. Follow her profile and save a reason to return.
++							300 button Mia Novak Example update: a quieter Roulette and Baccarat session preview. Follow Mia to explore the return journey.
++							301 button Lilit Aram Example Blackjack note. Meet Lilit and explore a scheduled preview.
++							302 button Alex Moreau Example Baccarat session with Alex. Save the preview and try the local table room.
++							303 button Marcus Reed Example Game Show update. Explore how a creator can bring followers back.
++							304 text Discovery stays inside LC. Gameplay does not. Any Play action continues through an eligible licensed operator destination; LC does not handle funds, KYC or wagering.
++							305 container Social app navigation
++								306 button Home
++								307 button Explore
++								308 button Create
++								309 button Activity
++								310 button Profile
++					311 text Social app: Find your next Live table through a Creator.
+The focused UI element is 225 heading Find your next Live table through a Creator., Value: 1
+ACTION Sofia Laurent creator profile SESSION PREVIEW
+The following is a diff from the previous accessibility tree for Window: "LC App — Live Casino. Social Experience." with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 64, 69-180
++						215 text Auto — Page
+~				66 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player/creator/demo-sofia
++							216 text LC
++							217 text Sofia Laurent
++							218 text Creator profile
++							219 button player
++							220 container Illustrative preview mode
++								221 text DEMO EXPERIENCE · PLAYER · LOCAL DATA
++								222 button Switch
++								223 button Reset
++								224 button Roles
++								225 button Guide
++							226 container Investor walkthrough
++								227 container Guided scenarios
++									228 button 1 · Meet your next dealer
++									229 button 2 · Turn discovery into a relationship
++									230 button 3 · See the integration value
++								231 heading Meet your next dealer, Value: 2
++									232 text Meet your next dealer
++								233 text LC App is a social layer for Live Casino. Meet Blackjack and Baccarat dealers, follow them and return to their tables.
++								234 button Explore the lobby
++								235 button Next scenario
++								236 button Skip walkthrough
++							237 image Sofia Laurent at a Live Casino table
++							238 text SESSION PREVIEW @sofia_live · ILLUSTRATIVE PROFILE
++							239 heading Sofia Laurent, Value: 1
++								240 text Sofia Laurent
++							241 text Featured Blackjack creator
++							242 toggle button FOLLOWING, Value: on
++							243 button Mute Live alerts
++							244 button VIEW SESSION PREVIEW
++							245 container Creator profile activity
++								246 container
++									247 text 1 UPDATES
++								248 container
++									249 text 1 UPCOMING
++								250 container
++									251 text 2 GAMES
++							252 text ABOUT
++							253 heading Blackjack dealer building a followable Live Casino audience., Value: 2
++								254 text Blackjack dealer building a followable Live Casino audience.
++							255 text Blackjack · Baccarat English · French Malta Demo Casino · unverified SESSION PREVIEW
++							256 heading Evening Blackjack table, Value: 2
++								257 text Evening Blackjack table
++							258 text Blackjack · SESSION PREVIEW · 10/10/2026, 23:00:00
++							259 text Demo Casino · operator context is not an LC approval
++							260 button REMIND ME
++							261 text CONTENT
++							262 heading Recent updates, Value: 2
++								263 text Recent updates
++							264 text 1
++							265 container
++								266 text 10/10/2026, 21:45:00 An example Blackjack session with Sofia. Follow her profile and save a reason to return.
++								267 toggle button Like post, Value: off
++								268 text Comment on this update
++								269 text field (settable) Comment on this update
++								270 button Post comment
++							271 container Creator safety actions
++								272 text Keep your experience safe
++								273 button Report
++								274 button Block
++							275 container Social app navigation
++								276 button Home
++								277 button Explore
++								278 button Create
++								279 button Activity
++								280 button Profile
++					281 text Social app: Sofia Laurent
+~			194 text field (settable) Description: smart search field in a private window, Value: localhost:4187/?app=1&demo=investor#/product/demo/player/creator/demo-sofia, ID: WEB_BROWSER_ADDRESS_AND_SEARCH_FIELD
+The focused UI element is 239 heading Sofia Laurent, Value: 1
+ACTION VIEW SESSION PREVIEW
+The following is a diff from the previous accessibility tree for Window: "LC App — Live Casino. Social Experience." with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 64, 69-133
++						169 text Auto — Page
+~				66 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player/live/demo-session-sofia
++							170 text LC
++							171 text SESSION PREVIEW
++							172 text Sofia Laurent
++							173 button player
++							174 container Illustrative preview mode
++								175 text DEMO EXPERIENCE · PLAYER · LOCAL DATA
++								176 button Switch
++								177 button Reset
++								178 button Roles
++								179 button Guide
++							180 container Investor walkthrough
++								181 container Guided scenarios
++									182 button 1 · Meet your next dealer
++									183 button 2 · Turn discovery into a relationship
++									184 button 3 · See the integration value
++								185 heading Meet your next dealer, Value: 2
++									186 text Meet your next dealer
++								187 text LC App is a social layer for Live Casino. Meet Blackjack and Baccarat dealers, follow them and return to their tables.
++								188 button Explore the lobby
++								189 button Next scenario
++								190 button Skip walkthrough
++							191 image Sofia Laurent Live session
++							192 text SESSION PREVIEW Blackjack Evening Blackjack table
++							193 heading Sofia Laurent, Value: 1
++								194 text Sofia Laurent
++							195 text 10/10/2026, 23:00:00
++							196 container Scripted Blackjack table
++								197 text SCRIPTED TABLE PREVIEW · NO WAGERS
++								198 heading Blackjack with Sofia Laurent, Value: 2
++									199 text Blackjack with Sofia Laurent
++								200 text Example round 1 of 3. Fixed cards demonstrate the room presentation, not a playable casino engine or broadcast.
++								201 text Player hand
++								202 text A♠ K♦
++								203 text Dealer hand
++								204 text 10♣ 7♥
++								205 button Show next demo round
++							206 heading Room conversation, Value: 2
++								207 text Room conversation
++							208 text Only your local demo messages appear here. There are no connected players.
++							209 toggle button React to this room, Value: off
++							210 container No messages yet. Start the conversation.
++							211 container
++								212 text field (settable) Message the demo room, Placeholder: Write a message
++								213 button Send
++							214 button PREVIEW HANDOFF
++							215 toggle button FOLLOWING, Value: on
++							216 text CREATOR CONTEXT Sofia Laurent · Blackjack
++							217 text Follow and return context stays in LC.
++							218 text OPERATOR CONTEXT Demo Casino
++							219 text This label is not proof of integration, approval or availability.
++							220 text LC connects the person to the Live moment.
++							221 text The licensed operator remains responsible for gameplay, wallet, KYC/AML, wagering, settlement and responsible-gaming operations.
++							222 button ← Back to Sofia Laurent
++							223 container Social app navigation
++								224 button Home
++								225 button Explore
++								226 button Create
++								227 button Activity
++								228 button Profile
+~			148 text field (settable) Description: smart search field in a private window, Value: localhost:4187/?app=1&demo=investor#/product/demo/player/live/demo-session-sofia, ID: WEB_BROWSER_ADDRESS_AND_SEARCH_FIELD
+The focused UI element is 193 heading Sofia Laurent, Value: 1

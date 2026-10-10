@@ -1,10 +1,42 @@
 # LC App investor demo readiness
 
-Project: LC App | Version: v0.11 | Status: Local investor demo ready; hosted release NOT ready
+Project: LC App | Version: v0.12 | Status: Local investor demo ready; hosted release NOT ready
 Updated: 2026-10-10 | Owner: Narek / product engineering | Audience: investor-demo reviewer and release engineer
 Sources: `LC_App_GitHub_Pages_Upload/index.html`, mirrored `app-product.js` / `auth.js` / `sw.js`, actual Codex in-app browser screenshots and QA JSON in `evidence/investor-demo-2026-10-10/`, fresh Node tests, `STAGING_READINESS_REPORT.md`.
 Assumptions: All people, content, session schedules and business records are illustrative. Operator/provider value is a hypothesis requiring pilot validation. No real broadcast, customer or partner is represented.
-Open questions: Clean Safari console, physical iPhone, full VoiceOver/reduced-motion QA, approved isolated hosting target and sanitised build; separate hosted release blockers remain unchanged.
+Open questions: Exact Safari error/request attribution, physical iPhone, full VoiceOver and accessibility QA, approved isolated hosting target and sanitised build; separate hosted release blockers remain unchanged.
+
+## Safari error investigation and accessibility closure — 2026-10-10
+
+**Investor device readiness: NO.** Native macOS Safari 26.6.2 was used; this section supersedes the earlier device checkpoint below. Evidence directory: `evidence/safari-accessibility-closure-2026-10-10/`. Final runtime verified in Safari: app v124, shell v20, cache v134. No hosted changes, environment changes, deployment or push.
+
+### Resource-permission errors
+
+Both exact messages: **Failed to load resource: You do not have permission to access the requested resource.** Initial private-window reproduction: error 1 and error 2 at **16:40:44.394**; final reload: error 1 **17:02:49.744**, error 2 **17:02:49.745** (2026-10-10, Asia/Yerevan UTC+4). See `private-console.png` and `final-runtime.txt`. Each message lacks an exposed resource URL/stack; a one-to-one assignment remains unresolved.
+
+The same pair appears on `http://localhost:4187/product-shell-v2.css`, which runs no LC application JavaScript, at **16:44:47.527** (`static-control-console.png`, `static-control-console.txt`). Reopening Web Inspector without an application reload adds another pair (16:44:04.540, 16:51:03.630, 16:56:52.400). An about:blank control showed zero errors (`blank-console.png`). Private Browsing supplies fresh storage but DeepL remains active: this was **not an extension-free Safari profile**.
+
+Native Sources inspection exposed extension scripts `content_ui.js` and `content.js`, each declaring a matching source map. Candidate resources are `safari-web-extension://F8B6E1FB-3F8B-439C-A901-A50A4DC7A902/content_ui.js.map` and `safari-web-extension://F8B6E1FB-3F8B-439C-A901-A50A4DC7A902/content.js.map`; candidate initiator is Safari Web Inspector's source-map loader. This is an **evidence-based hypothesis, not confirmed per-error URL attribution**. `extension-source-map.png` captures a source-map directive. The injected `assets/nord.min.css` was loaded from cache, initiated by `content.js:1:15644`; it is not a confirmed failed resource (`private-network.txt`).
+
+The static control rules out LC JavaScript as a necessary cause. No broken loaded application images or blocked investor scenario was observed; final DOM audit lists no broken images. No application correction or error suppression was applied for these messages. Safe next diagnostic/workaround: repeat in a genuinely extension-free Safari profile; if the pair disappears, isolate the extension/source-map permission failure. No extension or browser security protection was disabled in this session. Console gate remains BLOCKED until exact request/initiator attribution or a clean-profile result is captured.
+
+### Accessibility and functional checks
+
+| Area | Result and precise scope |
+|---|---|
+| Keyboard/focus | PARTIAL overall. Complete Home traversal recorded 63 app controls in reading order; selected lobby, dealer, comment and room keyboard interactions passed. Fixed lost focus after Like/follow/chat/round re-render, guide heading stealing route focus, and same-title dealer-to-room hash navigation. Full page-by-page traversal/escape behavior still requires acceptance. |
+| Names/state | Native AX verified follow, profile Like, room reaction and For you/Following toggle states; existing labelled comment/chat inputs. No claim that every app surface was audited. |
+| Comment errors | Whitespace-only comment now opens native validation with “Enter a message within the displayed length limit.”; editing clears validity and a valid local comment succeeds. Focus remains on Post comment after submission. Evidence: `comment-error.png`, journey and focus records. |
+| Reduced motion | PASS for sampled runtime controls. macOS Reduce motion was enabled temporarily; native Safari reported matchMedia=true and computed animation/transition durations 0.00001s. `reduced-motion-runtime.txt` contains actual result. Original preference restored off. Not an exhaustive animation inventory. |
+| Contrast | Confirmed 12px inactive Following text was about 4.1:1 on the app background; changed to #b6cfc7 and verified computed rgb(182,207,199). Full contrast audit, particularly image overlays, remains PARTIAL. |
+| Text scaling | Native Make Text Bigger used five increments and then restored with five decrements. Desktop sample inspected (`text-scaling-five-steps.png`); exact scale percentage and all-page/mobile reflow not measured. |
+| Walkthrough/modal | Three scenarios, skip, Guide restart, operator workspace and reset exercised in native Safari. Guide is an inline section, not a modal. Native validation popover tested; other modal/sheet focus traps not comprehensively verified. |
+| VoiceOver | BLOCKED for completed walkthrough. Available and temporarily enabled; VoiceOver process access timed out and speech/cursor output could not be verified through automation. AX inspection is not a VoiceOver substitute. Original VoiceOver off state restored. Manual speech/rotor walkthrough required. |
+| Physical iPhone | BLOCKED. Safari Inspect Apps and Devices showed only This Computer; no connected inspectable iPhone. `native-devices.png`. No physical or native iOS acceptance claimed. |
+
+Native Safari journey exercised entry, lobby, Blackjack and Baccarat dealer/room previews, follow/unfollow, likes/comments/chat, next scripted rounds, all guided scenarios, operator value, Home, skip/restart and reset (`journey.txt`). Final v124/v20 recheck confirms feed filter states, corrected colour, lobby/dealer/room heading focus and zero broken images. Previous nominal 320/390/768/1440 Safari RDM screenshots remain historical c406601 evidence; no new physical-device coverage claimed. No observed JavaScript exception; exhaustive unhandled-exception instrumentation was not available.
+
+Regression: **127/127 existing Node tests PASS**, including three behavioral VM regressions for page-heading focus, interaction focus/scroll restoration, and same-title detail navigation. Syntax, mirrored runtime parity and diff checks are recorded at handoff. Full accessibility and device gate remain open. Hosted baseline PASS and unresolved 052–054 provenance, hosted Auth/RLS/Storage E2E, integrations, backup/recovery and hosted browser testing remain unchanged.
 
 ## Native Safari and device acceptance — 2026-10-10
 

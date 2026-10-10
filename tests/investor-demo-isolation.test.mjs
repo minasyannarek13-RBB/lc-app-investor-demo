@@ -104,3 +104,49 @@ test('investor primary navigation clears detail URL without remounting demo data
   assert.equal(state.selectedCreator,null);
   assert.equal(state.selectedSession,null);
 });
+
+
+test('investor navigation focuses the page heading before the persistent guide heading', async () => {
+  const start = app.indexOf('  async function navigateProduct(');
+  const code = app.slice(start, app.indexOf('  async function handleClick(', start));
+  const calls = [];
+  const page = {setAttribute:()=>{},focus:()=>calls.push('page')};
+  await vm.runInNewContext(`${code}\nnavigateProduct('home')`, {
+    state:{demo:true,demoPersona:'player'}, investorMode:true,
+    q: selector => selector === '#lcProductShell h1' ? page : {setAttribute:()=>{},focus:()=>calls.push('guide')},
+    renderPlayerHome:()=>{}, window:{location:{hash:'#/product/demo/player'},requestAnimationFrame:fn=>fn()}
+  });
+  assert.deepEqual(calls,['page']);
+});
+
+
+test('investor rerender restores the same reaction control and scroll position', () => {
+  const start = app.indexOf('  function retainInvestorFocus(');
+  const code = app.slice(start, app.indexOf('  function shell(',start));
+  const attributes = [{name:'data-lc-like',value:'post-one'},{name:'type',value:'button'}];
+  const active = {tagName:'BUTTON',textContent:'Like',attributes,matches:()=>true,closest:()=>null};
+  const calls=[];
+  const replacement = {tagName:'BUTTON',textContent:'Liked',getAttribute:name=>attributes.find(a=>a.name===name)?.value,focus:()=>calls.push('focus')};
+  const root={scrollTop:360,contains:()=>true,querySelectorAll:()=>[replacement]};
+  let deferred;
+  vm.runInNewContext(`${code}\nretainInvestorFocus(root)`,{root,investorMode:true,state:{demo:true},document:{activeElement:active},window:{requestAnimationFrame:fn=>deferred=fn}});
+  root.scrollTop=0; deferred();
+  assert.equal(root.scrollTop,360);
+  assert.deepEqual(calls,['focus']);
+});
+
+
+test('hash navigation restores heading focus even when dealer and room share a title', () => {
+  const shell = readFileSync(new URL('../LC_App_GitHub_Pages_Upload/product-shell-v2.js', import.meta.url), 'utf8');
+  const start = shell.indexOf('  let lastRouteAnnouncement');
+  const code = shell.slice(start, shell.indexOf('  function improveSemantics(', start));
+  const calls=[];
+  const heading={textContent:'Example dealer',setAttribute:()=>{},focus:()=>calls.push('focus')};
+  const root={dataset:{lcInvestor:'true'},querySelector:()=>heading};
+  const win={location:{hash:'#/product/demo/player/creator/example'},requestAnimationFrame:fn=>fn()};
+  const context=vm.createContext({root,window:win,document:{getElementById:()=>({})},ROUTE_STATUS_ID:'status',productFamily:()=> 'social'});
+  vm.runInContext(`${code}\nannounceRoute(root);`,context);
+  win.location.hash='#/product/demo/player/live/example';
+  vm.runInContext('announceRoute(root);announceRoute(root);',context);
+  assert.deepEqual(calls,['focus']);
+});

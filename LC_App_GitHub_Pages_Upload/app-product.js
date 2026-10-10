@@ -333,6 +333,7 @@
     style.textContent = `
       #screen.lc-product-mode:has(#lcProductShell[data-lc-investor=true])>#appTop{display:none!important}
       #lcProductShell[data-lc-investor=true] .lc-v4-feed-caption time,#lcProductShell[data-lc-investor=true] .lc-v4-feed-comment>span{color:#b6cfc7;font-size:12px}
+      #lcProductShell[data-lc-investor=true] .lc-v4-home-switch button:not(.active){color:#b6cfc7}
       #lcProductShell[data-lc-investor=true] :is(button,input,select,textarea,a):focus-visible{outline:3px solid #a7fff4;outline-offset:3px}
       .lc-investor-guide{max-width:980px;margin:0 auto 18px;padding:18px;border:1px solid #37665c;border-radius:20px;background:linear-gradient(135deg,#102924,#071512);color:#eefcf5}
       .lc-investor-guide h2{font-size:22px;margin:8px 0}.lc-investor-guide p{max-width:760px;line-height:1.55;color:#b6cfc7;margin:8px 0 14px}
@@ -376,18 +377,39 @@
     const labels = blackjack ? ["Player hand", "Dealer hand"] : ["Player side", "Banker side"];
     const cards = hands[round];
     const messages = demoStore.roomMessages.get(session.id) || [];
-    return `<section class="lc-demo-table" aria-label="Scripted ${safe(session.game)} table"><span class="lc-product-label">SCRIPTED TABLE PREVIEW · NO WAGERS</span><h2>${safe(session.game)} with ${safe(profileName(demoProfile(session.creator_id)))}</h2><small>Example round ${round + 1} of 3. Fixed cards demonstrate the room presentation, not a playable casino engine or broadcast.</small><div class="lc-demo-hands">${labels.map((label, index) => `<div class="lc-demo-hand"><strong>${label}</strong>${cards.slice(index * 2, index * 2 + 2).map(card => `<span class="lc-demo-card">${safe(card)}</span>`).join("")}</div>`).join("")}</div><button class="lc-product-btn secondary" type="button" data-lc-demo-round="${safe(session.id)}">Show next demo round</button></section><section class="lc-product-card lc-demo-chat"><h2>Room conversation</h2><p>Only your local demo messages appear here. There are no connected players.</p><button class="lc-product-chip" type="button" data-lc-demo-react="${safe(session.id)}">${demoStore.roomReactions.has(session.id) ? "♥ Reaction added" : "♡ React to this room"}</button><ul aria-live="polite">${messages.length ? messages.map(message => `<li><b>You</b> · ${safe(message)}</li>`).join("") : "<li>No messages yet. Start the conversation.</li>"}</ul><form data-lc-form="room-chat" data-session-id="${safe(session.id)}"><input class="lc-product-input" name="body" maxlength="240" required aria-label="Message the demo room" placeholder="Write a message"><button class="lc-product-btn" type="submit">Send</button></form></section>`;
+    return `<section class="lc-demo-table" aria-label="Scripted ${safe(session.game)} table"><span class="lc-product-label">SCRIPTED TABLE PREVIEW · NO WAGERS</span><h2>${safe(session.game)} with ${safe(profileName(demoProfile(session.creator_id)))}</h2><small>Example round ${round + 1} of 3. Fixed cards demonstrate the room presentation, not a playable casino engine or broadcast.</small><div class="lc-demo-hands">${labels.map((label, index) => `<div class="lc-demo-hand"><strong>${label}</strong>${cards.slice(index * 2, index * 2 + 2).map(card => `<span class="lc-demo-card">${safe(card)}</span>`).join("")}</div>`).join("")}</div><button class="lc-product-btn secondary" type="button" data-lc-demo-round="${safe(session.id)}">Show next demo round</button></section><section class="lc-product-card lc-demo-chat"><h2>Room conversation</h2><p>Only your local demo messages appear here. There are no connected players.</p><button class="lc-product-chip" type="button" data-lc-demo-react="${safe(session.id)}" aria-label="React to this room" aria-pressed="${demoStore.roomReactions.has(session.id)}">${demoStore.roomReactions.has(session.id) ? "♥ Reaction added" : "♡ React to this room"}</button><ul aria-live="polite">${messages.length ? messages.map(message => `<li><b>You</b> · ${safe(message)}</li>`).join("") : "<li>No messages yet. Start the conversation.</li>"}</ul><form data-lc-form="room-chat" data-session-id="${safe(session.id)}"><input class="lc-product-input" name="body" maxlength="240" required aria-label="Message the demo room" placeholder="Write a message"><button class="lc-product-btn" type="submit">Send</button></form></section>`;
   }
 
   function refreshDemoRoom(id) {
     const root = q("#lcProductShell");
     const found = findSessionEntry(id);
     if (!root || !found || !root.querySelector(".lc-demo-table")) return renderLive(id);
+    retainInvestorFocus(root);
     const scrollTop = root.scrollTop;
     const content = document.createElement("div");
     content.innerHTML = renderDemoTable(found.session);
     for (const selector of [".lc-demo-table", ".lc-demo-chat"]) root.querySelector(selector)?.replaceWith(content.querySelector(selector));
     root.scrollTop = scrollTop;
+  }
+
+  function retainInvestorFocus(root) {
+    const active = document.activeElement;
+    if (!investorMode || !state.demo || !root?.contains(active) || !active.matches("button,input,select,textarea,a")) return;
+    const attributes = Array.from(active.attributes).filter(attribute => attribute.name.startsWith("data-lc-") || ["id", "name", "type"].includes(attribute.name));
+    const form = active.closest("form");
+    const formKey = form ? JSON.stringify(form.dataset) : null;
+    const text = active.tagName === "BUTTON" ? active.textContent : null;
+    const scroll = root.scrollTop;
+    window.requestAnimationFrame(() => {
+      const replacement = Array.from(root.querySelectorAll("button,input,select,textarea,a")).find(control =>
+        control.tagName === active.tagName && attributes.every(attribute => control.getAttribute(attribute.name) === attribute.value) &&
+        (formKey === null || JSON.stringify(control.closest("form")?.dataset) === formKey) &&
+        (attributes.some(attribute => attribute.name.startsWith("data-lc-")) || text === null || control.textContent === text));
+      const destination = replacement || root.querySelector("h1") || root.querySelector("h2") || root;
+      if (replacement) root.scrollTop = scroll;
+      if (!replacement) destination.setAttribute("tabindex", "-1");
+      destination.focus({ preventScroll: true });
+    });
   }
 
   function shell() {
@@ -400,6 +422,7 @@
       node.setAttribute("aria-label", "LC App product experience");
       q("#screen")?.appendChild(node);
     }
+    retainInvestorFocus(node);
     q("#screen")?.classList.add("lc-product-mode");
     if (state.current?.persona !== "industry") delete node.dataset.lcBusinessView;
     node.dataset.lcInvestor = investorMode ? "true" : "false";
@@ -1411,7 +1434,7 @@
         <section class="lc-v4-creator-facts" aria-label="Creator profile activity"><article><b>${item.posts.length}</b><span>Updates</span></article><article><b>${scheduled.length}</b><span>Upcoming</span></article><article><b>${(item.creator.games || []).length}</b><span>Games</span></article></section>
         <section class="lc-v4-creator-about"><div><span>ABOUT</span><h2>${safe(item.profile.bio || item.creator.headline || "Follow this creator to keep their identity, schedule and Live status connected across sessions.")}</h2></div><div class="lc-v4-creator-tags"><span>${safe(gamesLabel)}</span><span>${safe(languageLabel)}</span>${item.profile.country ? `<span>${safe(item.profile.country)}</span>` : ""}<span>${safe(item.creator.affiliation_name || "Affiliation not listed")} · ${safe(item.creator.affiliation_verification_status || "unverified")}</span></div></section>
         ${next ? `<section class="lc-v4-next-live ${isLive ? "is-live" : ""}"><div><span>${safe(sessionStatusLabel(next))}</span><h2>${safe(next.title || "Live session")}</h2><p>${safe(next.game)} · ${safe(sessionLine(next))}</p><small>${safe(next.operator_name || "Operator context not set")} · operator context is not an LC approval</small></div>${isLive ? `<button class="lc-product-btn" type="button" data-lc-live="${safe(next.id)}">${state.demo ? "OPEN DEMO SESSION" : "OPEN LIVE"}</button>` : `<button class="lc-product-btn ${state.reminders.has(next.id) ? "secondary" : ""}" type="button" data-lc-reminder="${safe(next.id)}">${state.reminders.has(next.id) ? "REMINDER SET" : "REMIND ME"}</button>`}</section>` : `<section class="lc-v4-creator-empty"><h2>No session scheduled</h2><p>Follow this creator to keep them in your feed when a new session appears.</p></section>`}
-        <section class="lc-v4-creator-content"><div class="lc-v4-social-section-head"><div><span>CONTENT</span><h2>Recent updates</h2></div><b>${item.posts.length}</b></div>${item.posts.length ? `<div class="lc-v4-creator-content-grid">${item.posts.slice(0,6).map((post) => `<article><img src="${safe(visualImage(item.profile))}" alt="" loading="lazy" decoding="async"><div><time>${safe(new Date(post.created_at).toLocaleString())}</time><p>${safe(post.body)}</p>${state.demo ? `<button class="lc-product-chip" type="button" data-lc-like="${safe(post.id)}">${demoStore.likes.has(post.id) ? "♥ Liked" : "♡ Like post"}</button><form data-lc-form="comment" data-post-id="${safe(post.id)}"><label for="profile-comment-${safe(post.id)}">Comment on this update</label><input class="lc-product-input" id="profile-comment-${safe(post.id)}" name="body" maxlength="500" required><button class="lc-product-chip" type="submit">Post comment</button></form>${demoStore.comments.filter(comment => comment.post_id === post.id).map(comment => `<p><b>You:</b> ${safe(comment.body)}</p>`).join("")}` : ""}</div></article>`).join("")}</div>` : `<div class="lc-v4-creator-empty"><p>No public updates yet.</p></div>`}</section>
+        <section class="lc-v4-creator-content"><div class="lc-v4-social-section-head"><div><span>CONTENT</span><h2>Recent updates</h2></div><b>${item.posts.length}</b></div>${item.posts.length ? `<div class="lc-v4-creator-content-grid">${item.posts.slice(0,6).map((post) => `<article><img src="${safe(visualImage(item.profile))}" alt="" loading="lazy" decoding="async"><div><time>${safe(new Date(post.created_at).toLocaleString())}</time><p>${safe(post.body)}</p>${state.demo ? `<button class="lc-product-chip" type="button" data-lc-like="${safe(post.id)}" aria-label="Like post" aria-pressed="${demoStore.likes.has(post.id)}">${demoStore.likes.has(post.id) ? "♥ Liked" : "♡ Like post"}</button><form data-lc-form="comment" data-post-id="${safe(post.id)}"><label for="profile-comment-${safe(post.id)}">Comment on this update</label><input class="lc-product-input" id="profile-comment-${safe(post.id)}" name="body" maxlength="500" required><button class="lc-product-chip" type="submit">Post comment</button></form>${demoStore.comments.filter(comment => comment.post_id === post.id).map(comment => `<p><b>You:</b> ${safe(comment.body)}</p>`).join("")}` : ""}</div></article>`).join("")}</div>` : `<div class="lc-v4-creator-empty"><p>No public updates yet.</p></div>`}</section>
         ${scheduled.length > (isLive ? 0 : 1) ? `<section class="lc-v4-creator-schedule"><div class="lc-v4-social-section-head"><div><span>SCHEDULE</span><h2>More return moments</h2></div></div>${scheduled.filter((session) => session.id !== next?.id).map((session) => `<article><div><span>${safe(session.game)}</span><b>${safe(session.title || "Live session")}</b><small>${safe(sessionLine(session))}</small></div><button class="lc-product-chip ${state.reminders.has(session.id) ? "active" : ""}" type="button" data-lc-reminder="${safe(session.id)}">${state.reminders.has(session.id) ? "Saved" : "Remind me"}</button></article>`).join("")}</section>` : ""}
         <section class="lc-v4-creator-safety" aria-label="Creator safety actions"><span>Keep your experience safe</span><div><button type="button" data-lc-creator-safety="report" data-lc-creator-id="${safe(id)}">Report</button><button type="button" data-lc-creator-safety="block" data-lc-creator-id="${safe(id)}">Block</button></div></section>
       </div>${tabs("explore")}`;
@@ -1994,6 +2017,14 @@
       routeHome();
       toast("Saved");
     } catch (error) {
+      if (error.message === "validation" && state.demo && investorMode && ["comment", "room-chat"].includes(form.dataset.lcForm)) {
+        const field = form.querySelector('[name="body"]');
+        if (field) {
+          field.setCustomValidity("Enter a message within the displayed length limit.");
+          field.reportValidity();
+          field.addEventListener("input", () => field.setCustomValidity(""), { once: true });
+        }
+      }
       toast(error.message === "validation" ? "Check the required fields." : err(error));
     } finally {
       setBusy(button, false);
@@ -2035,7 +2066,7 @@
       return routeHome();
     } finally {
       window.requestAnimationFrame(() => {
-        const heading = q("#lcProductShell h1, #lcProductShell h2");
+        const heading = q("#lcProductShell h1") || q("#lcProductShell h2");
         if (!heading) return;
         heading.setAttribute("tabindex", "-1");
         heading.focus({ preventScroll: true });

@@ -1,0 +1,173 @@
+Window: "LC App — Live Casino. Social Experience.", App: Safari.
+0 standard window LC App — Live Casino. Social Experience., Private Browsing, ID: SafariWindow?IsSecure=false&UUID=093A596A-E1AC-415C-917A-41137304B40F, Secondary Actions: Raise
+	1 split group
+		2 tab group
+			3 scroll area
+				4 HTML content inspector-resource:///Main.html
+					5 button Close
+					6 button Dock to left of window
+					7 button Dock to right of window
+					8 button Detach into separate window
+					9 button Start element selection (⇧⌘C)
+					10 button Device Settings
+					11 button Click to show 2 errors in the Console
+					12 tab group (selectable)
+						13 tab (selectable) Elements
+						14 tab (selected) Console
+						15 tab (selectable) Sources
+						16 tab (selectable) Network
+						17 tab (selectable) Timelines
+						18 tab (selectable) Storage
+						19 tab (selectable) Graphics
+						20 tab (selectable) Layers
+						21 tab (selectable) Audit
+						22 tab (selectable) Search (⇧⌘F)
+						23 tab (selectable) Settings (⌘,)
+					24 container Console
+						25 search text field (settable)  
+						26 button (disabled) Find Previous (⇧⌘G)
+						27 button (disabled) Find Next (⌘G)
+						28 text All
+						29 text Evaluations
+						30 text Errors
+						31 text Warnings
+						32 text Logs
+						33 container
+							34 text All Sources
+							35 pop up button All Sources
+							36 image
+						37 button Other filter options…
+						38 checkbox (settable, integer) Emulate User Gesture, Help: Run console commands as if inside a user gesture, Value: 0
+						39 button Run Console Snippet…
+						40 button Collect garbage
+						41 button Clear log (⌘K or ⌃L)
+						42 container
+							43 text Console cleared at 17:02:49
+							44 image
+							45 text 17:02:49.744
+							46 text Failed to load resource: You do not have permission to access the requested resource.
+							47 image
+							48 text 17:02:49.745
+							49 text Failed to load resource: You do not have permission to access the requested resource.
+							50 image
+							51 text JSON.stringify({scripts:[...document.scripts].map(s=>s.src).filter(s=>/app-product|product-shell/.test(s)),following:getComputedStyle(document.querySelector(".lc-v4-home-switch button:not(.active)")).color,brokenImages:[...document.images].filter(i=>i.complete&&!i.naturalWidth).map(i=>i.src)})
+							52 image
+							53 text "
+							54 text {\"scripts\":[\"
+							55 link http://localhost:4187/app-product.js?v=124\, Value: localhost:4187/app-product.js?v=124%5C
+							56 text ",\"
+							57 link http://localhost:4187/product-shell-v2.js?v=20\, Value: localhost:4187/product-shell-v2.js?v=20%5C
+							58 text "],\"following\":\"rgb(182, 207, 199)\",\"brokenImages\":[]}
+							59 text "
+							60 text  = $1
+							61 image
+							62 text JSON.stringify({reduced:matchMedia("(prefers-reduced-motion: reduce)").matches,animation:getComputedStyle(document.querySelector("#lcProductShell button")).animationDuration,transition:getComputedStyle(document.querySelector("#lcProductShell button")).transitionDuration})
+							63 image
+							64 text "
+							65 text {\"reduced\":true,\"animation\":\"0.00001s\",\"transition\":\"0.00001s\"}
+							66 text "
+							67 text  = $2
+					68 text entry area (settable) Console prompt, Value: [text entry area: Console prompt]
+					69 container
+					70 container Execution context for $0
+						71 text Auto — Page
+			72 scroll area
+				73 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player/live/demo-session-sofia
+					74 container LC App ideal mobile prototype
+						75 container LC App social experience
+							76 text LC
+							77 text SESSION PREVIEW
+							78 text Sofia Laurent
+							79 button player
+							80 container Illustrative preview mode
+								81 text DEMO EXPERIENCE · PLAYER · LOCAL DATA
+								82 button Switch
+								83 button Reset
+								84 button Roles
+								85 button Guide
+							86 container Investor walkthrough
+								87 container Guided scenarios
+									88 button 1 · Meet your next dealer
+									89 button 2 · Turn discovery into a relationship
+									90 button 3 · See the integration value
+								91 heading Meet your next dealer, Value: 2
+									92 text Meet your next dealer
+								93 text LC App is a social layer for Live Casino. Meet Blackjack and Baccarat dealers, follow them and return to their tables.
+								94 button Explore the lobby
+								95 button Next scenario
+								96 button Skip walkthrough
+							97 image Sofia Laurent Live session
+							98 text SESSION PREVIEW Blackjack Evening Blackjack table
+							99 heading Sofia Laurent, Value: 1
+								100 text Sofia Laurent
+							101 text 10/10/2026, 23:00:00
+							102 container Scripted Blackjack table
+								103 text SCRIPTED TABLE PREVIEW · NO WAGERS
+								104 heading Blackjack with Sofia Laurent, Value: 2
+									105 text Blackjack with Sofia Laurent
+								106 text Example round 1 of 3. Fixed cards demonstrate the room presentation, not a playable casino engine or broadcast.
+								107 text Player hand
+								108 text A♠ K♦
+								109 text Dealer hand
+								110 text 10♣ 7♥
+								111 button Show next demo round
+							112 heading Room conversation, Value: 2
+								113 text Room conversation
+							114 text Only your local demo messages appear here. There are no connected players.
+							115 toggle button React to this room, Value: off
+							116 container No messages yet. Start the conversation.
+							117 container
+								118 text field (settable) Message the demo room, Placeholder: Write a message
+								119 button Send
+							120 button PREVIEW HANDOFF
+							121 toggle button FOLLOWING, Value: on
+							122 text CREATOR CONTEXT Sofia Laurent · Blackjack
+							123 text Follow and return context stays in LC.
+							124 text OPERATOR CONTEXT Demo Casino
+							125 text This label is not proof of integration, approval or availability.
+							126 text LC connects the person to the Live moment.
+							127 text The licensed operator remains responsible for gameplay, wallet, KYC/AML, wagering, settlement and responsible-gaming operations.
+							128 button ← Back to Sofia Laurent
+							129 container Social app navigation
+								130 button Home
+								131 button Explore
+								132 button Create
+								133 button Activity
+								134 button Profile
+					135 text Social app: Sofia Laurent
+	136 image WindowControlShadowView._shadowImageView
+	137 toolbar
+		138 container Secondary Actions: Move next, Remove from toolbar
+			139 button Description: show sidebar, Help: Show sidebar, ID: SidebarButton
+			140 text Description: Toggle sidebar, Value: Private
+		141 container BackForwardSegmentedControl
+			142 button Description: Go back, Help: Show the previous page, ID: BackButton
+			143 button (disabled) Description: Go forward, Help: Show the next page, ID: ForwardButton
+		144 button Description: Bookmarks, Secondary Actions: Move previous, Move next, Remove from toolbar
+		145 button Description: Web Translator for DeepL, Secondary Actions: Move previous, Move next, Remove from toolbar
+		146 container Secondary Actions: Move previous, Move next, Remove from toolbar
+			147 button Page Menu, ID: AssistantButton
+			148 button Add page to Reading List, ID: OneStepBookmarkingButton
+			149 text field (settable) Description: smart search field in a private window, Value: localhost:4187/?app=1&demo=investor#/product/demo/player/live/demo-session-sofia, ID: WEB_BROWSER_ADDRESS_AND_SEARCH_FIELD
+			150 button Translation Available, ID: TranslationButton
+			151 button Reload this page, ID: ReloadButton
+		152 button (disabled) Description: Show the privacy report for this site, ID: PrivacyReportShieldButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		153 button Description: History, Secondary Actions: Move previous, Move next, Remove from toolbar
+		154 button Description: Share, ID: ShareButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		155 button Description: New Tab, ID: NewTabButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		156 button Description: Tab Overview, ID: TabOverviewButton, Secondary Actions: Move previous, Remove from toolbar
+	157 close button
+	158 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	159 minimize button
+160 menu bar
+	161 Safari
+	162 File
+	163 Edit
+	164 View, ID: SafariViewMenu
+	165 History
+	166 Bookmarks, ID: SafariBookmarksMenu
+	167 Develop
+	168 Window, ID: SafariWindowMenu
+	169 Help, ID: SafariHelpMenu
+
+The focused UI element is 68 text entry area (settable) Console prompt, Value: [text entry area: Console prompt]

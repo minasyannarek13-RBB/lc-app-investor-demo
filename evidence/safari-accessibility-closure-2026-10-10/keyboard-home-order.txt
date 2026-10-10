@@ -1,0 +1,64 @@
+The focused UI element is 130 button player
+The focused UI element is 133 button Switch
+The focused UI element is 134 button Reset
+The focused UI element is 135 button Roles
+The focused UI element is 136 button Guide
+The focused UI element is 140 button + Explore
+The focused UI element is 141 button SESSION PREVIEW Sofia
+The focused UI element is 142 button SESSION PREVIEW Mia
+The focused UI element is 143 button SESSION PREVIEW Lilit
+The focused UI element is 144 button SESSION PREVIEW Alex
+The focused UI element is 145 button SESSION PREVIEW Marcus
+The focused UI element is 146 button For you
+The focused UI element is 147 button Following
+The focused UI element is 150 button Open Sofia Laurent's profile
+The focused UI element is 151 button Sofia Laurent Featured Blackjack creator · Illustrative profile
+The focused UI element is 152 toggle button Following, Value: on
+The focused UI element is 153 button Open upcoming session with Sofia Laurent
+The focused UI element is 154 toggle button Like post, Value: off
+The focused UI element is 155 button Open creator profile
+The focused UI element is 156 button OPEN SESSION PREVIEW
+The focused UI element is 158 text field (settable) Comment on Sofia Laurent's post, Placeholder: Add a comment…
+The focused UI element is 159 button Post
+The focused UI element is 161 button Open Alex Moreau's profile
+The focused UI element is 162 button Alex Moreau Baccarat creator for premium sessions · Illustrative profile
+The focused UI element is 163 toggle button Follow, Value: off
+The focused UI element is 164 button Open upcoming session with Alex Moreau
+The focused UI element is 165 toggle button Like post, Value: off
+The focused UI element is 166 button Open creator profile
+The focused UI element is 167 button OPEN SESSION PREVIEW
+The focused UI element is 169 text field (settable) Comment on Alex Moreau's post, Placeholder: Add a comment…
+The focused UI element is 170 button Post
+The focused UI element is 172 button Open Mia Novak's profile
+The focused UI element is 173 button Mia Novak Roulette table personality · Illustrative profile
+The focused UI element is 174 toggle button Follow, Value: off
+The focused UI element is 175 button Open upcoming session with Mia Novak
+The focused UI element is 176 toggle button Like post, Value: off
+The focused UI element is 177 button Open creator profile
+The focused UI element is 178 button OPEN SESSION PREVIEW
+The focused UI element is 180 text field (settable) Comment on Mia Novak's post, Placeholder: Add a comment…
+The focused UI element is 181 button Post
+The focused UI element is 183 button Open Marcus Reed's profile
+The focused UI element is 184 button Marcus Reed Game Show host · Illustrative profile
+The focused UI element is 185 toggle button Follow, Value: off
+The focused UI element is 186 button Open upcoming session with Marcus Reed
+The focused UI element is 187 toggle button Like post, Value: off
+The focused UI element is 188 button Open creator profile
+The focused UI element is 189 button OPEN SESSION PREVIEW
+The focused UI element is 191 text field (settable) Comment on Marcus Reed's post, Placeholder: Add a comment…
+The focused UI element is 192 button Post
+The focused UI element is 194 button Open Lilit Aram's profile
+The focused UI element is 195 button Lilit Aram Blackjack and poker table explainer · Illustrative profile
+The focused UI element is 196 toggle button Follow, Value: off
+The focused UI element is 197 button Open upcoming session with Lilit Aram
+The focused UI element is 198 toggle button Like post, Value: off
+The focused UI element is 199 button Open creator profile
+The focused UI element is 200 button OPEN SESSION PREVIEW
+The focused UI element is 202 text field (settable) Comment on Lilit Aram's post, Placeholder: Add a comment…
+The focused UI element is 203 button Post
+The focused UI element is 206 button Home
+The focused UI element is 207 button Explore
+The focused UI element is 208 button Create
+The focused UI element is 209 button Activity
+The focused UI element is 210 button Profile
+No focused element reported
