@@ -1,0 +1,64 @@
+Window: "Profiles", App: Safari.
+0 standard window Profiles, Secondary Actions: Raise
+	1 container SafariProfilesPreferencesView
+		2 scroll area
+			3 table
+				4 row (selectable)
+					5 cell
+						6 image
+						7 text field (settable) Personal (Default)
+				8 row (selected)
+					9 cell (selected)
+						10 image
+						11 text field (settable) LC QA isolated
+		12 container AddDeleteProfileSegmentedControl
+			13 button Add Profile
+			14 button Delete Profile
+		15 tab group
+			16 tab General, Value: 0
+			17 tab Extensions, Value: 1
+			18 container
+				19 text Select which extensions you would like to use with this profile.
+				20 scroll area
+					21 table
+						22 row (selected)
+							23 cell (selected)
+								24 checkbox 0
+								25 image
+								26 text ScreenRecorder
+						27 row (selectable)
+							28 cell
+								29 checkbox 0
+								30 image
+								31 text Web Translator for DeepL
+		32 text Profiles allow you to keep your browsing separated. You may want to set up a profile for work or school. Your history, cookies, and website data will be separated per profile.
+		33 button Help
+	34 toolbar
+		35 button General, Secondary Actions: Move next, Remove from toolbar
+		36 button Tabs, Secondary Actions: Move previous, Move next, Remove from toolbar
+		37 button AutoFill, Secondary Actions: Move previous, Move next, Remove from toolbar
+		38 button Passwords, Secondary Actions: Move previous, Move next, Remove from toolbar
+		39 button Search, Secondary Actions: Move previous, Move next, Remove from toolbar
+		40 button Security, Secondary Actions: Move previous, Move next, Remove from toolbar
+		41 button Privacy, Secondary Actions: Move previous, Move next, Remove from toolbar
+		42 button Websites, Secondary Actions: Move previous, Move next, Remove from toolbar
+		43 button Profiles, Secondary Actions: Move previous, Move next, Remove from toolbar
+		44 button Extensions, Secondary Actions: Move previous, Move next, Remove from toolbar
+		45 button Advanced, Secondary Actions: Move previous, Move next, Remove from toolbar
+		46 button Developer, Secondary Actions: Move previous, Move next, Remove from toolbar
+		47 button Feature Flags, Secondary Actions: Move previous, Remove from toolbar
+	48 close button
+	49 zoom button (disabled)
+	50 text Profiles
+51 menu bar
+	52 Safari
+	53 File
+	54 Edit
+	55 View, ID: SafariViewMenu
+	56 History
+	57 Bookmarks, ID: SafariBookmarksMenu
+	58 Develop
+	59 Window, ID: SafariWindowMenu
+	60 Help, ID: SafariHelpMenu
+
+The focused UI element is 0 standard window Profiles, Secondary Actions: Raise

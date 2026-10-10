@@ -1,0 +1,172 @@
+Window: "LC QA isolated — LC App — Live Casino. Social Experience.", App: Safari.
+0 standard window LC QA isolated — LC App — Live Casino. Social Experience., ID: SafariWindow?IsSecure=false&UUID=9B177172-9981-4404-976D-C3F0A5418261, Secondary Actions: Raise
+	1 split group
+		2 tab group
+			3 scroll area
+				4 HTML content inspector-resource:///Main.html
+					5 button Close
+					6 button Dock to left of window
+					7 button Dock to right of window
+					8 button Detach into separate window
+					9 button Start element selection (⇧⌘C)
+					10 button Device Settings
+					11 tab group (selectable)
+						12 tab (selectable) Elements
+						13 tab (selected) Console
+						14 tab (selectable) Sources
+						15 tab (selectable) Network
+						16 tab (selectable) Timelines
+						17 tab (selectable) Storage
+						18 tab (selectable) Graphics
+						19 tab (selectable) Layers
+						20 tab (selectable) Audit
+						21 tab (selectable) Search (⇧⌘F)
+						22 tab (selectable) Settings (⌘,)
+					23 container Console
+						24 search text field (settable)  
+						25 button (disabled) Find Previous (⇧⌘G)
+						26 button (disabled) Find Next (⌘G)
+						27 text All
+						28 text Evaluations
+						29 text Errors
+						30 text Warnings
+						31 text Logs
+						32 button Other filter options…
+						33 checkbox (settable, integer) Emulate User Gesture, Help: Run console commands as if inside a user gesture, Value: 0
+						34 button Run Console Snippet…
+						35 button Collect garbage
+						36 button Clear log (⌘K or ⌃L)
+						37 text Console cleared at 17:14:51
+					38 text entry area (settable) Console prompt, Value: [text entry area: Console prompt]
+					39 container
+			40 scroll area
+				41 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player
+					42 container LC App ideal mobile prototype
+						43 container LC App social experience
+							44 text LC
+							45 text Home
+							46 text 1 new signal
+							47 button player
+							48 container Illustrative preview mode
+								49 text DEMO EXPERIENCE · PLAYER · LOCAL DATA
+								50 button Switch
+								51 button Reset
+								52 button Roles
+								53 button Guide
+							54 container Investor walkthrough
+								55 container Guided scenarios
+									56 button 1 · Meet your next dealer
+									57 button 2 · Turn discovery into a relationship
+									58 button 3 · See the integration value
+								59 heading Meet your next dealer, Value: 2
+									60 text Meet your next dealer
+								61 text LC App is a social layer for Live Casino. Meet Blackjack and Baccarat dealers, follow them and return to their tables.
+								62 button Explore the lobby
+								63 button Next scenario
+								64 button Skip walkthrough
+							65 container LC core loop
+								66 text Discover Creator Follow Live Return
+							67 container Creators in demo live sessions
+								68 button + Explore
+								69 button SESSION PREVIEW Sofia
+								70 button SESSION PREVIEW Mia
+								71 button SESSION PREVIEW Lilit
+								72 button SESSION PREVIEW Alex
+								73 button SESSION PREVIEW Marcus
+							74 toggle button For you, Value: on
+							75 toggle button Following, Value: off
+							76 container Creator feed
+								77 container
+									78 button Open Sofia Laurent's profile
+									79 button Sofia Laurent Featured Blackjack creator · Illustrative profile
+									80 toggle button Following, Value: on
+									81 button Open upcoming session with Sofia Laurent
+									82 toggle button Like post, Value: off
+									83 button Open creator profile
+									84 button OPEN SESSION PREVIEW
+									85 text Sofia Laurent An example Blackjack session with Sofia. Follow her profile and save a reason to return. 10/10/2026, 21:45:00 Comment on Sofia Laurent's post
+									86 text field (settable) Comment on Sofia Laurent's post, Placeholder: Add a comment…
+									87 button Post
+								88 container
+									89 button Open Alex Moreau's profile
+									90 button Alex Moreau Baccarat creator for premium sessions · Illustrative profile
+									91 toggle button Follow, Value: off
+									92 button Open upcoming session with Alex Moreau
+									93 toggle button Like post, Value: off
+									94 button Open creator profile
+									95 button OPEN SESSION PREVIEW
+									96 text Alex Moreau Example Baccarat session with Alex. Save the preview and try the local table room. 10/10/2026, 21:15:00 Comment on Alex Moreau's post
+									97 text field (settable) Comment on Alex Moreau's post, Placeholder: Add a comment…
+									98 button Post
+								99 container
+									100 button Open Mia Novak's profile
+									101 button Mia Novak Roulette table personality · Illustrative profile
+									102 toggle button Follow, Value: off
+									103 button Open upcoming session with Mia Novak
+									104 toggle button Like post, Value: off
+									105 button Open creator profile
+									106 button OPEN SESSION PREVIEW
+									107 text Mia Novak Example update: a quieter Roulette and Baccarat session preview. Follow Mia to explore the return journey. 10/10/2026, 21:00:00 Comment on Mia Novak's post
+									108 text field (settable) Comment on Mia Novak's post, Placeholder: Add a comment…
+									109 button Post
+								110 container
+									111 button Open Marcus Reed's profile
+									112 button Marcus Reed Game Show host · Illustrative profile
+									113 toggle button Follow, Value: off
+									114 button Open upcoming session with Marcus Reed
+									115 toggle button Like post, Value: off
+									116 button Open creator profile
+									117 button OPEN SESSION PREVIEW
+									118 text Marcus Reed Example Game Show update. Explore how a creator can bring followers back. 10/10/2026, 20:30:00 Comment on Marcus Reed's post
+									119 text field (settable) Comment on Marcus Reed's post, Placeholder: Add a comment…
+									120 button Post
+								121 container
+									122 button Open Lilit Aram's profile
+									123 button Lilit Aram Blackjack and poker table explainer · Illustrative profile
+									124 toggle button Follow, Value: off
+									125 button Open upcoming session with Lilit Aram
+									126 toggle button Like post, Value: off
+									127 button Open creator profile
+									128 button OPEN SESSION PREVIEW
+									129 text Lilit Aram Example Blackjack note. Meet Lilit and explore a scheduled preview. 10/10/2026, 20:00:00 Comment on Lilit Aram's post
+									130 text field (settable) Comment on Lilit Aram's post, Placeholder: Add a comment…
+									131 button Post
+							132 text LC connects you to people, not funds. Gameplay and all regulated casino operations stay with the licensed operator.
+							133 container Social app navigation
+								134 button Home
+								135 button Explore
+								136 button Create
+								137 button Activity
+								138 button Profile
+					139 text Social app: Meet your next dealer
+	140 image WindowControlShadowView._shadowImageView
+	141 toolbar
+		142 button Description: Toggle sidebar, ID: SidebarButton, Secondary Actions: Move next, Remove from toolbar
+		143 menu button ID: TabGroupPickerButton?Profile=LC%20QA%20isolated&Icon=person.lanyardcard.fill, Secondary Actions: Move next, Remove from toolbar
+		144 container BackForwardSegmentedControl
+			145 button Description: Go back, Help: Show the previous page, ID: BackButton
+			146 button (disabled) Description: Go forward, Help: Show the next page, ID: ForwardButton
+		147 container Secondary Actions: Move previous, Move next, Remove from toolbar
+			148 button Page Menu, ID: AssistantButton
+			149 button Add page to Reading List, ID: OneStepBookmarkingButton
+			150 text field (settable) Description: smart search field, Value: localhost:4187/?app=1&demo=investor#/product/demo/player, ID: WEB_BROWSER_ADDRESS_AND_SEARCH_FIELD
+			151 button Translation Available, ID: TranslationButton
+			152 button Reload this page, ID: ReloadButton
+		153 button Description: Share, ID: ShareButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		154 button Description: New Tab, ID: NewTabButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		155 button Description: Tab Overview, ID: TabOverviewButton, Secondary Actions: Move previous, Remove from toolbar
+	156 close button
+	157 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	158 minimize button
+159 menu bar
+	160 Safari
+	161 File
+	162 Edit
+	163 View, ID: SafariViewMenu
+	164 History
+	165 Bookmarks, ID: SafariBookmarksMenu
+	166 Develop
+	167 Window, ID: SafariWindowMenu
+	168 Help, ID: SafariHelpMenu
+
+The focused UI element is 38 text entry area (settable) Console prompt, Value: [text entry area: Console prompt]

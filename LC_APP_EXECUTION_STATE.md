@@ -1,8 +1,33 @@
 # Current Release Checkpoint — 2026-10-10
 
-Project: LC App | Version: v0.10 | Status: Local investor demo ready; hosted baseline PASS; hosted release blocked
+Project: LC App | Version: v0.11 | Status: Local investor demo ready; hosted baseline PASS; hosted release blocked
 Owner: Narek / Engineering | Audience: founder and release engineer
 Sources: ChatGPT connected Supabase external baseline 2026-10-10 (relayed by Narek), current code, tests, migrations, PR #18 read-only metadata; historical notes below are not current release evidence.
+
+## Final QA and staging preparation — latest 2026-10-10
+
+- Application code baseline 146b166 unchanged; previous 127/127 remains valid, no regression rerun.
+- Native clean Safari profile LC QA isolated: both extensions off; zero observed permission errors on Inspector open/reload/reopen. Browser-environment dependence confirmed; exact source-map request attribution remains unverified. Primary remaining keyboard cycles completed (216 records). VoiceOver process access timed out; retries stopped. Physical iPhone BLOCKED. Investor Device Ready NO.
+- Current read-only staging connector refresh PASS: ACTIVE_HEALTHY, PostgreSQL 17.11, all listed application counts zero, no migration ledger/Edge Functions/advisor findings. Receipt `evidence/staging-readonly-2026-10-10.json`; historical ChatGPT source remains separately identified.
+- Full-product config targets production in inline entry, mirrored Auth fallback and `.env.example`. No environment/secret/config modification. Auth URL/provider/SMTP/hooks settings unavailable through connector; dashboard requires login. Storage buckets/objects/policies and custom Auth-user triggers absent.
+- Present 57 migration hashes match; 052–054 provenance unresolved; 057–058 still verified local reconstructions, not hosted acceptance. Ordered application/recovery/environment requirements updated in canonical plan. Staging Ready NO; Full Product Ready NO.
+
+### Safe branch reconciliation plan
+
+`codex/final-product-build` = 9f378e39940a005f38cedd013fb7103fc771d693; investor branch baseline = 146b166. Merge base equals the full-product tip. Ahead/behind is **0 full-product-only / 12 investor-only**: no divergent commits and no merge conflict to resolve. 54 non-evidence files differ, including 001–006/056–060 migration recovery, Auth, demo isolation/accessibility, cache/entry and tests/documentation. No merge, cherry-pick, ref movement or push was performed.
+
+After founder release-direction approval: create an isolated integration checkout from the tested investor descendant; review the 12 commits by concern, preserve mirrored runtime parity and isolated demo entry, and prepare a staging-only configuration separately. Do not revert/cherry-pick older Auth/cache code over security hardening. If the historical full-product branch must be updated, a reviewed fast-forward is possible locally; ancestry alone does not verify full-product behavior. Do not include marketing branch/worktree. Validate only affected full-product authenticated paths when backend access/authorization exists, then complete hosted security/integration/recovery gates before any release decision. Existing `STAGING_HANDOFF.zip` and `package-lock.json` remain unrelated untracked files, untouched.
+
+### AI_SYNC — final QA and staging readiness
+Date: 2026-10-10 | AI: Codex | Project: LC App
+Task: Clean-profile Safari follow-up, read-only staging audit, safe branch integration preparation.
+Files created: Clean-profile console/extensions/keyboard evidence and staging connector receipt.
+Files updated: canonical investor/staging readiness, migration plan, execution state; historical forensics supersession note.
+Decisions: environmental Safari pair confirmed by clean-profile control; no application fix needed; all release readiness remains NO.
+Assumptions: source-map per-error attribution remains probable; no remote secret-isolation assumption accepted.
+Contradictions found: full-product config still targets production despite staging availability; historical hosted-access blockers now partly superseded.
+Open questions: Auth settings/redirect and integration access, 052–054, VoiceOver, physical device, hosted E2E/recovery.
+Recommended next action: obtain read-only management settings evidence and approve an isolated staging configuration/provenance decision before remote execution.
 
 ## Final device gate — latest 2026-10-10
 - Native Safari investor journey exercised; final app v124 / shell v20 / cache v134 verified. Focus restoration, route-heading focus, toggle semantics, comment validation and inactive Following contrast fixed locally.

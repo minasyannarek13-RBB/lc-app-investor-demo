@@ -1,7 +1,7 @@
 # LC App Staging Migration Execution Plan
 
 - Project: LC App
-- Version: v1.1
+- Version: v1.2
 - Status: Reviewable plan; execution not authorised
 - Date: 2026-10-10
 - Target ref: `dnpizrjuxkcnmdgmvnks`
@@ -13,7 +13,7 @@ This plan contains no authority to apply SQL. All hosted actions in this task st
 
 ## Hosted baseline and remaining preconditions
 
-**HOSTED BASELINE INSPECTION: PASS**, source **ChatGPT connected Supabase**, externally verified 2026-10-10 and relayed by Narek; no local Codex hosted verification. Canonical counts: `STAGING_READINESS_REPORT.md`, Hosted baseline section (PostgreSQL 17.11, all listed application counts zero, migration ledger absent). Production `aspbwgsfkebduvviyeuo` remains protected.
+**HOSTED BASELINE INSPECTION: PASS**, source **ChatGPT connected Supabase**, externally verified 2026-10-10 and relayed by Narek. A separate current Codex read-only connector refresh also passes; see `STAGING_READINESS_REPORT.md` and its receipt. Canonical counts: `STAGING_READINESS_REPORT.md`, Hosted baseline section (PostgreSQL 17.11, all listed application counts zero, migration ledger absent). Production `aspbwgsfkebduvviyeuo` remains protected.
 
 1. Refresh the accepted baseline before apply and verify credential/database host mapping to the approved target.
 2. Read `to_regclass('supabase_migrations.schema_migrations')` first. An absent ledger is expected for this empty baseline; query rows only if it exists. Inspect roles/grants, platform policies, custom domains, SMTP, webhooks, integrations and deployment configuration separately.
@@ -22,6 +22,21 @@ This plan contains no authority to apply SQL. All hosted actions in this task st
 5. Review the present 57-file chain and reconstructed 057–058 against the baseline. Existing application-object conflicts block apply.
 6. Rehearse migration/recreation recovery in a separately authorised disposable project using `DISPOSABLE_SUPABASE_RECOVERY_RUNBOOK.md`. This does not establish restoration of populated staging data.
 7. Obtain separate target-specific execution authorization. No hosted actions are authorised by preparing these files.
+
+## Configuration and environment preflight — current checkpoint
+
+Current repository is **not staging-configured**: `.env.example`, mirrored Auth fallback URL and nested entry inline config point to protected production. No local Supabase link/config file exists. Do not run full-product Auth with these defaults. Auth callback code derives signup/resend redirects from the current page and password recovery uses `#/reset-password`; exact staging origins/paths must be checked against the hosted redirect allowlist. Dashboard/management settings access is currently missing.
+
+| Purpose | Minimum inputs; values remain private where applicable |
+|---|---|
+| Static browser runtime | `SUPABASE_URL` = staging URL; `SUPABASE_PUBLISHABLE_KEY` = staging publishable key. Legacy `SUPABASE_ANON_KEY` is a compatibility alternative, not an additional requirement. Provide through the reviewed `LC_APP_CONFIG` mechanism; this repository does not automatically consume dotenv. Never include service keys. |
+| Authorised migration connection | Verified project ref and direct database host; runtime-only `PGPASSWORD` and verified TLS. Use staging-specific credentials; no production fallback, ambient service files or shared secrets. |
+| Hosted synthetic E2E, after separate authorization | `LC_TEST_PROJECT_REF`, `LC_TEST_ANON_KEY`, `LC_TEST_SERVICE_KEY`; target-specific `LC_HOSTED_WRITE_APPROVAL`, `LC_SYNTHETIC_FIXTURE_APPROVAL`, and staging-only `LC_STAGING_E2E_APPROVAL`. Service credential is server/test-runner only. |
+| Separate disposable rehearsal | `LC_TEST_PROJECT_REF`, `LC_DISPOSABLE_DATABASE_HOST`, `PGPASSWORD`, `LC_DISPOSABLE_REHEARSAL_APPROVAL`, `LC_PRESENT_CHAIN_APPROVAL`; existing runner rejects both staging and production refs. |
+
+Ordered release sequence: (1) obtain read-only Auth/redirect/integration settings evidence; (2) resolve 052–054 source or approve only a present-chain experiment on a separately authorised disposable target; (3) prepare/review isolated staging config, no production destinations or shared secrets; (4) pin the 57-file manifest below (current checksum comparison: zero mismatches); (5) obtain and rehearse an explicit recovery point before writes; (6) fresh baseline and reviewed dry-run/version comparison; (7) target-specific authorization, then ledger-managed staging apply in exact manifest order 001–051, 055–060; (8) post-catalog/security/history checks; (9) hosted role/tenant/Auth/Storage/browser/integration acceptance. None of steps involving remote changes was executed.
+
+Rollback is a recovery plan, not an invented down-migration chain. Each failed transaction rolls back its uncommitted statements; earlier committed migrations can remain. Stop immediately, capture redacted logs and compare applied versions. Before traffic prefer a reviewed forward repair. Rebuild a disposable target from its verified empty baseline for experiments; populated staging requires a proven backup/restore point covering database, Auth and Storage/config separately. Do not assume a database-only backup restores object binaries or Auth/provider settings. No restore/recreate, ledger repair, destructive reset or automated Creator publication reversal is authorised.
 
 ## Ordered immutable manifest
 

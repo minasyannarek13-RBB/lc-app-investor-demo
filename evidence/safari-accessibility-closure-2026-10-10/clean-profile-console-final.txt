@@ -1,0 +1,135 @@
+Window: "LC QA isolated — LC App — Live Casino. Social Experience.", App: Safari.
+0 standard window LC QA isolated — LC App — Live Casino. Social Experience., ID: SafariWindow?IsSecure=false&UUID=9B177172-9981-4404-976D-C3F0A5418261, Secondary Actions: Raise
+	1 split group
+		2 tab group
+			3 scroll area
+				4 HTML content inspector-resource:///Main.html
+					5 button Close
+					6 button Dock to left of window
+					7 button Dock to right of window
+					8 button Detach into separate window
+					9 button Start element selection (⇧⌘C)
+					10 button Device Settings
+					11 tab group (selectable)
+						12 tab (selectable) Elements
+						13 tab (selected) Console
+						14 tab (selectable) Sources
+						15 tab (selectable) Network
+						16 tab (selectable) Timelines
+						17 tab (selectable) Storage
+						18 tab (selectable) Graphics
+						19 tab (selectable) Layers
+						20 tab (selectable) Audit
+						21 tab (selectable) Search (⇧⌘F)
+						22 tab (selectable) Settings (⌘,)
+					23 container Console
+						24 search text field (settable)  
+						25 button (disabled) Find Previous (⇧⌘G)
+						26 button (disabled) Find Next (⌘G)
+						27 text All
+						28 text Evaluations
+						29 text Errors
+						30 text Warnings
+						31 text Logs
+						32 button Other filter options…
+						33 checkbox (settable, integer) Emulate User Gesture, Help: Run console commands as if inside a user gesture, Value: 0
+						34 button Run Console Snippet…
+						35 button Collect garbage
+						36 button Clear log (⌘K or ⌃L)
+						37 text Console opened at 17:19:50
+					38 text entry area (settable) Console prompt, Value: [text entry area: Console prompt]
+					39 container
+			40 scroll area
+				41 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/operator
+					42 container LC App ideal mobile prototype
+						43 container LC App business back office
+							44 container LC App business navigation
+								45 text LC Business
+								46 text Operator & provider back office
+								47 container Business workspace
+									48 button Overview
+									49 button Creators
+									50 button Campaigns
+									51 button Live
+									52 button Performance
+									53 button Integrations
+									54 button Safety
+									55 button Settings
+								56 text Operator · Local demo
+								57 text LC manages discovery, creator relationships, configuration and observed attribution. Gameplay, funds, KYC/AML and settlement stay with licensed operator/provider infrastructure.
+							58 text LC
+							59 text Operator Back Office
+							60 text Overview
+							61 button operator
+							62 container Illustrative preview mode
+								63 text DEMO EXPERIENCE · OPERATOR · LOCAL DATA
+								64 button Switch
+								65 button Reset
+								66 button Roles
+								67 button Guide
+							68 container Investor walkthrough
+								69 container Guided scenarios
+									70 button 1 · Meet your next dealer
+									71 button 2 · Turn discovery into a relationship
+									72 button 3 · See the integration value
+								73 heading See the integration value, Value: 2
+									74 text See the integration value
+								75 text Operators can connect discovery to licensed play and measure return journeys. Providers can give existing tables a creator-led distribution channel. These benefits still require pilot validation.
+								76 button Inspect operator workspace
+								77 button Finish walkthrough
+								78 button Skip walkthrough
+							79 text OPERATOR OPERATIONS
+							80 heading Creator acquisition operations, Value: 1
+								81 text Creator acquisition operations
+							82 text Prepare creator, campaign and Live handoff context for a licensed operator environment.
+							83 text WORKSPACE ACCESS NOT_REQUESTED
+							84 container Workspace evidence scope
+								85 container
+									86 text CREATOR SCOPE Illustrative demo records Discovery records do not imply commercial approval.
+								87 container
+									88 text HANDOFF STATE No live connection No production operator destination is configured.
+								89 container
+									90 text OUTCOME To be validated CAC, retention, GGR and ROI require observed evidence.
+							91 text NEXT ACTIONS
+							92 heading Handoff readiness, Value: 2
+								93 text Handoff readiness
+							94 text Illustrative demo records
+							95 container
+								96 text 01 Review creator readiness Use only verified, published creator records. REVIEW REQUIRED
+							97 container
+								98 text 02 Define campaign source Attach campaign context before measuring handoffs. NOT CONFIGURED
+							99 container
+								100 text 03 Validate handoff route Licensed operator destination and return contract are required. NO CONNECTION
+							101 text LC RESPONSIBILITY Discovery · creator identity · social signals · handoff intent · attributable return LICENSED INFRASTRUCTURE Gameplay · wallet · KYC/AML · wagering · settlement · responsible gaming
+					102 text Business back office: Creator acquisition operations
+	103 image WindowControlShadowView._shadowImageView
+	104 toolbar
+		105 button Description: Toggle sidebar, ID: SidebarButton, Secondary Actions: Move next, Remove from toolbar
+		106 menu button ID: TabGroupPickerButton?Profile=LC%20QA%20isolated&Icon=person.lanyardcard.fill, Secondary Actions: Move next, Remove from toolbar
+		107 container BackForwardSegmentedControl
+			108 button Description: Go back, Help: Show the previous page, ID: BackButton
+			109 button (disabled) Description: Go forward, Help: Show the next page, ID: ForwardButton
+		110 container Secondary Actions: Move previous, Move next, Remove from toolbar
+			111 button Page Menu, ID: AssistantButton
+			112 button Add page to Reading List, ID: OneStepBookmarkingButton
+			113 text field (settable) Description: smart search field, Value: localhost:4187/?app=1&demo=investor#/product/demo/operator, ID: WEB_BROWSER_ADDRESS_AND_SEARCH_FIELD
+			114 button Translation Available, ID: TranslationButton
+			115 button Reload this page, ID: ReloadButton
+		116 button Description: Share, ID: ShareButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		117 button Description: New Tab, ID: NewTabButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		118 button Description: Tab Overview, ID: TabOverviewButton, Secondary Actions: Move previous, Remove from toolbar
+	119 close button
+	120 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	121 minimize button
+122 menu bar
+	123 Safari
+	124 File
+	125 Edit
+	126 View, ID: SafariViewMenu
+	127 History
+	128 Bookmarks, ID: SafariBookmarksMenu
+	129 Develop
+	130 Window, ID: SafariWindowMenu
+	131 Help, ID: SafariHelpMenu
+
+The focused UI element is 38 text entry area (settable) Console prompt, Value: [text entry area: Console prompt]

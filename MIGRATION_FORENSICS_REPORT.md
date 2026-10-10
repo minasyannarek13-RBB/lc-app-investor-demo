@@ -9,6 +9,8 @@
 - Production Supabase: `aspbwgsfkebduvviyeuo` — protected, not accessed
 - Staging Supabase: `dnpizrjuxkcnmdgmvnks` — read-only identity checks only
 
+> Historical 2026-10-09 forensic snapshot. Current hosted empty baseline/access findings supersede its pending-access statements: see `STAGING_READINESS_REPORT.md` v0.7. Source gaps remain unresolved; original forensic evidence is preserved.
+
 ## Result
 
 **STAGING MIGRATION READY: NO. PRODUCTION READY: NO.** The 57-file local chain applies from empty PostgreSQL 17 and passes the security matrix. Hosted staging isolation, schema baseline, migration history, Auth/Storage state and recovery rehearsal are not independently verified. No hosted migration was executed.

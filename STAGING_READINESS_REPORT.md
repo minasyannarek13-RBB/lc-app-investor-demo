@@ -1,18 +1,37 @@
 # LC App Staging Readiness Report
 
 - Project: LC App
-- Version: v0.6
+- Version: v0.7
 - Status: Hosted baseline inspection PASS; migration and release readiness blocked
 - Last updated: 2026-10-10
 - Owner: Narek / Engineering
 - Audience: Release engineer, security reviewer
 - Sources: branch `codex/lc-app-p1-stabilization`, migrations 001–060, local PostgreSQL 17 evidence, Node and browser tests; ChatGPT connected Supabase external inspection dated 2026-10-10, relayed by Narek
-- Assumptions: External verification is accepted from the supplied inspection summary; raw connector output is not stored here. No local Codex hosted inspection was performed.
+- Assumptions: Historical ChatGPT evidence remains separately attributed. Current read-only Codex connector evidence is stored in `evidence/staging-readonly-2026-10-10.json`; no remote writes were performed.
 - Open question: Integrations/configuration isolation, provenance 052–054, hosted E2E and recovery evidence; separate execution authorization
 
 ## Decision
 
 **HOSTED BASELINE INSPECTION: PASS. STAGING READY: NO. STAGING MIGRATION READY: NO. PRODUCTION READY: NO.** Empty application state is verified externally; it does not establish integration isolation, application correctness, backup/recovery or browser readiness.
+
+## Current read-only staging audit — 2026-10-10
+
+Source: **Codex connected Supabase**, current session, restricted to `dnpizrjuxkcnmdgmvnks`. This refresh is separate from the historical ChatGPT inspection below. Raw connector receipt: `evidence/staging-readonly-2026-10-10.json`. Production was not queried. Project `lc-app-staging`, region `ap-southeast-2`, ACTIVE_HEALTHY; direct database identity `db.dnpizrjuxkcnmdgmvnks.supabase.co`, engine PostgreSQL 17.11. All public table/policy/view/function, Auth-user, Storage-bucket/object counts remain zero. Migration ledger absent; migration list, Edge Functions and Security Advisor findings empty. A separate SELECT returned storage policies=[], buckets=[], auth-user custom triggers=[]. Platform Auth migration history is distinct from the absent application migration ledger.
+
+| Gate | Current finding |
+|---|---|
+| Read-only project/schema identity | PASS; connector calls explicitly target staging. |
+| Application staging targeting | FAIL. `.env.example`, both `auth.js` defaults and nested `index.html` inline configuration still target production. The inline publishable key is public client configuration, not a service secret; it nevertheless belongs to the production configuration and must not be reused for staging. No configuration changed. |
+| Auth URL/provider/email settings | BLOCKED by missing management-setting access. Connector exposes project/SQL metadata but no Auth configuration endpoint; dashboard fallback redirects to sign-in. Site URL, redirect allowlist, providers, SMTP, hooks, signup and confirmation settings remain unverified. Zero Auth users does not verify these settings. |
+| Storage | Empty buckets/objects and zero Storage policies confirmed. Hosted API enforcement still untested. |
+| 052–054 | Still absent from available migration paths/history. Empty staging cannot supply their source or establish intentional omission. No replacement SQL invented. |
+| 057–058 | Local reconstruction classification retained; all manifest hashes match. Migration 001/frontend support owner-profile trigger/RPC and UUID-owned public avatar contract. Empty hosted app objects and no custom Auth-user trigger show no current named app conflict; hosted Auth/PostgREST/Storage correctness is not established by this. |
+| Secret/integration isolation | No private-key/service-secret signatures found by a limited tracked code/config scan; no local `.env` or Supabase link/config file present. This does not prove remote credential separation. Shared SMTP/OAuth/webhook secrets, custom domains and integrations remain inaccessible/unverified. |
+| Recovery/hosted E2E | Prepared scripts remain unexecuted. Backup/restore or disposable rebuild and authenticated multi-role/browser negative tests remain required. |
+
+Investor demo still isolates its local data and bypasses Supabase startup; the production defaults block **full-product staging use**, not the tested demo. Runtime config precedence matters: a `.env.example` edit alone would not replace inline `LC_APP_CONFIG` in this static application. Approve an isolated staging build/configuration before any authenticated full-product launch. Minimum variables and ordered migration/recovery gates are in `STAGING_MIGRATION_EXECUTION_PLAN.md`.
+
+**STAGING READY: NO. FULL PRODUCT READY: NO.** Empty hosted baseline is PASS; complete configuration isolation, missing provenance, hosted E2E/integrations and recovery are not PASS.
 
 ## Hosted baseline — externally verified 2026-10-10
 

@@ -1,10 +1,20 @@
 # LC App investor demo readiness
 
-Project: LC App | Version: v0.12 | Status: Local investor demo ready; hosted release NOT ready
+Project: LC App | Version: v0.13 | Status: Local investor demo ready; hosted release NOT ready
 Updated: 2026-10-10 | Owner: Narek / product engineering | Audience: investor-demo reviewer and release engineer
 Sources: `LC_App_GitHub_Pages_Upload/index.html`, mirrored `app-product.js` / `auth.js` / `sw.js`, actual Codex in-app browser screenshots and QA JSON in `evidence/investor-demo-2026-10-10/`, fresh Node tests, `STAGING_READINESS_REPORT.md`.
 Assumptions: All people, content, session schedules and business records are illustrative. Operator/provider value is a hypothesis requiring pilot validation. No real broadcast, customer or partner is represented.
 Open questions: Exact Safari error/request attribution, physical iPhone, full VoiceOver and accessibility QA, approved isolated hosting target and sanitised build; separate hosted release blockers remain unchanged.
+
+## Clean-profile Safari follow-up — 2026-10-10
+
+Current application checkpoint remains **146b166**; no application code change. Native Safari control was available in this session. Requested separate profile **LC QA isolated** created; ScreenRecorder and DeepL both unchecked in its Extensions panel (`clean-profile-extensions.txt/.png`). Safari automatically established a Personal profile from the previous settings; existing-profile extension settings were not changed. QA profile is retained for subsequent testing.
+
+**Permission-error environmental gate: PASS in the tested clean profile.** Both errors disappeared on Inspector opening at 17:14:44, application reload and Inspector reopening after keyboard checks. Clean console evidence: `evidence/safari-accessibility-closure-2026-10-10/clean-profile-console.txt/.png` and `clean-profile-console-final.txt/.png`. Application code/server remained the same. Combined with prior errors on static CSS without LC JavaScript, this identifies the pair as browser/extension-environment dependent, not a confirmed LC application defect. DeepL/source-map loading remains the likely mechanism; Safari did not expose exact per-error URL or initiator, so one-to-one mapping is still NOT VERIFIED. No error suppression or application workaround was added. Safe demo workaround: use this extension-free QA profile.
+
+Remaining primary investor keyboard reachability checked: lobby, dealer profile, scripted room, handoff, Activity, Player Profile, walkthrough and operator workspace. `keyboard-remaining.txt` adds 216 actual focus records, including reverse navigation and Return activation. Scenario activation retains its focused scenario button; handoff return focuses the room heading. Cycles reach primary controls and navigation without an observed trap. Earlier Home/interactions/reduced-motion evidence stays valid. This completes the listed primary reachability checks, **not** every optional safety/Creator/business form, overlay or WCAG conformance test.
+
+VoiceOver process access again timed out (-10005); no additional speech/rotor evidence. Stopped retrying. **VoiceOver walkthrough BLOCKED**, physical iPhone **BLOCKED** (no newly available device established). **INVESTOR DEVICE READY: NO.** No code changed; regression was not rerun. 127/127 is the prior verified 146b166 result. Full contrast/text-scaling and optional overlay coverage retain prior partial status.
 
 ## Safari error investigation and accessibility closure — 2026-10-10
 
