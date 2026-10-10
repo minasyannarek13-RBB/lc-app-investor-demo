@@ -1,14 +1,16 @@
 # LC App Isolated Staging Setup Runbook
 
 - Project: LC App
-- Version: v1.0
-- Status: Ready for authorised execution
-- Last updated: 2026-10-09
+- Version: v1.1
+- Status: Preparation only; execution blocked by remaining gates
+- Last updated: 2026-10-10
 - Owner: Release engineer
 - Audience: Supabase project administrator, QA
 - Sources: migrations 001–060, `tools/test-db.sh`, `RELEASE_SECURITY_MATRIX.md`
 - Assumptions: A separate disposable Supabase project will be supplied; secrets remain in the operator's secret manager
-Open question: Authorised staging project ref and credential delivery method
+Open question: Execution authorization, 052–054 provenance, integration isolation and recovery.
+
+Hosted baseline inspection PASS via ChatGPT connected Supabase, externally verified 2026-10-10 and relayed by Narek; local Codex did not perform hosted inspection. See `STAGING_READINESS_REPORT.md` for counts and `DISPOSABLE_SUPABASE_RECOVERY_RUNBOOK.md` for the prepared disposable rehearsal. The absent migration ledger is expected for the verified empty staging baseline.
 
 ## 1. Local preflight
 
@@ -51,9 +53,16 @@ pg_dump "$STAGING_DATABASE_URL" --schema-only --no-owner --no-privileges \
   > "$evidence_dir/pre-schema.sql"
 pg_dump "$STAGING_DATABASE_URL" --format=custom --no-owner \
   > "$evidence_dir/pre-apply.dump"
-psql "$STAGING_DATABASE_URL" -X -v ON_ERROR_STOP=1 -P pager=off -c \
-  "select version,name,statements from supabase_migrations.schema_migrations order by version;" \
-  > "$evidence_dir/pre-migration-history.txt"
+ledger_exists="$(psql "$STAGING_DATABASE_URL" -X -v ON_ERROR_STOP=1 -Atc \
+  "select to_regclass('supabase_migrations.schema_migrations') is not null;")"
+if [ "$ledger_exists" = t ]; then
+  psql "$STAGING_DATABASE_URL" -X -v ON_ERROR_STOP=1 -P pager=off -c \
+    "select version,name,statements from supabase_migrations.schema_migrations order by version;" \
+    > "$evidence_dir/pre-migration-history.txt"
+else
+  printf 'Ledger absent; zero recorded migrations (empty baseline).\n' \
+    > "$evidence_dir/pre-migration-history.txt"
+fi
 psql "$STAGING_DATABASE_URL" -X -v ON_ERROR_STOP=1 -P pager=off -c \
   "select verification_status,profile_status,count(*) from public.creator_profiles group by 1,2 order by 1,2;" \
   > "$evidence_dir/pre-creator-state.txt" 2>&1 || true
@@ -79,15 +88,17 @@ If the authorised Supabase CLI environment is available:
 ```bash
 supabase link --project-ref "$STAGING_PROJECT_REF"
 supabase migration list --linked
-supabase db push --linked --dry-run --include-all
+supabase db push --linked --dry-run
 ```
+
+These are deferred operator commands; discover supported CLI flags with `--help` before execution. Do not use `--include-all` or ledger repair without a separately reviewed version comparison. A 052–054 provenance decision and rehearsal evidence are required before apply.
 
 Acceptance: project identity is staging; migration history is understood; dry-run contains no unreviewed drop, truncate, ownership transfer or production destination.
 
 ## 5. Apply to isolated staging
 
 ```bash
-supabase db push --linked --include-all
+supabase db push --linked
 supabase migration list --linked
 pg_dump "$STAGING_DATABASE_URL" --schema-only --no-owner --no-privileges \
   > "$evidence_dir/post-schema.sql"
@@ -137,7 +148,9 @@ Acceptance: zero unexplained 5xx, zero cross-tenant disclosure, zero browser sec
 
 ## 9. Recovery and rollback
 
-Before apply, confirm `pre-apply.dump` restores into a disposable database:
+First execute the separately authorised hosted rebuild in `DISPOSABLE_SUPABASE_RECOVERY_RUNBOOK.md`. The local commands below are supplementary database-only restore checks and cannot establish hosted Auth/Storage/configuration recovery. Confirm the local database connection and a collision-free disposable database name before any execution; the example name must not identify an existing database.
+
+Before apply, confirm `pre-apply.dump` restores into that local disposable database:
 
 ```bash
 createdb lc_app_restore_rehearsal

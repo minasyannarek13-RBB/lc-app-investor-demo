@@ -1,18 +1,38 @@
 # LC App Staging Readiness Report
 
 - Project: LC App
-- Version: v0.5
-- Status: Local migration chain verified; staging isolation not independently proven
-- Last updated: 2026-10-09
+- Version: v0.6
+- Status: Hosted baseline inspection PASS; migration and release readiness blocked
+- Last updated: 2026-10-10
 - Owner: Narek / Engineering
 - Audience: Release engineer, security reviewer
-- Sources: branch `codex/lc-app-p1-stabilization`, migrations 001–060, local PostgreSQL 17 evidence, Node and browser tests
-- Assumptions: Staging identity/counts were user-supplied; no hosted schema or migration history was independently available
-- Open question: Read-only staging metadata access and explicit migration authorization
+- Sources: branch `codex/lc-app-p1-stabilization`, migrations 001–060, local PostgreSQL 17 evidence, Node and browser tests; ChatGPT connected Supabase external inspection dated 2026-10-10, relayed by Narek
+- Assumptions: External verification is accepted from the supplied inspection summary; raw connector output is not stored here. No local Codex hosted inspection was performed.
+- Open question: Integrations/configuration isolation, provenance 052–054, hosted E2E and recovery evidence; separate execution authorization
 
 ## Decision
 
-**STAGING READY: NO.** Project ref `dnpizrjuxkcnmdgmvnks` is nominated for isolated staging, but only endpoint existence was independently verified; hosted isolation, schema baseline, authenticated journeys and rollback rehearsal remain unverified. **PRODUCTION READY: NO.**
+**HOSTED BASELINE INSPECTION: PASS. STAGING READY: NO. STAGING MIGRATION READY: NO. PRODUCTION READY: NO.** Empty application state is verified externally; it does not establish integration isolation, application correctness, backup/recovery or browser readiness.
+
+## Hosted baseline — externally verified 2026-10-10
+
+Evidence source: **ChatGPT connected Supabase**, independently verified outside local Codex and relayed by Narek on October 10, 2026. Local Codex records this evidence; it did not execute hosted inspection or writes. Scope: staging `dnpizrjuxkcnmdgmvnks`. Protected production: `aspbwgsfkebduvviyeuo` (untouched).
+
+| Inspection | Verified result |
+|---|---|
+| PostgreSQL | 17.11 |
+| Public tables / RLS policies | 0 / 0 |
+| Public views / functions | 0 / 0 |
+| Auth users | 0 |
+| Storage buckets / objects | 0 / 0 |
+| Recorded migrations | 0 |
+| Migration ledger | `supabase_migrations.schema_migrations` absent |
+| Edge Functions | 0 |
+| Supabase Security Advisor findings | 0 |
+
+An absent migration ledger is the verified empty baseline, not a failed SELECT or evidence that missing source versions never existed. Staging has no recorded 052–054; their source provenance remains unresolved. Zero advisor findings on an empty project do not certify the migrated app. Public-object counts do not mean Supabase platform schemas are absent. Baseline must be refreshed before any later authorised apply.
+
+Prepared, not executed: `tools/hosted-e2e.py`, `tools/disposable-migration.sh` and `DISPOSABLE_SUPABASE_RECOVERY_RUNBOOK.md`. Auth/RLS/Storage smoke coverage does not replace the full hosted role/tenant/integration/browser acceptance matrix.
 
 ## Verified local evidence
 
@@ -33,8 +53,8 @@
 | SEC-04 | P1 | Browser roles could be exposed to search-path object substitution if the public schema retained CREATE. | Migration 060 revokes public-schema CREATE from browser roles; schema audit enforces it. |
 | MIG-01 | P1 | Migration 001 documents pre-existing live auth/storage behavior but does not define all of it; 057–058 reconstruct that behavior. | Hosted schema comparison is a mandatory staging gate. Do not apply reconstruction blindly over an existing project. |
 | MIG-02 | P1 | Migration 012 changes unverified published Creator rows and public user-generated sessions. | Snapshot affected rows before staging apply; acceptance requires reviewed before/after counts. |
-| MIG-03 | P1 | Sequence numbers 052–054 are absent from every inspected branch, reflog, reachable history and unreachable blob. | Do not invent placeholders; read-only staging migration history must confirm they were never applied remotely. |
-| STG-01 | P1 | Staging ref is supplied and its endpoint exists, but host, users, data, integrations and migration history are not independently verified. | Keep migration execution blocked pending authorised read-only metadata evidence. |
+| MIG-03 | P1 | Sequence numbers 052–054 are absent from every inspected branch, reflog, reachable history and unreachable blob. | No placeholders. External staging baseline has no recorded migrations and no ledger; source provenance 052–054 remains BLOCKED. |
+| STG-01 | P1 | Hosted empty baseline inspection PASS via ChatGPT connected Supabase on 2026-10-10; integrations and recovery remain unverified. | Keep execution blocked pending provenance, integration isolation, recovery rehearsal and separate authorization. |
 | OBS-01 | P2 | No hosted release telemetry or alert thresholds have been verified. | Staging runbook defines required log capture and zero-error acceptance criteria. |
 
 ## Coverage limits

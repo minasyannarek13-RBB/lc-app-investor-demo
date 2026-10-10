@@ -1,9 +1,9 @@
 # LC App Staging Migration Execution Plan
 
 - Project: LC App
-- Version: v1.0
+- Version: v1.1
 - Status: Reviewable plan; execution not authorised
-- Date: 2026-10-09
+- Date: 2026-10-10
 - Target ref: `dnpizrjuxkcnmdgmvnks`
 - Protected production ref: `aspbwgsfkebduvviyeuo`
 
@@ -11,15 +11,17 @@
 
 This plan contains no authority to apply SQL. All hosted actions in this task stop at read-only inspection. Never link a writable CLI session until project identity, host and isolation evidence have been reviewed.
 
-## Preconditions
+## Hosted baseline and remaining preconditions
 
-1. Confirm the target ref and database host differ from production.
-2. With read-only credentials, capture schemas, `supabase_migrations.schema_migrations`, RLS/policies, roles/grants, functions/triggers, Auth aggregate user count, Storage bucket/object aggregates, Edge Functions, custom domains, webhooks and integrations.
-3. Require zero production accounts/data/destinations and no shared deployment configuration.
-4. Confirm no remote `052–054`; otherwise stop and recover their authoritative SQL.
-5. Diff existing objects against 001–060. Any conflict with 001–006 or 057–058 blocks execution.
-6. Create a provider-supported backup or disposable-project recovery point and prove it restores before apply.
-7. Obtain explicit migration authorization after the dry-run is reviewed.
+**HOSTED BASELINE INSPECTION: PASS**, source **ChatGPT connected Supabase**, externally verified 2026-10-10 and relayed by Narek; no local Codex hosted verification. Canonical counts: `STAGING_READINESS_REPORT.md`, Hosted baseline section (PostgreSQL 17.11, all listed application counts zero, migration ledger absent). Production `aspbwgsfkebduvviyeuo` remains protected.
+
+1. Refresh the accepted baseline before apply and verify credential/database host mapping to the approved target.
+2. Read `to_regclass('supabase_migrations.schema_migrations')` first. An absent ledger is expected for this empty baseline; query rows only if it exists. Inspect roles/grants, platform policies, custom domains, SMTP, webhooks, integrations and deployment configuration separately.
+3. Require no production destinations, shared credentials or deployment configuration. Empty tables/users/buckets do not prove this.
+4. Source provenance 052–054 remains unresolved despite zero staging migration records. Recover authoritative SQL or obtain an explicitly recorded decision approving only the present experimental chain in a disposable project. No gap repair or placeholder SQL.
+5. Review the present 57-file chain and reconstructed 057–058 against the baseline. Existing application-object conflicts block apply.
+6. Rehearse migration/recreation recovery in a separately authorised disposable project using `DISPOSABLE_SUPABASE_RECOVERY_RUNBOOK.md`. This does not establish restoration of populated staging data.
+7. Obtain separate target-specific execution authorization. No hosted actions are authorised by preparing these files.
 
 ## Ordered immutable manifest
 
@@ -87,10 +89,10 @@ The missing numbers `052–054` are deliberately absent from the manifest; they 
 
 ## Execution method after separate authorization
 
-1. Record `git rev-parse HEAD`, verify every manifest hash with `shasum -a 256`, and require a clean worktree.
+1. Record `git rev-parse HEAD`, verify every manifest hash with `shasum -a 256`, and require a clean tracked worktree. The pre-existing untracked STAGING_HANDOFF.zip is historical and is not updated or authorised for use by this checkpoint.
 2. Run `node --test tests/*.test.mjs` and `./tools/test-db.sh` locally.
 3. Generate a dry-run against the confirmed staging project. Apply only files absent from remote history, in manifest order. Never use `migration repair`, `db reset`, `--include-all` without a reviewed version comparison, or production credentials.
-4. Execute each SQL file with stop-on-error and retain redacted output. Because files contain transaction blocks, stop immediately on any error and do not mark the version applied manually.
+4. Use a reviewed Supabase migration workflow that records history for staging. Do not mix direct SQL application and ledger-managed deployment. The disposable-only direct SQL runner described in the recovery runbook deliberately does not populate a Supabase ledger; its hash receipt is experimental evidence, not migration history. On any error stop; earlier committed files can remain applied.
 5. Capture post-schema and post-history; compare them with the reviewed expected state.
 
 ## Verification queries
@@ -106,6 +108,10 @@ Run read-only queries after apply to verify:
 - migration history exactly matches the manifest with no `052–054` rows.
 
 Use `tests/db/schema-security-audit.sql` only after reviewing compatibility with hosted catalog behavior.
+
+## Prepared executable tests (not run)
+
+`tools/hosted-e2e.py` exercises real Auth password/refresh/logout, owner profile RPC, private-column denial, cross-user RLS and Storage ownership using synthetic users. `tools/disposable-migration.sh` applies only the hash-pinned present chain to a separate disposable target after explicit runtime guards. Neither was run. See the recovery runbook for prerequisites, invocation, cleanup, acceptance and remaining role/tenant/browser cases.
 
 ## Hosted functional acceptance
 

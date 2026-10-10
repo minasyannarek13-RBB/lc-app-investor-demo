@@ -1,15 +1,15 @@
-# Current Release Checkpoint — 2026-10-09
+# Current Release Checkpoint — 2026-10-10
 
-Project: LC App | Version: v0.5 | Status: Migration forensics verified locally; staging migration blocked
+Project: LC App | Version: v0.6 | Status: Hosted baseline inspection PASS; staging migration and release blocked
 Owner: Narek / Engineering | Audience: founder and release engineer
-Sources: current code, tests, migrations, PR #18 read-only metadata; historical notes below are not current release evidence.
+Sources: ChatGPT connected Supabase external baseline 2026-10-10 (relayed by Narek), current code, tests, migrations, PR #18 read-only metadata; historical notes below are not current release evidence.
 
 ## Migration forensics checkpoint
 - Starting checkpoint `433b6f9378f0402866d81391507a8a9324808a86` verified on `codex/lc-app-p1-stabilization` with a clean worktree.
 - Full branch/tag/reflog/object audit found 57 SQL files: 001–051 and 055–060. Versions 052–054 are MISSING with no authoritative SQL; no placeholders were created.
 - 057–058 are VERIFIED RECONSTRUCTIONS from the documented foundation contract and application usage; hosted equivalence remains unverified.
-- Current run: Node 117/117 PASS; PostgreSQL clean-room chain PASS; recovery replay 057–060 PASS; schema audit PASS; DB security matrix 40/40 PASS.
-- Staging ref `dnpizrjuxkcnmdgmvnks` endpoint exists and is absent from repository/deployment configuration. User-supplied zero-table/migration/function status is not independently verified. No hosted migration ran.
+- Previous 2026-10-09 local run: Node 117/117 PASS; PostgreSQL clean-room chain PASS; recovery replay 057–060 PASS; schema audit PASS; DB security matrix 40/40 PASS.
+- HOSTED BASELINE INSPECTION: PASS for `dnpizrjuxkcnmdgmvnks`, independently verified externally by ChatGPT connected Supabase on 2026-10-10; local Codex only records the supplied result. PostgreSQL 17.11; public tables/policies/views/functions, Auth users, Storage buckets/objects, recorded migrations, Edge Functions and Security Advisor findings all zero; `supabase_migrations.schema_migrations` absent. No hosted migration ran. Canonical baseline: `STAGING_READINESS_REPORT.md`. Protected production `aspbwgsfkebduvviyeuo` untouched.
 - Canonical evidence: `MIGRATION_FORENSICS_REPORT.md`, `MIGRATION_PROVENANCE_MATRIX.md`, `STAGING_MIGRATION_EXECUTION_PLAN.md`.
 
 ## Current RC and verified fixes
@@ -36,7 +36,7 @@ Sources: current code, tests, migrations, PR #18 read-only metadata; historical 
 
 ## External release blockers and gate status
 - Gate 1 LOCAL PASS: Chrome/WebKit demo smoke, isolated schema audit and authenticated database matrix pass. Hosted Auth/PostgREST/Storage/browser journeys and comprehensive accessibility verification remain staging work.
-- Gate 2 BLOCKED: PostgreSQL 17 and Supabase CLI 2.120.0 are installed, but Docker, verified isolated staging identity and authorized staging credentials are absent. `.env.example` identifies an existing hosted project and cannot be assumed to be staging. No hosted database request or migration was executed.
+- Gate 2 BASELINE PASS / EXECUTION BLOCKED: accepted external baseline identifies an empty hosted staging project. 052–054 source provenance, integration/configuration isolation, hosted Auth/RLS/Storage E2E, backup/recovery and authenticated browser tests remain unresolved. Credentials and execution authorization are not supplied. `.env.example` is not staging authority. No hosted writes, production changes, push or Vercel deployment occurred.
 - Migration 012 changes existing unverified published creator profiles to draft and user-generated public sessions to private. Snapshot those rows before staging application; do not auto-restore public visibility on rollback. Depends on existing personas, creator profiles/sessions, auth and active-profile contracts.
 - Migration 056 replaces two trigger functions, revokes browser execution and recreates the metadata trigger. Existing event rows are not rewritten. Depends on the prior event schema/context/state/return migrations and creator/block contracts. Trigger behavior and existing metadata compatibility require a real staging database.
 - Migration recovery: compare 001–006 and reconstructed 057–059 with a verified staging schema snapshot before applying anything. Capture function/trigger/policy definitions and affected 012 row states; apply transactionally to isolated staging and rerun the authenticated role matrix. On failure, rollback the transaction. After commit, prefer a reviewed forward repair. Reopening unapproved public rows is not an acceptable rollback. No hosted rollback is claimed.
@@ -45,10 +45,28 @@ Sources: current code, tests, migrations, PR #18 read-only metadata; historical 
 - Gate 3 NOT PASSED; Gate 4 founder approval required. PRODUCTION READY: NO.
 
 ## Release/rollback procedure and next action
-1. Provide an isolated staging schema snapshot and authorized access without posting secrets to chat. Verify project identity and compare the recovered/reconstructed foundation before any migration.
+1. Review the disposable runbook and prepared scripts; resolve 052–054 provenance or record explicit experimental-chain approval, then separately authorise a fresh disposable project. Refresh the accepted baseline and verify integrations/credentials before later staging execution.
 2. Snapshot and apply only the verified missing migrations, then execute real auth/RLS/tenant/approval/notifications/handoff/return/adversarial integration tests using approved staging destinations.
 3. Complete hosted authenticated Chrome/WebKit journeys, account lifecycle, monitoring and fuller accessibility validation. Do not treat the local matrix as production security certification.
 4. Review exact local SHA and deploy policy before requesting push/deployment authorization. Preserve immutable prior frontend artifact; rollback frontend to the prior reviewed artifact only after checking schema compatibility. These local changes can be reverted by a new local git revert commit; never reset the preserved RC or automatically roll back production.
+
+## Validation — documentation checkpoint 2026-10-10
+- Fresh local Node suite: 117/117 PASS. Python AST and Bash syntax PASS; prepared hosted scripts were not executed.
+- All 57 migration manifest paths/order/SHA-256 values verified against current SQL files; 052–054 remain absent, no SQL changed.
+- Runtime mirror parity and `git diff --check` PASS; links, protected refs, source attribution and unresolved gates checked across updated docs.
+- No fresh hosted/browser/PostgreSQL matrix run is claimed. Earlier local evidence above remains dated 2026-10-09.
+- Pre-existing untracked `STAGING_HANDOFF.zip` left untouched and excluded from this commit; use committed files for this checkpoint.
+
+## AI_SYNC — 2026-10-10
+Date: 2026-10-10 | AI: Codex | Project: LC App
+Task: Record independently verified external hosted baseline and prepare unexecuted hosted tests/recovery.
+Files created: `tools/hosted-e2e.py`, `tools/disposable-migration.sh`, `DISPOSABLE_SUPABASE_RECOVERY_RUNBOOK.md`.
+Files updated: `STAGING_READINESS_REPORT.md`, `STAGING_MIGRATION_EXECUTION_PLAN.md`, this checkpoint; targeted empty-baseline correction in `STAGING_SETUP_RUNBOOK.md`.
+Decisions: hosted baseline inspection PASS, sourced to ChatGPT connected Supabase; staging migration/release and production readiness remain NO.
+Assumptions: supplied external summary accepted; raw connector output not stored locally. No new readiness assumptions.
+Contradictions: superseded current statements that hosted baseline was unverified; historical logs below remain dated historical evidence.
+Open questions: 052–054 provenance, Auth/RLS/Storage E2E, integration isolation, backup/recovery, browser testing and execution authorization.
+Next action: review and authorise the separate disposable-project rehearsal after the provenance decision. Prepared scripts have not been run.
 
 ## Consolidated AI_SYNC entry
 Date: 2026-10-09 | AI: Codex | Project: LC App
