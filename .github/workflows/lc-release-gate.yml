@@ -34,14 +34,7 @@ jobs:
           done
 
       - name: Block private runtime credentials
-        shell: bash
-        run: |
-          set -euo pipefail
-          if grep -RInE --exclude-dir=.git --exclude='*.md' --exclude='*.yml' --exclude='*.yaml' \
-            '(SUPABASE_SERVICE_ROLE_KEY|service_role[[:space:]]*[:=]|postgres(ql)?://[^[:space:]]+:[^[:space:]]+@|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY)' .; then
-            echo 'Private credential material or privileged runtime key reference detected.' >&2
-            exit 1
-          fi
+        run: python3 tools/check-public-secrets.py
 
       - name: Preserve LC product boundary
         shell: bash

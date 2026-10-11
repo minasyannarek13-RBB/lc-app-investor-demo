@@ -1,9 +1,19 @@
-const CACHE_NAME = "lc-app-investor-demo-v135";
+const CACHE_NAME = "lc-app-investor-demo-v144";
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
-  "./auth.js",
+  "./public-demo-bootstrap.js",
+  "./public-product-v4.css",
+  "./public-runtime-v4.js",
+  "./legacy-preview.js",
+  "./app_prototype_assets/dealers/dealer_marcus_avatar_v1-avatar-120.webp",
+  "./app_prototype_assets/dealers/dealer_mia_avatar_v1-avatar-120.webp",
+  "./app_prototype_assets/dealers/dealer_lilit_avatar_v1-avatar-120.webp",
+  "./app_prototype_assets/dealers/dealer_sofia_avatar_v1-avatar-120.webp",
+  "./app_prototype_assets/dealers/v2_polish/alex_baccarat-avatar-120.webp",
+  "./app_prototype_assets/dealers/v2_polish/alex_portrait-avatar-120.webp",
+  "./app_prototype_assets/dealers/dealer_sofia_avatar_v1.avif",
   "./social.js",
   "./app-product.js",
   "./product-shell-v4.css",
@@ -15,7 +25,6 @@ const FILES_TO_CACHE = [
   "./product-shell-v2.css",
   "./product-shell-v2.js",
   "./?app=1",
-  "./02_OPEN_STATIC_PREVIEW.html",
   "./manifest.webmanifest",
   "./app-icon.svg",
   "./app-icon-512.png",
@@ -23,22 +32,35 @@ const FILES_TO_CACHE = [
   "./app_prototype_assets/dealers/dealer_sofia_avatar_v1.jpg",
   "./app_prototype_assets/dealers/dealer_marcus_avatar_v1.jpg",
   "./app_prototype_assets/dealers/dealer_lilit_avatar_v1.jpg",
-  "./static_preview/LC_App_V2_Preview_Pack.pdf",
-  "./static_preview/LC_App_V2_Preview_Contact_Sheet.png",
-  "./static_preview/png/01_feed_discovery_mia_roulette.png",
-  "./static_preview/png/02_watch_mode_mia_roulette.png",
-  "./static_preview/png/03_roulette_gameplay_win_state.png",
-  "./static_preview/png/04_blackjack_gameplay_win_state.png",
-  "./static_preview/png/05_baccarat_gameplay_win_state.png",
-  "./static_preview/png/06_dealer_profile_sofia.png",
-  "./static_preview/png/07_operator_handoff.png",
-  "./static_preview/png/08_operator_pilot_insights.png"
+  "./app_prototype_assets/dealers/v2_polish/alex_baccarat.jpg",
+  "./app_prototype_assets/dealers/v2_polish/alex_portrait.jpg",
+  "./app_prototype_assets/dealers/v2_polish/marcus_community.jpg",
+  "./app_prototype_assets/dealers/v2_polish/mia_roulette.jpg",
+  "./app_prototype_assets/dealers/v2_polish/sofia_avatar_public.jpg",
+  "./app_prototype_assets/dealers/v2_polish/sofia_discover_public.jpg",
+  "./app_prototype_assets/dealers/v2_polish/sofia_profile_public.jpg",
+  "./app_prototype_assets/dealers/v2_polish/sofia_welcome_public.jpg",
+  "./app_prototype_assets/dealers/dealer_lilit_avatar_v1-avatar.webp",
+  "./app_prototype_assets/dealers/dealer_marcus_avatar_v1-avatar.webp",
+  "./app_prototype_assets/dealers/dealer_mia_avatar_v1-avatar.webp",
+  "./app_prototype_assets/dealers/dealer_sofia_avatar_v1-avatar.webp",
+  "./app_prototype_assets/dealers/v2_polish/alex_portrait-avatar.webp",
+  "./app_prototype_assets/dealers/v2_polish/alex_baccarat-avatar.webp"
 ];
+
+const rootWorker = typeof self.location.pathname === "string"
+  && !self.location.pathname.endsWith("/LC_App_GitHub_Pages_Upload/sw.js");
+const PRECACHE_FILES = rootWorker
+  ? ["./", "./index.html", "./app-icon.svg", "./robots.txt", "./sitemap.xml",
+    ...FILES_TO_CACHE.filter(file => file.startsWith("./app_prototype_assets/dealers/") && !file.includes("/v2_polish/") && !file.endsWith("-avatar.webp") && !file.endsWith("-avatar-120.webp") && !file.endsWith(".avif")), "./LC_App_GitHub_Pages_Upload/", "./LC_App_GitHub_Pages_Upload/index.html",
+    ...FILES_TO_CACHE.filter(file => file !== "./" && file !== "./index.html")
+      .map(file => "./LC_App_GitHub_Pages_Upload/" + file.slice(2))]
+  : FILES_TO_CACHE;
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(FILES_TO_CACHE))
+      .then((cache) => cache.addAll(PRECACHE_FILES))
       .then(() => self.skipWaiting())
   );
 });
@@ -61,10 +83,15 @@ self.addEventListener("fetch", (event) => {
   const scope = new URL(self.registration.scope);
   const relativePath = url.pathname.startsWith(scope.pathname)
     ? url.pathname.slice(scope.pathname.length) : null;
-  const shellPath = relativePath === "" || relativePath === "index.html";
-  const staticAsset = FILES_TO_CACHE.some((file) => new URL(file, scope).pathname === url.pathname)
+  const shellPath = relativePath === "" || relativePath === "index.html"
+    || (rootWorker && ["LC_App_GitHub_Pages_Upload/", "LC_App_GitHub_Pages_Upload/index.html"].includes(relativePath));
+  const staticAsset = PRECACHE_FILES.some((file) => new URL(file, scope).pathname === url.pathname)
     || (relativePath !== null && /^app_prototype_assets\/[A-Za-z0-9_./-]+\.(?:png|jpe?g|webp|svg)$/i.test(relativePath));
-  const safeQuery = !url.search || (shellPath && url.search === "?app=1");
+  const revisionedAsset = staticAsset && /\.(?:js|css)$/i.test(url.pathname) && /^\?v=\d+$/.test(url.search);
+  const localeShellQuery = shellPath && [...url.searchParams].every(([key, value]) =>
+    (key === "app" && value === "1") || (key === "demo" && value === "investor") || (key === "lang" && ["en", "ru"].includes(value)))
+    && new Set([...url.searchParams.keys()]).size === [...url.searchParams.keys()].length;
+  const safeQuery = revisionedAsset || !url.search || localeShellQuery;
   if (!staticAsset || !safeQuery || event.request.headers.has("authorization")
       || event.request.cache === "no-store") return;
 
@@ -85,7 +112,7 @@ self.addEventListener("fetch", (event) => {
           }
           return response;
         })
-        .catch(() => caches.match(event.request).then((cached) => cached || (acceptsHtml ? caches.match("./index.html") : undefined)))
+        .catch(() => caches.match(event.request).then((cached) => cached || (revisionedAsset ? caches.match(url.origin + url.pathname) : acceptsHtml ? caches.match("./index.html") : undefined)))
     );
     return;
   }

@@ -18,7 +18,7 @@ function harness(response = new Response('public')) {
     caches: {
       open: async () => ({ put: async (request) => writes.push(request.url) }),
       match: async () => undefined,
-      keys: async () => ['other-app-cache', 'lc-app-investor-demo-v130', 'lc-app-investor-demo-v135'],
+      keys: async () => ['other-app-cache', 'lc-app-investor-demo-v130', 'lc-app-investor-demo-v144'],
       delete: async (key) => { deleted.push(key); }
     }
   });
@@ -82,4 +82,22 @@ test('activation preserves unrelated applications caches and synchronized copies
   await h.activate();
   assert.deepEqual(h.deleted, ['lc-app-investor-demo-v130']);
   assert.equal(source, readFileSync(new URL('../LC_App_GitHub_Pages_Upload/sw.js', import.meta.url), 'utf8'));
+});
+
+test('offline revisioned app modules resolve to the installed public asset without accepting identity queries',async()=>{
+  const handlers={},reads=[];
+  vm.runInNewContext(source,{URL,Promise,self:{location:{origin:'https://lc.test'},registration:{scope:'https://lc.test/app/'},addEventListener:(name,fn)=>handlers[name]=fn},fetch:async()=>{throw Error('offline');},caches:{match:async key=>{reads.push(typeof key==='string'?key:key.url);return key==='https://lc.test/app/public-demo-bootstrap.js'?new Response('public mount module'):undefined;}}});
+  let response;
+  handlers.fetch({request:new Request('https://lc.test/app/public-demo-bootstrap.js?v=1'),respondWith:p=>response=p,waitUntil(){}});
+  assert.equal(await (await response).text(),'public mount module');
+  assert.deepEqual(reads,['https://lc.test/app/public-demo-bootstrap.js?v=1','https://lc.test/app/public-demo-bootstrap.js']);
+  let intercepted=false;
+  handlers.fetch({request:new Request('https://lc.test/app/public-demo-bootstrap.js?access_token=private'),respondWith:()=>intercepted=true,waitUntil(){}});
+  assert.equal(intercepted,false);
+});
+
+
+test('locale shell queries cache only canonical EN/RU public routes',async()=>{
+ for(const route of ['/app/?app=1&lang=ru','/app/?lang=en','/app/index.html?demo=investor&lang=ru']){const h=harness();assert.equal(await h.request(route),true,route);}
+ for(const route of ['/app/?lang=de','/app/?lang=ru&lang=en','/app/?app=1&mode=authenticated','/app/?lang=en&code=secret','/app/app-product.js?lang=ru']){const h=harness();assert.equal(await h.request(route),false,route);assert.equal(h.writes.length,0);}
 });

@@ -1,3 +1,7 @@
+> Current V3 public static release evidence: LC_APP_V3_RELEASE_REPORT_2026-10-10.md. Historical readiness notes below are not the current V3 acceptance record.
+
+> Latest 2026-10-10: the combined site + isolated demo release candidate is documented in [ONE_PASS_REPORT_2026-10-10.md](ONE_PASS_REPORT_2026-10-10.md). Entry and runtime changed; prior evidence below is historical. Hosted release remains unapproved.
+
 # LC App investor demo readiness
 
 Project: LC App | Version: v0.13 | Status: Local investor demo ready; hosted release NOT ready

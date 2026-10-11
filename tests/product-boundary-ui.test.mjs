@@ -26,7 +26,7 @@ test('demo content is explicit without changing real-session labels', () => {
   assert.match(source, /isIllustrativeSession\(session\) \? "DEMO LIVE" : "LIVE NOW"/);
   assert.match(source, /demo-session-sofia[\s\S]+status: "scheduled"/);
   assert.match(source, /demo-session-alex[\s\S]+status: "scheduled"/);
-  assert.match(source, /DEMO EXPERIENCE · \$\{safe\(\(state\.demoPersona/);
+  assert.match(source, /DEMO · LOCAL DATA/);
   assert.match(source, /Illustrative profile/);
   assert.match(source, /ILLUSTRATIVE PROFILE/);
   assert.match(source, /Discover the People<br>Behind the Tables/);

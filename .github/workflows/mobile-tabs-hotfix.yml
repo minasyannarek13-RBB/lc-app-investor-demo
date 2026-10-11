@@ -6,9 +6,10 @@ on:
       - '.github/workflows/mobile-tabs-hotfix.yml'
 jobs:
   hotfix:
+    if: ${{ false }} # Retired source-mutating patch automation; immutable releases only.
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
         with:

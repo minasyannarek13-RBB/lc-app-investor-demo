@@ -1,0 +1,74 @@
+name: LC App independent frozen v145 recovery
+on:
+  workflow_dispatch:
+    inputs:
+      expected_sha:
+        description: Full approved main commit SHA
+        required: true
+        type: string
+      expected_zip_sha256:
+        description: Exact approved ZIP SHA-256
+        required: true
+        type: string
+      release_mode:
+        description: Explicit approved artifact mode
+        required: true
+        type: choice
+        options: [fallback-v145]
+permissions:
+  contents: read
+concurrency:
+  group: lc-app-public-pages
+  cancel-in-progress: true
+jobs:
+  verify:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify approved immutable artifact and exact allowlist
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+          EXPECTED_ZIP_SHA: ${{ inputs.expected_zip_sha256 }}
+          RELEASE_MODE: ${{ inputs.release_mode }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          test "$RELEASE_MODE" = 'fallback-v145'
+          python3 tools/verify-pages-package.py --mode "$RELEASE_MODE" --expected-commit "$EXPECTED_SHA" --expected-zip-sha "$EXPECTED_ZIP_SHA" --output public-release
+      - name: Retain verified artifact and manifests
+        uses: actions/upload-artifact@v4
+        with:
+          name: lc-app-fallback-v145-${{ github.sha }}
+          path: releases/lc-v4/
+          retention-days: 90
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public-release
+  deploy:
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Recheck immutable approval and current Pages target
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+          EXPECTED_ZIP_SHA: ${{ inputs.expected_zip_sha256 }}
+          RELEASE_MODE: ${{ inputs.release_mode }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 tools/verify-pages-package.py --mode "$RELEASE_MODE" --expected-commit "$EXPECTED_SHA" --expected-zip-sha "$EXPECTED_ZIP_SHA"
+          python3 tools/check-pages-target.py --expected-sha "$EXPECTED_SHA" --mode "$RELEASE_MODE"
+      - name: Deploy verified artifact to existing Pages site
+        id: deployment
+        uses: actions/deploy-pages@v4

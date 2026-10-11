@@ -1,8 +1,108 @@
-# Current Release Checkpoint — 2026-10-10
+## Release infrastructure hardening — 2026-10-11
 
-Project: LC App | Version: v0.14 | Status: Local investor demo ready; hosted baseline PASS; hosted release blocked
+- Local candidate preparation: manual public release and independent frozen-v145 rollback workflows, required full commit/ZIP SHA inputs, per-file SHA/size and exact allowlist verification, current-main/Pages-domain/HTTPS rechecks, bounded timeouts and shared deployment serialization. Frozen packages live in `releases/lc-v4/`; publication remains separately authorized.
+- Public delivery specialization removes database adapter/RPC and private account-route implementations while preserving canonical authenticated sources.55 public paths retained; unchanged frozen v14513-file recovery. Old performance/preflight evidence and site snapshot retained outside Git staging.
+- Obsolete shell script URL checks corrected; historical source-mutating automation disabled locally and contents-write permissions retired. Security contracts preserved and negative artifact/privacy tests added. Exact local commit and package receipts are recorded in the owner-only hardening report after verified commit.
+- No push/merge/dispatch/deploy/Pages/DNS/hosted writes. Next: owner review of local candidate, then separately authorized feature push, remote CI, source switch before merge, approved main SHA dispatch and production smoke.
+
+### AI_SYNC — consolidated release hardening
+
+Date: 2026-10-11 | AI: Codex | Project: LC App | Task: close local P0 release infrastructure blockers.
+Created: independent rollback workflow, pinned artifact contract/manifests/ZIPs, package/target gates, public delivery specializer and negative tests. Updated: manual release workflow, stale CI, retired source-writer workflows, builder, public CSP, staging exclusions and this state.
+Decisions: no product/business decision changed; recovery uses frozen v145 bytes without application build/npm; public and authenticated source delivery are separated. Assumptions: local dry-run cannot validate GitHub deployment/OIDC or zero downtime; source repository remains public.
+Contradictions resolved: inactive DB/Auth code in public payload; fallback dependency on main build; candidate SHA ambiguity resolved by local commit receipt. Open: remote installation/checks and actual existing-domain V4 acceptance require explicit publication approval.
+Recommended next action: review candidate/ZIP hashes and authorize only the feature-branch push when ready.
+
+## Production preflight — 2026-10-11
+
+- Canonical report: `LC_APP_V4_PRODUCTION_PREFLIGHT_2026-10-11.md`. Result: artifact integrity PASS, production PREFLIGHT FAIL / NO-GO; earlier local lab GO remains valid.
+- Fresh read-only Pages/API and live byte checks confirm legacy main/root, serving SHA `3a9d2008689312f4642fa42a1fc8c658e92a42be`, existing domain/HTTPS, SW v118. Real Fastly gzip proven for HTML/CSS/JS; br-only replies identity.55/13 ZIP paths, sizes and SHA manifests match; Node156/156 and scanner PASS.
+- Blockers: release workflow local only, stale shell-workflow script assertions fail, candidate is uncommitted (no approved release SHA), fallback dispatch depends on full build/tests/npm, approved ZIP SHA not enforced by workflow. Shared inactive database adapter branches remain in public bundle, so strict private-code exclusion is not satisfied despite Auth SDK exclusion/network isolation.
+- No push/merge/deploy/settings/DNS/hosted writes/source deletion/messages. Next: repair CI, independent hash-pinned recovery, resolve source-privacy requirement, then freeze reviewed candidate before publication approval.
+
+### AI_SYNC — production preflight
+
+Date: 2026-10-11 | AI: Codex | Project: LC App | Task: read-only production release preflight.
+Created: consolidated preflight report and API/DNS/HTTP/package evidence. Updated: this execution state only; product/frozen packages unchanged.
+Decisions: no approved product/business decision changed; production remains NO-GO until concrete blockers resolved. Assumptions: no zero-downtime guarantee; current gzip is not proof of deployed V4 performance.
+Contradictions found: “Auth excluded” does not mean all authenticated source branches excluded; fallback bytes exist but recovery workflow is build-dependent. Open: final commit SHA, remote CI/recovery, source privacy, real-domain V4 QA.
+Recommended next action: prepare a clean candidate with corrected CI and independent verified-artifact recovery before seeking release authorization.
+
+# Current Release Checkpoint — 2026-10-11
+
+Project: LC App | Version: v0.18 | Status: V4 production-like laboratory GO; external publication approval and production serving acceptance required
 Owner: Narek / Engineering | Audience: founder and release engineer
 Sources: ChatGPT connected Supabase external baseline 2026-10-10 (relayed by Narek), current code, tests, migrations, PR #18 read-only metadata; historical notes below are not current release evidence.
+
+## V4 final performance sprint — current checkpoint, 2026-10-11
+
+- Canonical result: `LC_APP_V4_PERFORMANCE_RELEASE_REPORT_2026-10-11.html`; exact receipts `evidence/performance-v4-2026-10-11/final-verification.json`. Supersedes the mobile performance NO-GO of the historical premium checkpoint below; does not certify hosted/private production readiness.
+- Frozen mobile Player RU, Lighthouse13.5.0, same simulated mobile settings, 3 cold + 3 warm runs per plain/Brotli/gzip mode. Cold final Brotli: Performance99 (99–99), LCP median1.934s (1.734–1.934); gzip99 (98–99), LCP2.028s (2.027–2.081). Plain78 (77–78), LCP4.189s remains below target. All compressed cold runs pass both gates; not field Core Web Vitals.
+- Delivery changes: responsive120/240 WebP avatars; Sofia AVIF with JPEG fallback and original crop; early critical preload; ordered defer runtime/CSS bundle; preserved legacy JS deferred on legacy route; UTF-8 delivery minification; single initial mount and observer feedback fix; offscreen images load before viewport entry. Original root landing and19 original image bytes unchanged.
+- Fresh final Node156/156, secrets and generated-payload scan PASS; PostgreSQL local security40/40 + recovery reapply parity; browser6/6 Chromium/WebKit375/768/1440; premium EN/RU/11scenes/4roles4/4; exact v118→v144 / fail-closed v1454/4; lazy-scroll/crop/no-IO8/8; axe five mobile RU screens zero violations. 160 accepted screenshots /80 pairs, 36 baseline+final LH JSON/traces and12 final performance HAR saved. No critical regression detected.
+- New allowlist55 files = previous39 retained +16 derived delivery assets, 7 changed existing paths, no removed paths/Auth. Public SHA256548d88dd4ca24259d865defd7e078cc242d3ff997751b7a7823cd175a29fb736; fail-closed13 files v145 SHA256dac10adb378e71cb8dec62012e3c9f2afd42e6063a887ac1cf5f4a614c01525c. Both deterministic rebuilds match. Baseline ZIP, earlier rollback versions and selected pre-sprint source backup preserved.
+- Remaining external gate: verify existing Pages gzip/Brotli and post-publication real serving; physical iPhone/VoiceOver and field CWV unmeasured. Original F08 repetition and historical052–054/hosted-validation gaps remain. Separate approval required for push/merge/deploy/Pages source. No commit, push, merge, deployment, settings/DNS/hosted writes, source deletion or messages performed.
+- Next: owner review/authorization for controlled publication to existing domain; switch main/root→Actions before merge, deploy only approved allowlist via manual full-SHA workflow; v145 fail-closed rollback. Recovery after installedv145 requires v146+ and fresh QA, never a lower-cache downgrade.
+
+## Premium V4 controlled improvement — historical checkpoint, superseded for performance
+
+
+- Current canonical result: `LC_APP_V4_PREMIUM_RELEASE_REPORT_2026-10-11.html`. Full V3 audit and 136 screenshots reviewed; 160 new accepted before/after frames (80 pairs), EN/RU desktop/mobile, all 11 scenes and four roles. Historical V3 GO below does not override this V4 premium release gate.
+- P0 fixed: consistent Sofia original portrait, EN/RU continuity through roles/Pilot, mobile Operator/Provider navigation and labeled cards, consistent illustrative/not-verified identity, relative sample schedule, unavailable private settings. Original portraits/approved story strings and public_demo boundary preserved.
+- P1: first-fold B2B clarity, compact role/demo controls, opt-in guide/manual reading, readable role layouts; distinct local campaign/mapping tasks and cross-role action trace. F08 story repetition remains partial; no invented clients, integrations, real activity or ROI.
+- Fresh Node155/155; PostgreSQL local security40/40; Chromium/WebKit browser6/6; EN/RU premium routes4/4; exact v118→v142→fail-closed v143 upgrade/offline4/4; axe five mobile RU screens zero violations. Lighthouse mobile landing90/A11y100/Best100/SEO92; app68/A11y100/Best100, LCP8.5s on uncompressed local server with simulated mobile throttling. Production speed and native accessibility remain unverified.
+- Public package unchanged 39 paths; fallback13 files; original image bytes/domain retained, Auth excluded; runtime/SW mirrors match. Frozen SHA/manifests/results: `evidence/premium-v4-2026-10-11/final-verification.json`. V3/v141 artifacts and source backup retained. No push/commit/merge/deploy/Pages settings/DNS/hosted writes/source deletion/messages.
+- Next: targeted measured mobile loading pass, then repeat Lighthouse + functional/offline parity before premium production approval. Pages source must switch from main/root to Actions before merge after separate approval; manual SHA-guarded dispatch and post-release acceptance remain external gates.
+
+### AI_SYNC — consolidated Premium V4 pass
+
+Date: 2026-10-11 | AI: Codex | Project: LC App | Task: controlled P0/P1 UX changes and independent local release QA.
+Created: canonical visual HTML report, premium QA/visual harnesses, exact V4/v143 ZIP/manifests and test/screenshot evidence.
+Updated: root landing, mirrored product/SW, nested locale/layout/public shell, release builder/manual workflow, privacy assertions, execution state and domain plan.
+Decisions: no approved business decision changed; public verification stays illustrative, simulated trace never implies commercial outcomes; V4 premium production gate NO-GO based on unresolved loading evidence.
+Assumptions: local throttled Lighthouse is not production Core Web Vitals; browser WebKit is not physical iPhone; historical hosted evidence not refreshed.
+Contradictions resolved: identity/locale/navigation/private-settings/fixture states. Open: mobile performance, F08 editorial repetition, native-device/VoiceOver and separately authorized publication.
+Recommended next action: targeted loading optimization and comparable QA before release authorization.
+
+## Final public release audit — 2026-10-11
+
+- Current decision: LOCAL GO for isolated public static package; production publication unchanged and requires approval. Canonical report: LC_APP_V3_FINAL_RELEASE_AUDIT_2026-10-11.md.
+- Private auth.js removed from deployment dependencies only; preserved in source. Dedicated public-demo-bootstrap.js replaces it, fixed 39-path allowlist retained. CTA: Discuss the project / Обсудить проект, email mn@open-gamer.com.
+- Node154/154; exact ZIP/hash, secrets and YAML PASS; browser/mobile/offline6/6; upgrade4/4 and fallback2/2. Evidence: evidence/final-release-audit-2026-10-11. Historical package below is superseded by this audit package.
+- AI_SYNC: Codex, LC App, final read-only release audit and local corrections. Decisions: public Auth bridge and main-only SHA-guarded manual release/fallback. Assumptions: no hosted/native-device acceptance yet. Next: separately approved source switch BEFORE merge and controlled Actions publication. No external writes or deletion.
+
+## Latest V3 static public release preparation — 2026-10-10
+
+- Existing EN/RU cinematic landing restored with all 11 scenes, exact four root portrait files, guided autoplay/pause/resume. Sole isolated demo retained with four roles; no active production SDK/Auth bootstrap. Confirmed Pilot email mn@open-gamer.com, bilingual mailto draft + copy fallback. Canonical/OG/robots/sitemap added; demo noindex.
+- Fresh Node 152/152, local migration replay 57 and DB security matrix40/40; Chromium/WebKit browser/offline6/6, exact serving-v118→v140 PWA upgrade4/4, tested v141 fail-closed rollback in both engines, EN/RU/mobile visual/guided10/10. Ten HAR files contain zero external/Supabase requests. Four runtime mirrors match.
+- gh read-only Pages settings: legacy main / root, HTTPS enforced, serving3a9d200. Original deployment artifacts unavailable; source archive saved under ignored backups, safe rollback ZIP prepared. Manual/main-only allowlist Pages workflow prepared locally; obsolete CI revision and secret-identifier false positives corrected.
+- 39-file public ZIP and 13-file safe fallback with SHA256 manifests. Sources preserved, no push/merge/commit/deploy/Pages-settings/DNS/hosted writes or deletion. Existing untracked STAGING_HANDOFF.zip and package-lock.json retained.
+- LOCAL STATIC RELEASE READY YES; externally published/production verified NO. Separate approved Pages-source switch to Actions BEFORE merge, workflow execution and post-deploy acceptance required. Authenticated product/SQL provenance and hosted recovery remain separate NO gates, not part of this static release.
+- Canonical current report: LC_APP_V3_RELEASE_REPORT_2026-10-10.md; visual comparison and all evidence in evidence/v3-release-2026-10-10.
+
+### AI_SYNC — consolidated V3 preparation
+Date: 2026-10-10. AI: Codex. Project: LC App. Task: preserve public visual baseline, integrate isolated demo, SEO/contact, PWA migration/fallback, tests and existing-domain release plan. Updated runtime shell/SW, release builder, CI checks and control/readme; added SEO, contracts, secret scanner, upgrade harness and manual Pages workflow. Approved input: Narek supplied mn@open-gamer.com. No business/financial decisions changed; no external action performed. Confirmed serving source and local static readiness. Open: external publication authorization and post-deployment verification. Next: review exact 39-file package and approve existing-Pages release sequence.
+
+## Latest one-pass A–D checkpoint — 2026-10-10
+
+- Local branch `codex/lc-one-pass-2026-10-10`, base `924361a`; no commit/push/merge/deploy. Canonical root B2B site and a single nested app entry prepared. Immutable public_demo mode precedes modules; SDK/production config removed from public HTML; Auth returns before session/storage/bootstrap. Four public roles, no public Admin.
+- SW v140 removes legacy preview dependencies, supports versioned JS/CSS offline, maps root/nested paths correctly, and preserves private/Auth cache exclusions. Public release ZIP contains 33 allowlisted files with verified SHA-256 parity; sources remain intact.
+- Fresh Node 149/149 PASS. Local PostgreSQL 57 available migrations replayed; 057–060 replay parity, catalog and security matrix 40/40 PASS. Missing 052–054 remain UNKNOWN. Chromium/WebKit package E2E at 375/768/1440, HAR/screenshots, real loopback server outage and offline roles recorded in `evidence/one-pass-2026-10-10`.
+- Remote trees/branch comparison and local dependency/duplicate inventory completed. 16 local archive candidates prepared; none deleted/moved. Verified local tar + Git bundle retain rollback. Pre-existing untracked STAGING_HANDOFF.zip and package-lock.json preserved.
+- Public contact destination and Pages serving-source confirmation remain open; copied pilot introduction is the current honest contact action. Hosted migration/runtime/recovery gates remain unresolved. Native iPhone/VoiceOver and hosted performance are not acceptance evidence from this run.
+- Canonical execution/audit/release/rollback report: `ONE_PASS_REPORT_2026-10-10.md`. Earlier entries below are historical.
+
+### AI_SYNC — consolidated one-pass public-demo release candidate
+
+Date: 2026-10-10 | AI: Codex | Project: LC App
+Task: A–D local inventory, isolation, site/demo consolidation, QA and prepared cleanup.
+Created: report; public-demo bootstrap tests; public-release builder; browser E2E harness; inventory, network, screenshots, SQL, backup and release-package evidence.
+Updated: root/app entries, mirrored Auth/product/SW, manifests, launcher, tests, README/hosting notes and execution state.
+Decisions: use one existing investor-descendant codebase; public Auth unavailable; retain all old sources and diverged security branches; deploy only the allowlist after separate approval.
+Assumptions introduced: none concerning partners, demand, legal compliance or commercial results.
+Contradictions found: older handoff missed existing investor bypass; default app still allowed production bootstrap; precache retained legacy previews and missed revisioned offline assets; older hosting notes required obsolete files.
+Open questions: contact endpoint, Pages build source, authoritative 052–054 history and separately authorized hosted QA/recovery.
+Recommended next action: founder review of the local package and confirmation of contact/release destination before any publication.
 
 ## Latest local replay acceptance — 2026-10-10
 
@@ -380,3 +480,22 @@ Current status: v1.0 EXPERIENCE BOOST READY ON GITHUB PAGES FALLBACK / CUSTOM DO
 - Local Experience Boost QA passed: 132 route/viewport checks across 360x800, 375x812, 390x844, 393x852, 412x915, 430x932, 768x1024, 1024x768, 1280x800, 1366x768, 1440x900 and 1920x1080.
 - Local Experience Boost interaction QA passed: Player, Creator, Returning User and Anonymous flows including reaction, chat, recently viewed, Continue exploring, For You, handoff and auth gate.
 - Local Experience Boost performance: average DCL 78ms, load 80ms, transfer 865 bytes in local static QA.
+
+## Sync Entry — 2026-10-11 · independent premium UX audit
+- Project: LC App V3. AI: Codex. Task: independent visual/content audit, no implementation or production changes.
+- Canonical output: `LC_APP_V3_PREMIUM_UX_AUDIT_2026-10-11.html`; evidence: `evidence/premium-ux-audit-2026-10-11/`.
+- Audited exact 39-file final ZIP SHA-256 d68e2ee709a61d542d226d30ed94d2d0fbe02c588e011370556fe26a6abb498d on loopback 4201; 136 accepted unique screenshots including official visual references.
+- Findings: design NO-GO for premium public launch; P0 persona/portrait continuity, RU-to-app continuity, mobile business navigation. This does not replace the previous technical release assessment.
+- Proposed changes only; no approved product decisions replaced, no new commercial claims. Full VoiceOver/contrast/physical-device validation remains open.
+- Next action: local P0 pass, then trust/scenario polish and repeat visual gate. Public release still requires separate owner authorization.
+
+## AI_SYNC — Sync Entry · 2026-10-11 · final performance sprint
+Date: 2026-10-11; AI: Codex; Project: LC App; Owner: Narek.
+Task: preserve approved V4 UX while resolving mobile delivery LCP; local only.
+Files created: performance report, pinned-delivery bundles/image derivatives, reproducible performance tools, evidence/allowlist/fail-closed packages.
+Files updated: product rendering/bootstrap/observer delivery, CSS picture selector, worker144, allowlist builder/manual workflow, test harnesses, hosting instructions and this state/domain plan.
+Decisions: compressed laboratory gate GO; source/domain/UX/claims unchanged; no public or hosted action authorized.
+Assumptions: loopback gzip/Brotli laboratory is not real GitHub Pages CWV; final performance belongs to generated55-file ZIP, not raw repository serving.
+Contradictions found: picture wrapper bypassed crop selector; fixed and remeasured. Harness dynamic locator/prefetch-count errors corrected. Plain transfer still fails target.
+Open questions: production Content-Encoding/TTFB/field CWV, physical native accessibility and existing hosted/history gaps.
+Recommended next action: review frozen package and authorize controlled existing-domain release separately.

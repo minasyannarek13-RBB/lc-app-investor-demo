@@ -10,3 +10,16 @@ test-results/
 *.p12
 *.pfx
 .DS_Store
+
+.local-backups/
+
+# Local release diagnostics and owner-only reports; never publish these by git add .
+evidence/
+/LC_APP_V*_*.html
+/LC_APP_V*_*.md
+/DOMAIN_UPDATE_PLAN_*.md
+/ONE_PASS_REPORT_*.md
+/STAGING_HANDOFF.zip
+
+# Preserved empty standalone lock from the historical local pass; no npm application build.
+/package-lock.json

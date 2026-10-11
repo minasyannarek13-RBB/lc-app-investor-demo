@@ -1,31 +1,10 @@
-# LC App External Review MVP
+# LC App — canonical public-demo runtime
 
-Public review build for LC App.
+Project: LC App | Version: v0.9 | Status: local release candidate | Updated: 2026-10-10
+Owner: Narek / Engineering | Audience: reviewer/release engineer
+Source: ../README.md and ../ONE_PASS_REPORT_2026-10-10.md
+Open question: founder-approved public contact endpoint and release scope.
 
-## Open
-
-Open `showcase-v2/index.html` for the management review experience.
-
-## GitHub Pages
-
-Repository settings:
-
-- Pages source: `Deploy from a branch`
-- Branch: `main`
-- Folder: `/root`
-
-Expected URL:
-
-`https://<github-username>.github.io/<repo-name>/`
-
-## Included
-
-- Premium product showcase
-- Discover -> Dealer/Creator -> Live Table -> Social -> Operator/provider handoff -> Follow -> Return journey
-- Operator/provider-safe handoff concept
-- Static fallback preview
-- PWA manifest and service worker
-
-## Important
-
-This is a product concept review build. It does not process gambling transactions. Gambling-account and transaction controls remain outside LC App with the licensed operator/provider. Demo personas, content, activity and business outcomes are illustrative/to be validated.
+This folder contains the sole interactive app. Public mode is immutable and uses synthetic data, with no hosted Auth/SDK/session/network access. Entry: `?app=1#/product/demo/player`; `investor.html` is an alias.
+Serve the repository root to review the complete site + demo. Use the root README for tests, release packaging and rollback. Do not upload this folder alone as the combined B2B site, and do not upload preserved static previews.
+Auth/product/SW mirrors are checked against root copies. Static preview files remain retained historical source; they are not app or PWA dependencies in the new release.

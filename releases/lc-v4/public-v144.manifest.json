@@ -1,0 +1,282 @@
+{
+  "status": "LOCAL REVIEW ONLY; deployment requires separate approval",
+  "entry": "index.html",
+  "demo": "LC_App_GitHub_Pages_Upload/?app=1#/product/demo/player",
+  "files": [
+    {
+      "path": "CNAME",
+      "sha256": "a8595b36d59b4661e165309dc82aed3c46f485b9cce6ae3edb5ee6ca1d1b7b4a",
+      "size": 17
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app-icon-512.png",
+      "sha256": "48f926c7934b9438af846b54ea2bbcaec4ca6f9e8d38918b4031686ae663227c",
+      "size": 8401
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app-icon.svg",
+      "sha256": "8979c52a5ed9c4b1f43fd39cc2ebe3894e7afbe1ce6a42e52b50ffaf8f05c266",
+      "size": 1126
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app-product.js",
+      "sha256": "6f2fcfa2de8083381f67baba6d3d9dfc1fe6fa991d2e6d47e92f6452581de22b",
+      "size": 189971
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/dealer_lilit_avatar_v1-avatar-120.webp",
+      "sha256": "678928fac136b40a3487d3e75be1fd31ab4a9cf3e516e028087787ccb8afbd3a",
+      "size": 5416
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/dealer_lilit_avatar_v1-avatar.webp",
+      "sha256": "17239cd313a79fe22cd41fb6c160e29fac2931b2247b3ecb3f3e248dcaab3461",
+      "size": 13790
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/dealer_lilit_avatar_v1.jpg",
+      "sha256": "1a569005b6e1f3c17de9c0317f63d17450ce7659e8951a54699f8797ea094a6c",
+      "size": 75410
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/dealer_marcus_avatar_v1-avatar-120.webp",
+      "sha256": "eb3a3e139a0ea5a7366c8e02c138879089b8863817c08f66352178494ea0df88",
+      "size": 5188
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/dealer_marcus_avatar_v1-avatar.webp",
+      "sha256": "e00681a4b4c770a8b63b1ff1f4085287ffe6aa7f896838a74e2085ae007ddb53",
+      "size": 13952
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/dealer_marcus_avatar_v1.jpg",
+      "sha256": "c5d4380dc3331578dfb531832dcb02f3ec37376a055e338f5a232adaa4f90651",
+      "size": 75868
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/dealer_mia_avatar_v1-avatar-120.webp",
+      "sha256": "fe7b4cac80d24180886d99b2f261132f95c2f0d983dd8434efec3823b22e2210",
+      "size": 6292
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/dealer_mia_avatar_v1-avatar.webp",
+      "sha256": "79d6e1ce79f91584b6037cb57d2771f838918f6992a027b0eed83a70e7cdcee8",
+      "size": 17352
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/dealer_mia_avatar_v1.jpg",
+      "sha256": "e7acf03d8dde6cae26db4177ec542421a66f1f417a6968541d744e8ba71e6652",
+      "size": 92632
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/dealer_sofia_avatar_v1-avatar-120.webp",
+      "sha256": "a517ef4ab13f780e3ae224ddf7242e92ce5b05d79e4b87075e5c75dd7e1d2623",
+      "size": 5782
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/dealer_sofia_avatar_v1-avatar.webp",
+      "sha256": "ae382694150aca6354f81c1cd64a3fea7e7787af41fd02c40c318491c3325d6b",
+      "size": 15252
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/dealer_sofia_avatar_v1.avif",
+      "sha256": "a4d9f80efde16bdf3ba25b1f1bb48a8cd501eb5d962e02acb6eff2903659c138",
+      "size": 28486
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/dealer_sofia_avatar_v1.jpg",
+      "sha256": "761c18363cf40d45a21e75edffd638671ea8c548708465448db362f235c95253",
+      "size": 81455
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/v2_polish/alex_baccarat-avatar-120.webp",
+      "sha256": "9ae30456e9f3c4669ddde069fde20355bbaa7e5a58e44c82d06228f71713f55f",
+      "size": 4584
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/v2_polish/alex_baccarat-avatar.webp",
+      "sha256": "ae7b23fa16504e7ef562c07db26e71f9fed2d6e5a1880999c890ab56d79920be",
+      "size": 12694
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/v2_polish/alex_baccarat.jpg",
+      "sha256": "23383bcffaa3c0c69221b85bff7e24a29f9d74dd6259849a1fa048f5d029dbcb",
+      "size": 126992
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/v2_polish/alex_portrait-avatar-120.webp",
+      "sha256": "fe3d30c79834f9995df395321407362f2055e51d358a128dd4cd57fc9784707b",
+      "size": 7888
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/v2_polish/alex_portrait-avatar.webp",
+      "sha256": "f058aa3a452434dc453e22927898440059e6f4cea3531d2dfd4b2ef72c7dd6f6",
+      "size": 23586
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/v2_polish/alex_portrait.jpg",
+      "sha256": "b073ec627d50ec4f5ee391a31ef41a1a7aeb8213b4f2c51f5cb2ad3802be29f9",
+      "size": 158210
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/v2_polish/marcus_community.jpg",
+      "sha256": "deacf89c0fcac2d5d372e5b7471e37e7a5cd87c88da29a1b00e89ffdf9b7ee36",
+      "size": 105143
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/v2_polish/mia_roulette.jpg",
+      "sha256": "2fea7b187cda685a11294480f15bce08ede57135d992146e3fe4d6e7c668d8bc",
+      "size": 113680
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/v2_polish/sofia_avatar_public.jpg",
+      "sha256": "74bbad58bd45caec0c2286b6c5be4ef9cdbab1ceceac0d88862c4ecfeb2d8a3c",
+      "size": 68737
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/v2_polish/sofia_discover_public.jpg",
+      "sha256": "1a65049ff4682f9cc3a27790e737037c8796e5f8e52a478b1fceff48b0bdd133",
+      "size": 131078
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/v2_polish/sofia_profile_public.jpg",
+      "sha256": "053a8aa2665e8da27d00b7f0b793922a6ae876cf7b2c31312a2387381c8b81a6",
+      "size": 121620
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/app_prototype_assets/dealers/v2_polish/sofia_welcome_public.jpg",
+      "sha256": "2c54eda0e6777fc6aa5a7d81a0d6eae2e30c91170f4db6db262c2279a9037a4a",
+      "size": 124768
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/business-console-v4.css",
+      "sha256": "c362ee9d968c8d86c245e894e7509afdfda8a5e6f5c597c981e48d65b2bf6f21",
+      "size": 9392
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/creator-studio-v4.css",
+      "sha256": "036039ae3aeae8c5c59a6a67ad34c11bfac7570dd20029c1290fbe60fdfe3da1",
+      "size": 7553
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/index.html",
+      "sha256": "722882ec18a8931346a949e3c63d6e575abb876b7e6176044b26b0ded887876f",
+      "size": 175815
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/investor.html",
+      "sha256": "fa8550740b4fac11990f15e9ca027773728c9f06e9a3d412174c5e7e5cfbac18",
+      "size": 365
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/legacy-preview.js",
+      "sha256": "fbb4a3fa6282f8acc9179f26f5906160b1285b3c4d9a4b498d80b7744d559aa9",
+      "size": 192880
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/manifest.webmanifest",
+      "sha256": "35c5774435d88820b7a0f0e3100e7370d0c828ec1f7f3fc93e494bf575c386c5",
+      "size": 776
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/product-shell-v2.css",
+      "sha256": "f4c529386f0c61d0d1bc9ef03ee88c005b8c944bffd6e4c2a41ebcf645482563",
+      "size": 34341
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/product-shell-v2.js",
+      "sha256": "ba4b1a2bb826fe12c0d3e8585e84bddf514b128da55a89ea209eafb1aa4adf82",
+      "size": 82120
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/product-shell-v4.css",
+      "sha256": "a8e532b207b054195f3f4448e8ecdf40e72067d70091d3e77c21eb7e0be22554",
+      "size": 19802
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/public-demo-bootstrap.js",
+      "sha256": "c73d1f9aa9d4070d9f644fb442a19cb4eb931781d80151067ac615fafb67e9af",
+      "size": 534
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/public-product-v4.css",
+      "sha256": "096ddf6e18733b2070508c895c45a583c159e36300e7d73893fb88559c67a28d",
+      "size": 91046
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/public-runtime-v4.js",
+      "sha256": "783477a20aed9e8ccf53108ec58b33501ca049d1b6e35221bd96c663ed82be6b",
+      "size": 225152
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/social-account-v4.css",
+      "sha256": "13588c2bcec74e8a83efb46b427b7aedc75b45385d552e5d3c282bf9837c96dd",
+      "size": 11112
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/social-feed-v4.css",
+      "sha256": "442e6bdc2452db16ebce6ee95fc8694f1c1140ce148885480ab47c1e251a7dcc",
+      "size": 5562
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/social-journey-v4.css",
+      "sha256": "b905fd7391ebdc58fd6704e25542f7009f673179d8deb7eb67aca594620ba5f5",
+      "size": 8089
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/social.js",
+      "sha256": "2082068a63616ed97e27d024338adf7c28bf3d17d1a48118fbc1e90b3f50b6f4",
+      "size": 136
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/sw.js",
+      "sha256": "e308f756797b6a490d92034794bd8a9b15b078daf6b44a5ee7b8ad1c5b6a3ce5",
+      "size": 6335
+    },
+    {
+      "path": "app-icon.svg",
+      "sha256": "8979c52a5ed9c4b1f43fd39cc2ebe3894e7afbe1ce6a42e52b50ffaf8f05c266",
+      "size": 1126
+    },
+    {
+      "path": "app_prototype_assets/dealers/dealer_lilit_avatar_v1.jpg",
+      "sha256": "1a569005b6e1f3c17de9c0317f63d17450ce7659e8951a54699f8797ea094a6c",
+      "size": 75410
+    },
+    {
+      "path": "app_prototype_assets/dealers/dealer_marcus_avatar_v1.jpg",
+      "sha256": "c5d4380dc3331578dfb531832dcb02f3ec37376a055e338f5a232adaa4f90651",
+      "size": 75868
+    },
+    {
+      "path": "app_prototype_assets/dealers/dealer_mia_avatar_v1.jpg",
+      "sha256": "e7acf03d8dde6cae26db4177ec542421a66f1f417a6968541d744e8ba71e6652",
+      "size": 92632
+    },
+    {
+      "path": "app_prototype_assets/dealers/dealer_sofia_avatar_v1.jpg",
+      "sha256": "761c18363cf40d45a21e75edffd638671ea8c548708465448db362f235c95253",
+      "size": 81455
+    },
+    {
+      "path": "index.html",
+      "sha256": "54510eabf37e11e51b265640a831e13b8366d67c5547ecdd6b71e2a0c813d836",
+      "size": 59251
+    },
+    {
+      "path": "robots.txt",
+      "sha256": "2196a74b27f4e2d2146484fdc451117eeec27e344164f3a203c2bfc8bdea2929",
+      "size": 109
+    },
+    {
+      "path": "sitemap.xml",
+      "sha256": "09b82c0dc77ddade94770a4bbd70a594337b01c4d47a7c446cb1dd84bcc3d832",
+      "size": 186
+    },
+    {
+      "path": "sw.js",
+      "sha256": "e308f756797b6a490d92034794bd8a9b15b078daf6b44a5ee7b8ad1c5b6a3ce5",
+      "size": 6335
+    }
+  ]
+}

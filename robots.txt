@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /LC_App_GitHub_Pages_Upload/
+Sitemap: https://lc.open-gamer.com/sitemap.xml

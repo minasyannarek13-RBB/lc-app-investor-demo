@@ -23,8 +23,8 @@ html.lc-v4-social .lc-v4-social-home{max-width:680px;gap:0}
 .lc-v4-feed-identity b{font-size:13px}
 .lc-v4-feed-identity span{margin-top:3px;color:rgba(233,245,243,.48);font-size:10px}
 .lc-v4-feed-media{position:relative;display:block;width:100%;aspect-ratio:4/5;padding:0;overflow:hidden;border:0;background:#0d1517;cursor:pointer}
-.lc-v4-feed-media>img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
-.lc-v4-feed-media:hover>img{transform:scale(1.015)}
+.lc-v4-feed-media img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.lc-v4-feed-media:hover img{transform:scale(1.015)}
 .lc-v4-feed-gradient{position:absolute;inset:45% 0 0;background:linear-gradient(transparent,rgba(2,5,6,.84))}
 .lc-v4-feed-media>.lc-v3-live-pill{position:absolute;top:14px;left:14px}
 .lc-v4-feed-session{position:absolute;right:18px;bottom:18px;left:18px;color:#fff;text-align:left}
@@ -59,3 +59,5 @@ html.lc-v4-social .lc-v4-social-home{max-width:680px;gap:0}
   .lc-v4-feed-media{aspect-ratio:4/5}
   .lc-v4-feed-boundary{flex-direction:column;gap:6px}
 }
+
+.lc-v4-feed-media>picture{display:contents}

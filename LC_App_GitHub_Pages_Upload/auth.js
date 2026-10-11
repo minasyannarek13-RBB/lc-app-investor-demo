@@ -1,6 +1,19 @@
 (() => {
   "use strict";
 
+  if (window.LC_APP_MODE === "public_demo") {
+    const mount = () => {
+      document.documentElement.classList.remove("lc-auth-booting");
+      document.documentElement.classList.add("lc-auth-ready");
+      window.LCAppProduct?.mountDemoEntry();
+    };
+    window.addEventListener("hashchange", mount);
+    window.addEventListener("popstate", mount);
+    window.addEventListener("load", mount);
+    mount();
+    return;
+  }
+
   const LIVE_SUPABASE_URL = "https://aspbwgsfkebduvviyeuo.supabase.co";
   const AUTH_EMAIL_KEY = "lc-app:pending-email";
   const AUTH_RETURN_KEY = "lc-app:auth-return-to";
@@ -1006,6 +1019,7 @@
   }
 
   async function initClient() {
+    if (window.LC_APP_MODE === "public_demo") return false;
     let cfg;
     try { cfg = config(); }
     catch (error) {
