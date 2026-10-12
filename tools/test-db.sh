@@ -19,7 +19,11 @@ chmod 600 "$PGPASSFILE"
 
 cleanup() {
   "$PG_BIN/pg_ctl" -D "$DB_DATA" -m immediate stop >/dev/null 2>&1 || true
-  rm -rf "$DB_ROOT"
+  if [[ "${LC_KEEP_LOCAL_DB:-0}" == "1" ]]; then
+    printf 'Preserved stopped local DB: %s\n' "$DB_ROOT"
+  else
+    rm -rf "$DB_ROOT"
+  fi
 }
 trap cleanup EXIT INT TERM
 
@@ -230,5 +234,14 @@ expect_value "suspended admin cannot read moderation queue" authenticated 777777
   "select count(*) from public.reports where id = '99999999-9999-4999-8999-999999999999';"
 expect_value "suspended admin cannot update moderation queue" authenticated 77777777-7777-4777-8777-777777777777 0 \
   "with changed as (update public.reports set status = 'actioned' where id = '99999999-9999-4999-8999-999999999999' returning 1) select count(*) from changed;"
+
+expect_denied "nonmember cannot create tenant invitation" authenticated 11111111-1111-4111-8111-111111111111 \
+  "select public.create_industry_org_invitation('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1','admin');"
+expect_denied "other tenant owner cannot create invitation" authenticated 66666666-6666-4666-8666-666666666666 \
+  "select public.create_industry_org_invitation('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1','viewer');"
+expect_denied "manager cannot supply NULL invitation role" authenticated 55555555-5555-4555-8555-555555555555 \
+  "select public.create_industry_org_invitation('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1',null);"
+expect_value "owner can create one-time invitation" authenticated 55555555-5555-4555-8555-555555555555 64 \
+  "select length(public.create_industry_org_invitation('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1','viewer'));"
 
 printf 'DB SECURITY MATRIX: %s PASS\n' "$pass_count"

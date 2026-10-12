@@ -499,3 +499,7 @@ Assumptions: loopback gzip/Brotli laboratory is not real GitHub Pages CWV; final
 Contradictions found: picture wrapper bypassed crop selector; fixed and remeasured. Harness dynamic locator/prefetch-count errors corrected. Plain transfer still fails target.
 Open questions: production Content-Encoding/TTFB/field CWV, physical native accessibility and existing hosted/history gaps.
 Recommended next action: review frozen package and authorize controlled existing-domain release separately.
+
+## AI_SYNC — 2026-10-12
+Project: LC App. Task: finish release candidate and prepare non-destructive cleanup.
+Preserved f5672a9 public55/rollback13 bytes and all181 QA receipts; refreshed remote main/Pages and staging read-only. Discovered/reproduced NULL tenant-manager invitation bypass, added CLI-created corrective migration and DB regression gates44 PASS. Baseline migration files unchanged; hosted extension NOT AUTHORISED. Cleanup proposal/inventory prepared; no cleanup, push, PR, deploy, settings, production DB or messaging. Canonical checkpoint: RELEASE_READY_CHECKPOINT.md; owner-only receipts: evidence/release-ready-2026-10-12/.
