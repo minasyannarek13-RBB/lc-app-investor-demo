@@ -1165,7 +1165,7 @@
     const unread = state.notifications.filter((item) => !item.read_at).length;
     shell().innerHTML = `${top("Home", unread ? `${unread} new signal${unread === 1 ? "" : "s"}` : "Live Casino through people")}
       <div class="lc-product-stack lc-v4-social-home">
-        <div class="sr-only" aria-label="LC core loop"><span>Discover</span><span>Creator</span><span>Follow</span><span>Live</span><span>Return</span></div>
+        <div class="sr-only" role="group" aria-label="LC core loop"><span>Discover</span><span>Creator</span><span>Follow</span><span>Live</span><span>Return</span></div>
         <section class="lc-v4-live-rail" aria-label="${state.demo ? "Creators in demo live sessions" : "Creators live now"}">
           <button class="lc-v4-live-orb lc-v4-explore-orb" type="button" data-lc-product="explore"><span>+</span><small>Explore</small></button>
           ${railCreators.slice(0, 8).map((item) => `<button class="lc-v4-live-orb" type="button" data-lc-live="${safe(item.sessions[0].id)}"><span><img src="${safe(avatar(item.profile))}" ${avatarSizes(item.profile)} alt="" loading="lazy" decoding="async" fetchpriority="low"><i aria-label="${safe(sessionStatusLabel(item.sessions[0]))}">${state.demo ? "PREVIEW" : safe(sessionStatusLabel(item.sessions[0]))}</i></span><small>${safe(profileName(item.profile).split(" ")[0])}</small></button>`).join("")}

@@ -323,6 +323,7 @@
       if (active === id) button.setAttribute("aria-current", "page");
       else button.removeAttribute("aria-current");
     });
+    tabs.setAttribute("role", "navigation");
     tabs.setAttribute("aria-label", "Social app navigation");
   }
 

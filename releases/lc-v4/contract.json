@@ -2,8 +2,8 @@
   "public": {
     "zip": "public-v144.zip",
     "manifest": "public-v144.manifest.json",
-    "zip_sha256": "a609bf2a23f23cbf8a17eac6a0b153aa42a42e61026700a7ff9a84aafca0ce3d",
-    "manifest_sha256": "e92e49c63e8218bce8457a927ae419e0e1dd6a5760113d07a97358eaefe21772",
+    "zip_sha256": "d85d3bb6c2daa50742aefb0b779403c18af9957774b0c0de1b19458b2a7755bc",
+    "manifest_sha256": "aa7e7c887d4e735d2c9b7b59f3e89d17d9887080f9ddc16538d65307a5dadca4",
     "count": 55,
     "cache_revision": 144,
     "allowlist": [
