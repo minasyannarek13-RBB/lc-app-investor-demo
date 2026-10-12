@@ -50,3 +50,14 @@ test('performance assets preserve the original CSS cascade and deferred legacy s
   assert.match(html, /src="\.\/app-product\.js\?v=144" defer/);
   assert.ok(html.indexOf('id="lcPublicProductCss"') > html.lastIndexOf('</style>'));
 });
+
+
+test('explicit EN/RU locale is established before the first public mount', () => {
+  for (const language of ['en', 'ru', 'unsupported']) {
+    const element = {lang:'en',classList:{remove(){},add(){}}};
+    const mounted=[];
+    const window={LC_APP_MODE:'public_demo',location:{search:'?lang='+language},addEventListener(){},LCAppProduct:{mountDemoEntry(){mounted.push(element.lang);}}};
+    vm.runInNewContext(auth,{window,document:{documentElement:element},URLSearchParams});
+    assert.deepEqual(mounted,[language==='ru'?'ru':'en']);
+  }
+});

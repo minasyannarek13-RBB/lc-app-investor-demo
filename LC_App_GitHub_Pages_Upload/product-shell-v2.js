@@ -44,6 +44,9 @@
         if (locale === "ru" && text.textContent.trim() !== value) text.textContent = value;
       }
     }
+    root.querySelectorAll('.lc-product-demo-banner a[href*="#contact"]').forEach(link => {
+      link.setAttribute("href", `../?lang=${locale}#contact`);
+    });
     root.querySelectorAll(".lc-v4-table").forEach(table => {
       const headers = [...table.querySelectorAll("thead th")].map(th=>th.textContent);
       table.querySelectorAll("tbody tr").forEach(row=>[...row.children].forEach((td,i)=>td.dataset.label=headers[i] || ""));

@@ -150,7 +150,7 @@
     },
     {
       "path": "LC_App_GitHub_Pages_Upload/business-console-v4.css",
-      "sha256": "c362ee9d968c8d86c245e894e7509afdfda8a5e6f5c597c981e48d65b2bf6f21",
+      "sha256": "8586dc8efe7278b2071892b9c62b00a2f04d066a3e0d5c893a83cd2856e7d82c",
       "size": 9392
     },
     {
@@ -180,13 +180,13 @@
     },
     {
       "path": "LC_App_GitHub_Pages_Upload/product-shell-v2.css",
-      "sha256": "f4c529386f0c61d0d1bc9ef03ee88c005b8c944bffd6e4c2a41ebcf645482563",
+      "sha256": "60e5d83652e22f385fca04ed0039f0f6c0be86c532d05032c670ed55d5e8b206",
       "size": 34341
     },
     {
       "path": "LC_App_GitHub_Pages_Upload/product-shell-v2.js",
-      "sha256": "19e2d9a2ee77299cc408ba6bf96c252334472a62f413db09b8519ca97b33269e",
-      "size": 82165
+      "sha256": "aeddf9b2037b61146b8771c0b3a3a8ebd693aac895fc1b5207579d47efeb51b7",
+      "size": 82327
     },
     {
       "path": "LC_App_GitHub_Pages_Upload/product-shell-v4.css",
@@ -195,18 +195,18 @@
     },
     {
       "path": "LC_App_GitHub_Pages_Upload/public-demo-bootstrap.js",
-      "sha256": "c73d1f9aa9d4070d9f644fb442a19cb4eb931781d80151067ac615fafb67e9af",
-      "size": 534
+      "sha256": "d7f0b3f9fe8b786e9eeb87174eec1f56f437bfc3df8c700e2b85b31f52a59e63",
+      "size": 716
     },
     {
       "path": "LC_App_GitHub_Pages_Upload/public-product-v4.css",
-      "sha256": "096ddf6e18733b2070508c895c45a583c159e36300e7d73893fb88559c67a28d",
+      "sha256": "c5b16228ed6f8360f4a84db571a7f7b348d08ee1716fcf0fec625bcbf43e2c1e",
       "size": 91046
     },
     {
       "path": "LC_App_GitHub_Pages_Upload/public-runtime-v4.js",
-      "sha256": "28d667c3293e82067efded684369d534a7d7cc1d327ce21a6a799a089e400d4c",
-      "size": 225201
+      "sha256": "4146dfca83147839ddc29f572efe376a632d044a24ce24fbe71e315e9be977bb",
+      "size": 225463
     },
     {
       "path": "LC_App_GitHub_Pages_Upload/social-account-v4.css",
