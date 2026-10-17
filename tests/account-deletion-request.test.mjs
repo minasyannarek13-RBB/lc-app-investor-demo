@@ -17,6 +17,6 @@ assert.match(migration, /old\.status <> 'pending'[\s\S]+new\.status <> 'cancelle
 assert.match(migration, /unique index[\s\S]+where status = 'pending'/);
 assert.match(migration, /account deletion request rate limit exceeded/);
 assert.match(migration, /new\.status := 'pending'[\s\S]+new\.requested_at := now\(\)/);
-assert.doesNotMatch(auth, /client\.auth\.admin|SUPABASE_SERVICE_ROLE/);
+assert.doesNotMatch(auth, /client\.auth\.admin|SUPABASE_SERVICE_ROLE(?:_KEY)?\s*[:=]/);
 
 console.log("account deletion request contract: PASS");

@@ -1,0 +1,366 @@
+{
+  "browser": "Codex in-app browser; native Safari/iPhone not tested",
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "runtime": "Final app-product v121; shell v17; service worker v131. Checks performed incrementally across v117-v121.",
+  "layouts": [
+    {
+      "width": 1440,
+      "scene": "entry",
+      "appOverflow": 0,
+      "brokenImages": 0,
+      "pageOverflow": 0
+    },
+    {
+      "width": 1440,
+      "scene": "lobby",
+      "appOverflow": 0,
+      "brokenImages": 0,
+      "pageOverflow": 0
+    },
+    {
+      "width": 1440,
+      "scene": "dealer",
+      "appOverflow": 0,
+      "brokenImages": 0,
+      "pageOverflow": 0
+    },
+    {
+      "width": 1440,
+      "scene": "blackjack",
+      "appOverflow": 0,
+      "brokenImages": 0,
+      "pageOverflow": 0
+    },
+    {
+      "width": 1440,
+      "scene": "baccarat",
+      "appOverflow": 0,
+      "brokenImages": 0,
+      "pageOverflow": 0
+    },
+    {
+      "width": 390,
+      "scene": "entry",
+      "appOverflow": 0,
+      "brokenImages": 0,
+      "pageOverflow": 0
+    },
+    {
+      "width": 390,
+      "scene": "lobby",
+      "appOverflow": 0,
+      "brokenImages": 0,
+      "pageOverflow": 0
+    },
+    {
+      "width": 390,
+      "scene": "dealer",
+      "appOverflow": 0,
+      "brokenImages": 0,
+      "pageOverflow": 0
+    },
+    {
+      "width": 390,
+      "scene": "blackjack",
+      "appOverflow": 0,
+      "brokenImages": 0,
+      "pageOverflow": 0
+    },
+    {
+      "width": 390,
+      "scene": "baccarat",
+      "appOverflow": 0,
+      "brokenImages": 0,
+      "pageOverflow": 0
+    },
+    {
+      "width": 390,
+      "scene": "provider",
+      "appOverflow": 0,
+      "brokenImages": 0,
+      "pageOverflow": 0
+    },
+    {
+      "width": 1440,
+      "scene": "provider",
+      "appOverflow": 0,
+      "brokenImages": 0,
+      "pageOverflow": 0
+    },
+    {
+      "width": 1440,
+      "scene": "operator",
+      "appOverflow": 0,
+      "brokenImages": 0,
+      "pageOverflow": 0
+    },
+    {
+      "width": 390,
+      "scene": "operator",
+      "appOverflow": 0,
+      "brokenImages": 0,
+      "pageOverflow": 0
+    }
+  ],
+  "interactions": [
+    {
+      "width": 390,
+      "test": "Feed like",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "Feed comment visible",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "Comment retains scroll",
+      "pass": true,
+      "oldScroll": 449,
+      "newScroll": 449
+    },
+    {
+      "width": 390,
+      "test": "Unfollow dealer",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "Follow dealer",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "Dealer comment",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "Feed like",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "Feed comment visible",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "Comment retains scroll",
+      "pass": true,
+      "oldScroll": 437.5,
+      "newScroll": 437.5
+    },
+    {
+      "width": 1440,
+      "test": "Unfollow dealer",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "Follow dealer",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "Dealer comment",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "blackjack next fixed round",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "blackjack local chat/reaction",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "baccarat next fixed round",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "baccarat local chat/reaction",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "Walkthrough scenario two",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "Walkthrough operator scenario",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "Provider console",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "blackjack next fixed round",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "blackjack local chat/reaction",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "baccarat next fixed round",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "baccarat local chat/reaction",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "Walkthrough scenario two",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "Walkthrough operator scenario",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "Provider console",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "Business integration navigation",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "Blackjack lobby discovery",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "Search empty recovery",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "Clear recovers lobby",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "Baccarat lobby discovery",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "Guest profile navigation",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "Notification navigation",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "Reset and restart walkthrough",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "Business integration navigation",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "Blackjack lobby discovery",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "Search empty recovery",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "Clear recovers lobby",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "Baccarat lobby discovery",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "Guest profile navigation",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "Notification navigation",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "Reset and restart walkthrough",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "Long profile comment remains visible",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "Long profile comment remains visible",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "Final full reset restores all five profiles",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "Safe local handoff boundary",
+      "pass": true
+    },
+    {
+      "width": 390,
+      "test": "Local simulated return",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "Safe local handoff boundary",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "test": "Local simulated return",
+      "pass": true
+    }
+  ],
+  "consoleErrors": []
+}

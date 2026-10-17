@@ -1,30 +1,13 @@
-LC App hosted investor demo
-
-Main entry:
-
-- index.html
-
-Local network preview:
-
-1. Start a static server inside this folder.
-2. Open the Mac local network URL on another device in the same Wi-Fi network.
-3. On iPhone, use Safari.
-4. Optional: Share -> Add to Home Screen.
-
-Investor/public hosting:
-
-Upload this whole folder as a static site to Vercel, Netlify, GitHub Pages, Cloudflare Pages or any basic web server.
-
-Required files:
-
-- index.html
-- manifest.webmanifest
-- sw.js
-- app-icon.svg
-- app_prototype_assets/
-- static_preview/
-- 02_OPEN_STATIC_PREVIEW.html
-
-Fallback:
-
-If a browser blocks app behavior, open 02_OPEN_STATIC_PREVIEW.html or static_preview/LC_App_V2_Preview_Pack.pdf.
+LC App V4 — local performance release candidate, 2026-10-11
+Canonical report: LC_APP_V4_PERFORMANCE_RELEASE_REPORT_2026-10-11.html.
+Public release is the generated55-file allowlist ZIP; never upload the whole repository.
+Original landing/assets/EN-RU/11scenes/4roles preserved. Public worker144; fail-closed rollback145.
+Build prerequisite: Node + pinned esbuild0.25.12 (npm install --prefix /private/tmp/lc-performance-build esbuild@0.25.12 --no-audit --no-fund).
+Build from repository root: LC_NODE=/absolute/path/to/node python3 tools/build-public-release.py.
+Override LC_ESBUILD_MODULE for another host/CI; workflow installs pinned minifier in RUNNER_TEMP.
+Artifacts/manifests: evidence/performance-v4-2026-10-11/. Deterministic SHA parity verified.
+Performance claims require serving extracted ZIP, not raw source HTML from run-local.sh.
+Reproduce same cold/warm lab using tools/performance-server.cjs and tools/performance-lighthouse.mjs; exact settings/commands in report.
+GO applies to compressed local lab; production Content-Encoding/TTFB/field CWV and physical-device acceptance remain external.
+Existing domain only. Separate permission required for push, merge, deployment and main/root→Actions switch (before merge).
+No publication, Pages/DNS changes, hosted writes or source deletion performed.

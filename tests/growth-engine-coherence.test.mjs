@@ -10,13 +10,20 @@ assert.equal(app, nested, "root and deployed product modules must stay synchroni
 assert.match(app, /Discover<\/span><span>Creator<\/span><span>Follow<\/span><span>Live<\/span><span>Return<\/span>/);
 assert.match(app, /data-lc-follow=/, "Creator surfaces must preserve an explicit Follow action");
 assert.match(app, /data-lc-reminder=/, "Upcoming Creator sessions must preserve a return-plan action");
-assert.match(app, /session\.status !== "live"[\s\S]+Operator handoff becomes available when this Creator session is Live/);
-assert.match(app, /trackProductEvent\("handoff_intent"[\s\S]+confidence: "direct"/);
+assert.match(app, /!preview && !isPresentedLive\(session\)[\s\S]+Operator handoff becomes available when this Creator session is Live/);
+assert.match(app, /resolve_live_session_operator_handoff/);
+assert.match(app, /trackProductEvent\("product_open"[\s\S]+surface: "operator_outbound_click"/);
+assert.doesNotMatch(app, /trackProductEvent\("handoff_intent"/);
 assert.match(app, /trackProductEvent\("handoff_return"[\s\S]+confidence: "direct"/);
 assert.match(app, /trackProductEvent\("creator_impression"[\s\S]+surface: "creator_feed"/);
 assert.match(app, /trackProductEvent\("discovery_search"[\s\S]+result_count:/);
 assert.match(app, /trackProductEvent\("creator_follow"[\s\S]+action:/);
 assert.match(app, /trackProductEvent\("notification_response"/);
+assert.match(
+  app,
+  /target\.closest\("button\[data-lc-persona\], \[role='button'\]\[data-lc-persona\]"\)/,
+  "Clicks inside a persona-scoped product shell must not be mistaken for persona switches",
+);
 
 // Discovery must remain people-first and personalization must be explainable, not opaque claimed AI.
 assert.match(app, /Find the person behind the table\./);

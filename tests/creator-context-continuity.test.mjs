@@ -16,8 +16,10 @@ assert.match(loadCreators, /new Map\([\s\S]+row\.user_id/);
 
 const openNotification = app.match(/async function openNotification\(id\)[\s\S]+?function suggestedCreators/)[0];
 assert.match(openNotification, /notification\.source === "return_signal" && session/);
-assert.match(openNotification, /creatorId: notification\.creator_id \|\| session\.entry\.profile\.id/);
+assert.match(openNotification, /creatorId: session\.entry\.profile\.id/);
 assert.match(openNotification, /sessionId: session\.session\.id/);
-assert.doesNotMatch(openNotification, /notification\.target_type === "profile"/);
+assert.match(openNotification, /creatorId: creator\.profile\.id/);
+assert.match(openNotification, /dedupeKey: `notification:\$\{notification\.id\}`/);
+assert.doesNotMatch(openNotification, /creatorId: notification\.creator_id/);
 
 console.log("creator context continuity contract: PASS");

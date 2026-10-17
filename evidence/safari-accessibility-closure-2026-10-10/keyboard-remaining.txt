@@ -1,0 +1,327 @@
+
+Lobby forward from page heading
+The focused UI element is 162 search text field (settable) Search creators, games or languages
+The focused UI element is 163 button SEARCH
+The focused UI element is 165 button For you
+The focused UI element is 166 button Live
+The focused UI element is 167 button Following
+The focused UI element is 168 button Soon
+The focused UI element is 175 button Sofia Laurent creator profile SESSION PREVIEW
+The focused UI element is 176 button Sofia Laurent Featured Blackjack creator · Illustrative profile
+The focused UI element is 177 toggle button Following, Value: on
+The focused UI element is 181 button Mia Novak creator profile SESSION PREVIEW
+The focused UI element is 182 button Mia Novak Roulette table personality · Illustrative profile
+The focused UI element is 183 toggle button Follow, Value: off
+The focused UI element is 187 button Lilit Aram creator profile SESSION PREVIEW
+The focused UI element is 188 button Lilit Aram Blackjack and poker table explainer · Illustrative profile
+The focused UI element is 189 toggle button Follow, Value: off
+The focused UI element is 193 button Alex Moreau creator profile SESSION PREVIEW
+The focused UI element is 194 button Alex Moreau Baccarat creator for premium sessions · Illustrative profile
+The focused UI element is 195 toggle button Follow, Value: off
+The focused UI element is 199 button Marcus Reed creator profile SESSION PREVIEW
+The focused UI element is 200 button Marcus Reed Game Show host · Illustrative profile
+The focused UI element is 201 toggle button Follow, Value: off
+The focused UI element is 209 button Sofia Laurent Evening Blackjack table
+The focused UI element is 211 button Remind me
+The focused UI element is 213 button Mia Novak Roulette community hour
+The focused UI element is 215 button Saved
+The focused UI element is 217 button Lilit Aram Blackjack strategy table
+The focused UI element is 219 button Remind me
+The focused UI element is 221 button Alex Moreau Premium Baccarat room
+The focused UI element is 223 button Remind me
+The focused UI element is 225 button Marcus Reed Game Show warm-up
+The focused UI element is 227 button Remind me
+The focused UI element is 231 button Sofia Laurent An example Blackjack session with Sofia. Follow her profile and save a reason to return.
+The focused UI element is 232 button Mia Novak Example update: a quieter Roulette and Baccarat session preview. Follow Mia to explore the return journey.
+The focused UI element is 233 button Lilit Aram Example Blackjack note. Meet Lilit and explore a scheduled preview.
+The focused UI element is 234 button Alex Moreau Example Baccarat session with Alex. Save the preview and try the local table room.
+The focused UI element is 235 button Marcus Reed Example Game Show update. Explore how a creator can bring followers back.
+The focused UI element is 238 button Home
+The focused UI element is 239 button Explore
+The focused UI element is 240 button Create
+The focused UI element is 241 button Activity
+The focused UI element is 242 button Profile
+The focused UI element is 4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player
+The focused UI element is 135 button player
+The focused UI element is 138 button Switch
+The focused UI element is 139 button Reset
+The focused UI element is 140 button Roles
+The focused UI element is 141 button Guide
+The focused UI element is 144 button 1 · Meet your next dealer
+The focused UI element is 145 button 2 · Turn discovery into a relationship
+The focused UI element is 146 button 3 · See the integration value
+The focused UI element is 150 button Explore the lobby
+The focused UI element is 151 button Next scenario
+The focused UI element is 152 button Skip walkthrough
+The focused UI element is 154 button Blackjack Discover dealers · scripted table preview
+The focused UI element is 155 button Baccarat Discover dealers · scripted table preview
+The focused UI element is 162 search text field (settable) Search creators, games or languages
+The focused UI element is 163 button SEARCH
+The focused UI element is 165 button For you
+The focused UI element is 166 button Live
+The focused UI element is 167 button Following
+The focused UI element is 168 button Soon
+The focused UI element is 175 button Sofia Laurent creator profile SESSION PREVIEW
+The focused UI element is 176 button Sofia Laurent Featured Blackjack creator · Illustrative profile
+The focused UI element is 177 toggle button Following, Value: on
+The focused UI element is 181 button Mia Novak creator profile SESSION PREVIEW
+The focused UI element is 182 button Mia Novak Roulette table personality · Illustrative profile
+The focused UI element is 183 toggle button Follow, Value: off
+The focused UI element is 187 button Lilit Aram creator profile SESSION PREVIEW
+The focused UI element is 188 button Lilit Aram Blackjack and poker table explainer · Illustrative profile
+The focused UI element is 189 toggle button Follow, Value: off
+The focused UI element is 193 button Alex Moreau creator profile SESSION PREVIEW
+The focused UI element is 194 button Alex Moreau Baccarat creator for premium sessions · Illustrative profile
+The focused UI element is 195 toggle button Follow, Value: off
+The focused UI element is 199 button Marcus Reed creator profile SESSION PREVIEW
+The focused UI element is 200 button Marcus Reed Game Show host · Illustrative profile
+The focused UI element is 201 toggle button Follow, Value: off
+The focused UI element is 209 button Sofia Laurent Evening Blackjack table
+The focused UI element is 211 button Remind me
+The focused UI element is 213 button Mia Novak Roulette community hour
+The focused UI element is 215 button Saved
+
+Dealer profile keyboard cycle
+The focused UI element is 174 toggle button FOLLOWING, Value: on
+The focused UI element is 175 button Mute Live alerts
+The focused UI element is 176 button VIEW SESSION PREVIEW
+The focused UI element is 192 button REMIND ME
+The focused UI element is 199 toggle button Like post, Value: off
+The focused UI element is 201 text field (settable) Comment on this update
+The focused UI element is 202 button Post comment
+The focused UI element is 205 button Report
+The focused UI element is 206 button Block
+The focused UI element is 208 button Home
+The focused UI element is 209 button Explore
+The focused UI element is 210 button Create
+The focused UI element is 211 button Activity
+The focused UI element is 212 button Profile
+The focused UI element is 4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player/creator/demo-sofia
+The focused UI element is 151 button player
+The focused UI element is 154 button Switch
+The focused UI element is 155 button Reset
+The focused UI element is 156 button Roles
+The focused UI element is 157 button Guide
+The focused UI element is 160 button 1 · Meet your next dealer
+The focused UI element is 161 button 2 · Turn discovery into a relationship
+The focused UI element is 162 button 3 · See the integration value
+The focused UI element is 166 button Explore the lobby
+The focused UI element is 167 button Next scenario
+The focused UI element is 168 button Skip walkthrough
+The focused UI element is 174 toggle button FOLLOWING, Value: on
+The focused UI element is 175 button Mute Live alerts
+The focused UI element is 176 button VIEW SESSION PREVIEW
+The focused UI element is 192 button REMIND ME
+
+Blackjack room keyboard cycle
+The focused UI element is 137 button Show next demo round
+The focused UI element is 141 toggle button React to this room, Value: off
+The focused UI element is 144 text field (settable) Message the demo room, Placeholder: Write a message
+The focused UI element is 145 button Send
+The focused UI element is 146 button PREVIEW HANDOFF
+The focused UI element is 147 toggle button FOLLOWING, Value: on
+The focused UI element is 154 button ← Back to Sofia Laurent
+The focused UI element is 156 button Home
+The focused UI element is 157 button Explore
+The focused UI element is 158 button Create
+The focused UI element is 159 button Activity
+The focused UI element is 160 button Profile
+The focused UI element is 4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player/live/demo-session-sofia
+The focused UI element is 105 button player
+The focused UI element is 108 button Switch
+The focused UI element is 109 button Reset
+The focused UI element is 110 button Roles
+The focused UI element is 111 button Guide
+The focused UI element is 114 button 1 · Meet your next dealer
+The focused UI element is 115 button 2 · Turn discovery into a relationship
+The focused UI element is 116 button 3 · See the integration value
+The focused UI element is 120 button Explore the lobby
+The focused UI element is 121 button Next scenario
+The focused UI element is 122 button Skip walkthrough
+The focused UI element is 137 button Show next demo round
+
+Activity keyboard cycle
+The focused UI element is 124 button Mark all read
+The focused UI element is 126 button UPDATE Returned from operator context to Sofia Laurent. Follow, content and next session stayed connected. 10/10/2026, 22:00:00
+The focused UI element is 127 button UPDATE Sofia's illustrative session preview is ready. No live broadcast or operator connection is implied. 10/10/2026, 22:00:00
+The focused UI element is 132 button 11/10/2026, 00:00:00 Mia Novak Roulette
+The focused UI element is 136 button Home
+The focused UI element is 137 button Explore
+The focused UI element is 138 button Create
+The focused UI element is 139 button Activity
+The focused UI element is 140 button Profile
+The focused UI element is 4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player
+The focused UI element is 99 button player
+The focused UI element is 102 button Switch
+The focused UI element is 103 button Reset
+The focused UI element is 104 button Roles
+The focused UI element is 105 button Guide
+The focused UI element is 108 button 1 · Meet your next dealer
+The focused UI element is 109 button 2 · Turn discovery into a relationship
+The focused UI element is 110 button 3 · See the integration value
+The focused UI element is 114 button Explore the lobby
+The focused UI element is 115 button Next scenario
+
+Player profile keyboard cycle
+The focused UI element is 108 button DISCOVER
+The focused UI element is 110 button 1 FOLLOWING
+The focused UI element is 111 button 1 SAVED
+The focused UI element is 112 button 2 SIGNALS
+The focused UI element is 123 button Safety center Reports, blocks, signals and account state ›
+The focused UI element is 130 button Player
+The focused UI element is 131 button Creator
+The focused UI element is 132 button Business
+The focused UI element is 133 button BACK TO OPENING
+The focused UI element is 136 button Home
+The focused UI element is 137 button Explore
+The focused UI element is 138 button Create
+The focused UI element is 139 button Activity
+The focused UI element is 140 button Profile
+The focused UI element is 4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player
+The focused UI element is 85 button player
+The focused UI element is 88 button Switch
+The focused UI element is 89 button Reset
+The focused UI element is 90 button Roles
+The focused UI element is 91 button Guide
+The focused UI element is 94 button 1 · Meet your next dealer
+The focused UI element is 95 button 2 · Turn discovery into a relationship
+The focused UI element is 96 button 3 · See the integration value
+The focused UI element is 100 button Explore the lobby
+The focused UI element is 101 button Next scenario
+
+Keyboard scenario activation
+Window: "LC QA isolated — LC App — Live Casino. Social Experience.", App: Safari.
+0 standard window LC QA isolated — LC App — Live Casino. Social Experience., ID: SafariWindow?IsSecure=false&UUID=9B177172-9981-4404-976D-C3F0A5418261, Secondary Actions: Raise
+	1 split group
+		2 tab group
+			3 scroll area
+				4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player
+					5 container LC App ideal mobile prototype
+						6 container LC App social experience
+							7 text LC
+							8 text Profile
+							9 text Your social corner
+							10 button player
+							11 container Illustrative preview mode
+								12 text DEMO EXPERIENCE · PLAYER · LOCAL DATA
+								13 button Switch
+								14 button Reset
+								15 button Roles
+								16 button Guide
+							17 container Investor walkthrough
+								18 container Guided scenarios
+									19 button 1 · Meet your next dealer
+									20 button 2 · Turn discovery into a relationship
+									21 button 3 · See the integration value
+								22 heading Meet your next dealer, Value: 2
+									23 text Meet your next dealer
+								24 text LC App is a social layer for Live Casino. Meet Blackjack and Baccarat dealers, follow them and return to their tables.
+								25 button Explore the lobby
+								26 button Next scenario
+								27 button Skip walkthrough
+							28 text LC
+							29 text PLAYER PROFILE
+							30 heading Demo Reviewer, Value: 1
+								31 text Demo Reviewer
+							32 text @demo_reviewer
+							33 button DISCOVER
+							34 container App-owned profile activity
+								35 button 1 FOLLOWING
+								36 button 1 SAVED
+								37 button 2 SIGNALS
+							38 text YOUR FEED
+							39 heading Discovery preferences, Value: 2
+								40 text Discovery preferences
+							41 container
+								42 text GAMES Blackjack · Roulette
+							43 container
+								44 text LANGUAGES English
+							45 text ACCOUNT
+							46 heading Settings and safety, Value: 2
+								47 text Settings and safety
+							48 button Safety center Reports, blocks, signals and account state ›
+							49 text Account security role Separate from the product experience
+							50 text USER
+							51 text EXPERIENCE
+							52 heading Use LC as, Value: 2
+								53 text Use LC as
+							54 text Switching product mode never changes permissions or account role.
+							55 button Player
+							56 button Creator
+							57 button Business
+							58 button BACK TO OPENING
+							59 text LC never holds gameplay funds, wallet data, wagering or KYC/AML records.
+							60 container Social app navigation
+								61 button Home
+								62 button Explore
+								63 button Create
+								64 button Activity
+								65 button Profile
+					66 text Social app: Demo Reviewer
+	67 image WindowControlShadowView._shadowImageView
+	68 toolbar
+		69 button Description: Toggle sidebar, ID: SidebarButton, Secondary Actions: Move next, Remove from toolbar
+		70 menu button ID: TabGroupPickerButton?Profile=LC%20QA%20isolated&Icon=person.lanyardcard.fill, Secondary Actions: Move next, Remove from toolbar
+		71 container BackForwardSegmentedControl
+			72 button Description: Go back, Help: Show the previous page, ID: BackButton
+			73 button (disabled) Description: Go forward, Help: Show the next page, ID: ForwardButton
+		74 container Secondary Actions: Move previous, Move next, Remove from toolbar
+			75 button Page Menu, ID: AssistantButton
+			76 button Add page to Reading List, ID: OneStepBookmarkingButton
+			77 text field (settable) Description: smart search field, Value: localhost:4187/?app=1&demo=investor#/product/demo/player, ID: WEB_BROWSER_ADDRESS_AND_SEARCH_FIELD
+			78 button Translation Available, ID: TranslationButton
+			79 button Reload this page, ID: ReloadButton
+		80 button Description: Share, ID: ShareButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		81 button Description: New Tab, ID: NewTabButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		82 button Description: Tab Overview, ID: TabOverviewButton, Secondary Actions: Move previous, Remove from toolbar
+	83 close button
+	84 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	85 minimize button
+86 menu bar
+	87 Safari
+	88 File
+	89 Edit
+	90 View, ID: SafariViewMenu
+	91 History
+	92 Bookmarks, ID: SafariBookmarksMenu
+	93 Develop
+	94 Window, ID: SafariWindowMenu
+	95 Help, ID: SafariHelpMenu
+
+The focused UI element is 19 button 1 · Meet your next dealer
+Operator workspace keyboard cycle
+The focused UI element is 100 button Overview
+The focused UI element is 101 button Creators
+The focused UI element is 102 button Campaigns
+The focused UI element is 103 button Live
+The focused UI element is 104 button Performance
+The focused UI element is 105 button Integrations
+The focused UI element is 106 button Safety
+The focused UI element is 107 button Settings
+The focused UI element is 113 button operator
+The focused UI element is 116 button Switch
+The focused UI element is 117 button Reset
+The focused UI element is 118 button Roles
+The focused UI element is 119 button Guide
+The focused UI element is 122 button 1 · Meet your next dealer
+The focused UI element is 123 button 2 · Turn discovery into a relationship
+The focused UI element is 124 button 3 · See the integration value
+The focused UI element is 128 button Inspect operator workspace
+The focused UI element is 129 button Finish walkthrough
+The focused UI element is 130 button Skip walkthrough
+The focused UI element is 4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/operator
+The focused UI element is 100 button Overview
+The focused UI element is 101 button Creators
+The focused UI element is 102 button Campaigns
+The focused UI element is 103 button Live
+The focused UI element is 104 button Performance
+The focused UI element is 105 button Integrations
+The focused UI element is 106 button Safety
+The focused UI element is 107 button Settings
+The focused UI element is 113 button operator
+The focused UI element is 116 button Switch
+The focused UI element is 117 button Reset
+The focused UI element is 118 button Roles
+The focused UI element is 119 button Guide
+The focused UI element is 122 button 1 · Meet your next dealer
+The focused UI element is 123 button 2 · Turn discovery into a relationship

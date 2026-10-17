@@ -1,0 +1,128 @@
+apply 202608080001_auth_profiles_storage.sql
+apply 202608080002_profiles_role_and_moderation_helper.sql
+apply 202608080003_social_graph.sql
+apply 202608080004_posts_engagement.sql
+apply 202608080005_activity_notifications.sql
+apply 202608080006_reports.sql
+apply 202608080007_profiles_system_field_guard.sql
+apply 202608080008_product_personas_creator_industry.sql
+apply 202608080009_creator_session_eligibility.sql
+apply 202608080010_active_profile_mutation_gate.sql
+apply 202608080011_profile_account_status_admin_maintenance.sql
+apply 202608080012_creator_approval_gate.sql
+apply 202609080013_product_attribution_events.sql
+apply 202609080014_creator_publication_control.sql
+apply 202609080015_block_follow_cleanup.sql
+apply 202609080016_account_deletion_requests.sql
+apply 202609080017_creator_live_return_signals.sql
+apply 202609080018_pilot_measurement_briefs.sql
+apply 202609080019_pilot_brief_review_workflow.sql
+apply 202609080020_live_signal_follow_catchup.sql
+apply 202609080021_creator_session_state_machine.sql
+apply 202609080022_product_event_context_guard.sql
+apply 202609080023_schedule_reminder_integrity.sql
+apply 202609080024_attributable_return_integrity.sql
+apply 202609080025_per_creator_live_alert_preferences.sql
+apply 202609080026_global_live_signal_preference_integrity.sql
+apply 202609080027_creator_public_surface_integrity.sql
+apply 202609210028_product_event_attribution_trust.sql
+apply 202609210029_handoff_intent_server_boundary.sql
+apply 202609220030_industry_organizations_rbac.sql
+apply 202609220031_industry_pilot_configuration.sql
+apply 202609220032_industry_support_cases.sql
+apply 202609220033_industry_integration_health.sql
+apply 202609220034_account_data_export_requests.sql
+apply 202609220035_creator_return_preferences.sql
+apply 202609220036_creator_return_follow_integrity.sql
+apply 202609220037_creator_return_live_signal_sync.sql
+apply 202609220038_creator_live_signal_generation_preference_gate.sql
+apply 202609220039_return_signal_read_integrity.sql
+apply 202609220040_player_session_reminder_integrity.sql
+apply 202609220041_industry_org_invitation_lifecycle.sql
+apply 202609220042_industry_org_invitation_membership_guard.sql
+apply 202609220043_industry_creator_table_mapping.sql
+apply 202609220044_harden_creator_table_mapping_pause.sql
+apply 202609220045_creator_table_mapping_audit.sql
+apply 202609220046_industry_membership_lifecycle.sql
+apply 202609220047_serialize_industry_owner_lifecycle.sql
+apply 202609240048_approved_operator_handoff_resolution.sql
+apply 202609240049_fail_closed_ambiguous_operator_handoff.sql
+apply 202609240050_handoff_return_idempotency.sql
+apply 202609240051_creator_session_handoff_binding.sql
+apply 202609240055_product_event_state_integrity.sql
+apply 202610090056_product_event_contract_hardening.sql
+apply 202610090057_foundation_contract_recovery.sql
+apply 202610090058_avatar_storage_contract_recovery.sql
+apply 202610090059_private_profile_policy_compatibility.sql
+apply 202610090060_foundation_privilege_and_suspension_hardening.sql
+reapply 202610090057_foundation_contract_recovery.sql
+reapply 202610090058_avatar_storage_contract_recovery.sql
+reapply 202610090059_private_profile_policy_compatibility.sql
+reapply 202610090060_foundation_privilege_and_suspension_hardening.sql
+REAPPLY SCHEMA PARITY: PASS
+             status              
+---------------------------------
+ LC schema security audit passed
+(1 row)
+
+               status                
+-------------------------------------
+ LC database migration chain applied
+(1 row)
+
+ set_config 
+------------
+ on
+(1 row)
+
+ set_config 
+------------
+ off
+(1 row)
+
+                 status                 
+----------------------------------------
+ LC synthetic security fixtures created
+(1 row)
+
+PASS anonymous profile table access
+PASS player full own profile RPC
+PASS private profile fields excluded from client table reads
+PASS player cannot read another inbox
+PASS player cannot manufacture notifications
+PASS player cannot escalate role
+PASS unverified creator cannot self-publish
+PASS unverified creator cannot publish session
+PASS creator cannot write another creator post
+PASS player cannot read another reporter submission
+PASS admin sees moderation queue
+PASS admin review stamps moderator and timestamp
+PASS browser admin cannot execute verification mutation
+PASS tenant owner sees own organization
+PASS tenant isolation hides other organization
+PASS tenant audit trail hides other organization
+PASS cross-tenant mapping mutation denied
+PASS cross-tenant destination assignment denied
+PASS invalid non-HTTPS destination rejected
+PASS unique approved handoff resolves
+PASS ambiguous handoff fails closed
+PASS session-bound approved handoff resolves
+PASS browser cannot forge server handoff intent
+PASS event metadata injection rejected
+PASS avatar bucket contract restored
+PASS avatar owner upload path
+PASS avatar cross-user upload path rejected
+PASS product event rate limit permits first 120 events
+PASS product event rate limit rejects event 121
+PASS attributable return persists once
+PASS duplicate return replay rejected
+PASS return without prior intent rejected
+PASS suspended player can read own account status
+PASS suspended player cannot create post
+PASS suspended player cannot create report
+PASS suspended player cannot upload avatar
+PASS suspended player cannot create product event
+PASS suspended admin loses moderator capability
+PASS suspended admin cannot read moderation queue
+PASS suspended admin cannot update moderation queue
+DB SECURITY MATRIX: 40 PASS

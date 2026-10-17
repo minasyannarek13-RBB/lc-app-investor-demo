@@ -1,0 +1,26 @@
+.env
+.env.*
+!.env.example
+.vercel/
+node_modules/
+playwright-report/
+test-results/
+*.pem
+*.key
+*.p12
+*.pfx
+.DS_Store
+
+.local-backups/
+
+# Local release diagnostics and owner-only reports; never publish these by git add .
+evidence/
+/LC_APP_V*_*.html
+/LC_APP_V*_*.md
+/DOMAIN_UPDATE_PLAN_*.md
+/ONE_PASS_REPORT_*.md
+/STAGING_HANDOFF.zip
+
+
+# Supabase CLI local metadata, excluded from source/public release.
+supabase/.temp/

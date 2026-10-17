@@ -1,0 +1,106 @@
+Window: "Main — LC App — Live Casino. Social Experience.", App: Safari.
+0 standard window Main — LC App — Live Casino. Social Experience., ID: SafariWindow?IsSecure=false&UUID=B91B92C0-3111-44A5-8F78-DBE5DD654A74, Secondary Actions: Raise
+	1 split group
+		2 tab group
+			3 scroll area
+				4 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player
+					5 container LC App ideal mobile prototype
+						6 container LC App social experience
+							7 text LC
+							8 text Home
+							9 text 1 new signal
+							10 button player
+							11 container Illustrative preview mode
+								12 text DEMO EXPERIENCE · PLAYER · LOCAL DATA
+								13 button Switch
+								14 button Reset
+								15 button Roles
+								16 button Guide
+							17 container Investor walkthrough
+								18 container Guided scenarios
+									19 button 1 · Meet your next dealer
+									20 button 2 · Turn discovery into a relationship
+									21 button 3 · See the integration value
+								22 heading Meet your next dealer, Value: 2
+									23 text Meet your next dealer
+								24 text LC App is a social layer for Live Casino. Meet Blackjack and Baccarat dealers, follow them and return to their tables.
+								25 button Explore the lobby
+								26 button Next scenario
+								27 button Skip walkthrough
+							28 container LC core loop
+								29 text Discover Creator Follow Live Return
+							30 container Creators in demo live sessions
+								31 button + Explore
+								32 button SESSION PREVIEW Sofia
+								33 button SESSION PREVIEW Mia
+								34 button SESSION PREVIEW Lilit
+								35 button SESSION PREVIEW Alex
+								36 button SESSION PREVIEW Marcus
+							37 button For you
+							38 button Following
+							39 container Creator feed
+								40 container
+									41 button Open Sofia Laurent's profile
+									42 button Sofia Laurent Featured Blackjack creator · Illustrative profile
+									43 button Following
+									44 button Open upcoming session with Sofia Laurent
+									45 toggle button Like post, Value: off
+									46 button Open creator profile
+									47 button OPEN SESSION PREVIEW
+									48 text Sofia Laurent An example Blackjack session with Sofia. Follow her profile and save a reason to return. 10/10/2026, 21:45:00 Comment on Sofia Laurent's post
+									49 text field (settable) Comment on Sofia Laurent's post, Placeholder: Add a comment…
+									50 button Post
+								51 container
+									52 button Open Alex Moreau's profile
+									53 button Alex Moreau Baccarat creator for premium sessions · Illustrative profile
+									54 button Follow
+									55 button Open upcoming session with Alex Moreau
+									56 toggle button Like post, Value: off
+									57 button Open creator profile
+									58 button OPEN SESSION PREVIEW
+									59 text Alex Moreau Example Baccarat session with Alex. Save the preview and try the local table room. 10/10/2026, 21:15:00 Comment on Alex Moreau's post
+									60 text field (settable) Comment on Alex Moreau's post, Placeholder: Add a comment…
+									61 button Post
+								62 container
+									63 button Open Mia Novak's profile
+									64 button Mia Novak Roulette table personality · Illustrative profile
+									65 button Follow
+									66 button Open upcoming session with Mia Novak
+									67 toggle button Like post, Value: off
+									68 button Open creator profile
+									69 button OPEN SESSION PREVIEW
+									70 text Mia Novak Example update: a quieter Roulette and Baccarat session preview. Follow Mia to explore the return journey. 10/10/2026, 21:00:00 Comment on Mia Novak's post
+									71 text field (settable) Comment on Mia Novak's post, Placeholder: Add a comment…
+									72 button Post
+								73 container
+									74 button Open Marcus Reed's profile
+									75 button Marcus Reed Game Show host · Illustrative profile
+									76 button Follow
+									77 button Open upcoming session with Marcus Reed
+									78 toggle button Like post, Value: off
+									79 button Open creator profile
+									80 button OPEN SESSION PREVIEW
+									81 text Marcus Reed Example Game Show update. Explore how a creator can bring followers back. 10/10/2026, 20:30:00 Comment on Marcus Reed's post
+									82 text field (settable) Comment on Marcus Reed's post, Placeholder: Add a comment…
+									83 button Post
+								84 container
+									85 button Open Lilit Aram's profile
+									86 button Lilit Aram Blackjack and poker table explainer · Illustrative profile
+									87 button Follow
+									88 button Open upcoming session with Lilit Aram
+									89 toggle button Like post, Value: off
+									90 button Open creator profile
+									91 button OPEN SESSION PREVIEW
+									92 text Lilit Aram Example Blackjack note. Meet Lilit and explore a scheduled preview. 10/10/2026, 20:00:00 Comment on Lilit Aram's post
+									93 text field (settable) Comment on Lilit Aram's post, Placeholder: Add a comment…
+									94 button Post
+							95 text LC connects you to people, not funds. Gameplay and all regulated casino operations stay with the licensed operator.
+							96 container Social app navigation
+								97 button Home
+								98 button Explore
+								99 button Create
+								100 button Activity
+								101 button Profile
+					102 text Social app: Meet your next dealer
+	103 image WindowControlShadowView._shadowImageView
+	104 

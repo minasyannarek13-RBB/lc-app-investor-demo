@@ -1,0 +1,71 @@
+{
+  "status": "LOCAL FAIL-CLOSED RECOVERY; separate deployment approval required",
+  "cache": "v145",
+  "files": [
+    {
+      "path": "CNAME",
+      "sha256": "a8595b36d59b4661e165309dc82aed3c46f485b9cce6ae3edb5ee6ca1d1b7b4a",
+      "size": 17
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/index.html",
+      "sha256": "ec960018f085d793b7d8b2ccb70d3040b73b2768c1964ed903c66e266cf5a13d",
+      "size": 867
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/investor.html",
+      "sha256": "ec960018f085d793b7d8b2ccb70d3040b73b2768c1964ed903c66e266cf5a13d",
+      "size": 867
+    },
+    {
+      "path": "LC_App_GitHub_Pages_Upload/sw.js",
+      "sha256": "3d357c1c187e838212d3bdb8c93c6b49ad149040568abd10795504bfb472b5d5",
+      "size": 1339
+    },
+    {
+      "path": "app-icon.svg",
+      "sha256": "8979c52a5ed9c4b1f43fd39cc2ebe3894e7afbe1ce6a42e52b50ffaf8f05c266",
+      "size": 1126
+    },
+    {
+      "path": "app_prototype_assets/dealers/dealer_lilit_avatar_v1.jpg",
+      "sha256": "1a569005b6e1f3c17de9c0317f63d17450ce7659e8951a54699f8797ea094a6c",
+      "size": 75410
+    },
+    {
+      "path": "app_prototype_assets/dealers/dealer_marcus_avatar_v1.jpg",
+      "sha256": "c5d4380dc3331578dfb531832dcb02f3ec37376a055e338f5a232adaa4f90651",
+      "size": 75868
+    },
+    {
+      "path": "app_prototype_assets/dealers/dealer_mia_avatar_v1.jpg",
+      "sha256": "e7acf03d8dde6cae26db4177ec542421a66f1f417a6968541d744e8ba71e6652",
+      "size": 92632
+    },
+    {
+      "path": "app_prototype_assets/dealers/dealer_sofia_avatar_v1.jpg",
+      "sha256": "761c18363cf40d45a21e75edffd638671ea8c548708465448db362f235c95253",
+      "size": 81455
+    },
+    {
+      "path": "index.html",
+      "sha256": "e5c77ad580745eab46349774cd3b5fef730f44025ee65553330a3378d2dd7e25",
+      "size": 59086
+    },
+    {
+      "path": "robots.txt",
+      "sha256": "2196a74b27f4e2d2146484fdc451117eeec27e344164f3a203c2bfc8bdea2929",
+      "size": 109
+    },
+    {
+      "path": "sitemap.xml",
+      "sha256": "09b82c0dc77ddade94770a4bbd70a594337b01c4d47a7c446cb1dd84bcc3d832",
+      "size": 186
+    },
+    {
+      "path": "sw.js",
+      "sha256": "3d357c1c187e838212d3bdb8c93c6b49ad149040568abd10795504bfb472b5d5",
+      "size": 1339
+    }
+  ]
+}

@@ -6,9 +6,10 @@ on:
       - '.github/workflows/reveal-executive-ia-polish.yml'
 jobs:
   polish:
+    if: ${{ false }} # Retired source-mutating patch automation; immutable releases only.
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
         with:

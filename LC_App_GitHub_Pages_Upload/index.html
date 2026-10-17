@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'none'; object-src 'none'; form-action 'none'; base-uri 'self'" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#08080b" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -10,10 +11,25 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="format-detection" content="telephone=no" />
   <link rel="icon" href="app-icon.svg" type="image/svg+xml" />
+  <link rel="preload" as="style" href="public-product-v4.css?v=144" />
   <title>LC App — Live Casino. Social Experience.</title>
+  <link rel="canonical" href="https://lc.open-gamer.com/LC_App_GitHub_Pages_Upload/" />
+  <meta name="robots" content="noindex, follow" />
   <meta name="description" content="LC App is a social discovery layer for Live Casino: discover creators, follow live sessions and continue to licensed operator tables." />
   <meta property="og:title" content="LC App — Live Casino. Social Experience." />
   <meta property="og:description" content="Discover dealers. Follow creators. Join live tables through the licensed operator ecosystem." />
+  <script>
+    Object.defineProperty(window, "LC_APP_MODE", { value: "public_demo", writable: false, configurable: false });
+  </script>
+  <script>
+    if (!location.hash || /^#\/product\/demo\/(?:player|creator)(?:$|\/creator\/demo-sofia$|\/live\/demo-session-sofia$)/.test(location.hash)) {
+      const portrait = document.createElement("link");
+      portrait.rel = "preload"; portrait.as = "image"; portrait.fetchPriority = "high";
+      portrait.type = "image/avif";
+      portrait.href = "app_prototype_assets/dealers/dealer_sofia_avatar_v1.avif";
+      document.head.appendChild(portrait);
+    }
+  </script>
   <script>
     (() => {
       try {
@@ -29,7 +45,7 @@
         if (isIPhone) root.classList.add("iphone-edge-mode");
         const normalizeProductRoot = () => {
           if (!window.location.hash || window.location.hash === "#/") {
-            window.location.replace(`${window.location.pathname}${window.location.search}#/product`);
+            window.location.replace(`${window.location.pathname}${window.location.search}#/product/demo/player`);
           }
         };
         normalizeProductRoot();
@@ -7107,13 +7123,18 @@
       }
     }
   </style>
+  <link id="lcPublicProductCss" rel="stylesheet" href="public-product-v4.css?v=144" />
+  <script src="./social.js" defer></script>
+  <script src="./app-product.js?v=144" defer fetchpriority="high"></script>
+  <script src="./public-demo-bootstrap.js?v=1" defer></script>
+  <script src="product-shell-v2.js?v=144" defer fetchpriority="high"></script>
 </head>
 <body>
   <main class="stage">
     <section class="brand">
       <p class="eyebrow">Social live casino</p>
       <h1>LC App <span>dealer-led live rooms</span></h1>
-      <p>Swipe dealer rooms, open live tables and move across roulette, blackjack, baccarat and poker without crowding the video.</p>
+      <p>Explore illustrative dealer rooms and preview the path from social discovery to a licensed operator.</p>
       <div class="tags" aria-label="Design pillars">
         <span class="tag">Video-first feed</span>
         <span class="tag">Dealer circles</span>
@@ -7122,9 +7143,9 @@
       </div>
       <div class="primary-actions">
         <button class="launch-btn" type="button" data-sheet="watch">Open feed</button>
-        <button class="launch-btn secondary" type="button" data-sheet="gameplay">Open live table</button>
+        <button class="launch-btn secondary" type="button" data-sheet="gameplay">Preview table flow</button>
       </div>
-      <div class="demo-note">Product preview with video-first discovery, dealer identity and operator handoff context.</div>
+      <div class="demo-note">Illustrative product preview. People, operators, tables, wallet values, outcomes and metrics are simulated; gameplay and regulated operations remain with the licensed operator.</div>
     </section>
 
     <section class="phone-shell" aria-label="LC App ideal mobile prototype">
@@ -7143,7 +7164,7 @@
           <div class="home-drawer" id="homeDrawer" aria-hidden="true">
             <div class="home-drawer-head">
               <strong id="homeDrawerTitle">Mia · Roulette Royale</strong>
-              <span id="homeDrawerMeta">Roulette · $10-$500 · EN</span>
+              <span id="homeDrawerMeta">Roulette · Operator-defined limits · EN</span>
             </div>
             <div class="home-drawer-grid" id="homeDrawerGrid"></div>
           </div>
@@ -7157,7 +7178,7 @@
 
           <div class="feed" id="feed"></div>
           <div class="progress" id="progress"></div>
-          <div class="signal-strip" id="signalStrip"><b>Live signal</b><span>Seat opened at Roulette Mania</span></div>
+          <div class="signal-strip" id="signalStrip"><b>Illustrative signal</b><span>Demo session preview available</span></div>
           <div class="feed-quick-dock" aria-label="Quick tools">
             <button class="icon-btn" type="button" data-sheet="search" aria-label="Explore">
               <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
@@ -7199,7 +7220,7 @@
             <h2>Live casino starts before the table</h2>
             <p>Open the feed, watch the moment, follow the dealer and move into table play only when the player chooses.</p>
             <div class="intro-steps">
-              <div class="intro-step"><b>1</b><div><strong>Watch live tables</strong><span>Swipe through dealer-led game moments.</span></div></div>
+              <div class="intro-step"><b>1</b><div><strong>Preview Live Casino rooms</strong><span>Review illustrative dealer-led game moments.</span></div></div>
               <div class="intro-step"><b>2</b><div><strong>Follow dealers</strong><span>Build retention before a player enters.</span></div></div>
               <div class="intro-step"><b>3</b><div><strong>Enter the table</strong><span>Gameplay, account and access open in focused popups.</span></div></div>
             </div>
@@ -7214,10 +7235,10 @@
 
     <aside class="side">
       <div class="side-box">
-        <h3 id="activeTitle">Mia Roulette Live</h3>
-        <p id="activeRead">Social-first roulette feed with dealer identity, clean video and a one-step path into table play.</p>
+        <h3 id="activeTitle">Mia Roulette Preview</h3>
+        <p id="activeRead">Illustrative roulette feed with dealer identity and a preview of the operator handoff.</p>
         <div class="kpi-row">
-          <div class="kpi"><strong id="kpiWatch">Live</strong><span>table signal</span></div>
+          <div class="kpi"><strong id="kpiWatch">Preview</strong><span>session state</span></div>
           <div class="kpi"><strong id="kpiJoin">Follow</strong><span>creator layer</span></div>
           <div class="kpi"><strong id="kpiArpu">Return</strong><span>session loop</span></div>
         </div>
@@ -7225,12 +7246,12 @@
       <div class="side-box">
         <h3>Product journey</h3>
         <div class="side-actions">
-          <button class="side-btn primary" type="button" data-sheet="watch">Start with watch mode <span>Preview</span></button>
+          <button class="side-btn primary" type="button" data-sheet="watch">Start with preview mode <span>Demo</span></button>
           <button class="side-btn" type="button" data-sheet="gameplay">Try gameplay flow <span>In-table</span></button>
           <button class="side-btn" type="button" data-sheet="profile">Open dealer profile <span>Follow</span></button>
           <button class="side-btn" type="button" data-sheet="handoff">Operator handoff <span>Play</span></button>
           <button class="side-btn" type="button" data-sheet="insights">Product fit <span>B2B</span></button>
-          <button class="side-btn" type="button" id="nextCard">Next live card <span>Scroll</span></button>
+          <button class="side-btn" type="button" id="nextCard">Next preview card <span>Scroll</span></button>
         </div>
       </div>
       <div class="side-box">
@@ -7245,7 +7266,7 @@
     </aside>
   </main>
 
-  <script>
+  <script id="lcLegacyPreview">
     const iconHeart = '<svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path></svg>';
     const iconUser = '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>';
     const iconSave = '<svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>';
@@ -7270,27 +7291,27 @@
       {
         id: "mia",
         dealer: "Mia",
-        title: "Mia Roulette Live",
+        title: "Mia Roulette Preview",
         game: "Roulette",
         table: "Roulette Mania",
-        operator: "RoyalBet",
+        operator: "Illustrative operator",
         image: assets.mia,
         providerCapture: true,
         feedVideo: assets.streamRealRoulette,
         tableVideo: assets.streamRealRoulette,
         watchVideo: assets.streamRealRoulette,
         gameplayVideo: assets.streamRealRoulette,
-        watching: "Live now",
+        watching: "Session preview",
         join: "Follow",
         arpu: "Return",
         follows: "Creator",
-        stakes: "$10-$500",
-        seat: "3",
+        stakes: "Operator-defined",
+        seat: "Demo",
         language: "EN",
         state: "8 red / 2 green",
         trend: "Table signal",
-        caption: "Fast roulette room with a clear wheel read and direct live entry.",
-        read: "Fast roulette room with clear wheel view and live chat.",
+        caption: "Illustrative roulette room with a clear wheel view and handoff preview.",
+        read: "Illustrative roulette room with a clear wheel view.",
         gameplayTimer: "12s to spin",
         rouletteTrack: ["32", "15", "0", "19", "4"],
         rouletteColors: ["red", "black", "green", "red", "black"]
@@ -7301,24 +7322,24 @@
         title: "Blackjack VIP",
         game: "Blackjack",
         table: "Blackjack Royal",
-        operator: "Velvet Ace",
+        operator: "Illustrative operator",
         image: assets.sofia,
         providerCapture: true,
         feedVideo: assets.streamRealBlackjack,
         tableVideo: assets.streamRealBlackjack,
         watchVideo: assets.streamRealBlackjack,
         gameplayVideo: assets.streamRealBlackjack,
-        watching: "Live now",
+        watching: "Session preview",
         join: "Follow",
         arpu: "Return",
         follows: "Creator",
-        stakes: "$25-$1K",
-        seat: "2",
+        stakes: "Operator-defined",
+        seat: "Demo",
         language: "EN",
         state: "VIP open",
         trend: "Table signal",
-        caption: "VIP blackjack room with clean dealing, readable cards and fast seat entry.",
-        read: "VIP blackjack room with readable cards and fast seat entry.",
+        caption: "Illustrative Blackjack room with clean dealing and readable cards.",
+        read: "Illustrative Blackjack room with readable cards.",
         gameplayTimer: "Action on you",
         dealerHand: ["A", "5"],
         playerHand: ["8", "7"]
@@ -7329,18 +7350,18 @@
         title: "Baccarat Night",
         game: "Baccarat",
         table: "Golden Baccarat",
-        operator: "Sapphire Play",
+        operator: "Illustrative operator",
         image: assets.marcus,
         feedVideo: assets.streamFeed,
         tableVideo: assets.streamFeed,
         watchVideo: assets.streamFeed,
         gameplayVideo: assets.streamFeed,
-        watching: "Live now",
+        watching: "Session preview",
         join: "Follow",
         arpu: "Return",
         follows: "Creator",
-        stakes: "$20-$750",
-        seat: "5",
+        stakes: "Operator-defined",
+        seat: "Demo",
         language: "EN",
         state: "Banker run",
         trend: "Table signal",
@@ -7355,18 +7376,18 @@
         title: "Poker After Dark",
         game: "Poker",
         table: "Hold'em Lounge",
-        operator: "NightSpin",
+        operator: "Illustrative operator",
         image: assets.lilit,
         feedVideo: assets.streamFeed,
         tableVideo: assets.streamDealer,
         watchVideo: assets.streamDealer,
         gameplayVideo: assets.streamDealer,
-        watching: "Live now",
+        watching: "Session preview",
         join: "Follow",
         arpu: "Return",
         follows: "Creator",
-        stakes: "$50-$500",
-        seat: "4",
+        stakes: "Operator-defined",
+        seat: "Demo",
         language: "EN",
         state: "Heads-up",
         trend: "Table signal",
@@ -8184,7 +8205,7 @@
       return `
         <div class="home-topbar">
           <div class="home-top-copy">
-            <span class="home-top-kicker">Live now</span>
+            <span class="home-top-kicker">Illustrative preview</span>
             <div class="home-top-title">
               <div class="wordmark top-wordmark" aria-label="LC App"><b>LC</b></div>
               <strong>Live rooms</strong>
@@ -8240,23 +8261,23 @@
         <div class="account-page-stack">
           <div class="account-hub">
             <div class="account-hub-top">
-              <span class="pill gold">VIP 2</span>
-              <span class="account-hub-tag">${icon("shield")}Verified · LC-2481</span>
+              <span class="pill gold">Illustrative account</span>
+              <span class="account-hub-tag">${icon("shield")}Operator-owned identity</span>
             </div>
             <div class="account-hub-balance">
-              <strong>$2.4K</strong>
-              <span>Ready across live rooms, cashier and off-table tips.</span>
+              <strong>External</strong>
+              <span>Wallet, gameplay and regulated account state.</span>
             </div>
             <div class="account-hub-strip">
-              <span class="account-hub-tag">${icon("wallet")}USDT · Visa</span>
+              <span class="account-hub-tag">${icon("wallet")}No wallet data in LC</span>
               <span class="account-hub-tag">${icon("watch")}3 saved rooms</span>
-              <span class="account-hub-tag">${icon("history")}126 hands</span>
+              <span class="account-hub-tag">${icon("history")}No gameplay results in LC</span>
             </div>
           </div>
           <div class="account-balance-row">
-            <div class="account-balance-card primary"><strong>$2.1K</strong><span>ready to play</span></div>
-            <div class="account-balance-card"><strong>$380</strong><span>pending cashout</span></div>
-            <div class="account-balance-card"><strong>$85</strong><span>tip balance</span></div>
+            <div class="account-balance-card primary"><strong>Operator</strong><span>gameplay account</span></div>
+            <div class="account-balance-card"><strong>External</strong><span>cashier</span></div>
+            <div class="account-balance-card"><strong>Not stored</strong><span>financial data</span></div>
           </div>
           <div class="account-quick-actions">
             <button class="btn" type="button" data-sheet="wallet">Cashier</button>
@@ -8310,9 +8331,9 @@
             </div>
           </div>
           <div class="list account-setting-list">
-            ${compactListRow("profile", "player id", "LC-2481")}
-            ${compactListRow("wallet", "wallet rails", "USDT · Visa")}
-            ${compactListRow("history", "cashout", "$380 pending")}
+            ${compactListRow("profile", "player id", "Illustrative")}
+            ${compactListRow("wallet", "wallet rails", "Licensed operator-owned")}
+            ${compactListRow("history", "cashout", "Not stored by LC")}
             ${compactListRow(gameIconLabel, "active room", `${card.dealer} · ${card.table}`)}
           </div>
         </div>
@@ -8559,7 +8580,7 @@
         { label: "Live", text: `${card.table} now live` },
         { label: "Seats", text: `${card.seat} seats open · ${card.language}` },
         { label: "Limits", text: `${card.stakes} table limits` },
-        { label: "Players", text: `${card.watching} watching right now` },
+        { label: "Session", text: `${card.watching} · illustrative content` },
         { label: "Status", text: `${card.state}` }
       ];
       const index = Math.floor(Date.now() / 4200) % signals.length;
@@ -10038,6 +10059,7 @@
     }
 
     function render() {
+      if (window.LC_APP_MODE === "public_demo" && window.location.hash.startsWith("#/product")) return;
       const storyMarkup = cards.map((card, index) => `
         <button class="story ${index === active ? "active" : ""}" type="button" data-index="${index}" aria-label="${card.dealer}">
           <span class="avatar-ring"><img src="${card.image}" alt="${card.dealer} dealer avatar" /></span>
@@ -10231,23 +10253,23 @@
           </div>
           <div class="account-hub">
             <div class="account-hub-top">
-              <span class="pill gold">VIP 2</span>
-              <span class="account-hub-tag">${icon("shield")}Verified</span>
+              <span class="pill gold">Illustrative account</span>
+              <span class="account-hub-tag">${icon("shield")}Operator-owned identity</span>
             </div>
             <div class="account-hub-balance">
-              <strong>$2.4K</strong>
-              <span>Playable balance</span>
+              <strong>External</strong>
+              <span>Wallet and gameplay account</span>
             </div>
             <div class="account-hub-strip">
-              <span class="account-hub-tag">${icon("wallet")}USDT · Visa</span>
-              <span class="account-hub-tag">${icon("history")}126 hands</span>
+              <span class="account-hub-tag">${icon("wallet")}No wallet data in LC</span>
+              <span class="account-hub-tag">${icon("history")}Illustrative activity</span>
               <span class="account-hub-tag">${icon(gameIconLabel)}${card.table}</span>
             </div>
           </div>
           <div class="account-balance-row">
-            <div class="account-balance-card primary"><strong>$2.1K</strong><span>ready to play</span></div>
-            <div class="account-balance-card"><strong>$380</strong><span>pending cashout</span></div>
-            <div class="account-balance-card"><strong>$85</strong><span>tip balance</span></div>
+            <div class="account-balance-card primary"><strong>Operator</strong><span>gameplay account</span></div>
+            <div class="account-balance-card"><strong>External</strong><span>cashier</span></div>
+            <div class="account-balance-card"><strong>Not stored</strong><span>financial data</span></div>
           </div>
           <div class="quick-link-row">
             <span class="quick-link">${icon("wallet")}instant cashier</span>
@@ -10273,9 +10295,9 @@
             </div>
           </div>
           <div class="list">
-            ${compactListRow("profile", "player id", "LC-2481")}
-            ${compactListRow("wallet", "wallet rails", "USDT · Visa")}
-            ${compactListRow("history", "cashout", "$380 pending")}
+            ${compactListRow("profile", "player id", "Illustrative")}
+            ${compactListRow("wallet", "wallet rails", "Licensed operator-owned")}
+            ${compactListRow("history", "cashout", "Not stored by LC")}
             ${compactListRow(gameIconLabel, "active room", `${card.dealer} · ${card.table}`)}
           </div>
           <div class="sheet-actions flush">
@@ -10297,24 +10319,24 @@
               <span class="account-hub-tag">${icon("history")}126 hands</span>
             </div>
             <div class="account-hub-balance">
-              <strong>$2.4K</strong>
-              <span>Bets, tips, returns</span>
+              <strong>External</strong>
+              <span>Gameplay and financial history</span>
             </div>
             <div class="account-hub-strip">
-              <span class="account-hub-tag">${icon("watch")}3 saved rooms</span>
-              <span class="account-hub-tag">${icon("tip")}$145 tips</span>
-              <span class="account-hub-tag">${icon("wallet")}$380 cashout</span>
+              <span class="account-hub-tag">${icon("watch")}Saved-room context</span>
+              <span class="account-hub-tag">${icon("tip")}No tip result data</span>
+              <span class="account-hub-tag">${icon("wallet")}No wallet data</span>
             </div>
           </div>
           <div class="summary-strip">
-            <div class="summary-box"><strong>126</strong><span>hands</span></div>
-            <div class="summary-box win"><strong>58%</strong><span>win rate</span></div>
-            <div class="summary-box"><strong>$2.4K</strong><span>net result</span></div>
+            <div class="summary-box"><strong>External</strong><span>hands</span></div>
+            <div class="summary-box win"><strong>External</strong><span>game results</span></div>
+            <div class="summary-box"><strong>Not stored</strong><span>financial result</span></div>
           </div>
           <div class="quick-link-row">
             <span class="quick-link">${icon(gameIconLabel)}${card.table}</span>
-            <span class="quick-link">${icon("tip")}$145 tips sent</span>
-            <span class="quick-link">${icon("wallet")}$380 cashout</span>
+            <span class="quick-link">${icon("tip")}Illustrative tip flow</span>
+            <span class="quick-link">${icon("wallet")}Operator-owned cashier</span>
           </div>
           <div class="history-row">
             <span class="history-pill live">live rooms</span>
@@ -10342,7 +10364,7 @@
             </div>
             <div class="activity-card">
               <div class="activity-card-top">
-                <span class="history-pill loss">-$50</span>
+                <span class="history-pill loss">Demo result</span>
                 <b>Blackjack · Sofia</b>
                 <span class="activity-card-side">Stand</span>
               </div>
@@ -10350,7 +10372,7 @@
             </div>
             <div class="activity-card">
               <div class="activity-card-top">
-                <span class="history-pill win">+$95</span>
+                <span class="history-pill win">Demo result</span>
                 <b>Baccarat · Marcus</b>
                 <span class="activity-card-side">Player</span>
               </div>
@@ -10358,7 +10380,7 @@
             </div>
             <div class="activity-card">
               <div class="activity-card-top">
-                <span class="history-pill live">$10 tip</span>
+                <span class="history-pill live">Demo tip</span>
                 <b>${card.dealer}</b>
                 <span class="activity-card-side">2h ago</span>
               </div>
@@ -10380,8 +10402,8 @@
           </div>
           <div class="summary-strip">
             <div class="summary-box"><strong>3</strong><span>saved rooms</span></div>
-            <div class="summary-box"><strong>2</strong><span>live now</span></div>
-            <div class="summary-box win"><strong>61%</strong><span>return rate</span></div>
+            <div class="summary-box"><strong>4</strong><span>preview records</span></div>
+            <div class="summary-box win"><strong>Not measured</strong><span>return rate</span></div>
           </div>
           <div class="quick-link-row">
             <span class="quick-link">${icon("watch")}${card.dealer} live</span>
@@ -10391,11 +10413,11 @@
           <div class="activity-stack">
             <div class="activity-card">
               <div class="activity-card-top">
-                <span class="history-pill live">Live now</span>
+                <span class="history-pill live">Session preview</span>
                 <b>${card.dealer} · ${card.table}</b>
                 <span class="activity-card-side">${card.stakes}</span>
               </div>
-              <p>${roomSignal} and saved-room memory stay attached to the live table.</p>
+              <p>${roomSignal} and saved-room memory stay attached to this illustrative session.</p>
             </div>
             <div class="activity-card">
               <div class="activity-card-top">
@@ -10415,7 +10437,7 @@
             </div>
           </div>
           <div class="sheet-actions flush">
-            <button class="btn" type="button" data-sheet="watch">Open live room</button>
+            <button class="btn" type="button" data-sheet="watch">Open preview</button>
             <button class="btn secondary" type="button" data-sheet="alerts">Room alerts</button>
           </div>
         `;
@@ -10429,23 +10451,23 @@
           </div>
           <div class="account-hub">
             <div class="account-hub-top">
-              <span class="pill teal">USDT main</span>
-              <span class="account-hub-tag">${icon("history")}Instant payouts</span>
+              <span class="pill teal">Operator-owned</span>
+              <span class="account-hub-tag">${icon("history")}Illustrative boundary</span>
             </div>
             <div class="account-hub-balance">
-              <strong>$2.1K</strong>
-              <span>Cashier balance</span>
+              <strong>External</strong>
+              <span>Licensed operator cashier</span>
             </div>
             <div class="account-hub-strip">
-              <span class="account-hub-tag">${icon("wallet")}TRC20</span>
-              <span class="account-hub-tag">${icon("wallet")}Visa •4242</span>
+              <span class="account-hub-tag">${icon("wallet")}No payment data in LC</span>
+              <span class="account-hub-tag">${icon("wallet")}No card data in LC</span>
               <span class="account-hub-tag">${icon("shield")}withdrawal check</span>
             </div>
           </div>
           <div class="account-balance-row">
-            <div class="account-balance-card primary"><strong>$2.1K</strong><span>available</span></div>
-            <div class="account-balance-card"><strong>$380</strong><span>cashout</span></div>
-            <div class="account-balance-card"><strong>$85</strong><span>tips ready</span></div>
+            <div class="account-balance-card primary"><strong>Not stored</strong><span>balance</span></div>
+            <div class="account-balance-card"><strong>External</strong><span>cashout</span></div>
+            <div class="account-balance-card"><strong>External</strong><span>tips</span></div>
           </div>
           <div class="quick-link-row">
             <span class="quick-link">${icon("wallet")}Crypto</span>
@@ -10462,9 +10484,9 @@
             </div>
           </div>
           <div class="list">
-            ${compactListRow("wallet", "main wallet", "USDT · linked")}
-            ${compactListRow("wallet", "bank card", "•••• 4242")}
-            ${compactListRow("history", "payout rail", "Instant")}
+            ${compactListRow("wallet", "main wallet", "Not stored by LC")}
+            ${compactListRow("wallet", "bank card", "Not stored by LC")}
+            ${compactListRow("history", "payout rail", "Licensed operator-owned")}
             ${compactListRow(gameIconLabel, "active room", `${card.table} · ${card.stakes}`)}
             ${compactListRow("shield", "withdrawal check", "Active")}
           </div>
@@ -10479,7 +10501,7 @@
             </div>
             <div class="activity-card">
               <div class="activity-card-top">
-                <span class="history-pill">$380</span>
+                <span class="history-pill">External</span>
                 <b>Pending cashout</b>
                 <span class="activity-card-side">instant rail</span>
               </div>
@@ -10516,7 +10538,7 @@
           </div>
           <div class="summary-strip">
             <div class="summary-box"><strong>4</strong><span>roles</span></div>
-            <div class="summary-box"><strong>2</strong><span>active now</span></div>
+            <div class="summary-box"><strong>Demo</strong><span>role preview</span></div>
             <div class="summary-box win"><strong>1 app</strong><span>shared graph</span></div>
           </div>
           <div class="quick-link-row">
@@ -10535,9 +10557,9 @@
               <div class="activity-card-top">
                 <span class="history-pill live">Primary</span>
                 <b>Player</b>
-                <span class="activity-card-side">wallet · rooms · gameplay</span>
+                <span class="activity-card-side">discover · follow · handoff</span>
               </div>
-              <p>Wallet, rooms, gameplay.</p>
+              <p>Discovery, following and licensed-operator handoff.</p>
             </div>
             <div class="activity-card">
               <div class="activity-card-top">
@@ -10549,7 +10571,7 @@
             </div>
           </div>
           <div class="list">
-            ${compactListRow("play", "Player", "wallet, saved rooms, gameplay")}
+            ${compactListRow("play", "Player", "discovery, saved creators, handoff")}
             ${compactListRow("profile", "Dealer", "profile, room, tips, messages")}
             ${compactListRow("stats", "Studio", "performance and room ops")}
             ${compactListRow("shield", "Operator", "handoff, access, reporting")}
@@ -10568,9 +10590,9 @@
             ${closeButton()}
           </div>
           <div class="summary-strip">
-            <div class="summary-box"><strong>Verified</strong><span>account</span></div>
-            <div class="summary-box"><strong>$500</strong><span>daily cap</span></div>
-            <div class="summary-box win"><strong>2h</strong><span>session guard</span></div>
+            <div class="summary-box"><strong>External</strong><span>verification</span></div>
+            <div class="summary-box"><strong>Operator</strong><span>limits</span></div>
+            <div class="summary-box win"><strong>External</strong><span>session controls</span></div>
           </div>
           <div class="quick-link-row">
             <span class="quick-link">${icon("shield")}withdrawal check</span>
@@ -10688,19 +10710,19 @@
               <span class="account-hub-tag">${icon("wallet")}wallet-linked</span>
             </div>
             <div class="account-hub-balance">
-              <strong>$85</strong>
-              <span>Separate tip balance</span>
+              <strong>External</strong>
+              <span>Illustrative tip flow</span>
             </div>
             <div class="account-hub-strip">
-              <span class="account-hub-tag">${icon("tip")}$145 this week</span>
-              <span class="account-hub-tag">${icon("watch")}3 tipped rooms</span>
+              <span class="account-hub-tag">${icon("tip")}No result data</span>
+              <span class="account-hub-tag">${icon("watch")}Illustrative records</span>
               <span class="account-hub-tag">${icon("history")}off-table</span>
             </div>
           </div>
           <div class="account-balance-row">
-            <div class="account-balance-card primary"><strong>$85</strong><span>tip balance</span></div>
-            <div class="account-balance-card"><strong>$145</strong><span>sent this week</span></div>
-            <div class="account-balance-card"><strong>3</strong><span>tipped rooms</span></div>
+            <div class="account-balance-card primary"><strong>External</strong><span>tip balance</span></div>
+            <div class="account-balance-card"><strong>Not measured</strong><span>sent this week</span></div>
+            <div class="account-balance-card"><strong>Demo</strong><span>tip records</span></div>
           </div>
           <div class="quick-link-row">
             <span class="quick-link">${icon("tip")}off-table</span>
@@ -10708,15 +10730,15 @@
             <span class="quick-link">${icon(gameIconLabel)}${card.table}</span>
           </div>
           <div class="module-grid">
-            <button class="module-card detail primary" type="button" data-action="tip">${icon("tip")}<strong>$5 quick thanks</strong><span>Light dealer gesture.</span></button>
-            <button class="module-card detail" type="button" data-action="tip">${icon("tip")}<strong>$10 table energy</strong><span>Clean social signal.</span></button>
-            <button class="module-card detail" type="button" data-action="tip">${icon("tip")}<strong>$25 hand momentum</strong><span>Strong table moment.</span></button>
-            <button class="module-card detail" type="button" data-action="tip">${icon("tip")}<strong>$50 VIP moment</strong><span>Premium room signal.</span></button>
+            <button class="module-card detail primary" type="button" data-action="tip">${icon("tip")}<strong>Preview quick thanks</strong><span>Illustrative dealer gesture.</span></button>
+            <button class="module-card detail" type="button" data-action="tip">${icon("tip")}<strong>Preview table energy</strong><span>Illustrative social signal.</span></button>
+            <button class="module-card detail" type="button" data-action="tip">${icon("tip")}<strong>Preview hand momentum</strong><span>Illustrative table moment.</span></button>
+            <button class="module-card detail" type="button" data-action="tip">${icon("tip")}<strong>Preview VIP moment</strong><span>Illustrative room signal.</span></button>
           </div>
           <div class="activity-stack">
             <div class="activity-card">
               <div class="activity-card-top">
-                <span class="history-pill live">$10</span>
+                <span class="history-pill live">Demo</span>
                 <b>${card.dealer}</b>
                 <span class="activity-card-side">2h ago</span>
               </div>
@@ -10724,7 +10746,7 @@
             </div>
             <div class="activity-card">
               <div class="activity-card-top">
-                <span class="history-pill">$25</span>
+                <span class="history-pill">Demo</span>
                 <b>Sofia · Blackjack Royal</b>
                 <span class="activity-card-side">yesterday</span>
               </div>
@@ -10736,7 +10758,7 @@
             ${compactListRow("wallet", "settlement", "wallet-linked")}
             ${compactListRow("watch", "favorite room", `${card.dealer} · ${card.table}`)}
           </div>
-          <div class="demo-disclaimer">Separate from bets.</div>
+          <div class="demo-disclaimer">Illustrative only. LC does not store wallet, wagering or settlement data.</div>
         `;
       }
 
@@ -10916,16 +10938,16 @@
       if (type === "search") {
         return `
           <div class="sheet-head">
-            <div class="sheet-title"><span class="pill">Explore</span><h3>Live now</h3></div>
+            <div class="sheet-title"><span class="pill">Explore</span><h3>Session previews</h3></div>
             ${closeButton()}
           </div>
           <div class="list">
-            <div class="list-row"><b>Roulette</b><span>12 live tables</span></div>
-            <div class="list-row"><b>Blackjack</b><span>8 live tables</span></div>
-            <div class="list-row"><b>Baccarat</b><span>6 live tables</span></div>
-            <div class="list-row"><b>Poker</b><span>4 live tables</span></div>
-            <div class="list-row"><b>Low minimums</b><span>from $5</span></div>
-            <div class="list-row"><b>VIP rooms</b><span>verified only</span></div>
+            <div class="list-row"><b>Roulette</b><span>Illustrative catalog</span></div>
+            <div class="list-row"><b>Blackjack</b><span>Illustrative catalog</span></div>
+            <div class="list-row"><b>Baccarat</b><span>Illustrative catalog</span></div>
+            <div class="list-row"><b>Poker</b><span>Illustrative catalog</span></div>
+            <div class="list-row"><b>Limits</b><span>Operator-defined</span></div>
+            <div class="list-row"><b>Availability</b><span>Not connected</span></div>
           </div>
         `;
       }
@@ -10938,31 +10960,31 @@
           </div>
           <div class="summary-strip">
             <div class="summary-box"><strong>4</strong><span>alerts on</span></div>
-            <div class="summary-box"><strong>2</strong><span>live now</span></div>
-            <div class="summary-box win"><strong>31%</strong><span>return lift</span></div>
+            <div class="summary-box"><strong>4</strong><span>preview records</span></div>
+            <div class="summary-box win"><strong>Not measured</strong><span>return lift</span></div>
           </div>
           <div class="quick-link-row">
-            <span class="quick-link">${icon("watch")}${card.dealer} live</span>
-            <span class="quick-link">${icon("seat")}${card.seat} open seats</span>
+            <span class="quick-link">${icon("watch")}${card.dealer} preview</span>
+            <span class="quick-link">${icon("seat")}Illustrative seat signal</span>
             <span class="quick-link">${icon(gameIconLabel)}${roomSignal}</span>
           </div>
           <div class="module-grid compact-modules">
-            ${moduleTile("watch", "Dealer live", { sheet: "watch" }, "primary")}
+            ${moduleTile("watch", "Session preview", { sheet: "watch" }, "primary")}
             ${moduleTile("seat", "Seat alert", { action: "save" })}
             ${moduleTile("trend", "Trend alert", { action: "save" })}
             ${moduleTile("wallet", "Promo alert", { action: "save" })}
           </div>
           <div class="list">
-            <div class="list-row"><b>${card.dealer} is live</b><span>${card.table}</span></div>
-            <div class="list-row"><b>Seat opened</b><span>${card.seat}</span></div>
+            <div class="list-row"><b>${card.dealer} preview available</b><span>${card.table}</span></div>
+            <div class="list-row"><b>Illustrative seat signal</b><span>Demo only</span></div>
             <div class="list-row"><b>${roomSignal}</b><span>${card.state}</span></div>
             <div class="list-row"><b>Operator promo</b><span>${card.operator}</span></div>
           </div>
           <div class="activity-stack">
             <div class="activity-card">
               <div class="activity-card-top">
-                <span class="history-pill live">Now</span>
-                <b>${card.dealer} live again</b>
+                <span class="history-pill live">Preview</span>
+                <b>${card.dealer} session preview</b>
                 <span class="activity-card-side">${card.watching}</span>
               </div>
               <p>High-intent alert returns the player into the same room instead of a generic lobby.</p>
@@ -10977,7 +10999,7 @@
             </div>
           </div>
           <div class="sheet-actions flush">
-            <button class="btn" type="button" data-sheet="watch">Open live room</button>
+            <button class="btn" type="button" data-sheet="watch">Open preview</button>
             <button class="btn secondary" type="button" data-sheet="saved">Manage alerts</button>
           </div>
         `;
@@ -11012,7 +11034,7 @@
             <div class="deal-row"><b>Status</b><span>concept demo, outcomes to validate</span></div>
           </div>
           <div class="pilot-timeline">
-            <div class="pilot-step"><strong>Discover</strong><span>Find dealers and live tables.</span></div>
+            <div class="pilot-step"><strong>Discover</strong><span>Find creators and session previews.</span></div>
             <div class="pilot-step"><strong>Follow</strong><span>Keep the relationship after a session.</span></div>
             <div class="pilot-step"><strong>Return</strong><span>Continue through the licensed operator flow.</span></div>
           </div>
@@ -11345,8 +11367,10 @@
     });
 
     document.getElementById("nextCard").addEventListener("click", () => goTo(active + 1));
-    startLiveRoundTimer();
-    startSignalTimer();
+    if (!(window.LC_APP_MODE === "public_demo" && window.location.hash.startsWith("#/product"))) {
+      startLiveRoundTimer();
+      startSignalTimer();
+    }
     window.setTimeout(() => hideIntro(false), 3600);
 
     document.addEventListener("keydown", (event) => {
@@ -11357,20 +11381,14 @@
 
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
       window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./sw.js").catch(() => {});
+        navigator.serviceWorker.register("./sw.js", {updateViaCache: "none"}).catch(() => {});
       });
     }
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    window.LC_APP_CONFIG = {
-      SUPABASE_URL: "https://aspbwgsfkebduvviyeuo.supabase.co",
-      SUPABASE_PUBLISHABLE_KEY: "sb_publishable_0li-aucVGeUwp82kTd5XWA_6NqDFeNN"
-    };
+    if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+      window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js", {updateViaCache:"none"}).catch(() => {}));
+    }
   </script>
-  <script src="./social.js"></script>
-  <script src="./app-product.js?v=109"></script>
-  <script src="./auth.js?v=73"></script>
-  <script src="product-shell-v2.js?v=16" defer></script>
 </body>
 </html>

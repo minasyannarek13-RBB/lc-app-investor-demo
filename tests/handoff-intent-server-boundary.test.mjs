@@ -12,9 +12,12 @@ test('authenticated browser cannot record handoff intent', () => {
   assert.match(migration, /before insert or update of event_name/);
 });
 
-test('current conceptual handoff is explicitly not a configured production destination', () => {
-  assert.match(app, /No allowlisted production destination is configured in this client\./);
-  assert.match(app, /Conceptual handoff only\./);
+test('client resolves an approved destination but does not forge handoff intent', () => {
+  assert.match(app, /resolve_live_session_operator_handoff/);
+  assert.match(app, /OPERATOR DESTINATION UNAVAILABLE/);
+  assert.match(app, /data-lc-operator-outbound/);
+  assert.doesNotMatch(app, /trackProductEvent\("handoff_intent"/);
+  assert.match(app, /metadata: \{ surface: "operator_outbound_click" \}/);
 });
 
 test('handoff boundary remains outside LC regulated operations', () => {

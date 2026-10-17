@@ -1,0 +1,115 @@
+{
+  "date": "2026-10-10",
+  "browser": "Codex in-app Browser",
+  "finalRuntime": "app-product.js?v=116",
+  "checks": [
+    {
+      "test": "Direct guest entry and walkthrough",
+      "status": "PASS"
+    },
+    {
+      "test": "Lobby navigation",
+      "status": "PASS"
+    },
+    {
+      "test": "Blackjack dealer search",
+      "status": "PASS"
+    },
+    {
+      "test": "Dealer post like and visible escaped comment",
+      "status": "PASS"
+    },
+    {
+      "test": "Reminder toggle",
+      "status": "PASS"
+    },
+    {
+      "test": "All three guided scenarios, finish and restart",
+      "status": "PASS"
+    },
+    {
+      "test": "Role switch does not intercept social like clicks",
+      "status": "PASS"
+    },
+    {
+      "test": "Feed like and visible comment",
+      "status": "PASS"
+    },
+    {
+      "test": "Guest user profile navigation",
+      "status": "PASS"
+    },
+    {
+      "test": "Activity notification and mark-read state",
+      "status": "PASS"
+    },
+    {
+      "test": "Reset restores deterministic guest seed",
+      "status": "PASS"
+    },
+    {
+      "test": "Unknown session and recovery to lobby",
+      "status": "PASS"
+    },
+    {
+      "test": "Skip retains a deep-linked room",
+      "status": "PASS"
+    },
+    {
+      "test": "Blackjack fixed round, local room message and reaction",
+      "status": "PASS"
+    },
+    {
+      "test": "Safe handoff preview and simulated return",
+      "status": "PASS"
+    },
+    {
+      "test": "Reset clears room messages, reactions and scripted round",
+      "status": "PASS"
+    },
+    {
+      "test": "Final 390px room round/chat/reaction without sticky input obstruction",
+      "status": "PASS"
+    },
+    {
+      "test": "Final safe handoff and reset",
+      "status": "PASS"
+    },
+    {
+      "test": "Empty search and clear recovery",
+      "status": "PASS"
+    },
+    {
+      "test": "Baccarat scripted room and round",
+      "status": "PASS"
+    },
+    {
+      "test": "Malformed link fails safely and recovers to lobby",
+      "status": "PASS"
+    },
+    {
+      "test": "Final dealer follow/unfollow",
+      "status": "PASS"
+    },
+    {
+      "test": "Final virtual-clock reminder",
+      "status": "PASS"
+    },
+    {
+      "test": "Final operator walkthrough finish/restart",
+      "status": "PASS"
+    }
+  ],
+  "consoleErrors": [],
+  "loadedScripts": [
+    "./social.js",
+    "./app-product.js?v=116",
+    "./auth.js?v=74",
+    "product-shell-v2.js?v=16"
+  ],
+  "limits": [
+    "Safari/WebKit and physical iPhone not tested",
+    "Hosted Auth/RLS/Storage and integrations not executed",
+    "No streaming or real wagering"
+  ]
+}

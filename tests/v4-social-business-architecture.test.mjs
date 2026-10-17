@@ -30,9 +30,11 @@ assert.match(app, /lc-v4-creator-page/);
 assert.match(app, /lc-v4-live-page/);
 assert.match(app, /lc-v4-handoff-page/);
 assert.match(app, /CONTINUE TO LICENSED OPERATOR/);
-assert.match(app, /DESTINATION NOT CONFIGURED/);
+assert.match(app, /OPERATOR DESTINATION UNAVAILABLE/);
+assert.match(app, /PREVIEW HANDOFF/);
+assert.match(app, /resolve_live_session_operator_handoff/);
 assert.match(app, /No operator integration, license, approval or production availability is claimed/);
-assert.match(app, /state\.demo \? `<button class="lc-product-btn lc-v4-live-primary" type="button" data-lc-return-live/);
+assert.match(app, /preview \? `<button class="lc-product-btn lc-v4-live-primary" type="button" data-lc-return-live/);
 assert.match(app, /social_home_feed/);
 assert.match(app, /data-lc-form="comment"/);
 assert.match(app, /data-lc-home-filter="following"/);
@@ -79,14 +81,14 @@ assert.match(socialJourneyCss, /lc-v4-handoff-steps/);
 assert.match(creatorStudioCss, /lc-v4-studio-nav/);
 assert.match(creatorStudioCss, /lc-v4-live-control/);
 assert.match(css, /lc-v4-business-workspace/);
-assert.match(html, /app-product\.js\?v=109/);
-assert.match(html, /product-shell-v2\.js\?v=16/);
+assert.match(html, /app-product\.js\?v=144/);
+assert.match(html, /product-shell-v2\.js\?v=144/);
 assert.match(shell, /const routePersona = currentRoute\(\)\[0\] === "demo" \? currentRoute\(\)\[1\] : "";/);
 assert.ok(
   shell.indexOf("const routePersona") < shell.indexOf("const explicit"),
   "demo route and freshly rendered persona chip must override stale shell dataset state"
 );
-assert.match(sw, /lc-app-investor-demo-v118/);
+assert.match(sw, /lc-app-investor-demo-v144/);
 assert.match(sw, /creator-studio-v4\.css/);
 assert.match(sw, /social-account-v4\.css/);
 assert.match(sw, /social-journey-v4\.css/);

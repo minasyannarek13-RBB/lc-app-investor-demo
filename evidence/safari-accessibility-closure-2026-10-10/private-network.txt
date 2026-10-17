@@ -1,0 +1,313 @@
+Window: "LC App — Live Casino. Social Experience.", App: Safari.
+0 standard window LC App — Live Casino. Social Experience., Private Browsing, ID: SafariWindow?IsSecure=false&UUID=093A596A-E1AC-415C-917A-41137304B40F, Secondary Actions: Raise
+	1 split group
+		2 tab group
+			3 scroll area
+				4 HTML content inspector-resource:///Main.html
+					5 button Close
+					6 button Dock to left of window
+					7 button Dock to right of window
+					8 button Detach into separate window
+					9 button Start element selection (⇧⌘C)
+					10 button Device Settings
+					11 button Click to show 2 errors in the Console
+					12 tab group (selectable)
+						13 tab (selectable) Elements
+						14 tab (selectable) Console
+						15 tab (selectable) Sources
+						16 tab (selected) Network
+						17 tab (selectable) Timelines
+						18 tab (selectable) Storage
+						19 tab (selectable) Graphics
+						20 tab (selectable) Layers
+						21 tab (selectable) Audit
+						22 tab (selectable) Search (⇧⌘F)
+						23 tab (selectable) Settings (⌘,)
+					24 container Network
+						25 search text field (settable) Filter Full URL
+							26 text Filter Full URL
+						27 container
+							28 text All
+							29 pop up button All
+							30 image
+						31 button Other filter options…
+						32 checkbox (settable, integer) Disable Caches, Value: 0
+						33 button Import, Help: HAR Import
+						34 button Export, Help: HAR Export (⌘S)
+						35 button Clear Network Items (⌘K)
+						36 container
+							37 text Name
+							38 text Domain
+							39 text Type
+							40 text Initiator
+							41 text Transfer Size
+							42 text Time
+							43 text Waterfall
+							44 container localhost localhost document — 367.41 KB 17.8ms
+								45 image
+									46 image
+									47 image
+								48 text localhost localhost document — 367.41 KB 17.8ms
+								49 container
+							50 container dealer_mia_avatar_v1.jpg localhost jpg localhost:10045 92.82 KB 19.3ms
+								51 image
+								52 text dealer_mia_avatar_v1.jpg localhost jpg localhost:10045 92.82 KB 19.3ms
+								53 container
+							54 container dealer_sofia_avatar_v1.jpg localhost jpg localhost:10045 81.64 KB 27.7ms
+								55 image
+								56 text dealer_sofia_avatar_v1.jpg localhost jpg localhost:10045 81.64 KB 27.7ms
+								57 container
+							58 container dealer_marcus_avatar_v1.jpg localhost jpg localhost:10045 76.06 KB 46.4ms
+								59 image
+								60 text dealer_marcus_avatar_v1.jpg localhost jpg localhost:10045 76.06 KB 46.4ms
+								61 container
+							62 container dealer_lilit_avatar_v1.jpg localhost jpg localhost:10045 75.60 KB 46ms
+								63 image
+								64 text dealer_lilit_avatar_v1.jpg localhost jpg localhost:10045 75.60 KB 46ms
+								65 container
+							66 container social.js localhost js localhost:11375 45.54 KB 21.7ms
+								67 image
+									68 image
+									69 image
+								70 text social.js localhost js localhost:11375 45.54 KB 21.7ms
+								71 container
+							72 container app-product.js localhost js localhost:11375 209.90 KB 23.6ms
+								73 image
+								74 text app-product.js localhost js localhost:11375 209.90 KB 23.6ms
+								75 container
+							76 container auth.js localhost js localhost:11375 54.43 KB 26.3ms
+								77 image
+								78 text auth.js localhost js localhost:11375 54.43 KB 26.3ms
+								79 container
+							80 container product-shell-v2.js localhost js localhost:11375 18.53 KB 22.8ms
+								81 image
+								82 text product-shell-v2.js localhost js localhost:11375 18.53 KB 22.8ms
+								83 container
+							84 container sofia_avatar_public.jpg localhost jpg app-product.js:1098 68.93 KB 9.90ms
+								85 image
+								86 text sofia_avatar_public.jpg localhost jpg app-product.js:1098 68.93 KB 9.90ms
+								87 container
+							88 container alex_portrait.jpg localhost jpg app-product.js:1098 158.40 KB 10.3ms
+								89 image
+								90 text alex_portrait.jpg localhost jpg app-product.js:1098 158.40 KB 10.3ms
+								91 container
+							92 container nord.min.css Web Translator for DeepL css content.js:1:15644 (memory) 0.07ms
+								93 image
+								94 text nord.min.css Web Translator for DeepL css content.js:1:15644 (memory) 0.07ms
+								95 container
+							96 container sofia_avatar_public.jpg localhost jpg app-product.js:1098 68.93 KB 10.2ms
+								97 image
+								98 text sofia_avatar_public.jpg localhost jpg app-product.js:1098 68.93 KB 10.2ms
+								99 container
+							100 container dealer_mia_avatar_v1.jpg localhost jpg app-product.js:1098 92.82 KB 18ms
+								101 image
+									102 image
+									103 image
+								104 text dealer_mia_avatar_v1.jpg localhost jpg app-product.js:1098 92.82 KB 18ms
+								105 container
+							106 container dealer_lilit_avatar_v1.jpg localhost jpg app-product.js:1098 75.60 KB 13.7ms
+								107 image
+								108 text dealer_lilit_avatar_v1.jpg localhost jpg app-product.js:1098 75.60 KB 13.7ms
+								109 container
+							110 container alex_portrait.jpg localhost jpg app-product.js:1098 158.40 KB 17.1ms
+								111 image
+								112 text alex_portrait.jpg localhost jpg app-product.js:1098 158.40 KB 17.1ms
+								113 container
+							114 container dealer_marcus_avatar_v1.jpg localhost jpg app-product.js:1098 76.06 KB 16.1ms
+								115 image
+								116 text dealer_marcus_avatar_v1.jpg localhost jpg app-product.js:1098 76.06 KB 16.1ms
+								117 container
+							118 container sw.js localhost xhr — 4.24 KB 12.3ms
+								119 image
+									120 image
+								121 text sw.js localhost xhr — 4.24 KB 12.3ms
+								122 container
+							123 container product-shell-v2.css localhost css product-shell-v2.js:43 34.53 KB 39.7ms
+								124 image
+								125 text product-shell-v2.css localhost css product-shell-v2.js:43 34.53 KB 39.7ms
+								126 container
+							127 container product-shell-v4.css localhost css product-shell-v2.js:52 15.37 KB 45.4ms
+								128 image
+								129 text product-shell-v4.css localhost css product-shell-v2.js:52 15.37 KB 45.4ms
+								130 container
+							131 container social-feed-v4.css localhost css product-shell-v2.js:61 5.70 KB 45.6ms
+								132 image
+								133 text social-feed-v4.css localhost css product-shell-v2.js:61 5.70 KB 45.6ms
+								134 container
+							135 container creator-studio-v4.css localhost css product-shell-v2.js:70 7.74 KB 47.6ms
+								136 image
+								137 text creator-studio-v4.css localhost css product-shell-v2.js:70 7.74 KB 47.6ms
+								138 container
+							139 container social-account-v4.css localhost css product-shell-v2.js:79 11.30 KB 47.3ms
+								140 image
+								141 text social-account-v4.css localhost css product-shell-v2.js:79 11.30 KB 47.3ms
+								142 container
+							143 container social-journey-v4.css localhost css product-shell-v2.js:88 8.27 KB 47.3ms
+								144 image
+								145 text social-journey-v4.css localhost css product-shell-v2.js:88 8.27 KB 47.3ms
+								146 container
+							147 container business-console-v4.css localhost css product-shell-v2.js:97:87 7.85 KB 49.3ms
+								148 image
+									149 image
+									150 image
+								151 text business-console-v4.css localhost css product-shell-v2.js:97:87 7.85 KB 49.3ms
+								152 container
+							153 text 0ms
+							154 text 50ms
+							155 text 100ms
+							156 text 150ms
+							157 text 200ms
+							158 text 250ms
+						159 link ?, Help: https://webkit.org/web-inspector/network-tab/, Value: webkit.org/web-inspector/network-tab/
+						160 container 2 domains
+							161 text 2
+						162 container 25 resources
+							163 text 25
+						164 container 1.81 MB total
+							165 text 1.81 MB
+						166 container 1.82 MB transferred
+							167 text 1.82 MB
+						168 container 0 redirects
+							169 text 0
+						170 container Loaded in 193ms
+							171 text 193ms
+					172 text entry area (settable) Console prompt, Value: [text entry area: Console prompt]
+					173 container
+					174 container Execution context for $0
+						175 text Auto — Page
+			176 scroll area
+				177 HTML content Description: LC App — Live Casino. Social Experience., URL: localhost:4187/?app=1&demo=investor#/product/demo/player
+					178 container LC App ideal mobile prototype
+						179 container LC App social experience
+							180 text LC
+							181 text Home
+							182 text 1 new signal
+							183 button player
+							184 container Illustrative preview mode
+								185 text DEMO EXPERIENCE · PLAYER · LOCAL DATA
+								186 button Switch
+								187 button Reset
+								188 button Roles
+								189 button Guide
+							190 container Investor walkthrough
+								191 container Guided scenarios
+									192 button 1 · Meet your next dealer
+									193 button 2 · Turn discovery into a relationship
+									194 button 3 · See the integration value
+								195 heading Meet your next dealer, Value: 2
+									196 text Meet your next dealer
+								197 text LC App is a social layer for Live Casino. Meet Blackjack and Baccarat dealers, follow them and return to their tables.
+								198 button Explore the lobby
+								199 button Next scenario
+								200 button Skip walkthrough
+							201 container LC core loop
+								202 text Discover Creator Follow Live Return
+							203 container Creators in demo live sessions
+								204 button + Explore
+								205 button SESSION PREVIEW Sofia
+								206 button SESSION PREVIEW Mia
+								207 button SESSION PREVIEW Lilit
+								208 button SESSION PREVIEW Alex
+								209 button SESSION PREVIEW Marcus
+							210 button For you
+							211 button Following
+							212 container Creator feed
+								213 container
+									214 button Open Sofia Laurent's profile
+									215 button Sofia Laurent Featured Blackjack creator · Illustrative profile
+									216 button Following
+									217 button Open upcoming session with Sofia Laurent
+									218 toggle button Like post, Value: off
+									219 button Open creator profile
+									220 button OPEN SESSION PREVIEW
+									221 text Sofia Laurent An example Blackjack session with Sofia. Follow her profile and save a reason to return. 10/10/2026, 21:45:00 Comment on Sofia Laurent's post
+									222 text field (settable) Comment on Sofia Laurent's post, Placeholder: Add a comment…
+									223 button Post
+								224 container
+									225 button Open Alex Moreau's profile
+									226 button Alex Moreau Baccarat creator for premium sessions · Illustrative profile
+									227 button Follow
+									228 button Open upcoming session with Alex Moreau
+									229 toggle button Like post, Value: off
+									230 button Open creator profile
+									231 button OPEN SESSION PREVIEW
+									232 text Alex Moreau Example Baccarat session with Alex. Save the preview and try the local table room. 10/10/2026, 21:15:00 Comment on Alex Moreau's post
+									233 text field (settable) Comment on Alex Moreau's post, Placeholder: Add a comment…
+									234 button Post
+								235 container
+									236 button Open Mia Novak's profile
+									237 button Mia Novak Roulette table personality · Illustrative profile
+									238 button Follow
+									239 button Open upcoming session with Mia Novak
+									240 toggle button Like post, Value: off
+									241 button Open creator profile
+									242 button OPEN SESSION PREVIEW
+									243 text Mia Novak Example update: a quieter Roulette and Baccarat session preview. Follow Mia to explore the return journey. 10/10/2026, 21:00:00 Comment on Mia Novak's post
+									244 text field (settable) Comment on Mia Novak's post, Placeholder: Add a comment…
+									245 button Post
+								246 container
+									247 button Open Marcus Reed's profile
+									248 button Marcus Reed Game Show host · Illustrative profile
+									249 button Follow
+									250 button Open upcoming session with Marcus Reed
+									251 toggle button Like post, Value: off
+									252 button Open creator profile
+									253 button OPEN SESSION PREVIEW
+									254 text Marcus Reed Example Game Show update. Explore how a creator can bring followers back. 10/10/2026, 20:30:00 Comment on Marcus Reed's post
+									255 text field (settable) Comment on Marcus Reed's post, Placeholder: Add a comment…
+									256 button Post
+								257 container
+									258 button Open Lilit Aram's profile
+									259 button Lilit Aram Blackjack and poker table explainer · Illustrative profile
+									260 button Follow
+									261 button Open upcoming session with Lilit Aram
+									262 toggle button Like post, Value: off
+									263 button Open creator profile
+									264 button OPEN SESSION PREVIEW
+									265 text Lilit Aram Example Blackjack note. Meet Lilit and explore a scheduled preview. 10/10/2026, 20:00:00 Comment on Lilit Aram's post
+									266 text field (settable) Comment on Lilit Aram's post, Placeholder: Add a comment…
+									267 button Post
+							268 text LC connects you to people, not funds. Gameplay and all regulated casino operations stay with the licensed operator.
+							269 container Social app navigation
+								270 button Home
+								271 button Explore
+								272 button Create
+								273 button Activity
+								274 button Profile
+					275 text Social app: Meet your next dealer
+	276 image WindowControlShadowView._shadowImageView
+	277 toolbar
+		278 container Secondary Actions: Move next, Remove from toolbar
+			279 button Description: show sidebar, Help: Show sidebar, ID: SidebarButton
+			280 text Description: Toggle sidebar, Value: Private
+		281 container BackForwardSegmentedControl
+			282 button Description: Go back, Help: Show the previous page, ID: BackButton
+			283 button (disabled) Description: Go forward, Help: Show the next page, ID: ForwardButton
+		284 button Description: Bookmarks, Secondary Actions: Move previous, Move next, Remove from toolbar
+		285 button Description: Web Translator for DeepL, Secondary Actions: Move previous, Move next, Remove from toolbar
+		286 container Secondary Actions: Move previous, Move next, Remove from toolbar
+			287 button Page Menu, ID: AssistantButton
+			288 button Add page to Reading List, ID: OneStepBookmarkingButton
+			289 text field (settable) Description: smart search field in a private window, Value: localhost:4187/?app=1&demo=investor#/product/demo/player, ID: WEB_BROWSER_ADDRESS_AND_SEARCH_FIELD
+			290 button Translation Available, ID: TranslationButton
+			291 button Reload this page, ID: ReloadButton
+		292 button (disabled) Description: Show the privacy report for this site, ID: PrivacyReportShieldButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		293 button Description: History, Secondary Actions: Move previous, Move next, Remove from toolbar
+		294 button Description: Share, ID: ShareButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		295 button Description: New Tab, ID: NewTabButton, Secondary Actions: Move previous, Move next, Remove from toolbar
+		296 button Description: Tab Overview, ID: TabOverviewButton, Secondary Actions: Move previous, Remove from toolbar
+	297 close button
+	298 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	299 minimize button
+300 menu bar
+	301 Safari
+	302 File
+	303 Edit
+	304 View, ID: SafariViewMenu
+	305 History
+	306 Bookmarks, ID: SafariBookmarksMenu
+	307 Develop
+	308 Window, ID: SafariWindowMenu
+	309 Help, ID: SafariHelpMenu
+
+The focused UI element is 4 HTML content inspector-resource:///Main.html
