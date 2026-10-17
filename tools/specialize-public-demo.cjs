@@ -1,5 +1,6 @@
 const fs = require('node:fs');
-const esbuild = require(process.env.LC_ESBUILD_MODULE || '/private/tmp/lc-performance-build/node_modules/esbuild');
+const esbuild = require(process.env.LC_ESBUILD_MODULE || 'esbuild');
+if (esbuild.version !== '0.25.12') throw new Error('Pinned esbuild 0.25.12 required');
 const privateOnly = new Set(['resolveHandoffDestination','loadState','loadOwnCreatorData','setCurrentPersona','completeCurrentPersona','toggleLiveSignals','submitCreatorReport','blockCreator','unblockCreator','mount','renderAccountDenied']);
 const views = new Set(['renderSocialSafety','renderAccount']);
 async function specialize(source) {

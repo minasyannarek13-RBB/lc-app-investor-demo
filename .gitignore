@@ -21,8 +21,6 @@ evidence/
 /ONE_PASS_REPORT_*.md
 /STAGING_HANDOFF.zip
 
-# Preserved empty standalone lock from the historical local pass; no npm application build.
-/package-lock.json
 
 # Supabase CLI local metadata, excluded from source/public release.
 supabase/.temp/

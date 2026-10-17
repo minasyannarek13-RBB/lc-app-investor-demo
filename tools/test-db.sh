@@ -37,7 +37,34 @@ export PGOPTIONS="--client-min-messages=warning"
 
 while IFS= read -r migration; do
   printf 'apply %s\n' "$(basename "$migration")"
+  if [[ "$(basename "$migration")" == "20261017100844_blocked_pair_rpc_privacy.sql" ]]; then
+    "$PG_BIN/pg_dump" -h 127.0.0.1 -p "$PG_PORT" -d "$DB_NAME" --schema-only --no-owner | sed '/^\\restrict /d; /^\\unrestrict /d' > "$DB_ROOT/pre-privacy.sql"
+    "${PSQL[@]}" -At > "$DB_ROOT/privacy-rollback.sql" <<'SQL'
+select 'begin;';
+select pg_get_functiondef(p.oid) || ';' || E'\n' ||
+  format('revoke all on function %s from public, anon, authenticated, service_role;', p.oid::regprocedure) || E'\n' ||
+  coalesce((select string_agg(format('grant %s on function %s to %s%s;', a.privilege_type,
+      p.oid::regprocedure, case when a.grantee=0 then 'public' else quote_ident(pg_get_userbyid(a.grantee)) end,
+      case when a.is_grantable then ' with grant option' else '' end), E'\n')
+    from aclexplode(coalesce(p.proacl, acldefault('f',p.proowner))) a), '')
+from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+where n.nspname='public' and p.prokind='f'
+  and (p.proname='is_blocked_pair' or position('public.is_blocked_pair(' in p.prosrc)>0);
+select 'drop function lc_private.is_blocked_pair(uuid,uuid); drop schema lc_private; commit;';
+SQL
+  fi
   "${PSQL[@]}" -f "$migration" >/dev/null
+  if [[ "$(basename "$migration")" == "20261017100844_blocked_pair_rpc_privacy.sql" ]]; then
+    "${PSQL[@]}" -f "$DB_ROOT/privacy-rollback.sql" >/dev/null
+    "$PG_BIN/pg_dump" -h 127.0.0.1 -p "$PG_PORT" -d "$DB_NAME" --schema-only --no-owner | sed '/^\\restrict /d; /^\\unrestrict /d' > "$DB_ROOT/after-privacy-rollback.sql"
+    cmp "$DB_ROOT/pre-privacy.sql" "$DB_ROOT/after-privacy-rollback.sql"
+    printf 'PRIVACY ROLLBACK SCHEMA/ACL PARITY: PASS\n'
+    if [[ -n "$LC_REPLAY_EVIDENCE_DIR" ]]; then
+      mkdir -p "$LC_REPLAY_EVIDENCE_DIR"
+      cp "$DB_ROOT/privacy-rollback.sql" "$LC_REPLAY_EVIDENCE_DIR/privacy-rollback-local-only.sql"
+    fi
+    "${PSQL[@]}" -f "$migration" >/dev/null
+  fi
 done < <(find "$ROOT_DIR/supabase/migrations" -type f -name '*.sql' -print | sort)
 
 if [[ -n "$LC_REPLAY_EVIDENCE_DIR" ]]; then
@@ -67,6 +94,7 @@ fi
 
 "${PSQL[@]}" -f "$ROOT_DIR/tests/db/schema-security-audit.sql"
 "${PSQL[@]}" -f "$ROOT_DIR/tests/db/security-matrix.sql"
+"${PSQL[@]}" -f "$ROOT_DIR/tests/db/blocked-pair-privacy.sql"
 
 pass_count=0
 

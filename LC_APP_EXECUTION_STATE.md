@@ -1,3 +1,12 @@
+## Final consolidation — 2026-10-17 (current)
+
+- Canonical branch/PR19 verified at starting SHA 8e65946797f2fc542b3e97eb471ab4d77c5738d1; local changes committed separately, no push. See RELEASE_READY_CHECKPOINT.md dated consolidation for the authoritative evidence, approvals and FINAL CODEX CLEANUP HANDOFF.
+- Fixed project-owned build dependency pinning; clean npm-ci rebuild matches unchanged 55-file public ZIP and frozen 13-file recovery. Prepared participant-scoped block RPC correction, private internal helper, privacy/RLS regression and exact schema/ACL rollback. Hosted SQL remains untouched.
+- Fresh 157 regression / 25 infrastructure / 44 DB security gates plus privacy assertions and rollback PASS; Chromium/WebKit 6/6, no backend/Auth-storage access. Prior contrast JSON receipts rehashed without rerunning unchanged measurements. Native iPhone/VoiceOver NOT RUN.
+- Public domain/DNS/TLS work. P0 is the old main/root demo entry showing missing Supabase config; the isolated V4 package fixes that route locally. Production helper RPC is anonymously reachable, vulnerable source semantics reproduced on synthetic rows. Legacy Vercel auto-preview and git_info_fail confirmed; project-only preview-disable proposal awaits approval.
+- Missing 052–054, reconstructed 057–058 and empty staging remain separate hosted-activation blockers. No DNS/Pages/Vercel/Supabase writes, deployment, messaging or destructive cleanup.
+- Next action: founder reviews the local diff and separately authorises the bounded Vercel preview change before feature push/PR19 CI.
+
 ## Release infrastructure hardening — 2026-10-11
 
 - Local candidate preparation: manual public release and independent frozen-v145 rollback workflows, required full commit/ZIP SHA inputs, per-file SHA/size and exact allowlist verification, current-main/Pages-domain/HTTPS rechecks, bounded timeouts and shared deployment serialization. Frozen packages live in `releases/lc-v4/`; publication remains separately authorized.

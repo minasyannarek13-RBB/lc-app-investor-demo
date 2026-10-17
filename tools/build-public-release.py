@@ -39,7 +39,7 @@ for name in runtime_files:
 public_html=public_html.replace('  <link id="lcPublicProductCss"', '<script src="./public-runtime-v4.js?v=144" defer fetchpriority="high"></script>\n  <link id="lcPublicProductCss"')
 payload['LC_App_GitHub_Pages_Upload/index.html']=public_html.encode()
 import subprocess
-minifier=os.environ.get('LC_ESBUILD_MODULE','/private/tmp/lc-performance-build/node_modules/esbuild')
+minifier=os.environ.get('LC_ESBUILD_MODULE','esbuild')
 transform='''const esbuild=require(process.argv[1]);if(esbuild.version!=="0.25.12")throw Error("Pinned esbuild 0.25.12 required");let input="";process.stdin.setEncoding("utf8");process.stdin.on("data",x=>input+=x);process.stdin.on("end",async()=>{const data=JSON.parse(input);const results=await Promise.all([esbuild.transform(data.js,{loader:"js",charset:"utf8",minify:true,target:["es2020"],legalComments:"inline"}),esbuild.transform(data.css,{loader:"css",charset:"utf8",minify:true,target:["chrome100","safari15"],legalComments:"inline"})]);process.stdout.write(JSON.stringify(results.map(x=>x.code)));});'''
 result=subprocess.run([os.environ.get('LC_NODE','node'),'-e',transform,minifier],input=json.dumps({'js':payload['LC_App_GitHub_Pages_Upload/public-runtime-v4.js'].decode(),'css':payload['LC_App_GitHub_Pages_Upload/public-product-v4.css'].decode()}),text=True,capture_output=True,check=True)
 runtime,css=json.loads(result.stdout)

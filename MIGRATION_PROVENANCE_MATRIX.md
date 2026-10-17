@@ -1,8 +1,8 @@
 # LC App Migration Provenance Matrix
 
-- Version: v1.1
-- Date: 2026-10-10
-- Scope: migrations 001–060
+- Version: v1.2
+- Date: 2026-10-17
+- Scope: migrations 001–060 and dated corrective extensions
 - Canonical hashes: current branch at report generation
 
 `VERIFIED ORIGINAL*` means byte-pinned recovered local source whose pre-recovery package is described in repository history but is not duplicated in this checkout. `VERIFIED RECONSTRUCTION` means every reconstructed behavior has local contract/application evidence and executable validation; it does not assert hosted equivalence.
@@ -146,3 +146,7 @@ Replacement-order dependencies supplement first-definition edges: 057 overrides 
 ## 2026-10-12 corrective extension
 
 `supabase/migrations/20261012095847_invitation_manager_null_guard.sql` — SHA-256 `be0996109aba13b1588ddcf2c6b493c19de8752b7b6efd540adde2e8cc915acf` — **VERIFIED LOCAL CORRECTION**, created by Supabase CLI. Replaces only create_industry_org_invitation to reject NULL membership/role before any write. Original 001–060 files remain byte unchanged; 052–054 remain unresolved. Local chain now contains 58 files. Baseline archive/57-file disposable runner remains frozen and intentionally excludes this extension; neither baseline nor extension is authorised for hosted application. Evidence: release-ready-2026-10-12 baseline reproduction and DB44.
+
+## 2026-10-17 privacy correction
+
+`supabase/migrations/20261017100844_blocked_pair_rpc_privacy.sql` — SHA-256 `355870c07a1be5ce33939235313f114636407febed2f68a8eac8d00e95c7dbdf` — **VERIFIED LOCAL CORRECTION / NOT APPLIED HOSTED**, created with Supabase CLI 2.120.0. Restricts the public block-pair helper to authenticated participants and isolates unrestricted internal lookups in lc_private, preserving dependent RLS policy definitions. Current available chain: 59 files. Full local replay, privacy/RLS regression, 44 existing security gates, exact schema/ACL rollback and a minimal production-source local fixture PASS; hosted compatibility remains unverified. Fresh bounded search of 130 SQL files, 28 archives and local Git refs did not recover original 052–054; 057–058 remain reconstructions. Evidence: `evidence/consolidation-2026-10-17/`. Existing 57-file handoff remains frozen historical material, not a current complete activation package.

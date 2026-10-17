@@ -1,4 +1,6 @@
 # LC App V4 — verified local release checkpoint
+Latest authority: **2026-10-17 consolidation and FINAL CODEX CLEANUP HANDOFF below**.
+Earlier dated results are historical; current serving site has a confirmed broken demo entry.
 Project: LC App | Version: 1.1 | Date: 2026-10-12 | Owner: Narek
 Status: PUBLIC STATIC CANDIDATE LOCAL PASS; REMOTE/HOSTED ACCEPTANCE BLOCKED
 Audience: release owner, engineering, QA
@@ -175,3 +177,211 @@ Evidence: evidence/contrast-final-2026-10-12/summary.json, original-53-dispositi
 7. Test offline/reopen and approved SW upgrade on candidate access; inspect network for0 Supabase/Auth requests and record screenshots/VoiceOver observations. No production DB, wagering, payments or KYC/AML action.
 
 Remaining risks: native device/VoiceOver NOT RUN, full accessibility conformance beyond audited screens/states not claimed. Hosted backend/migration provenance052–054 remains separately blocked and is not needed for the isolated public demo. Existing cleanup handoff remains HOLD. Production still requires separate monitored Pages switch, reviewed merge and manual dispatch approvals with resulting main SHA and ACTIVE ZIP hash; independentv145 recovery approval remains separate.
+
+## Final consolidation — 2026-10-17
+
+Project: LC App | Version: 1.2 | Status: LOCAL RC VERIFIED; PUBLIC RELEASE BLOCKED
+Owner: Narek | Audience: founder, release engineer, security reviewer
+Sources: current Git/PR19, read-only GitHub/Pages/Vercel/Supabase catalogues;
+`evidence/consolidation-2026-10-17/`. No new business assumptions introduced.
+
+### Source of truth and implemented corrections
+
+- Starting local HEAD = remote PR19 head = `8e65946797f2fc542b3e97eb471ab4d77c5738d1`;
+  branch `codex/lc-v4-release-ready-2026-10-12`. PR19 OPEN/DRAFT, base main.
+  Remote main remains `3a9d2008689312f4642fa42a1fc8c658e92a42be`.
+- Local build P1 fixed: replace `/private/tmp/lc-performance-build` default with project
+  dependency resolution; esbuild exactly 0.25.12, private package.json and committed lockfile.
+  Version mismatch fails before specialization. Independent npm-ci build reproduces both ZIPs.
+  Tooling only; public JS/CSS/assets and approved product behavior unchanged.
+- Security correction prepared as CLI-created migration
+  `supabase/migrations/20261017100844_blocked_pair_rpc_privacy.sql`.
+  Public wrapper requires a non-NULL authenticated participant; anon EXECUTE revoked in the
+  proposed SQL only. Unrestricted lookup moves to `lc_private`, inaccessible to client roles.
+  Existing SECURITY DEFINER internal callers use that private helper; the ownership-guarded
+  invoker reminder trigger keeps the public participant wrapper. No RLS policy is replaced.
+  Unknown invoker callers fail migration rather than silently gaining privileges.
+- Database runner now proves baseline disclosure, corrected caller isolation, participant
+  symmetry, NULL denial, private ACLs, blocked/unblocked feed visibility and denied blocked
+  follow/like/comment; existing notification/reminder/security matrix remains 44 PASS.
+  Full schema/ACL snapshot → migration → rollback → exact dump comparison → reapply PASS.
+  Separate minimal local production-shape fixture uses exact live function bodies and six
+  policies; migration and exact schema/ACL rollback PASS. This is not hosted Auth/RLS acceptance.
+- Existing untracked `LC_APP_INTEGRITY_AUDIT.md` preserved, not staged or rewritten.
+
+### Current evidence and verification scope
+
+| Gate | Result | Receipt |
+|---|---|---|
+| Local Node regression | 157/157 PASS | node-tests.txt |
+| Infrastructure regression | 25/25 PASS | python-tests.txt |
+| Full local database replay | 59 available migrations; 44 existing security gates PASS plus privacy/RLS assertions and rollback parity | db-tests.txt, db/ |
+| Production-shape local correction/rollback | PASS, synthetic rows and exact live function/policy source | production-shape-test.json |
+| Independent clean npm-ci build | PASS; exact existing public/fallback SHA | clean-npm-ci.txt, clean-build-parity.json |
+| Pinned release/rollback integrity | PASS; 55/13 paths, privacy and hash verification | artifact-integrity.json |
+| Chromium/WebKit 375/768/1440 | 6/6 PASS; EN/RU landing, four roles, feed/follow, creator/reminder/live, scripted handoff/return, keyboard/reduced motion, refresh/offline, alias routes | browser/browser-results.json |
+| Public-demo isolation | 0 forbidden backend requests and Auth-storage accesses in six cases | browser/browser-results.json |
+| Existing contrast/ARIA evidence | 26 JSON receipts rehashed, 0 mismatches; prior 40-case scope preserved: 1,448 text/value PASS, 8 non-text PASS, no unmeasured samples | accessibility-receipt-check.json |
+| Syntax, secret scan, npm audit, diff hygiene | PASS; npm audit 0 vulnerabilities | security.txt, npm-audit.json; final source checks |
+| Remote GitHub CI | Regression and Release Gate SUCCESS at starting SHA, not at the new unpushed commit | remote-regression.json, remote-release-gate.json |
+| Native iPhone/VoiceOver | NOT RUN | acceptance checklist below |
+
+Runtime bytes are unchanged; prior rendered contrast sampling is reused, not reported as a
+fresh measurement or full WCAG certification. Fresh browser evidence covers the same public ZIP.
+Follow/unfollow, schedule, content, notifications and operator transitions remain synthetic;
+LC App does not take bets, payments, settlement or operator KYC/AML responsibility.
+
+Active public ZIP: `releases/lc-v4/public-v144.zip`, SHA-256
+`a28dec08895e0307b948c0d82b112ed9808b2ad617222c335b18385046be6078`.
+Frozen recovery ZIP: `releases/lc-v4/fail-closed-v145.zip`, SHA-256
+`dac10adb378e71cb8dec62012e3c9f2afd42e6063a887ac1cf5f4a614c01525c`.
+Recovery is a contact/landing fallback, not a complete interactive application rollback.
+
+### Public website: confirmed available, confirmed funnel defect
+
+Independent unsandboxed checks and DNS resolvers 1.1.1.1/8.8.8.8 succeed:
+`lc.open-gamer.com` CNAME → `minasyannarek13-rbb.github.io`, GitHub Pages addresses.
+HTTPS certificate validation succeeds; `/` and `/LC_App_GitHub_Pages_Upload/` return 200.
+The sandbox's DNS/network failure is a false negative for public availability.
+Pages still uses legacy main/root, domain unchanged, HTTPS enforced; approved certificate
+expires 2026-12-06. No DNS/TLS repair is warranted from this evidence.
+
+**P0 public funnel remains broken:** the live demo route
+`/LC_App_GitHub_Pages_Upload/?app=1#/product/demo/player` renders
+“Supabase is not configured” / required public runtime key. Both Chromium desktop and
+WebKit 375 reproduce it; LC_APP_MODE is absent and the V4 product shell does not mount.
+Do not add a hosted key as a public-demo repair: publish the already isolated public ZIP.
+Old live landing lacks the candidate's explicit demo/contact links and canonical metadata;
+live robots.txt and sitemap.xml return 404; serving SW is v118. Candidate contains canonical
+SEO files and working B2B/demo CTAs. No mail was sent. Existing live pages have no observed
+horizontal overflow or JS exception in these checks; this does not make the broken funnel PASS.
+Receipts: public-http.json, public-browser.json, public-*.png, DNS receipts.
+
+### Supabase P1: proven endpoint and vulnerable semantics; correction not applied
+
+Read-only production catalogue `aspbwgsfkebduvviyeuo` confirms:
+`public.is_blocked_pair(uuid,uuid)` is STABLE SECURITY DEFINER, search_path=public,
+EXECUTE for postgres/anon/authenticated/service_role; no actor/parameter ownership guard.
+Six policies depend on it: posts_select_visible, comments_select_visible,
+post_likes_select_visible, follows_insert_own, comments_insert_own, post_likes_insert_own.
+Three current hosted internal callers: notify_new_follower, notify_post_like, notify_comment.
+The newer local chain has additional reminder/live-signal callers; the migration handles
+both schema generations without requiring the missing newer trigger in production.
+
+An anonymous HTTP GET to PostgREST RPC with two all-zero synthetic UUIDs returns 200/false.
+Thus endpoint exposure is proven, not inferred from a nullable pgrst setting. No real user UUIDs,
+private relationships, credentials or user data were sampled. The exact hosted function body
+on synthetic local blocked/unblocked rows discloses the boolean anonymously: exploit semantics
+are demonstrated locally. Production relationship enumeration was intentionally not performed.
+This is private relationship inference, not proof of account takeover or gambling-wallet exposure.
+
+Review `production-catalog-normalized.json`, `postgrest-synthetic-readonly.json`, proposed
+migration and tests. Functions should restrict execution and definer search paths as described
+in [Supabase function security](https://supabase.com/docs/guides/database/functions).
+Before separately approved hosted application: recapture body/owner/ACL/policies/callers,
+review exact diff, confirm private schema is not exposed, preserve a current rollback and backup,
+then test in an authorised disposable hosted environment. Staging currently has zero public
+tables; it cannot validate application RLS. No production/staging SQL writes occurred.
+`production-privacy-rollback-PROPOSAL.sql` restores the observed older source/ACL only;
+`db/privacy-rollback-local-only.sql` restores the newer local schema. Never interchange them.
+Emergency rollback reintroduces the vulnerability and requires explicit approval. Prefer a
+reviewed forward correction; neither rollback is an automated deployment instruction.
+
+### Legacy Vercel: diagnosed; project-only change prepared
+
+Read-only Vercel API confirms `lc-app-review` links to canonical repository, production branch
+main, root `LC_App_GitHub_Pages_Upload`; no deploy hooks. Git feature pushes generated previews.
+The latest exact starting-SHA deployment is ERROR `git_info_fail`; several earlier feature
+previews are READY. This is a Vercel Git-metadata failure, not a failing GitHub regression gate.
+SSO protection is enabled for all_except_custom_domains. Listed aliases are Vercel domains;
+`lc.open-gamer.com` is assigned to GitHub Pages, not either inventoried legacy Vercel project.
+`lc-app-preview` is a separate repository/project, linked to its own main, root unset, latest
+preview READY, same SSO protection. No dependency of canonical Pages release on it is established.
+
+Safest bounded proposal: project-only `previewDeploymentsDisabled=true` on `lc-app-review`,
+keeping repository connection, domains, production branch and existing artifacts. Exact PATCH,
+current/default-null rollback and acceptance steps: `vercel-preview-disable-PROPOSAL.json`.
+[API reference](https://vercel.com/docs/rest-api/projects/update-an-existing-project).
+No Vercel config file added, no project disconnected/deleted, no setting changed. This proposal
+stops preview auto-deployments; it does not disable main/production Git deployments. Obtain
+separate Vercel approval before any newly authorised push; main merge also needs its own gate.
+
+### Migration provenance and replacement recovery boundary
+
+Fresh bounded search: 130 SQL files, 28 ZIP archives, workspace plus Downloads LC sources,
+all current local Git refs; original 052–054 not found, no search errors. Same-day integrity
+receipts for historical object stores are retained without claiming whole-Mac completeness.
+057–058 remain reconstructed, not recovered originals. Current chain is 59 files including
+both dated local security corrections; frozen historical 57-file archive remains unchanged.
+No invented historical SQL. Replacement plan remains DISPOSABLE_SUPABASE_RECOVERY_RUNBOOK.md:
+founder accepts missing-history provenance → new reviewed 59-file manifest/package → authorised
+disposable hosted replay → Auth/Storage/RLS and backup/restore rehearsal → separate activation
+approval. Existing 57-file STAGING_HANDOFF.zip is historical and must not be applied as the
+current complete chain. Hosted recovery is not a dependency of the isolated public demo.
+
+### Physical iPhone / VoiceOver acceptance — all NOT RUN
+
+No actual iPhone/VoiceOver control interface was available; WebKit automation is separate.
+QA owner must record device, iOS/Safari version, date, build SHA, ZIP hash and result per item:
+
+- Open landing in fresh Safari, navigate EN/RU, enter demo; verify viewport/safe areas at 320–430px equivalent, portrait/landscape and text zoom without clipped controls.
+- VoiceOver swipe/rotor: meaningful heading order, landmarks, labelled language/role controls and visible focus; no trap in guide or modal; focus returns to opener.
+- Discover → game choice → dealer profile: confirm names, descriptions, follow/unfollow announcement and state; no reliance on colour alone.
+- Feed/content → schedule/reminder → notifications: read changed states and selected controls without duplicate hidden labels.
+- Live preview: announce synthetic boundary; operate scripted round/chat/reaction; dismiss overlays with accessible controls.
+- Operator handoff → return: announce simulated transition and responsibility boundary; retain locale/context without implying a real operator integration.
+- Pilot/contact: open correct mailto draft to mn@open-gamer.com in EN/RU; verify copy fallback and live-region confirmation; do not send.
+- Reload, Safari back/forward and offline reopen: recover demo state safely; no Auth/private data entry or private-cache exposure.
+
+### Exact release sequence and approvals
+
+1. Review this local commit/diff. Separately approve the bounded legacy Vercel preview setting;
+   read it back before separately authorising `git push origin HEAD:codex/lc-v4-release-ready-2026-10-12`.
+2. Existing PR19 updates automatically; re-read head and rerun/await Regression Tests and Release
+   Gate on that exact new SHA. Prior green CI is not acceptance of unpushed changes.
+3. Complete physical-device acceptance or explicitly accept its outstanding risk. Review public
+   ZIP hash and frozen recovery; inspect currently serving SW before approving publication.
+4. Separately approve Pages legacy→Actions source switch while old main remains preserved;
+   monitor current domain during switch. Separately approve reviewed PR19 merge. Record and approve
+   the resulting full main SHA. Account for legacy Vercel main auto-deployment before merge;
+   if unwanted, separately approve its Git disconnection/config boundary first. No merge yet.
+5. Separately authorise manual `lc-pages-public-release.yml` dispatch with release_mode=public,
+   expected_sha=approved resulting main SHA, expected_zip_sha256=`a28dec08895e0307b948c0d82b112ed9808b2ad617222c335b18385046be6078`.
+   Recheck exact 55-file live hashes, canonical URLs/robots/sitemap, mobile EN/RU complete journey,
+   contact, HTTPS and no Supabase traffic. Zero downtime has not been proven.
+6. If needed, separately approve independent `lc-pages-fail-closed-rollback.yml` at current approved
+   main SHA and frozen v145 hash. After v145 activation use v146+ for any future interactive build;
+   never downgrade SW to v144. SQL security remediation follows its own approval/rehearsal path.
+
+No push, merge, deployment, Pages/DNS/Vercel configuration, Supabase write, credential change,
+paid resource, outreach, LinkedIn post or destructive cleanup was performed.
+
+## FINAL CODEX CLEANUP HANDOFF — 2026-10-17
+
+Canonical: this repository and PR19 feature branch; only `releases/lc-v4/contract.json` allowlists
+are publication sources. The original source modules plus delivery specialization are intentional.
+Inventory: canonical-source-inventory.json; preserved prior cleanup manifest; same-day historical
+comparison/object-gap/untracked-source receipts. Review proposed deletions only after verified backup.
+
+| Resource | Preserve / proposed diff / dependency | Disposition |
+|---|---|---|
+| Current root/nested runtimes, V2-named CSS, V3/V4 layers, dealer portraits | Current app/build/SW depend on them; preserve locale fixes, role journeys, privacy boundaries | KEEP; names/hashes alone do not prove duplication |
+| showcase-v2, static_preview and nested static_preview, 02_OPEN_STATIC_PREVIEW.html | Historical screen/game evidence; 28 earlier hashed file candidates in preserved manifest; archive and update inbound README links before a bounded deletion diff | HOLD; no deletion |
+| legacy-preview.js and inline legacy block | Still build/loader-dependent and in public allowlist | KEEP until replacement build/browser/PWA acceptance |
+| sibling lc-marketing-content-alignment worktree, 1bf3dea | Same Git store, separate branch; inspect unique marketing patches, do not blindly merge historical content | HOLD; archive snapshot and refs before removal |
+| Downloads LC_App_GitHub_Pages_Upload / visual-2-reveal, ef5d2c6 | Separate historical object store; integrity audit identifies six historical commits and seven untracked source paths requiring disposition | KEEP pending verified backup and per-patch/asset review |
+| LC_APP_PLATFORM, 601f0dc; AndroidStudioProjects/LCApp | Independent platform/native source; not replaced by static demo, not declared dead code | OUTSIDE cleanup deletion scope; preserve |
+| GitHub lc-app-preview and Vercel lc-app-preview | Independent legacy repo/project; no canonical Pages runtime dependency established, unique source not exhaustively reconciled | HOLD; separate deletion approval and export/restore proof |
+| Vercel lc-app-review | Canonical Git auto-preview integration, separate from Pages; proposed preview-only setting above | KEEP; configuration approval separate |
+| historical branches, detached/dangling objects, release evidence, old ZIPs and 57-file handoff | Rollback, provenance and unique-history value; do not prune/repack/drop refs before off-device snapshot | KEEP; no history cleanup |
+| tooling | Add project-owned pinned esbuild/lockfile; external Playwright/Lighthouse remain QA tooling, absent from public ZIP | Dependency correction implemented; no package uninstall |
+| older README/checkpoint/release reports | Historical claims superseded by dated section; current README points here. Preserve old evidence; no wholesale strategic rewrite | Only current references corrected |
+
+No unreferenced file is declared safe to delete solely from a text-reference scan. Older source
+uniqueness and private/offline backup coverage remain incomplete. Proposed cleanup rollback:
+owner-approved encrypted snapshot of both object stores including reflogs/unreachable objects,
+all untracked/ignored assets and affected refs; two storage locations, hash manifest and restore
+rehearsal; then approve an exact path/branch/project deletion manifest. `git bundle --all` alone
+omits unreachable objects. Restore removed assets/refs into a separate directory, verify hashes,
+then selectively restore only reviewed content. Do not delete or merge independent business repos.
+Cleanup is review-ready as a HOLD proposal; it is not authorised or safe to execute yet.
